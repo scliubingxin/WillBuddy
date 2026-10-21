@@ -1,3 +1,5 @@
+0.7.0 新入口：runtime/model-stream.mjs 为 SSE 传输模块；services/conversation.mjs 保存增量检查点并向主进程发出 stream 事件；src/ui/markdown.js 统一安全 Markdown/HTML。离线第三方渲染模块在 src/vendor，更新脚本 scripts/vendor-desktop-renderer.mjs。详见 STREAMING_AND_RENDERING.md。
+
 # WillBuddy 项目导航与模块边界
 
 本次整理版本：0.6.1。先拆职责与建立可测试接口，不搬动仍被 Web 构建、迁移和历史数据使用的目录。
