@@ -1,0 +1,49 @@
+name: WillBuddy Apple Silicon installer
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  mac-arm64:
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: desktop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: desktop/package-lock.json
+      - run: npm ci
+      - run: npm test
+      - name: Packaging boundary tests
+        run: python3 -m unittest discover -s ../scripts/tests -v
+      - name: Build arm64 DMG and ZIP
+        run: npm run dist:mac
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      - name: Native macOS extracted bundle gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          found=0
+          for archive in release/*.zip; do
+            [ -f "$archive" ] || continue
+            found=1
+            validation_dir="$(mktemp -d "$RUNNER_TEMP/willbuddy-verify.XXXXXX")"
+            /usr/bin/ditto -x -k "$archive" "$validation_dir"
+            residue_path="$(/usr/bin/find "$validation_dir" \( -name '.BC.*' -o -name '._*' -o -name '__MACOSX' -o -name '.DS_Store' \) -print -quit)"
+            [ -z "$residue_path" ] || { echo 'Unsealed build residue in extracted bundle'; exit 1; }
+            /usr/bin/codesign --verify --deep --strict --verbose=2 "$validation_dir/WillBuddy.app"
+          done
+          [ "$found" = 1 ]
+      - uses: actions/upload-artifact@v4
+        with:
+          name: WillBuddy-Apple-Silicon-installers
+          path: |
+            desktop/release/*.dmg
+            desktop/release/*.zip
+            desktop/release/*.blockmap
+          if-no-files-found: error
