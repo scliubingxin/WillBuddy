@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "checked_date": "2026-10-21",
   "source_status": "desktop_source_delivery_not_deployed",
   "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -21,7 +21,7 @@
     "notarized": false
   },
   "validation": {
-    "desktop_tests_passed": 28,
+    "desktop_tests_passed": 37,
     "ui_paths_with_mock_bridge": 17,
     "real_cli_child_process_tested": true,
     "agent_http_fixture_to_real_cli_roundtrip_tested": true,
@@ -29,7 +29,7 @@
     "workspace_browser_test_passed": true,
     "packaging_tests_passed": 7,
     "workspace_test_scope": "real Chromium layout, keyboard, Markdown, preview/export; deterministic native bridge and model content",
-    "native_chat_lifecycle_integration": "not_tested; syntax and run-scoped tool persistence tests passed",
+    "native_chat_lifecycle_integration": "service lifecycle tested with model/tool fixtures; Electron native integration not tested",
     "mac_native_runtime_verified": false,
     "real_model_provider_tested": false,
     "third_party_cli_codex_tested": false,
@@ -48,7 +48,8 @@
       "negative_tamper_check": "passed",
       "macOS_bundle_codesign_and_gatekeeper": "not_tested",
       "installer_shell_syntax": "passed"
-    }
+    },
+    "service_boundary_tests_passed": 9
   },
   "rea": {
     "version": "6.7.0",
@@ -56,5 +57,18 @@
     "javascript_analysis": "partial_host_process_ownership_blocked",
     "report": "docs/REA_FINDINGS.md"
   },
-  "notes": "Original Web and Python retained. Screenshot-driven task workspace and packaging residue prevention delivered. ARM64 offline app is an ad-hoc candidate; native Mac strict codesign, launch, Gatekeeper and notarization remain unverified. GitHub upload pending secure sign-in."
+  "notes": "0.6.1 real module extraction and shared task capacity fix. Original Web/Python and identity retained. GitHub private repository created; full upload pending final verification. ARM64 app ad-hoc; Mac launch/strict codesign/notarization pending.",
+  "architecture": {
+    "guide": "docs/ARCHITECTURE.md",
+    "layers": [
+      "electron host",
+      "main adapters",
+      "services",
+      "agent runtime",
+      "core compatibility API",
+      "UI controller",
+      "pure views"
+    ],
+    "web_desktop_shared_core": false
+  }
 }

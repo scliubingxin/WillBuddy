@@ -1,3 +1,13 @@
+# 桌面迭代 0.6.1 · 2026-10-21 · 项目分层整理
+
+针对用户反馈代码结构杂乱，实际拆分 Electron 原生适配、业务服务与纯视图。新增 desktop/main/{ipc,approval}.mjs；desktop/services/{conversation,tasks,workspace,recovery,validation}.mjs；desktop/src/ui/{markdown,workspace}.js。main 保留宿主组装和秘密存储等原生职责，app 保留界面状态/事件，重新展开密集逻辑，新增 docs/ARCHITECTURE.md 提供目录职责、修改入口和开发命令。未盲目搬动原 Web/Python、存储格式、IPC 与旧加密身份。
+
+原先定时任务在异步保存后才占用共享执行名额，存在并发超额窗口；本轮在保存前保留名额，失败/取消均释放。新增服务测试覆盖 IPC 拒绝跨窗口/子框架/伪造 URL、审批排队取消、模型工具 runId、授权撤销、共享并发、取消/失败持久化、存储故障、工作空间增删与重启不重放。JSDOM 通过共享助手加载生产视图模块；Chromium 仍直接加载真实 ESM。
+
+验证：37 项 Node/JSDOM 全通过；7 项 Python 打包边界全通过；真实 Chromium 工作区与浏览器 CDP 验收各 1 项通过。模型与原生桥为夹具，未做 Mac 原生启动、付费模型或 Codex CLI 验收。两种打包配置同步纳入 main/services，离线 app 使用原 residue 清理、闭合清单和代码页校验。ARM64 ad-hoc 候选不代表 Developer ID 或公证。
+
+完整改动还包括 desktop/package.json/lock、tests/services.test.mjs、tests/helpers/load-ui.mjs、tests/ui.test.mjs、tests/workspace.test.mjs、scripts/package-offline-mac.py、README/desktop README、计划/日志/状态/Quick差距与验证记录。逐文件列表由 SOURCE_MANIFEST.json 权威记录。GitHub 私有仓库已创建并开始上传；完整树验证结果在交付时报告，不在此提前宣称上传完成。
+
 # 桌面迭代 0.6.0 · 2026-10-21 · 任务、过程与成果衔接
 
 追加优先修复：用户报告 0.5.0 的 `.BC.T_*`/`.BC.D_*` 残留造成 Mac 严格签名失败。打包改为冻结清单写 ZIP，签名前后残留清理、资源引用残留时失败、实际条目集合完全匹配、链接/执行位/大小写/重复路径保护；安装脚本拒绝残留，README 指导先解压至个人目录，macOS CI 加入 ditto+codesign 严格门禁。新增 scripts/offline_bundle.py、scripts/tests/test_offline_bundle.py 和 docs/PACKAGING_INCIDENT.md，修改 package-offline-mac.py、源码打包过滤、installer 文档/脚本与 mac-arm64 工作流。7 项 Python 边界测试通过；新 ZIP 282 个应用条目 + 5 配套文件、14 链接、零残留。原生 Mac 门禁尚未执行，不能宣称闪退在真机已验收修复。

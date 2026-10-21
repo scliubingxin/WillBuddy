@@ -1,4 +1,6 @@
-# WillBuddy · 桌面版 0.6.0
+项目结构与修改入口见 docs/ARCHITECTURE.md（0.6.1 分层整理）。
+
+# WillBuddy · 桌面版 0.6.1
 
 本轮根据用户截图重新组织任务交互：任务导航、对话内真实执行记录、右侧成果工作区、Markdown 表格/列表、@ 附加授权资料、/ 选择已有智能体，以及预览/导出/继续修改。浏览器、真实 CLI、原 Web、Python Office 执行器与旧数据/密钥身份保留。观察依据、已实现能力及边界见 [截图交互接续](docs/SCREENSHOT_ALIGNMENT.md)。
 

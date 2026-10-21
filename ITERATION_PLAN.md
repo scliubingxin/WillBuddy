@@ -1,3 +1,7 @@
+# 当前整理入口 · 0.6.1
+
+项目分层见 docs/ARCHITECTURE.md。main/services/runtime/ui 已拆分，原 Web/Python 保留。下一轮优先完善统一事件协议与持久队列，继续拆分 core 与界面其他页面，并在 Apple 芯片真机验证浏览器/CLI 与严格签名。不要重放已审批动作。
+
 # 当前桌面优先项 · 0.6.0
 
 1. 用户截图接续见 docs/SCREENSHOT_ALIGNMENT.md：任务导航、真实执行过程、对话/成果并排、上下文选择与继续修改已实现。先在 Apple 芯片 Mac 用真实模型验收这条完整链路。
