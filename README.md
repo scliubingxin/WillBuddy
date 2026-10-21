@@ -10,7 +10,7 @@
 
 ---
 
-# 幕云AI 工作台 · 0.2
+# WillBuddy 工作台 · 0.2
 
 源码交付入口：[代码说明](CODE_GUIDE.md) · [部署与回滚](DEPLOYMENT.md) · [当前验证与发布状态](RELEASE_STATUS.json) · [GenOffice 集成](GENOFFICE_INTEGRATION.md)。下载包内另有 `SOURCE_MANIFEST.json`，记录完整提交 SHA 和逐文件校验值；线上与源码差异以发布清单为准。
 

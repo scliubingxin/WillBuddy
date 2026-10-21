@@ -117,8 +117,8 @@
     },
     {
       "path": "ITERATION_LOG.md",
-      "bytes": 119713,
-      "sha256": "711c7ea34fadb9dbc1cd71375003893a3c1fec242ff0d4c70dd68bd07e861319"
+      "bytes": 120066,
+      "sha256": "85643890b64f86a27849595c2e7207b24c622a43e73658f3bb266b924f31dab5"
     },
     {
       "path": "ITERATION_PLAN.md",
@@ -137,8 +137,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 10621,
-      "sha256": "8d9de47013d6ba305705703091e29b5e15e6d5e7e62a2be76441a78da205c668"
+      "bytes": 10622,
+      "sha256": "0baa31b5cd8e5db5d2bd25951c1628fb1c13fa7e04fe8e7e67dee885d0f8e208"
     },
     {
       "path": "RELEASE_STATUS.json",

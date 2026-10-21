@@ -1,3 +1,7 @@
+# 文档命名修正 · 2026-10-21
+
+按用户要求，将根 README 历史 Web 说明标题“幕云AI 工作台”改为“WillBuddy 工作台”。仅修改说明标题，保留历史版本号及运行代码；重新生成完整源码清单和 ZIP。文档改动不重复运行功能测试，源码包逐文件 SHA-256 校验由打包脚本完成。
+
 # 桌面迭代 0.6.1 · 2026-10-21 · 项目分层整理
 
 针对用户反馈代码结构杂乱，实际拆分 Electron 原生适配、业务服务与纯视图。新增 desktop/main/{ipc,approval}.mjs；desktop/services/{conversation,tasks,workspace,recovery,validation}.mjs；desktop/src/ui/{markdown,workspace}.js。main 保留宿主组装和秘密存储等原生职责，app 保留界面状态/事件，重新展开密集逻辑，新增 docs/ARCHITECTURE.md 提供目录职责、修改入口和开发命令。未盲目搬动原 Web/Python、存储格式、IPC 与旧加密身份。
