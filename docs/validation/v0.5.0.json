@@ -1,0 +1,68 @@
+{
+  "version": "0.5.0",
+  "date": "2026-10-20",
+  "base_version": "0.4.3",
+  "base_manifest_files_verified": 268,
+  "modified_or_added_files": [
+    "ITERATION_LOG.md",
+    "ITERATION_PLAN.md",
+    "README.md",
+    "RELEASE_STATUS.json",
+    "desktop/README.md",
+    "desktop/main.mjs",
+    "desktop/package-lock.json",
+    "desktop/package.json",
+    "desktop/preload.cjs",
+    "desktop/runtime/agent.mjs",
+    "desktop/runtime/browser-dom.mjs",
+    "desktop/runtime/browser.mjs",
+    "desktop/runtime/tools.mjs",
+    "desktop/src/app.js",
+    "desktop/tests/acceptance/browser-live.mjs",
+    "desktop/tests/browser-dom.test.mjs",
+    "desktop/tests/browser-runtime.test.mjs",
+    "desktop/tests/ui.test.mjs",
+    "docs/QUICK_GAPS.md",
+    "docs/REA_FINDINGS.md",
+    "scripts/package-offline-mac.py",
+    "docs/validation/v0.5.0.json"
+  ],
+  "checks": {
+    "npm_test": {
+      "passed": 24,
+      "failed": 0,
+      "ui_mock_bridge_paths": 17
+    },
+    "real_cli_child_process": "passed",
+    "HTTP_model_fixture_to_real_CLI": "passed",
+    "browser_DOM_and_transport": "JSDOM and injected Electron fixture passed",
+    "live_browser": "BLOCKED: official Chrome Linux process failed socket() Operation not permitted; CDP acceptance not passed",
+    "syntax": "main.mjs, src/app.js, installer shell passed",
+    "Mac_native_Electron": "not tested",
+    "real_model_provider_and_Codex_CLI": "not tested",
+    "offline_bundle": {
+      "official_runtime_sha256": "passed",
+      "macho_binaries": 15,
+      "code_pages": 51216,
+      "tamper_negative": "passed",
+      "zip_all_file_hashes_links_execute_bits": "passed",
+      "chromium_license": "included",
+      "app_asar_sha256": "3dfc9db270506a9f10028f4c9a0dc97c41135936d0a4be093b1f8431d77d63b3",
+      "unsealed_signing_temp_cleanup": "one copy excluded; no CodeResources reference; script updated",
+      "zip_sha256": "6cd07493a2293bfccd172097e16523172af8ee0f1d7d2049519bf5ef935785f0",
+      "bytes": 118737884
+    }
+  },
+  "next_entry": [
+    "desktop/runtime/browser.mjs",
+    "desktop/runtime/tools.mjs",
+    "desktop/tests/browser-runtime.test.mjs",
+    "desktop/tests/acceptance/browser-live.mjs"
+  ],
+  "limitations": [
+    "top-level DOM only",
+    "no screenshots, iframe or Shadow DOM",
+    "no persistent execution queue or automatic action replay",
+    "ad-hoc only, no notarization/Gatekeeper acceptance"
+  ]
+}

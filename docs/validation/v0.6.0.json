@@ -1,0 +1,78 @@
+{
+  "version": "0.6.0",
+  "checked_date": "2026-10-21",
+  "base_version": "0.5.0",
+  "base_library_version": 1,
+  "base_manifest_hashes_verified": 273,
+  "modified_or_added_files": [
+    ".github/workflows/willbuddy-mac-arm64.yml",
+    "ITERATION_LOG.md",
+    "ITERATION_PLAN.md",
+    "README.md",
+    "RELEASE_STATUS.json",
+    "desktop/README.md",
+    "desktop/installer/Install-WillBuddy.command",
+    "desktop/installer/README-Mac.txt",
+    "desktop/main.mjs",
+    "desktop/package-lock.json",
+    "desktop/package.json",
+    "desktop/runtime/tools.mjs",
+    "desktop/src/app.js",
+    "desktop/src/index.html",
+    "desktop/src/workbench.css",
+    "desktop/tests/acceptance/workspace-live.mjs",
+    "desktop/tests/ui.test.mjs",
+    "desktop/tests/workspace.test.mjs",
+    "docs/PACKAGING_INCIDENT.md",
+    "docs/QUICK_GAPS.md",
+    "docs/REA_FINDINGS.md",
+    "docs/SCREENSHOT_ALIGNMENT.md",
+    "scripts/offline_bundle.py",
+    "scripts/package-desktop-source.py",
+    "scripts/package-offline-mac.py",
+    "scripts/tests/test_offline_bundle.py",
+    "docs/validation/v0.6.0.json",
+    ".gitignore"
+  ],
+  "tests": {
+    "desktop_node_jsdom": {
+      "passed": 28,
+      "failed": 0
+    },
+    "python_packaging_boundaries": {
+      "passed": 7,
+      "failed": 0
+    },
+    "real_Chromium_workspace": {
+      "passed": 1,
+      "scope": "Headless Shell; native bridge/model content fixtures; layout, keyboard, Markdown, preview/export and responsive check"
+    },
+    "real_Chromium_DOM_input": {
+      "passed": 1,
+      "scope": "Headless Shell/CDP Electron-shaped adapter; real isolated-world DOM and trusted inputs/form navigation; approval/model fixtures"
+    },
+    "full_Chrome_launch": "blocked by host socket permission; no attempt to bypass restriction",
+    "real_cli": "real Node child process passed",
+    "native_Mac_Electron_codesign_Gatekeeper": "not tested",
+    "paid_model_Codex_cli": "not tested",
+    "syntax": "main.mjs, app.js, installer shell passed"
+  },
+  "offline": {
+    "sha256": "7d1385a005e17cb09301a83ade682b331b9f903778650df4c94a25aff355015c",
+    "bytes": 118639010,
+    "runtime_sha256": "3c619bb8ec6a243142e392335382a3383739a9977ca85067cb1f31599ff993e5",
+    "app_asar_sha256": "076052c9dc0e958cb899c3f3187c61178e58bb327e0804b915b60889f1a11018",
+    "macho_binaries": 15,
+    "code_pages": 51216,
+    "tamper_negative": "passed",
+    "strict_inventory": "282 application entries + 5 extras; 14 symlinks; zero residues; exact path/mode/hash coverage",
+    "signature": "ad-hoc; no Developer ID/notarization",
+    "Mac_native_workflow": "added strict gate; not run"
+  },
+  "github": "upload pending secure browser authentication; plugin declined; no chat password written to files",
+  "next": [
+    "Mac strict signature and real launch acceptance",
+    "actual image/Office artifact generation, preview and editing",
+    "persistent execution queue, cancellation and interrupted recovery"
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "version": "0.6.1",
+  "date": "2026-10-21",
+  "node_tests": {
+    "passed": 37,
+    "service_boundary_tests": 9
+  },
+  "python_packaging_tests": {
+    "passed": 7
+  },
+  "real_chromium_workspace": {
+    "passed": 1,
+    "scope": "production ESM, layout/keyboard/preview/export; native bridge/model fixtures"
+  },
+  "real_chromium_browser": {
+    "passed": 1,
+    "scope": "headless shell/CDP; isolated DOM/trusted input; model/approval adapters fixtures"
+  },
+  "mac_native": {
+    "tested": false,
+    "notarized": false
+  },
+  "architecture_guide": "docs/ARCHITECTURE.md",
+  "known_limitations": [
+    "Web/desktop business core not unified",
+    "core and remaining UI controller can be split further",
+    "No persistent queue or automatic action replay",
+    "No native Mac signing/launch validation"
+  ],
+  "offline_bundle": {
+    "generated": true,
+    "architecture": "arm64",
+    "signature": "ad-hoc",
+    "app_entries": 282,
+    "extras": 5,
+    "symlinks": 14,
+    "residues": 0,
+    "closed_zip_inventory": "passed",
+    "macho_binaries": 15,
+    "code_pages": 51216,
+    "new_modules_exact_source_bytes": 9,
+    "mac_native_strict_codesign": "not tested"
+  }
+}
