@@ -1,3 +1,5 @@
+0.9.0：runtime/run-queue.mjs负责对话与每日任务持久受理/并发/去重/取消/事件；services/conversation与tasks仅保留业务流程，main组装注入。src/ui/runs.js纯队列视图，重启迁移与状态版本拒绝过期覆盖。CLI仍是独立队列，共享active容量。见 SHARED_RUNS.md。
+
 0.8.0：新增无Electron的 services/commands.mjs 管理手动CLI持久队列与版本化状态事件；runtime/tools.mjs增加审计关联、输出检查点和持久化门禁；src/ui/commands.js为独立纯队列视图。详情见 DURABLE_COMMANDS.md。原Web/Agent/每日任务尚未共用此队列。
 
 0.7.0 新入口：runtime/model-stream.mjs 为 SSE 传输模块；services/conversation.mjs 保存增量检查点并向主进程发出 stream 事件；src/ui/markdown.js 统一安全 Markdown/HTML。离线第三方渲染模块在 src/vendor，更新脚本 scripts/vendor-desktop-renderer.mjs。详见 STREAMING_AND_RENDERING.md。
