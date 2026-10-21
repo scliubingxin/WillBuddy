@@ -1,14 +1,14 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "packaged_date": "2026-10-21",
   "provenance": "Complete validated source snapshot; Git commits and deployment are tracked separately",
   "base_source_commit_sha": "ecc5dd81061b5c28999120075d06884a2496114c",
   "release_status": {
     "schema_version": 2,
     "brand": "WillBuddy",
-    "version": "0.7.0",
+    "version": "0.8.0",
     "checked_date": "2026-10-21",
     "source_status": "desktop_source_delivery_not_deployed",
     "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -27,10 +27,11 @@
       "signature": "ad-hoc",
       "notarized": false,
       "streaming": "SSE text/tool deltas with JSON response compatibility; no hidden retries",
-      "content_rendering": "Marked 18.1.1 + DOMPurify 3.4.17; sandboxed static HTML/CSS, no scripts/network"
+      "content_rendering": "Marked 18.1.1 + DOMPurify 3.4.17; sandboxed static HTML/CSS, no scripts/network",
+      "persistent_commands": "manual CLI FIFO; stable ID deduplication; persisted v1 status events; restart pauses; fresh approval on retry"
     },
     "validation": {
-      "desktop_tests_passed": 50,
+      "desktop_tests_passed": 64,
       "ui_paths_with_mock_bridge": 17,
       "real_cli_child_process_tested": true,
       "agent_http_fixture_to_real_cli_roundtrip_tested": true,
@@ -38,15 +39,15 @@
       "workspace_browser_test_passed": true,
       "packaging_tests_passed": 7,
       "workspace_test_scope": "real Chromium layout, keyboard, Markdown, preview/export; deterministic native bridge and model content",
-      "native_chat_lifecycle_integration": "real local HTTP SSE/service in real Chromium, native bridge and approvals fixtures; Electron/Mac not tested",
+      "native_chat_lifecycle_integration": "real HTTP SSE/service/Chromium; new real CLI queue/service/Chromium lifecycle; native bridge and approvals are fixtures",
       "mac_native_runtime_verified": false,
       "real_model_provider_tested": false,
       "third_party_cli_codex_tested": false,
       "web_build_tested_this_iteration": false,
-      "theme_check": "real Chromium white surface check; Chinese font installed only for local QA; no new Mac runtime verification",
+      "theme_check": "1000px layout/overflow checked; host lacks Chinese font for pixel QA; no new Mac visual/native runtime verification",
       "offline_bundle": {
         "official_runtime_sha256": "passed",
-        "asar_content": "34 production source files match exact bytes including vendored Markdown/sanitizer",
+        "asar_content": "36 production files match exact bytes including CLI queue and pure queue view",
         "zip_integrity": "passed",
         "closed_inventory": "passed; 282 app entries + 5 extras; 14 symlinks; no residue",
         "unexpected_entry_negative": "passed even when every manifest file remains unchanged",
@@ -60,9 +61,12 @@
       },
       "service_boundary_tests_passed": 9,
       "streaming_http_to_chromium_passed": true,
-      "chromium_acceptance_tests_passed": 3,
+      "chromium_acceptance_tests_passed": 4,
       "streaming_to_real_node_cli_passed": true,
-      "markdown_and_sandboxed_html_passed": true
+      "markdown_and_sandboxed_html_passed": true,
+      "command_queue_tests_passed": 14,
+      "command_queue_real_node_and_chromium_passed": true,
+      "original_python_executor_tests_passed": 35
     },
     "rea": {
       "version": "6.7.0",
@@ -70,7 +74,7 @@
       "javascript_analysis": "partial_host_process_ownership_blocked",
       "report": "docs/REA_FINDINGS.md"
     },
-    "notes": "Real SSE streaming, GFM and sandboxed CSS HTML preview delivered; preserved original Web/Python and cryptographic identity. JSON-only providers cannot produce genuine deltas. No paid model, Mac launch, strict native codesign or notarization validation. Public GitHub integration recorded separately.",
+    "notes": "0.8.0 manual CLI durable queue and output checkpoints, cancel/retry/idempotency/failure gates; no automatic replay of old approvals. Original Web/Python and cryptographic identity preserved. Agent conversations/daily tasks not yet using this queue. No native Mac launch/strict codesign/notarization or paid model/Codex CLI validation.",
     "architecture": {
       "guide": "docs/ARCHITECTURE.md",
       "layers": [
@@ -123,13 +127,13 @@
     },
     {
       "path": "ITERATION_LOG.md",
-      "bytes": 122737,
-      "sha256": "b9fdf9496514e9a05d48bb1fd51cea43919ba578dd8c60c3cba4e8c84c8d5e08"
+      "bytes": 125037,
+      "sha256": "81cedafb30d72b67e93324800b39f656244a5fc00cbafb6f6b658fc04e281ba6"
     },
     {
       "path": "ITERATION_PLAN.md",
-      "bytes": 26829,
-      "sha256": "c59c8d1d7b24cc330a20c36d9883abce429f045a3334d525e165ad5485f0a7b9"
+      "bytes": 27513,
+      "sha256": "b661796d2b097a48793f230aea80a20966f9fbf9747ec9bca5a810efce0d25e7"
     },
     {
       "path": "OPENWORKBUDDY_REFERENCE.md",
@@ -143,13 +147,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 10826,
-      "sha256": "71454b7f66210c0d4aed9a2c63937e274ff673d7f655511cfaa35b82bf526241"
+      "bytes": 11020,
+      "sha256": "a2a8671a092bc486d18ea474ae38e6f9d90ead97d1cc1c0f1794d25f7956c76a"
     },
     {
       "path": "RELEASE_STATUS.json",
-      "bytes": 3818,
-      "sha256": "1f51543aa0d3be055045f8b5a3668aaf5453d4c4b22521317ace07143e8e8b12"
+      "bytes": 4151,
+      "sha256": "b66491133fb9df33a1228bd8d5c84959f293de6792b55881d44ed3447c8e1bad"
     },
     {
       "path": "SELF_TEST_MATRIX.md",
@@ -628,8 +632,8 @@
     },
     {
       "path": "desktop/README.md",
-      "bytes": 15296,
-      "sha256": "cbe83b8e4b8ca5db22843584e2e2ede5f4f88092af8f4a5c2347597d2cc85b8c"
+      "bytes": 15600,
+      "sha256": "461f55399e9b2eea0dd56d17a7c24734916fae5f0e4c12058e4b386d17cfbf69"
     },
     {
       "path": "desktop/assets/app.icns",
@@ -658,8 +662,8 @@
     },
     {
       "path": "desktop/core.mjs",
-      "bytes": 7047,
-      "sha256": "80be881af04229425fb7b85b12941af7e2acaca4085dbc8b1de7c85d12edacd1"
+      "bytes": 7064,
+      "sha256": "54d67f2efdba15a5643791f13a71c9e4179e3e9bd6fa875c8811c99f63cdd875"
     },
     {
       "path": "desktop/installer/Install-WillBuddy.command",
@@ -688,23 +692,23 @@
     },
     {
       "path": "desktop/main.mjs",
-      "bytes": 12259,
-      "sha256": "ab0e5c7a93e4957524658b42823b926b284af4e9832a80326d2da0fd7ac16952"
+      "bytes": 12139,
+      "sha256": "cacbd981a70acbaaa79f724c1d4f61588a70c379f98667179023127425479e40"
     },
     {
       "path": "desktop/package-lock.json",
       "bytes": 176145,
-      "sha256": "bff6d9417776395df269abc8051ee2acc0b5038ef00c72de0b2734624ca85287"
+      "sha256": "b97bcaa6a438b987c4e5175c56ffe90b00ee8f3f0daeb6645c42704a225290bb"
     },
     {
       "path": "desktop/package.json",
-      "bytes": 2109,
-      "sha256": "65b5d14e8daf214732977b08679982378cf4a7a667d97069c83d6a7a056e121f"
+      "bytes": 2180,
+      "sha256": "c6eff2d14a2e9c89d86acc67ad99102847c1f034fc255b48bad426fc24441d0b"
     },
     {
       "path": "desktop/preload.cjs",
-      "bytes": 1080,
-      "sha256": "00d7ab2c084739af631da52aa9eed37e17f9e6c7262eed99d04e7f6a4c6ef201"
+      "bytes": 1111,
+      "sha256": "c99f819d0676684e81644594a245fed35d4fc7104f78b735e411d36bff9cfadc"
     },
     {
       "path": "desktop/runtime/agent.mjs",
@@ -738,8 +742,13 @@
     },
     {
       "path": "desktop/runtime/tools.mjs",
-      "bytes": 4088,
-      "sha256": "fafbcb5d6ea429933ca6cf2be358ed8f40deb29c2869099c9bf00c7de5c81f35"
+      "bytes": 6273,
+      "sha256": "f4cbc5ae3b6315df20019d4507cff4d338a5a631019b42d5f76a08eac36601b5"
+    },
+    {
+      "path": "desktop/services/commands.mjs",
+      "bytes": 8742,
+      "sha256": "c539c2cac44b5d20cedcb7cf2b353c939a16ab728f111a31222dae64e9f1a067"
     },
     {
       "path": "desktop/services/conversation.mjs",
@@ -748,8 +757,8 @@
     },
     {
       "path": "desktop/services/recovery.mjs",
-      "bytes": 1040,
-      "sha256": "9c3d3654d713cea5353e453b38c536713de055fb42473c7f6bd265bd50964e8a"
+      "bytes": 1507,
+      "sha256": "8c9cfa1e1e7d9504d9cce0f4aa3423524326bc4116a1bc2a0f0a5768522be774"
     },
     {
       "path": "desktop/services/tasks.mjs",
@@ -768,8 +777,8 @@
     },
     {
       "path": "desktop/src/app.js",
-      "bytes": 51498,
-      "sha256": "8ab07cc2a542a06aaf8ca27093fc74b2ea48eb79e80a21e8d97da77f67c3c38a"
+      "bytes": 52141,
+      "sha256": "a0b16410f91e03dd3f71952c04e6dde6b62edde2398bf7752bd6f04aee70e443"
     },
     {
       "path": "desktop/src/assets/logo.png",
@@ -787,14 +796,19 @@
       "sha256": "66dbac2962e94a6c4da6c66301fe0766f7063feff25a9e3fc5a043d18f67bd0a"
     },
     {
+      "path": "desktop/src/ui/commands.js",
+      "bytes": 2282,
+      "sha256": "5ada8a803926fa50f63ce024f9f9ce6c881a857893cdb5cefa2fc574a38b37cd"
+    },
+    {
       "path": "desktop/src/ui/markdown.js",
       "bytes": 4748,
       "sha256": "1697c5c5fbfe9e44d84e29ae32fb19d2ac469495d7f4c30c3dda7637eecaa710"
     },
     {
       "path": "desktop/src/ui/workspace.js",
-      "bytes": 8399,
-      "sha256": "e1571abca9dce3baf30de27ae16352d83e0dcf527d9c6c874c2bd18f9939fef3"
+      "bytes": 8445,
+      "sha256": "5bc0234d7ca8f4818ddcc63b600a54ae5260270d4e9806a51843af3d73b9dae8"
     },
     {
       "path": "desktop/src/vendor/MANIFEST.json",
@@ -823,13 +837,18 @@
     },
     {
       "path": "desktop/src/workbench.css",
-      "bytes": 17875,
-      "sha256": "7bff5832b13087cf50c9b39456be57ba3b5c7fe12b3dc4dbc4e6815ddd41b671"
+      "bytes": 18385,
+      "sha256": "1367a474e4ba2fa3d34ffb022bcdca9edb74f34ae585bc7e3302c7f8cca9e4b3"
     },
     {
       "path": "desktop/tests/acceptance/browser-live.mjs",
       "bytes": 9027,
       "sha256": "f1d38bfff600aac6e78e7d2b1b53cf0303a1848950c064a1f417d91843f08cc4"
+    },
+    {
+      "path": "desktop/tests/acceptance/commands-live.mjs",
+      "bytes": 5074,
+      "sha256": "3bf92018748d0f42d9434b55f06ff9fe1476b3a025094bcbc0365f9d106ca7c3"
     },
     {
       "path": "desktop/tests/acceptance/streaming-live.mjs",
@@ -850,6 +869,11 @@
       "path": "desktop/tests/browser-runtime.test.mjs",
       "bytes": 7940,
       "sha256": "f980fe31b126e1e9f8152638bdb730f5b455915eea40c7ad6c954800a31572ed"
+    },
+    {
+      "path": "desktop/tests/commands.test.mjs",
+      "bytes": 10476,
+      "sha256": "a21c0b844add4924a8252d1573e42dfe670570d2d7d1c0ff0454a296101dfa06"
     },
     {
       "path": "desktop/tests/core.test.mjs",
@@ -884,7 +908,7 @@
     {
       "path": "desktop/tests/ui.test.mjs",
       "bytes": 6238,
-      "sha256": "13e5457f293638aa9a1a809f4b0e9999e99dbd240e9db82dc0c4c073c5402a1b"
+      "sha256": "44cbbb95d07821a4722b66485b1113b1772cd809c37301ab5512fb174d104807"
     },
     {
       "path": "desktop/tests/workspace.test.mjs",
@@ -893,8 +917,13 @@
     },
     {
       "path": "docs/ARCHITECTURE.md",
-      "bytes": 4188,
-      "sha256": "b30be518a18cc9f482206643fb6ce396e664d8a9289de31f8e2559298e35290a"
+      "bytes": 4495,
+      "sha256": "2421f50da8e9b0128716df5157eb5169e467fbe00e4a8d1ed68aabb31062658a"
+    },
+    {
+      "path": "docs/DURABLE_COMMANDS.md",
+      "bytes": 5456,
+      "sha256": "5cea20210918e18561432585f5a2d442180a023fe4ca27d1753acd888185d917"
     },
     {
       "path": "docs/PACKAGING_INCIDENT.md",
@@ -903,13 +932,13 @@
     },
     {
       "path": "docs/QUICK_GAPS.md",
-      "bytes": 3497,
-      "sha256": "e453763952ab9592b7e6984e4896cafc319cf5e8f9c8a9d706d28d9c9b563569"
+      "bytes": 4499,
+      "sha256": "0efbfb54a6b658d74422420ae683275d6682f9d7427ac886991234e1a9c21807"
     },
     {
       "path": "docs/REA_FINDINGS.md",
-      "bytes": 6719,
-      "sha256": "26102f060c47023d44e60f8354cd142fb145f15564824a2012a88d8225a14f68"
+      "bytes": 7020,
+      "sha256": "840237cf999ba54d5b1a4f862c55659424558a9a0d6038321022c61502d5dc60"
     },
     {
       "path": "docs/SCREENSHOT_ALIGNMENT.md",
@@ -955,6 +984,11 @@
       "path": "docs/validation/v0.7.0.json",
       "bytes": 1485,
       "sha256": "72986961b9ef4f2caa745d3812fa768bb36942de3ebcbf9ac3add202db220155"
+    },
+    {
+      "path": "docs/validation/v0.8.0.json",
+      "bytes": 3471,
+      "sha256": "0457d1e2033a0890bdd9c6a32ad92576fb75bf8183e6a291f97627667abd4e99"
     },
     {
       "path": "drizzle/0000_yellow_silver_samurai.sql",

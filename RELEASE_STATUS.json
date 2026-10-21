@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "checked_date": "2026-10-21",
   "source_status": "desktop_source_delivery_not_deployed",
   "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -20,10 +20,11 @@
     "signature": "ad-hoc",
     "notarized": false,
     "streaming": "SSE text/tool deltas with JSON response compatibility; no hidden retries",
-    "content_rendering": "Marked 18.1.1 + DOMPurify 3.4.17; sandboxed static HTML/CSS, no scripts/network"
+    "content_rendering": "Marked 18.1.1 + DOMPurify 3.4.17; sandboxed static HTML/CSS, no scripts/network",
+    "persistent_commands": "manual CLI FIFO; stable ID deduplication; persisted v1 status events; restart pauses; fresh approval on retry"
   },
   "validation": {
-    "desktop_tests_passed": 50,
+    "desktop_tests_passed": 64,
     "ui_paths_with_mock_bridge": 17,
     "real_cli_child_process_tested": true,
     "agent_http_fixture_to_real_cli_roundtrip_tested": true,
@@ -31,15 +32,15 @@
     "workspace_browser_test_passed": true,
     "packaging_tests_passed": 7,
     "workspace_test_scope": "real Chromium layout, keyboard, Markdown, preview/export; deterministic native bridge and model content",
-    "native_chat_lifecycle_integration": "real local HTTP SSE/service in real Chromium, native bridge and approvals fixtures; Electron/Mac not tested",
+    "native_chat_lifecycle_integration": "real HTTP SSE/service/Chromium; new real CLI queue/service/Chromium lifecycle; native bridge and approvals are fixtures",
     "mac_native_runtime_verified": false,
     "real_model_provider_tested": false,
     "third_party_cli_codex_tested": false,
     "web_build_tested_this_iteration": false,
-    "theme_check": "real Chromium white surface check; Chinese font installed only for local QA; no new Mac runtime verification",
+    "theme_check": "1000px layout/overflow checked; host lacks Chinese font for pixel QA; no new Mac visual/native runtime verification",
     "offline_bundle": {
       "official_runtime_sha256": "passed",
-      "asar_content": "34 production source files match exact bytes including vendored Markdown/sanitizer",
+      "asar_content": "36 production files match exact bytes including CLI queue and pure queue view",
       "zip_integrity": "passed",
       "closed_inventory": "passed; 282 app entries + 5 extras; 14 symlinks; no residue",
       "unexpected_entry_negative": "passed even when every manifest file remains unchanged",
@@ -53,9 +54,12 @@
     },
     "service_boundary_tests_passed": 9,
     "streaming_http_to_chromium_passed": true,
-    "chromium_acceptance_tests_passed": 3,
+    "chromium_acceptance_tests_passed": 4,
     "streaming_to_real_node_cli_passed": true,
-    "markdown_and_sandboxed_html_passed": true
+    "markdown_and_sandboxed_html_passed": true,
+    "command_queue_tests_passed": 14,
+    "command_queue_real_node_and_chromium_passed": true,
+    "original_python_executor_tests_passed": 35
   },
   "rea": {
     "version": "6.7.0",
@@ -63,7 +67,7 @@
     "javascript_analysis": "partial_host_process_ownership_blocked",
     "report": "docs/REA_FINDINGS.md"
   },
-  "notes": "Real SSE streaming, GFM and sandboxed CSS HTML preview delivered; preserved original Web/Python and cryptographic identity. JSON-only providers cannot produce genuine deltas. No paid model, Mac launch, strict native codesign or notarization validation. Public GitHub integration recorded separately.",
+  "notes": "0.8.0 manual CLI durable queue and output checkpoints, cancel/retry/idempotency/failure gates; no automatic replay of old approvals. Original Web/Python and cryptographic identity preserved. Agent conversations/daily tasks not yet using this queue. No native Mac launch/strict codesign/notarization or paid model/Codex CLI validation.",
   "architecture": {
     "guide": "docs/ARCHITECTURE.md",
     "layers": [

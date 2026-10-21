@@ -1,3 +1,9 @@
+# 当前入口 · 0.8.0
+
+先读 docs/DURABLE_COMMANDS.md 和 docs/validation/v0.8.0.json。手动CLI已有持久队列/去重/取消/重新审批重试，重启不自动重放。保留0.7的流式与安全Markdown/HTML。
+
+下一轮：优先Apple芯片Mac严格codesign/安装启动、真实审批/模型/CLI验收；没有目标机时将conversation/tasks逐步接入共用执行队列与事件契约（当前仅手动CLI接入），覆盖取消竞争、过期事件、失败恢复，不把重试当成恢复同一个外部进程。再推进桌面MCP/授权文件写入/真实Office成果。不要从旧main回退基线，不创建PR或合并（尚待用户另行明确授权）。
+
 # 当前入口 · 0.7.0
 
 先读 docs/STREAMING_AND_RENDERING.md 和 validation/v0.7.0.json。流式/Markdown/HTML 已实际修复，保留安全边界与停止后的内容。下一轮先在 Apple 芯片用用户真实模型验收，之后推进持久队列、统一事件协议与跨端核心；不自动重放已审批动作。
