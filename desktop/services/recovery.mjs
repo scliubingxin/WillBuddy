@@ -1,5 +1,14 @@
+import { commandTransition } from './commands.mjs';
 /** Mark interrupted work without replaying previously approved side effects. */
 export function recoverInterruptedWork(data, now = Date.now()) {
+    data.commandJobs ??= [];
+    for (const job of data.commandJobs) {
+        if (['queued', 'pending_approval', 'running', 'cancelling'].includes(job.status)) {
+            commandTransition(job, job.status === 'queued' ? 'paused' : 'interrupted', now);
+            job.error = '应用退出；命令可能已有副作用，核对后手动重试并重新审批';
+            job.finishedAt = now;
+        }
+    }
     for (const record of data.executions)
         if (['running', 'pending_approval'].includes(record.status)) {
             record.status = 'interrupted';
