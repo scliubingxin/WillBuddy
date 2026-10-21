@@ -113,7 +113,8 @@ function render() {
     if (pickerKind)
         paintPicker();
 }
-function composer() { return `<div class="composer-dock"><div class="composer"><div id="inlinePicker" class="inline-picker" hidden role="listbox" aria-label="选择上下文或智能体"></div><div class="chips">${files.map((f, i) => `<span class="attachment-chip">${icon('file')}<button data-action="attachedPreview" data-id="${i}">${escape(f.name)}</button><button data-action="detach" data-id="${i}" aria-label="移除 ${escape(f.name)}">×</button></span>`).join('')}</div><textarea id="prompt" aria-label="任务描述" placeholder="描述你想完成的任务，@ 添加资料，/ 选择智能体" maxlength="20000"></textarea><div class="composer-tools"><div><button class="icon-button" data-action="attach" aria-label="附加本地文件">${icon('plus')}</button><button class="context-button" data-action="contextPicker">@ 资料</button><select id="agent" aria-label="选择智能体">${state.agents.map(a => `<option value="${escape(a.id)}" ${a.id === agentId ? 'selected' : ''}>${escape(a.name)}</option>`).join('') || '<option>WillBuddy 助手</option>'}</select></div><div>${pending ? `<button class="send stopping" data-action="stop" aria-label="停止生成">${icon('stop')}</button>` : `<button class="send" data-action="send" aria-label="发送任务">${icon('up')}</button>`}</div></div><div class="tool-switch"><label><input id="toolMode" type="checkbox" ${toolsEnabled ? 'checked' : ''} ${pending ? 'disabled' : ''}>浏览器与 CLI · 每次确认</label><button data-page="tools">工具台 ↗</button></div></div><div class="hint"><span>Enter 发送 · Shift Enter 换行</span><span>附加资料将发送给所选模型</span></div></div>`; }
+function chatLive() { return pending || ['queued','running','cancelling'].includes(state.chats.find(c=>c.id===chatId)?.run?.status); }
+function composer() { const live=chatLive(); return `<div class="composer-dock"><div class="composer"><div id="inlinePicker" class="inline-picker" hidden role="listbox" aria-label="选择上下文或智能体"></div><div class="chips">${files.map((f, i) => `<span class="attachment-chip">${icon('file')}<button data-action="attachedPreview" data-id="${i}">${escape(f.name)}</button><button data-action="detach" data-id="${i}" aria-label="移除 ${escape(f.name)}">×</button></span>`).join('')}</div><textarea id="prompt" aria-label="任务描述" placeholder="描述你想完成的任务，@ 添加资料，/ 选择智能体" maxlength="20000"></textarea><div class="composer-tools"><div><button class="icon-button" data-action="attach" aria-label="附加本地文件">${icon('plus')}</button><button class="context-button" data-action="contextPicker">@ 资料</button><select id="agent" aria-label="选择智能体">${state.agents.map(a => `<option value="${escape(a.id)}" ${a.id === agentId ? 'selected' : ''}>${escape(a.name)}</option>`).join('') || '<option>WillBuddy 助手</option>'}</select></div><div>${live ? `<button class="send stopping" data-action="stop" aria-label="停止生成">${icon('stop')}</button>` : `<button class="send" data-action="send" aria-label="发送任务">${icon('up')}</button>`}</div></div><div class="tool-switch"><label><input id="toolMode" type="checkbox" ${toolsEnabled ? 'checked' : ''} ${live ? 'disabled' : ''}>浏览器与 CLI · 每次确认</label><button data-page="tools">工具台 ↗</button></div></div><div class="hint"><span>Enter 发送 · Shift Enter 换行</span><span>附加资料将发送给所选模型</span></div></div>`; }
 function homeContent() { return views.homeContent(viewContext()); }
 function conversationContent() { return views.conversationContent(viewContext()); }
 function closePicker() {
@@ -200,7 +201,7 @@ function content() {
     if (page === 'agents')
         return `<div class="page">${heading('YOUR AI TEAM', '为每一种工作，找到好搭档。', '为智能体配置角色与指令，开始对话时随时切换。', action(icon('plus') + '新建智能体', 'newAgent'))}<div class="cards">${state.agents.map(a => `<div class="card"><span class="tile-icon">${icon('agent')}</span><h3>${escape(a.name)}</h3><p>${escape(a.description)}</p><div class="actions">${action('开始对话', 'useAgent', a.id, 'primary')}${action('编辑', 'editAgent', a.id)}${a.id !== 'assistant' ? action('删除', 'deleteAgent', a.id) : ''}</div></div>`).join('')}</div></div>`;
     if (page === 'tasks')
-        return `<div class="page">${heading('MISSION CONTROL', '把重复的工作，交给自动化。', '任务结果自动归入成果中心；执行失败可查看原因并手动重试。', action(icon('plus') + '新建任务', 'newTask'))}<div class="banner">每日任务从创建或启用时间起，每隔一天执行一次。应用必须运行，电脑休眠或退出时不执行；恢复后补执行一次。任务仅调用模型，不具备联网、发信或文件操作能力。</div><div class="toolbar">${action('刷新状态', 'refresh')}${action('打开本地 Office 执行器 ↗', 'runner')}</div><br>${state.tasks.length ? `<div class="cards">${state.tasks.map(t => `<div class="card"><span class="badge">${escape(({ ready: '待执行', running: '执行中', done: '已完成', failed: '失败' })[t.status])}</span><h3>${escape(t.name)}</h3><p>${escape(t.prompt.slice(0, 160))}</p><div class="meta">${t.enabled ? '每日执行 · 下次 ' + date(t.nextRun) : '仅手动运行'}</div>${t.error ? `<p class="task-error">${escape(t.error)}</p>` : ''}<div class="actions">${t.status !== 'running' ? action('立即运行', 'runTask', t.id, 'primary') : ''}${t.result ? action('查看结果', 'taskResult', t.id) : ''}${t.status !== 'running' ? action(t.enabled ? '暂停定时' : '开启每日', 'toggleTask', t.id) + action('删除', 'deleteTask', t.id) : ''}</div></div>`).join('')}</div>` : empty('从一个小任务开始', '例如：根据固定提示词生成每日写作练习。真实数据需要在提示中提供。', action('创建任务', 'newTask', '', 'primary'))}</div>`;
+        return `<div class="page">${heading('MISSION CONTROL', '把重复的工作，交给自动化。', '任务结果自动归入成果中心；执行失败可查看原因并手动重试。', action(icon('plus') + '新建任务', 'newTask'))}<div class="banner">每日任务从创建或启用时间起，每隔一天执行一次。应用必须运行，电脑休眠或退出时不执行；恢复后补执行一次。任务仅调用模型，不具备联网、发信或文件操作能力。</div><div class="toolbar">${action('刷新状态', 'refresh')}${action('打开本地 Office 执行器 ↗', 'runner')}</div><br>${views.runQueue({state,action,date,statusNames})}${state.tasks.length ? `<div class="cards">${state.tasks.map(t => `<div class="card"><span class="badge">${escape(({ ready: '待执行', done: '已完成', ...statusNames })[t.status] || t.status)}</span><h3>${escape(t.name)}</h3><p>${escape(t.prompt.slice(0, 160))}</p><div class="meta">${t.enabled ? '每日执行 · 下次 ' + date(t.nextRun) : '仅手动运行'}</div>${t.error ? `<p class="task-error">${escape(t.error)}</p>` : ''}<div class="actions">${!['queued','running','cancelling'].includes(t.status) ? action('立即运行', 'runTask', t.id, 'primary') : action('停止任务', 'cancelTask', t.id, 'danger')}${t.result ? action('查看结果', 'taskResult', t.id) : ''}${!['queued','running','cancelling'].includes(t.status) ? action(t.enabled ? '暂停定时' : '开启每日', 'toggleTask', t.id) + action('删除', 'deleteTask', t.id) : ''}</div></div>`).join('')}</div>` : empty('从一个小任务开始', '例如：根据固定提示词生成每日写作练习。真实数据需要在提示中提供。', action('创建任务', 'newTask', '', 'primary'))}</div>`;
     if (page === 'library')
         return `<div class="page">${heading('YOUR LIBRARY', '好成果，值得留下。', '对话与自动化生成的成果都在这里，可随时预览和导出。')}${state.artifacts.length ? `<div class="cards">${state.artifacts.map(a => `<div class="card"><span class="tile-icon amber">${icon('file')}</span><h3>${escape(a.name)}</h3><p>${escape(a.text.slice(0, 110))}…</p><div class="meta">${date(a.time)}</div><div class="actions">${action('查看', 'viewArtifact', a.id)}${action('导出', 'exportArtifact', a.id)}${action('删除', 'deleteArtifact', a.id)}</div></div>`).join('')}</div>` : empty('还没有保存的成果', '在助手回复下点击“保存到成果中心”，或完成一个自动化任务。')}</div>`;
     if (page === 'context')
@@ -246,7 +247,7 @@ async function loadFiles() {
     render();
 }
 async function send() {
-    if (pending || !draft.trim())
+    if (chatLive() || !draft.trim())
         return;
     if (!api) {
         toast('请在桌面应用中配置模型后使用。');
@@ -265,7 +266,7 @@ async function send() {
     state.chats.find(c => c.id === id).messages.push({ role: 'user', content: prompt });
     render();
     try {
-        applyState(await invoke('chat', { id, prompt, agentId, toolsEnabled, files: selected.map(({ folderId, relative }) => ({ folderId, relative })) }));
+        applyState(await invoke('chat', { id, requestId:crypto.randomUUID(), prompt, agentId, toolsEnabled, files: selected.map(({ folderId, relative }) => ({ folderId, relative })) }));
     }
     catch (e) {
         toast(e.message);
@@ -572,13 +573,16 @@ async function handle(actionId, id) {
         modal('创建自动化任务', input('任务名称', 'name') + area('任务提示词', 'prompt') + '<label class="check"><input name="enabled" type="checkbox">每天在此时刻执行（应用需要保持运行）</label>', '创建任务', async (f) => update('task', { name: f.get('name'), prompt: f.get('prompt'), enabled: f.has('enabled') }));
         return;
     }
+    if (actionId === 'cancelTask' || actionId === 'cancelRun') {
+        await invoke(actionId, {id}); await update('state'); return;
+    }
     if (actionId === 'runTask') {
         toast('任务开始执行，可稍后刷新状态');
-        const result = invoke('runTask', { id });
+        const result = invoke('runTask', { id, requestId:crypto.randomUUID() });
         await new Promise(r => setTimeout(r, 150));
         applyState(await invoke('state'));
         render();
-        state = await result;
+        applyState(await result);
         render();
         toast('任务执行已结束');
         return;
@@ -696,7 +700,7 @@ api?.onRuntime?.(() => {
     runtimeTimer = setTimeout(async () => {
         try {
             applyState(await invoke('state'));
-            if (!$('#modal').open && ['chat', 'tools'].includes(page))
+            if (!$('#modal').open && ['chat', 'tools', 'tasks'].includes(page))
                 render();
         }
         catch (e) {
@@ -707,9 +711,18 @@ api?.onRuntime?.(() => {
 const streamUpdates = new Map();
 const liveStreams = new Map();
 function applyState(next) {
+    for (let i=0;i<(next.runJobs || []).length;i++) {
+        const incoming=next.runJobs[i],old=(state.runJobs || []).find(j=>j.id===incoming.id);
+        if (old && old.revision > incoming.revision) next.runJobs[i]=old;
+    }
+    for (let i=0;i<next.tasks.length;i++) {
+        const incoming=next.tasks[i],old=state.tasks.find(t=>t.id===incoming.id);
+        if (old && ((old.lastRun || 0) > (incoming.lastRun || 0) ||
+            (old.runId && old.runId===incoming.runId && (old.runRevision || 0) > (incoming.runRevision || 0)))) next.tasks[i]=old;
+    }
     for (let i = 0; i < next.chats.length; i++) {
         const incoming = next.chats[i], previous = state.chats.find(c => c.id === incoming.id);
-        if (previous?.run && (previous.run.startedAt > (incoming.run?.startedAt || 0) || (previous.run.id === incoming.run?.id && previous.run.status !== 'running' && incoming.run.status === 'running')))
+        if (previous?.run && ((previous.run.id === incoming.run?.id && (previous.run.revision || 0) > (incoming.run.revision || 0)) || previous.run.startedAt > (incoming.run?.startedAt || 0) || (previous.run.id === incoming.run?.id && !['queued','running','cancelling'].includes(previous.run.status) && ['queued','running','cancelling'].includes(incoming.run.status))))
             next.chats[i] = previous;
     }
     for (const [id, local] of liveStreams) {
@@ -735,11 +748,11 @@ api?.onStream?.(event => {
     const chat = state.chats.find(c => c.id === event.chatId);
     if (!chat)
         return;
-    if (chat.run?.id === event.runId && chat.run.status !== 'running')
+    if (chat.run?.id === event.runId && !['queued','running'].includes(chat.run.status))
         return;
     if (chat.run && chat.run.id !== event.runId && chat.run.startedAt >= event.startedAt)
         return;
-    chat.run = { id: event.runId, status: 'running', startedAt: event.startedAt };
+    chat.run = { ...chat.run, id: event.runId, status: 'running', startedAt: event.startedAt };
     let message = chat.messages.find(m => m.id === event.messageId);
     if (message && message.sequence >= event.sequence)
         return;
