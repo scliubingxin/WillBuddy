@@ -1,4 +1,6 @@
-# WillBuddy 桌面版 0.6.0
+项目结构与修改入口见 ../docs/ARCHITECTURE.md（0.6.1 分层整理）。
+
+# WillBuddy 桌面版 0.6.1
 
 在原 Web 系统与 0.3.0 桌面基础上新增浏览器、CLI 及模型工具调用闭环。原 Web 代码、数据库迁移和 Python Office 执行器保留；桌面无需先运行 Web 服务或 Cloudflare。
 
