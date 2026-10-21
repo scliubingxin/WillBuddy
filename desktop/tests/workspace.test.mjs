@@ -71,3 +71,15 @@ test('stream events keep draft/focus, ignore stale chunks and cannot resurrect a
  s.chats[0].run.status='completed';s.chats[0].messages.push({id:'m',role:'assistant',content:'最终结果',sequence:3,runId:'r',streaming:false});notify();await settle(180);stream({...event,sequence:99,content:'LATE'});await settle(60);assert.match(w.document.querySelector('.message.assistant').textContent,/最终结果/);assert.ok(!w.document.body.textContent.includes('LATE'));assert.equal(w.document.querySelector('[data-streaming="true"]'),null);
  }finally{f.dom.window.close();}
 });
+
+test('reloaded queued chat keeps a stop action and stale run/task snapshots cannot revive cancelled work',async()=>{
+ const f=await fixture();try{
+  const {s,w,bridge,notify,settle,click}=f;
+  s.chats=[{id:'queued-chat',name:'排队任务',time:100,run:{id:'turn',status:'queued',revision:1,startedAt:100},messages:[{role:'user',content:'提示',runId:'turn'}]}];
+  s.runJobs=[{id:'turn',kind:'conversation',ownerId:'queued-chat',label:'排队任务',createdAt:100,status:'queued',revision:1}];
+  notify();await settle(150);await click('[data-page="home"]');await click('.recent [data-id="queued-chat"]');assert.ok(w.document.querySelector('[aria-label="停止生成"]'));assert.match(w.document.querySelector('.run-wait').textContent,/正在排队/);
+  bridge.cancelChat=async()=>{s.chats[0].run.status='cancelled';s.chats[0].run.revision=2;s.runJobs[0].status='cancelled';s.runJobs[0].revision=2;notify();};
+  await click('[data-action="stop"]');await settle(150);assert.equal(w.document.querySelector('[aria-label="停止生成"]'),null);
+  s.chats[0].run.status='queued';s.chats[0].run.revision=1;s.runJobs[0].status='queued';s.runJobs[0].revision=1;notify();await settle(150);assert.equal(w.document.querySelector('[aria-label="停止生成"]'),null);assert.match(w.document.querySelector('.conversation-status').textContent,/已取消/);
+ }finally{f.dom.window.close();}
+});
