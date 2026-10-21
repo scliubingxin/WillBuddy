@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "checked_date": "2026-10-21",
   "source_status": "desktop_source_delivery_not_deployed",
   "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -18,10 +18,12 @@
     "offline_architecture": "arm64",
     "minimum_macos": "12.0",
     "signature": "ad-hoc",
-    "notarized": false
+    "notarized": false,
+    "streaming": "SSE text/tool deltas with JSON response compatibility; no hidden retries",
+    "content_rendering": "Marked 18.1.1 + DOMPurify 3.4.17; sandboxed static HTML/CSS, no scripts/network"
   },
   "validation": {
-    "desktop_tests_passed": 37,
+    "desktop_tests_passed": 50,
     "ui_paths_with_mock_bridge": 17,
     "real_cli_child_process_tested": true,
     "agent_http_fixture_to_real_cli_roundtrip_tested": true,
@@ -29,7 +31,7 @@
     "workspace_browser_test_passed": true,
     "packaging_tests_passed": 7,
     "workspace_test_scope": "real Chromium layout, keyboard, Markdown, preview/export; deterministic native bridge and model content",
-    "native_chat_lifecycle_integration": "service lifecycle tested with model/tool fixtures; Electron native integration not tested",
+    "native_chat_lifecycle_integration": "real local HTTP SSE/service in real Chromium, native bridge and approvals fixtures; Electron/Mac not tested",
     "mac_native_runtime_verified": false,
     "real_model_provider_tested": false,
     "third_party_cli_codex_tested": false,
@@ -37,7 +39,7 @@
     "theme_check": "real Chromium white surface check; Chinese font installed only for local QA; no new Mac runtime verification",
     "offline_bundle": {
       "official_runtime_sha256": "passed",
-      "asar_content": "passed",
+      "asar_content": "34 production source files match exact bytes including vendored Markdown/sanitizer",
       "zip_integrity": "passed",
       "closed_inventory": "passed; 282 app entries + 5 extras; 14 symlinks; no residue",
       "unexpected_entry_negative": "passed even when every manifest file remains unchanged",
@@ -49,7 +51,11 @@
       "macOS_bundle_codesign_and_gatekeeper": "not_tested",
       "installer_shell_syntax": "passed"
     },
-    "service_boundary_tests_passed": 9
+    "service_boundary_tests_passed": 9,
+    "streaming_http_to_chromium_passed": true,
+    "chromium_acceptance_tests_passed": 3,
+    "streaming_to_real_node_cli_passed": true,
+    "markdown_and_sandboxed_html_passed": true
   },
   "rea": {
     "version": "6.7.0",
@@ -57,7 +63,7 @@
     "javascript_analysis": "partial_host_process_ownership_blocked",
     "report": "docs/REA_FINDINGS.md"
   },
-  "notes": "0.6.1 real module extraction and shared task capacity fix. Original Web/Python and identity retained. GitHub private repository created; full upload pending final verification. ARM64 app ad-hoc; Mac launch/strict codesign/notarization pending.",
+  "notes": "Real SSE streaming, GFM and sandboxed CSS HTML preview delivered; preserved original Web/Python and cryptographic identity. JSON-only providers cannot produce genuine deltas. No paid model, Mac launch, strict native codesign or notarization validation. Public GitHub integration recorded separately.",
   "architecture": {
     "guide": "docs/ARCHITECTURE.md",
     "layers": [

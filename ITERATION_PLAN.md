@@ -1,3 +1,7 @@
+# 当前入口 · 0.7.0
+
+先读 docs/STREAMING_AND_RENDERING.md 和 validation/v0.7.0.json。流式/Markdown/HTML 已实际修复，保留安全边界与停止后的内容。下一轮先在 Apple 芯片用用户真实模型验收，之后推进持久队列、统一事件协议与跨端核心；不自动重放已审批动作。
+
 # 当前整理入口 · 0.6.1
 
 项目分层见 docs/ARCHITECTURE.md。main/services/runtime/ui 已拆分，原 Web/Python 保留。下一轮优先完善统一事件协议与持久队列，继续拆分 core 与界面其他页面，并在 Apple 芯片真机验证浏览器/CLI 与严格签名。不要重放已审批动作。

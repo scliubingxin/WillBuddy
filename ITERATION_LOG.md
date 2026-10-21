@@ -1,3 +1,15 @@
+# 桌面迭代 0.7.0 · 2026-10-21 · 流式输出、Markdown 与 HTML
+
+用户实测反馈输出不流式、格式混乱。本轮从权威 0.6.1 源码版本4接续，核对294个文件哈希，公开 GitHub main 8e8743a 与基线逐文件一致。修复了 stream:false 写死和简化渲染器：新增 SSE 解码与完整工具分片，服务持久化增量和单调事件，界面局部更新、输入框复用及防过期覆盖。取消/截断保留已收到的内容，无自动重试或工具重放。Markdown 改为固定版本解析/净化依赖，离线包含源码许可证；HTML 语义排版与带 CSS 的 sandbox 静态预览已实现，仍禁止脚本/表单/远程资源和跳转，原文导出不改变。
+
+50项 Node/JSDOM、7项 Python、3项真实 Chromium 验收通过。新增 HTTP SSE→服务→模拟原生桥→真实浏览器验收，服务端未放行结束前确认首段可见；并发验收曾暴露光标选区回退，已通过复用真实输入框修复，最终同元素/草稿/焦点/选区均通过。新增 SSE 工具闭环实际执行 Node 子进程；模型、原生桥和审批仍夹具，不冒充付费模型或 Mac 原生验收。官方 Playwright 镜像下载503后改用 Google 官方同版本 Chrome for Testing Headless Shell 141.0.7390.37 完成测试，未修改产品 sandbox。
+
+实际修改：desktop/core.mjs、main.mjs、preload.cjs、package.json/lock；runtime/agent.mjs、新 model-stream.mjs；services/conversation.mjs/recovery.mjs；src/app.js/index.html/workbench.css、ui/markdown.js/workspace.js、新 vendor 模块/许可证/清单；tests/workspace.test.mjs、新 streaming.test.mjs/rendering.test.mjs、tests/helpers/load-ui.mjs、acceptance/workspace-live.mjs 与新 streaming-live.mjs；新 scripts/vendor-desktop-renderer.mjs；README、desktop/README、架构/Quick差距/REA接续、计划/日志/发布状态/验证清单。完整文件与哈希以 SOURCE_MANIFEST 为准。
+
+arm64 离线包已生成，内置渲染依赖和 Electron/Chromium/Node；34个实际应用源码文件与 ASAR 逐字节一致。闭合 ZIP 为282应用条目+5配套、14符号链接、零残留，15个 Mach-O/51216代码页校验通过。ad-hoc、未公证，Mac严格资源密封与启动仍未验收。公开仓库通过独立修复分支上传并核对完整源码后再整合，结果在交付时报告；不部署原 Web 站点。
+
+下一轮首先用 Apple 芯片与用户实际模型验证增量、停止和 HTML 预览，再继续统一事件协议、持久任务队列与跨端核心。仅 JSON 接口仍一次性显示；数学公式、语法高亮、脚本式 HTML 应用和远程图片不在本轮范围。
+
 # 文档命名修正 · 2026-10-21
 
 按用户要求，将根 README 历史 Web 说明标题“幕云AI 工作台”改为“WillBuddy 工作台”。仅修改说明标题，保留历史版本号及运行代码；重新生成完整源码清单和 ZIP。文档改动不重复运行功能测试，源码包逐文件 SHA-256 校验由打包脚本完成。
