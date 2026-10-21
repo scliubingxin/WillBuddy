@@ -1,0 +1,112 @@
+{
+  "version": "0.9.0",
+  "date": "2026-10-22",
+  "base": {
+    "version": "0.8.0",
+    "canonical_version_observed": 6,
+    "files_verified": 312,
+    "source_zip_sha256": "0c0c7b0f72a4d39d2bcaa74eee8a3efaf25a549df68ace6ab9ebf56fa12d3d35",
+    "github_parent": "b8ecf6340a0c1aa955f9a625363c1b7fa23ce207"
+  },
+  "tests": {
+    "node_jsdom": {
+      "passed": 81,
+      "new_shared_run_tests": 16,
+      "new_ui_test": 1,
+      "command": "npm --prefix desktop test"
+    },
+    "chromium": {
+      "passed": 5,
+      "scopes": [
+        "queued chat refresh/cancel and real HTTP task abort",
+        "HTTP SSE to production UI with GFM/HTML",
+        "workspace keyboard/layout/export",
+        "actual Node CLI queue refresh/cancel/retry",
+        "browser trusted DOM/CDP inputs"
+      ],
+      "fixtures": [
+        "native IPC bridge",
+        "native approval",
+        "model provider responses"
+      ],
+      "mac_or_paid_model": false
+    },
+    "packaging_python": {
+      "passed": 7
+    },
+    "original_python_executor": {
+      "passed": 35
+    },
+    "asar": {
+      "exact_production_files": 38,
+      "version": "0.9.0"
+    },
+    "macho": {
+      "binaries": 15,
+      "code_pages": 51216,
+      "negative_tamper": "rejected",
+      "native_resource_seal": "not tested"
+    },
+    "installer_shell_syntax": "passed"
+  },
+  "offline_bundle": {
+    "file": "/workspace/scratch/0d433941ca14/v090-deliverables/WillBuddy-v0.9.0-mac-arm64-offline.zip",
+    "version": "0.9.0",
+    "bytes": 118699794,
+    "sha256": "4f216635421e671704526851fee317acc23b9a7c00ab54f55e06739a20812b96",
+    "app_asar_sha256": "5dab1053fdce7a242ea522ac71820e3445faf39af918525728a8aa733b1771e1",
+    "architecture": "arm64",
+    "signature": "ad-hoc",
+    "verified": true,
+    "archive_check": {
+      "app_entries": 282,
+      "extra_files": 5,
+      "closed_inventory": true,
+      "residual_entries": 0
+    }
+  },
+  "modified_files": [
+    "ITERATION_LOG.md",
+    "ITERATION_PLAN.md",
+    "README.md",
+    "RELEASE_STATUS.json",
+    "SOURCE_MANIFEST.json",
+    "desktop/README.md",
+    "desktop/core.mjs",
+    "desktop/main.mjs",
+    "desktop/package-lock.json",
+    "desktop/package.json",
+    "desktop/preload.cjs",
+    "desktop/runtime/run-queue.mjs",
+    "desktop/services/conversation.mjs",
+    "desktop/services/recovery.mjs",
+    "desktop/services/tasks.mjs",
+    "desktop/services/workspace.mjs",
+    "desktop/src/app.js",
+    "desktop/src/ui/runs.js",
+    "desktop/src/ui/workspace.js",
+    "desktop/tests/acceptance/commands-live.mjs",
+    "desktop/tests/acceptance/runs-live.mjs",
+    "desktop/tests/run-queue.test.mjs",
+    "desktop/tests/services.test.mjs",
+    "desktop/tests/workspace.test.mjs",
+    "docs/ARCHITECTURE.md",
+    "docs/QUICK_GAPS.md",
+    "docs/REA_FINDINGS.md",
+    "docs/SHARED_RUNS.md",
+    "docs/validation/v0.9.0.json"
+  ],
+  "migration": "schema 1 additive runJobs; restart queued→paused and running/cancelling→interrupted; no worker/request/approval replay",
+  "limits": [
+    "CLI and model queues remain separate FIFO with shared 2-slot capacity",
+    "no cross-Web core/storage unification",
+    "bounded retained-record idempotency; no global external exactly-once",
+    "no automatic resume of model/tool steps, process or power-loss/fsync claim",
+    "no Mac native strict codesign/Gatekeeper/launch/notarization",
+    "no paid provider/Codex CLI/OAuth/cloud sync"
+  ],
+  "github": {
+    "target_branch": "willbuddy-v0.9.0-shared-runs",
+    "state_at_packaging": "independent upload pending final verification; main unchanged; no PR or merge authorization"
+  }
+}
