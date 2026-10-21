@@ -1,3 +1,9 @@
+# 0.8.0 更新 · 2026-10-21
+
+手动CLI已接通持久队列、共享并发名额、受理ID去重、刷新后停止、输出检查点、重启暂停/中断和明确重新审批重试。状态事件具备v1契约与每任务单调序号，但还不是跨端事件总线；模型轮次/每日任务未接入该队列，不声称完成全部持久Agent Runtime。新增真实Chromium→服务→Node验收，原生审批仍夹具。
+
+当日复查官方system-tools-desktop及desktop-interface文档：Quick描述后台子任务/进度和Mission Control，WillBuddy当前只实现上述受限CLI队列；仍缺跨端业务核心、本地MCP、文件写入/索引、Office真实成果、OAuth与原生Mac验收。逐次审批保持，不跟随Quick默认Always Allow权限。来源：https://docs.aws.amazon.com/quick/latest/userguide/system-tools-desktop.html 、https://docs.aws.amazon.com/quick/latest/userguide/desktop-interface.html 。REA已有静态证据复用，没有新增Amazon运行结论。
+
 0.7.0 输出体验：SSE 首段提前可见、增量事件和取消保留、完整 GFM 与静态 CSS HTML 预览通过真实浏览器验收；真实模型/Mac、交互 HTML、Office/队列/MCP 仍存在差距。
 
 0.6.1 架构进展：无 Electron 的 conversation/tasks/workspace/recovery 服务已拆出，IPC/审批为独立适配器，Markdown/任务视图为纯函数。Web/桌面尚未统一业务核心；持久队列/MCP/Office/原生签名仍待完成。详见 ARCHITECTURE.md。
