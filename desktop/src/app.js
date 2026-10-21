@@ -1,6 +1,6 @@
-import { escape, rich } from './ui/markdown.js';
+import { escape, rich, htmlPreview } from './ui/markdown.js';
 import * as views from './ui/workspace.js';
-function viewContext() { return { state, chatId, pending, previewTabs, previewId, previewSource, previewZoom, sideTab, icon, composer, action, date, taskStatus, trace, executionRecords, executionRow }; }
+function viewContext() { return { state, chatId, pending, previewTabs, previewId, previewSource, previewZoom, sideTab, icon, composer, action, date, taskStatus, trace, executionRecords, executionRow, rich, htmlPreview, previewHtml }; }
 const api = window.actwill;
 const browserTargets = new Map();
 const $ = s => document.querySelector(s);
@@ -8,63 +8,86 @@ const paths = { spark: 'm12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5
 const icon = (name) => `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${paths[name] || paths.spark}"/></svg>`;
 let state = { chats: [], folders: [], memories: [], agents: [], tasks: [], artifacts: [], activity: [], settings: { model: '尚未配置', name: '我的工作空间' } }, page = 'home', chatId = '', agentId = 'assistant', files = [], pending = false, folderId = '', fileResults = [], fileTruncated = false, searchTerm = '', draft = '', toolsEnabled = true, activeCommand = '', toolDraft = { url: 'https://example.com', executable: 'node', args: '["--version"]', folderId: '', relative: '' };
 const nav = [['home', 'chat', '工作台'], ['feed', 'activity', '动态'], ['library', 'grid', '成果中心'], ['files', 'folder', '本地文件'], ['agents', 'agent', '智能体'], ['tools', 'activity', '浏览器与 CLI'], ['tasks', 'clock', '自动化'], ['context', 'spark', '我的记忆']];
-let sidebarCollapsed = false, sidePanel = false, sideTab = 'preview', previewId = '', previewTabs = [], previewSource = false, previewZoom = 100, recentQuery = '', pickerKind = '', pickerItems = [], pickerIndex = 0, pickerSerial = 0;
+let sidebarCollapsed = false, sidePanel = false, sideTab = 'preview', previewId = '', previewTabs = [], previewSource = false, previewHtml = false, previewZoom = 100, recentQuery = '', pickerKind = '', pickerItems = [], pickerIndex = 0, pickerSerial = 0;
 const openedDetails = new Set();
 const taskWorkspaces = new Map();
 function switchChat(next) { taskWorkspaces.set(chatId, { previewTabs, previewId, sidePanel, sideTab }); const saved = taskWorkspaces.get(next); previewTabs = saved?.previewTabs || []; previewId = saved?.previewId || ''; sidePanel = saved?.sidePanel || false; sideTab = saved?.sideTab || 'preview'; chatId = next; closePicker(); }
 const toolNames = { cli_execute: '运行命令', browser_open: '打开网页', browser_read: '读取网页正文', browser_snapshot: '检查页面元素', browser_click: '点击页面元素', browser_fill: '填写文本框' };
 const statusNames = { pending_approval: '等待你确认', running: '执行中', succeeded: '已完成', completed: '已完成', opened: '已打开', read: '已读取', inspected: '已检查', clicked: '已发送点击', filled: '已填写', failed: '失败', denied: '已拒绝', cancelled: '已取消', interrupted: '已中断' };
-function taskStatus(c) { if (c.run)
-    return statusNames[c.run.status] || '待查看'; return c.messages?.at(-1)?.error ? '失败' : c.messages?.some(m => m.role === 'assistant') ? '已完成' : '待继续'; }
+function taskStatus(c) {
+    if (c.run)
+        return statusNames[c.run.status] || '待查看';
+    return c.messages?.at(-1)?.error ? '失败' : c.messages?.some(m => m.role === 'assistant') ? '已完成' : '待继续';
+}
 function recentRows() { return [...state.chats].sort((a, b) => (b.time || 0) - (a.time || 0)).filter(c => c.name.toLowerCase().includes(recentQuery.toLowerCase())).slice(0, 40).map(c => `<button class="${chatId === c.id && page === 'chat' ? 'selected' : ''}" data-action="openChat" data-id="${escape(c.id)}" title="${escape(c.name)} · ${taskStatus(c)}"><span class="recent-name">${escape(c.name)}</span><small class="${c.run?.status === 'running' ? 'live' : ''}">${c.run?.status === 'running' ? '执行中' : date(c.time || 0)}</small></button>`).join('') || '<p>还没有任务。从一个具体目标开始。</p>'; }
 function executionRecords(runId) { return (state.executions || []).filter(r => r.chatId === chatId && (!runId || r.runId === runId)).slice().reverse(); }
 function executionRow(r) { const output = r.tool === 'cli_execute' ? [r.partial || r.result?.stdout || '', r.result?.stderr ? 'stderr:\n' + r.result.stderr : '', r.result?.error || '', r.result?.exitCode !== undefined ? '退出码：' + r.result.exitCode : ''].filter(Boolean).join('\n') : JSON.stringify(r.result || {}, null, 2); return `<details class="execution-step" data-detail="${escape(r.id)}" ${openedDetails.has(r.id) ? 'open' : ''}><summary>${icon(r.tool === 'cli_execute' ? 'activity' : 'link')}<span>${toolNames[r.tool] || escape(r.tool)}</span><span class="step-status ${['failed', 'denied', 'cancelled', 'interrupted'].includes(r.status) ? 'issue' : ''}">${escape(statusNames[r.status] || r.status)}</span><span class="step-time">${r.finishedAt ? ((r.finishedAt - r.time) / 1000).toFixed(1) + 's' : date(r.time)}</span></summary><div class="step-detail"><b>实际参数</b><pre>${escape(JSON.stringify(r.command || r.receipt || r.args, null, 2))}</pre>${output && output !== '{}' ? `<b>执行结果</b><pre>${escape(output)}</pre>` : ''}${r.status === 'pending_approval' ? '<p>请在系统确认窗口核对目标与参数；此处不能代替原生授权。</p>' : ''}</div></details>`; }
 function trace(runId) { const rows = executionRecords(runId); return rows.length ? `<section class="run-trace" aria-label="实际执行过程"><div class="trace-label">${icon('activity')}执行过程 · ${rows.length} 步</div>${rows.map(executionRow).join('')}</section>` : ''; }
-function openPreview(item) { const existing = previewTabs.find(t => t.id === item.id); if (existing)
-    Object.assign(existing, item);
-else {
-    previewTabs.push(item);
-    if (previewTabs.length > 8)
-        previewTabs.shift();
-} previewId = item.id; sidePanel = true; sideTab = 'preview'; previewSource = false; render(); }
+function openPreview(item) {
+    const existing = previewTabs.find(t => t.id === item.id);
+    if (existing)
+        Object.assign(existing, item);
+    else {
+        previewTabs.push(item);
+        if (previewTabs.length > 8)
+            previewTabs.shift();
+    }
+    previewId = item.id;
+    sidePanel = true;
+    sideTab = 'preview';
+    previewSource = false;
+    previewHtml = false;
+    render();
+}
 function previewPanel() { return views.previewPanel(viewContext()); }
 function toast(message) { $('#toast').textContent = message; $('#toast').style.display = 'block'; clearTimeout(toast.timer); toast.timer = setTimeout(() => $('#toast').style.display = 'none', 4500); }
-async function invoke(name, payload) { if (!api)
-    throw new Error('当前为界面预览。请通过 npm start 启动桌面应用以使用此功能。'); return api[name](payload); }
-async function update(name, payload) { state = await invoke(name, payload); render(); return state; }
+async function invoke(name, payload) {
+    if (!api)
+        throw new Error('当前为界面预览。请通过 npm start 启动桌面应用以使用此功能。');
+    return api[name](payload);
+}
+async function update(name, payload) { applyState(await invoke(name, payload)); render(); return state; }
 function action(label, act, id = '', kind = 'secondary') { return `<button type="button" class="${kind}" data-action="${act}" data-id="${escape(id)}">${label}</button>`; }
 function empty(title, desc, button = '') { return `<div class="empty">${icon('spark')}<h3>${title}</h3><p>${desc}</p>${button}</div>`; }
 function heading(kicker, title, desc, button = '') { return `<div class="page-title"><div><div class="eyebrow">${kicker}</div><h1>${title}</h1><p>${desc}</p></div>${button}</div>`; }
 function date(t) { return new Date(t).toLocaleString('zh-CN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }); }
+const boundComposers=new WeakSet();
 function render() {
+    const previousComposer=$('#prompt');
     const oldScroll = $('.messages-scroll'), scrollTop = oldScroll?.scrollTop || 0, stick = !oldScroll || oldScroll.scrollHeight - oldScroll.scrollTop - oldScroll.clientHeight < 90;
     const focused = document.activeElement?.id, selection = focused === 'prompt' ? [$('#prompt').selectionStart, $('#prompt').selectionEnd] : null;
     const active = nav.find(n => n[0] === page);
     const name = state.settings.name || '我的工作空间';
     $('#app').className = sidebarCollapsed ? 'sidebar-collapsed' : '';
     $('#app').innerHTML = `<div class="titlebar"></div><aside class="sidebar"><div class="brand"><span class="brand-mark"><img src="assets/logo.png" alt="WillBuddy 工具 logo"></span><div>WillBuddy<small>你的桌面工作伙伴</small></div></div><button class="new" data-action="new">${icon('plus')}<span>新建任务</span><span>⌘ N</span></button><nav class="nav">${nav.filter(n => ['home', 'feed', 'library', 'files', 'agents'].includes(n[0])).map(([id, i, title]) => `<button class="${page === id ? 'active' : ''}" data-page="${id}">${icon(i)}<span>${title}</span></button>`).join('')}<details class="more-nav" ${['tools', 'tasks', 'context'].includes(page) ? 'open' : ''}><summary>${icon('grid')}<span>更多工具</span></summary>${nav.filter(n => ['tools', 'tasks', 'context'].includes(n[0])).map(([id, i, title]) => `<button class="${page === id ? 'active' : ''}" data-page="${id}">${icon(i)}<span>${title}</span></button>`).join('')}</details></nav><div class="recent"><div class="recent-header"><span>任务 <small>${state.chats.length}</small></span><button data-action="search" aria-label="搜索任务与成果">${icon('search')}</button></div><input id="recentQuery" aria-label="筛选历史任务" placeholder="筛选任务" value="${escape(recentQuery)}"><div id="recentList">${recentRows()}</div></div><button class="profile" data-action="settings"><div class="avatar">WB</div><div>${escape(name)}<small>${escape(state.settings.model)} · 本地工作空间</small></div>${icon('settings')}</button></aside><main class="main"><header class="topbar"><div><button class="icon-button" data-action="sidebarToggle" aria-label="${sidebarCollapsed ? '展开' : '收起'}侧栏">${icon('grid')}</button><span class="topbar-title">${escape(page === 'chat' ? state.chats.find(c => c.id === chatId)?.name || '新任务' : active?.[2] || '工作台')}</span></div><div>${page === 'chat' ? `<button class="topbar-action" data-action="panelTab" data-id="execution">${icon('activity')}执行过程</button>` : ''}<button class="topbar-action ${sidePanel ? 'chosen' : ''}" data-action="panelToggle">${icon('file')}工作区</button><button class="status" data-action="settings"><span class="dot ${state.settings.hasKey ? 'on' : ''}"></span>${state.settings.hasKey ? escape(state.settings.model) : '连接模型'}</button></div></header><div class="workbench ${sidePanel ? 'with-panel' : ''}"><div class="workspace ${page === 'chat' ? 'conversation-space' : ''}">${content()}</div>${sidePanel ? previewPanel() : ''}</div></main>`;
+    if(previousComposer&&$('#prompt'))$('#prompt').replaceWith(previousComposer);
     const composer = $('#prompt');
-    if (composer) {
-        composer.value = draft;
+    if(composer&&composer.value!==draft)composer.value=draft;
+    if (composer&&!boundComposers.has(composer)) {
+        boundComposers.add(composer);
         composer.addEventListener('input', () => { draft = composer.value; updatePicker(); });
-        composer.addEventListener('keydown', e => { if (e.isComposing)
-            return; if (pickerKind && ['ArrowDown', 'ArrowUp', 'Enter', 'Escape'].includes(e.key)) {
-            e.preventDefault();
-            if (e.key === 'Escape') {
-                closePicker();
+        composer.addEventListener('keydown', e => {
+            if (e.isComposing)
+                return;
+            if (pickerKind && ['ArrowDown', 'ArrowUp', 'Enter', 'Escape'].includes(e.key)) {
+                e.preventDefault();
+                if (e.key === 'Escape') {
+                    closePicker();
+                    return;
+                }
+                if (e.key === 'Enter') {
+                    choosePicker(pickerIndex).catch(e => toast(e.message));
+                    return;
+                }
+                pickerIndex = (pickerIndex + (e.key === 'ArrowDown' ? 1 : -1) + Math.max(1, pickerItems.length)) % Math.max(1, pickerItems.length);
+                paintPicker();
                 return;
             }
-            if (e.key === 'Enter') {
-                choosePicker(pickerIndex).catch(e => toast(e.message));
-                return;
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                send();
             }
-            pickerIndex = (pickerIndex + (e.key === 'ArrowDown' ? 1 : -1) + Math.max(1, pickerItems.length)) % Math.max(1, pickerItems.length);
-            paintPicker();
-            return;
-        } if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            send();
-        } });
+        });
     }
     $('#recentQuery')?.addEventListener('input', e => { recentQuery = e.target.value; $('#recentList').innerHTML = recentRows(); });
     $('#toolMode')?.addEventListener('change', e => { toolsEnabled = e.target.checked; });
@@ -72,10 +95,12 @@ function render() {
         $('#tool-' + name)?.addEventListener('input', e => { toolDraft[name] = e.target.value; });
     $('#agent')?.addEventListener('change', e => agentId = e.target.value);
     $('#folderSelect')?.addEventListener('change', e => { folderId = e.target.value; loadFiles(); });
-    $('#fileQuery')?.addEventListener('keydown', e => { if (e.key === 'Enter') {
-        searchTerm = e.target.value;
-        loadFiles();
-    } });
+    $('#fileQuery')?.addEventListener('keydown', e => {
+        if (e.key === 'Enter') {
+            searchTerm = e.target.value;
+            loadFiles();
+        }
+    });
     const scroller = $('.messages-scroll');
     if (scroller)
         scroller.scrollTop = stick ? scroller.scrollHeight : scrollTop;
@@ -90,41 +115,75 @@ function render() {
 function composer() { return `<div class="composer-dock"><div class="composer"><div id="inlinePicker" class="inline-picker" hidden role="listbox" aria-label="选择上下文或智能体"></div><div class="chips">${files.map((f, i) => `<span class="attachment-chip">${icon('file')}<button data-action="attachedPreview" data-id="${i}">${escape(f.name)}</button><button data-action="detach" data-id="${i}" aria-label="移除 ${escape(f.name)}">×</button></span>`).join('')}</div><textarea id="prompt" aria-label="任务描述" placeholder="描述你想完成的任务，@ 添加资料，/ 选择智能体" maxlength="20000"></textarea><div class="composer-tools"><div><button class="icon-button" data-action="attach" aria-label="附加本地文件">${icon('plus')}</button><button class="context-button" data-action="contextPicker">@ 资料</button><select id="agent" aria-label="选择智能体">${state.agents.map(a => `<option value="${escape(a.id)}" ${a.id === agentId ? 'selected' : ''}>${escape(a.name)}</option>`).join('') || '<option>WillBuddy 助手</option>'}</select></div><div>${pending ? `<button class="send stopping" data-action="stop" aria-label="停止生成">${icon('stop')}</button>` : `<button class="send" data-action="send" aria-label="发送任务">${icon('up')}</button>`}</div></div><div class="tool-switch"><label><input id="toolMode" type="checkbox" ${toolsEnabled ? 'checked' : ''} ${pending ? 'disabled' : ''}>浏览器与 CLI · 每次确认</label><button data-page="tools">工具台 ↗</button></div></div><div class="hint"><span>Enter 发送 · Shift Enter 换行</span><span>附加资料将发送给所选模型</span></div></div>`; }
 function homeContent() { return views.homeContent(viewContext()); }
 function conversationContent() { return views.conversationContent(viewContext()); }
-function closePicker() { pickerKind = ''; pickerItems = []; pickerSerial++; const node = $('#inlinePicker'); if (node)
-    node.hidden = true; }
-function paintPicker() { const node = $('#inlinePicker'); if (!node)
-    return; node.hidden = !pickerKind; node.innerHTML = `<div class="picker-title">${pickerKind === '/' ? '选择已有智能体' : '附加授权目录中的资料'}<small>↑ ↓ 选择 · Enter 确认 · Esc 关闭</small></div>${pickerItems.map((t, i) => `<button role="option" aria-selected="${i === pickerIndex}" data-action="pickerChoose" data-id="${i}">${icon(pickerKind === '/' ? 'agent' : 'file')}<span>${escape(t.name)}<small>${escape(t.description || t.relative || '')}</small></span></button>`).join('') || `<p>${pickerKind === '/' ? '没有匹配的智能体' : '没有匹配的文本文件，可在本地文件页授权目录'}</p>`}${pickerKind === '@' ? '<button class="picker-browse" data-page="files">浏览已授权文件夹 ↗</button>' : ''}`; }
-async function updatePicker(force) { const node = $('#prompt'); if (!node)
-    return; const token = draft.slice(0, node.selectionStart).match(/(?:^|\s)([@/])([^\s]*)$/); const kind = force || token?.[1]; if (!kind) {
-    closePicker();
-    return;
-} const query = force ? '' : token[2], serial = ++pickerSerial; pickerKind = kind; pickerIndex = 0; if (kind === '/') {
-    pickerItems = state.agents.filter(a => a.name.toLowerCase().includes(query.toLowerCase())).slice(0, 8);
-    paintPicker();
-    return;
-} pickerItems = []; paintPicker(); try {
-    const groups = await Promise.all(state.folders.slice(0, 5).map(f => invoke('listFiles', { id: f.id, query })));
-    if (serial !== pickerSerial)
-        return;
-    pickerItems = groups.flatMap(g => g.files || []).filter(f => !files.some(a => a.folderId === f.folderId && a.relative === f.relative)).slice(0, 10);
-    paintPicker();
+function closePicker() {
+    pickerKind = '';
+    pickerItems = [];
+    pickerSerial++;
+    const node = $('#inlinePicker');
+    if (node)
+        node.hidden = true;
 }
-catch (e) {
-    if (serial === pickerSerial) {
+function paintPicker() {
+    const node = $('#inlinePicker');
+    if (!node)
+        return;
+    node.hidden = !pickerKind;
+    node.innerHTML = `<div class="picker-title">${pickerKind === '/' ? '选择已有智能体' : '附加授权目录中的资料'}<small>↑ ↓ 选择 · Enter 确认 · Esc 关闭</small></div>${pickerItems.map((t, i) => `<button role="option" aria-selected="${i === pickerIndex}" data-action="pickerChoose" data-id="${i}">${icon(pickerKind === '/' ? 'agent' : 'file')}<span>${escape(t.name)}<small>${escape(t.description || t.relative || '')}</small></span></button>`).join('') || `<p>${pickerKind === '/' ? '没有匹配的智能体' : '没有匹配的文本文件，可在本地文件页授权目录'}</p>`}${pickerKind === '@' ? '<button class="picker-browse" data-page="files">浏览已授权文件夹 ↗</button>' : ''}`;
+}
+async function updatePicker(force) {
+    const node = $('#prompt');
+    if (!node)
+        return;
+    const token = draft.slice(0, node.selectionStart).match(/(?:^|\s)([@/])([^\s]*)$/);
+    const kind = force || token?.[1];
+    if (!kind) {
         closePicker();
-        toast(e.message);
+        return;
     }
-} }
-async function choosePicker(index) { const item = pickerItems[index]; if (!item)
-    return; const kind = pickerKind, node = $('#prompt'), at = node?.selectionStart ?? draft.length; const prefix = draft.slice(0, at); if (kind === '/')
-    agentId = item.id;
-else {
-    if (files.length >= 5)
-        throw new Error('每次最多附加 5 个文件');
-    const f = await invoke('readFile', { folderId: item.folderId, relative: item.relative });
-    if (!files.some(a => a.folderId === f.folderId && a.relative === f.relative))
-        files.push(f);
-} draft = prefix.replace(/(^|\s)[@/][^\s]*$/, '$1') + draft.slice(at); closePicker(); render(); $('#prompt')?.focus(); }
+    const query = force ? '' : token[2], serial = ++pickerSerial;
+    pickerKind = kind;
+    pickerIndex = 0;
+    if (kind === '/') {
+        pickerItems = state.agents.filter(a => a.name.toLowerCase().includes(query.toLowerCase())).slice(0, 8);
+        paintPicker();
+        return;
+    }
+    pickerItems = [];
+    paintPicker();
+    try {
+        const groups = await Promise.all(state.folders.slice(0, 5).map(f => invoke('listFiles', { id: f.id, query })));
+        if (serial !== pickerSerial)
+            return;
+        pickerItems = groups.flatMap(g => g.files || []).filter(f => !files.some(a => a.folderId === f.folderId && a.relative === f.relative)).slice(0, 10);
+        paintPicker();
+    }
+    catch (e) {
+        if (serial === pickerSerial) {
+            closePicker();
+            toast(e.message);
+        }
+    }
+}
+async function choosePicker(index) {
+    const item = pickerItems[index];
+    if (!item)
+        return;
+    const kind = pickerKind, node = $('#prompt'), at = node?.selectionStart ?? draft.length;
+    const prefix = draft.slice(0, at);
+    if (kind === '/')
+        agentId = item.id;
+    else {
+        if (files.length >= 5)
+            throw new Error('每次最多附加 5 个文件');
+        const f = await invoke('readFile', { folderId: item.folderId, relative: item.relative });
+        if (!files.some(a => a.folderId === f.folderId && a.relative === f.relative))
+            files.push(f);
+    }
+    draft = prefix.replace(/(^|\s)[@/][^\s]*$/, '$1') + draft.slice(at);
+    closePicker();
+    render();
+    $('#prompt')?.focus();
+}
 function content() {
     if (page === 'home')
         return homeContent();
@@ -149,49 +208,83 @@ function content() {
         return `<div class="page">${heading('YOUR FEED', '每一步，都有迹可循。', '查看本机产生的对话、文件授权、任务执行与导出记录。', action('刷新', 'refresh'))}${state.activity.length ? state.activity.map(a => `<div class="activity-row">${icon('activity')}<div>${escape(a.title)}<small>${escape(a.detail)}</small></div><span class="meta">${date(a.time)}</span></div>`).join('') : empty('工作空间已准备好', '连接模型、授权一个文件夹，或开始第一次对话。')}</div>`;
     return '';
 }
-function modal(title, body, submit, handler) { const d = $('#modal'); d.innerHTML = `<form method="dialog"><header><h2>${escape(title)}</h2><button class="icon-button" value="cancel" aria-label="关闭">${icon('close')}</button></header>${body}<footer><button value="cancel" class="secondary">关闭</button>${submit ? `<button type="button" id="modalSubmit" class="primary">${submit}</button>` : ''}</footer></form>`; if (!d.open)
-    d.showModal(); if (handler)
-    $('#modalSubmit').onclick = async () => { const button = $('#modalSubmit'); button.disabled = true; try {
-        await handler(new FormData(d.querySelector('form')));
-        d.close();
+function modal(title, body, submit, handler) {
+    const d = $('#modal');
+    d.innerHTML = `<form method="dialog"><header><h2>${escape(title)}</h2><button class="icon-button" value="cancel" aria-label="关闭">${icon('close')}</button></header>${body}<footer><button value="cancel" class="secondary">关闭</button>${submit ? `<button type="button" id="modalSubmit" class="primary">${submit}</button>` : ''}</footer></form>`;
+    if (!d.open)
+        d.showModal();
+    if (handler)
+        $('#modalSubmit').onclick = async () => {
+            const button = $('#modalSubmit');
+            button.disabled = true;
+            try {
+                await handler(new FormData(d.querySelector('form')));
+                d.close();
+            }
+            catch (e) {
+                toast(e.message);
+            }
+            finally {
+                button.disabled = false;
+            }
+        };
+}
+function input(label, name, value = '', type = 'text') { return `<label>${label}<input name="${name}" type="${type}" value="${escape(value)}" required></label>`; }
+function area(label, name, value = '') { return `<label>${label}<textarea name="${name}" required>${escape(value)}</textarea></label>`; }
+async function loadFiles() {
+    if (!state.folders.length) {
+        fileResults = [];
+        render();
+        return;
+    }
+    if (!state.folders.some(f => f.id === folderId))
+        folderId = state.folders[0].id;
+    const r = await invoke('listFiles', { id: folderId, query: searchTerm });
+    fileResults = r.files;
+    fileTruncated = r.truncated;
+    render();
+}
+async function send() {
+    if (pending || !draft.trim())
+        return;
+    if (!api) {
+        toast('请在桌面应用中配置模型后使用。');
+        return;
+    }
+    const prompt = draft;
+    const id = chatId || crypto.randomUUID();
+    const selected = [...files];
+    chatId = id;
+    page = 'chat';
+    pending = true;
+    draft = '';
+    files = [];
+    if (!state.chats.some(c => c.id === id))
+        state.chats.unshift({ id, name: prompt.slice(0, 36), messages: [] });
+    state.chats.find(c => c.id === id).messages.push({ role: 'user', content: prompt });
+    render();
+    try {
+        applyState(await invoke('chat', { id, prompt, agentId, toolsEnabled, files: selected.map(({ folderId, relative }) => ({ folderId, relative })) }));
     }
     catch (e) {
         toast(e.message);
+        applyState(await invoke('state'));
+        draft = prompt;
+        files = selected;
     }
     finally {
-        button.disabled = false;
-    } }; }
-function input(label, name, value = '', type = 'text') { return `<label>${label}<input name="${name}" type="${type}" value="${escape(value)}" required></label>`; }
-function area(label, name, value = '') { return `<label>${label}<textarea name="${name}" required>${escape(value)}</textarea></label>`; }
-async function loadFiles() { if (!state.folders.length) {
-    fileResults = [];
-    render();
-    return;
-} if (!state.folders.some(f => f.id === folderId))
-    folderId = state.folders[0].id; const r = await invoke('listFiles', { id: folderId, query: searchTerm }); fileResults = r.files; fileTruncated = r.truncated; render(); }
-async function send() { if (pending || !draft.trim())
-    return; if (!api) {
-    toast('请在桌面应用中配置模型后使用。');
-    return;
-} const prompt = draft; const id = chatId || crypto.randomUUID(); const selected = [...files]; chatId = id; page = 'chat'; pending = true; draft = ''; files = []; if (!state.chats.some(c => c.id === id))
-    state.chats.unshift({ id, name: prompt.slice(0, 36), messages: [] }); state.chats.find(c => c.id === id).messages.push({ role: 'user', content: prompt }); render(); try {
-    state = await invoke('chat', { id, prompt, agentId, toolsEnabled, files: selected.map(({ folderId, relative }) => ({ folderId, relative })) });
+        pending = false;
+        render();
+    }
 }
-catch (e) {
-    toast(e.message);
-    state = await invoke('state');
-    draft = prompt;
-    files = selected;
+async function navigate(next) {
+    page = next;
+    if (next === 'files') {
+        await loadFiles();
+    }
+    else
+        render();
 }
-finally {
-    pending = false;
-    render();
-} }
-async function navigate(next) { page = next; if (next === 'files') {
-    await loadFiles();
-}
-else
-    render(); }
 async function handle(actionId, id) {
     if (actionId === 'sidebarToggle') {
         sidebarCollapsed = !sidebarCollapsed;
@@ -224,6 +317,12 @@ async function handle(actionId, id) {
         previewTabs = previewTabs.filter(t => t.id !== id);
         if (previewId === id)
             previewId = previewTabs[Math.max(0, index - 1)]?.id || previewTabs.at(-1)?.id || '';
+        render();
+        return;
+    }
+    if (actionId === 'previewHtml') {
+        previewHtml = !previewHtml;
+        previewSource = false;
         render();
         return;
     }
@@ -306,8 +405,15 @@ async function handle(actionId, id) {
         if (!target)
             throw new Error('元素快照已失效，请重新检查');
         const payload = { id: target.id, snapshotId: target.snapshotId, ref: target.ref, operation: actionId === 'browserFill' ? 'browser_fill' : 'browser_click' };
-        const run = async (text) => { const result = await invoke('browserAction', { ...payload, ...(text === undefined ? {} : { text }) }); if (result.error)
-            throw new Error(result.error); browserTargets.clear(); await update('state'); toast('浏览器操作：' + result.status + '；继续前请重新检查页面'); return result; };
+        const run = async (text) => {
+            const result = await invoke('browserAction', { ...payload, ...(text === undefined ? {} : { text }) });
+            if (result.error)
+                throw new Error(result.error);
+            browserTargets.clear();
+            await update('state');
+            toast('浏览器操作：' + result.status + '；继续前请重新检查页面');
+            return result;
+        };
         if (actionId === 'browserFill') {
             modal('填写：' + target.target.label, '<p>输入将替换该字段内容；不会自动提交。原生窗口会再次展示具体目标和文本。</p>' + area('输入文本', 'browserText'), '审阅并填写', async (f) => run(String(f.get('browserText') || '')));
         }
@@ -346,7 +452,7 @@ async function handle(actionId, id) {
         render();
         try {
             const result = await invoke('executeCommand', request);
-            state = await invoke('state');
+            applyState(await invoke('state'));
             toast('命令状态：' + result.status);
         }
         finally {
@@ -466,7 +572,7 @@ async function handle(actionId, id) {
         toast('任务开始执行，可稍后刷新状态');
         const result = invoke('runTask', { id });
         await new Promise(r => setTimeout(r, 150));
-        state = await invoke('state');
+        applyState(await invoke('state'));
         render();
         state = await result;
         render();
@@ -518,11 +624,14 @@ async function handle(actionId, id) {
     }
     const deleteMethods = { deleteArtifact: 'artifact', deleteTask: 'task', deleteMemory: 'memory', deleteAgent: 'agent', deleteChat: 'deleteChat' };
     if (deleteMethods[actionId]) {
-        modal('确认删除', '<p>此操作会从当前本地工作空间移除该项目。</p>', '删除', async () => { await update(deleteMethods[actionId], { id, remove: true }); if (actionId === 'deleteChat') {
-            chatId = '';
-            page = 'home';
-            render();
-        } });
+        modal('确认删除', '<p>此操作会从当前本地工作空间移除该项目。</p>', '删除', async () => {
+            await update(deleteMethods[actionId], { id, remove: true });
+            if (actionId === 'deleteChat') {
+                chatId = '';
+                page = 'home';
+                render();
+            }
+        });
         return;
     }
     if (actionId === 'search') {
@@ -531,44 +640,138 @@ async function handle(actionId, id) {
         return;
     }
 }
-document.addEventListener('click', async (e) => { const b = e.target.closest('button'); if (!b)
-    return; try {
-    if (b.dataset.searchResult)
-        $('#modal').close();
-    if (b.dataset.page)
-        await navigate(b.dataset.page);
-    else if (b.dataset.action)
-        await handle(b.dataset.action, b.dataset.id);
-}
-catch (err) {
-    toast(err.message);
-} });
-document.addEventListener('toggle', e => { const d = e.target; if (!d.matches?.('details[data-detail]') || !d.isConnected)
-    return; if (d.open)
-    openedDetails.add(d.dataset.detail);
-else
-    openedDetails.delete(d.dataset.detail); document.querySelectorAll('details[data-detail]').forEach(other => { if (other !== d && other.dataset.detail === d.dataset.detail && other.open !== d.open)
-    other.open = d.open; }); }, true);
-document.addEventListener('keydown', e => { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'n' && !$('#modal').open) {
-    e.preventDefault();
-    handle('new').catch(e => toast(e.message));
-} });
-async function boot() { try {
-    if (api) {
-        state = await invoke('state');
+document.addEventListener('click', async (e) => {
+    const b = e.target.closest('button');
+    if (!b)
+        return;
+    try {
+        if (b.dataset.searchResult)
+            $('#modal').close();
+        if (b.dataset.page)
+            await navigate(b.dataset.page);
+        else if (b.dataset.action)
+            await handle(b.dataset.action, b.dataset.id);
     }
-    render();
-}
-catch (e) {
-    $('#app').textContent = '工作空间加载失败：' + e.message;
-} }
-let runtimeTimer;
-api?.onRuntime?.(() => { clearTimeout(runtimeTimer); runtimeTimer = setTimeout(async () => { try {
-    state = await invoke('state');
-    if (!$('#modal').open && ['chat', 'tools'].includes(page))
+    catch (err) {
+        toast(err.message);
+    }
+});
+document.addEventListener('toggle', e => {
+    const d = e.target;
+    if (!d.matches?.('details[data-detail]') || !d.isConnected)
+        return;
+    if (d.open)
+        openedDetails.add(d.dataset.detail);
+    else
+        openedDetails.delete(d.dataset.detail);
+    document.querySelectorAll('details[data-detail]').forEach(other => {
+        if (other !== d && other.dataset.detail === d.dataset.detail && other.open !== d.open)
+            other.open = d.open;
+    });
+}, true);
+document.addEventListener('keydown', e => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'n' && !$('#modal').open) {
+        e.preventDefault();
+        handle('new').catch(e => toast(e.message));
+    }
+});
+async function boot() {
+    try {
+        if (api) {
+            applyState(await invoke('state'));
+        }
         render();
+    }
+    catch (e) {
+        $('#app').textContent = '工作空间加载失败：' + e.message;
+    }
 }
-catch (e) {
-    toast(e.message);
-} }, 120); });
+let runtimeTimer;
+api?.onRuntime?.(() => {
+    clearTimeout(runtimeTimer);
+    runtimeTimer = setTimeout(async () => {
+        try {
+            applyState(await invoke('state'));
+            if (!$('#modal').open && ['chat', 'tools'].includes(page))
+                render();
+        }
+        catch (e) {
+            toast(e.message);
+        }
+    }, 120);
+});
+const streamUpdates = new Map();
+const liveStreams = new Map();
+function applyState(next) {
+    for (let i = 0; i < next.chats.length; i++) {
+        const incoming = next.chats[i], previous = state.chats.find(c => c.id === incoming.id);
+        if (previous?.run && (previous.run.startedAt > (incoming.run?.startedAt || 0) || (previous.run.id === incoming.run?.id && previous.run.status !== 'running' && incoming.run.status === 'running')))
+            next.chats[i] = previous;
+    }
+    for (const [id, local] of liveStreams) {
+        const chat = next.chats.find(c => c.id === local.chatId);
+        if (!chat || chat.run?.id !== local.message.runId || chat.run.status !== 'running') {
+            liveStreams.delete(id);
+            continue;
+        }
+        const message = chat.messages.find(m => m.id === id);
+        if (message?.sequence >= local.message.sequence)
+            continue;
+        if (message)
+            Object.assign(message, local.message);
+        else
+            chat.messages.push({ ...local.message });
+    }
+    state = next;
+}
+let streamPaintTimer;
+api?.onStream?.(event => {
+    if (event?.version !== 1 || event.type !== 'text' || typeof event.content !== 'string' || event.content.length > 4 * 1024 * 1024 || !Number.isSafeInteger(event.sequence))
+        return;
+    const chat = state.chats.find(c => c.id === event.chatId);
+    if (!chat)
+        return;
+    if (chat.run?.id === event.runId && chat.run.status !== 'running')
+        return;
+    if (chat.run && chat.run.id !== event.runId && chat.run.startedAt >= event.startedAt)
+        return;
+    chat.run = { id: event.runId, status: 'running', startedAt: event.startedAt };
+    let message = chat.messages.find(m => m.id === event.messageId);
+    if (message && message.sequence >= event.sequence)
+        return;
+    if (!message) {
+        message = { id: event.messageId, role: 'assistant', content: '', runId: event.runId, time: event.time };
+        chat.messages.push(message);
+    }
+    Object.assign(message, { content: event.content, sequence: event.sequence, streaming: true, intermediate: true });
+    liveStreams.set(event.messageId, { chatId: event.chatId, message: { ...message } });
+    streamUpdates.set(event.messageId, message);
+    if (!streamPaintTimer)
+        streamPaintTimer = setTimeout(() => {
+            streamPaintTimer = undefined;
+            if (page !== 'chat' || $('#modal').open)
+                return;
+            const chat = state.chats.find(c => c.id === chatId);
+            let missing = false;
+            const scroller = $('.messages-scroll'), stick = !scroller || scroller.scrollHeight - scroller.scrollTop - scroller.clientHeight < 90;
+            for (const message of streamUpdates.values())
+                if (message.runId === chat?.run?.id && chat.run.status === 'running') {
+                    const node = [...document.querySelectorAll('[data-message-id]')].find(n => n.dataset.messageId === message.id);
+                    if (node) {
+                        node.querySelector('.message-content').innerHTML = rich(message.content);
+                        node.dataset.streaming = 'true';
+                    }
+                    else
+                        missing = true;
+                }
+            streamUpdates.clear();
+            if (missing)
+                render();
+            else if (stick && scroller)
+                scroller.scrollTop = scroller.scrollHeight;
+        }, 40);
+});
+document.addEventListener('click', event => { const link = event.target.closest('a.rendered-link'); if (!link)
+    return; event.preventDefault(); const url = link.getAttribute('href'); if (url && /^https?:\/\//i.test(url))
+    invoke('openBrowser', { url }).catch(error => toast(error.message)); });
 boot();
