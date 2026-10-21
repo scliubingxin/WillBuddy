@@ -1,0 +1,28 @@
+WillBuddy Apple 芯片版 · 免依赖离线应用包
+
+适用：Apple 芯片 M1/M2/M3/M4 等，macOS 12 或更新版本。此包不适用于 Intel Mac。
+
+推荐安装：
+1. 先将 ZIP 保存到“下载”或个人目录，双击用 Finder 的归档实用工具完整解压到一个新文件夹。
+2. 不要直接向 /Applications 解压，也不要覆盖解压到已有的 WillBuddy.app；Framework 依赖完整符号链接。
+3. 将解出的 WillBuddy.app 拖入“应用程序”文件夹。READ-ME、清单和许可证留在下载目录，无需拖入应用程序。
+也可双击 Install-WillBuddy.command，确认后安装到当前用户的 ~/Applications。
+升级前请从应用菜单彻底退出旧版；仅关闭窗口不等于退出。
+
+不需要 Node.js、npm、pnpm，不执行在线依赖安装，也不需要开发工具。
+模型请求需要互联网或你已启动的本地模型服务。
+
+签名与首次启动：
+本包已完成 ad-hoc 代码签名与静态完整性校验，但尚无 Apple Developer ID 签名或公证，未在 Mac 真机启动验收。
+macOS 首次打开可能阻止运行。请核对来源后在“系统设置 → 隐私与安全性”检查系统提示并选择“仍要打开”。
+不需要关闭系统安全功能。安装脚本不会移除隔离标记或绕过 Gatekeeper。
+如系统仍不允许打开，请保留准确错误提示反馈；不要直接删除用户配置。
+如果报告 a sealed resource is missing or invalid，这是完整性故障，不应当作普通首次运行提示继续；请保留日志并换用重新验证的包。
+此版构建会清理并拦截 .BC.T_*、.BC.D_*、AppleDouble 和临时签名副本，严格拒绝 ZIP 中的额外条目、重复路径和损坏的链接/执行位。
+
+数据与外部工具：
+升级沿用原数据和密钥位置；卸载应用本体不会自动删除历史对话。
+Git、Python、Codex、Ollama 等外部 CLI/服务需在本机另行安装，它们不是桌面主程序的启动依赖。
+原 Python Office 执行器、LibreOffice、Poppler 和 Docker 未内置；本包不宣称该外部 Office 工具链可离线免安装使用。
+
+OFFLINE-MANIFEST.json 记录运行时校验值、应用逐文件哈希、执行位与符号链接。除指定的说明/安装/许可证/清单文件外，包内不允许多出任何文件。
