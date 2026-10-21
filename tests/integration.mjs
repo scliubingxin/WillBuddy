@@ -1,0 +1,168 @@
+import {DatabaseSync} from 'node:sqlite';
+import {createRequire} from 'node:module';
+import {readFileSync,mkdtempSync,rmSync,readdirSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join,resolve} from 'node:path';
+import assert from 'node:assert/strict';
+const require=createRequire(import.meta.url);
+const viteRequire=createRequire(require.resolve('vite/package.json'));
+const {build}=viteRequire('esbuild');
+const temp=mkdtempSync(join(tmpdir(),'zhixing-tests-'));
+const sqlite=new DatabaseSync(':memory:');
+for(const name of readdirSync('drizzle').filter(n=>n.endsWith('.sql')).sort())sqlite.exec(readFileSync('drizzle/'+name,'utf8'));
+const db={prepare(sql){const stmt=sqlite.prepare(sql);return {bind(...values){return {async first(){return stmt.get(...values)||null},async all(){return {results:stmt.all(...values)}},async run(){const r=stmt.run(...values);return {success:true,meta:{changes:Number(r.changes)}}}}}}},async batch(stmts){sqlite.exec('BEGIN');try{const results=[];for(const s of stmts)results.push(await s.run());sqlite.exec('COMMIT');return results}catch(e){sqlite.exec('ROLLBACK');throw e}}};
+const files=new Map();
+globalThis.TEST_ENV={DB:db,VAULT_MASTER_KEY:btoa(String.fromCharCode(...crypto.getRandomValues(new Uint8Array(32)))),BUCKET:{async put(k,t){files.set(k,t)},async get(k){return files.has(k)?{body:files.get(k),text:async()=>String(files.get(k))}:null},async delete(k){files.delete(k)}}};
+const workerPlugin={name:'test-env',setup(b){b.onResolve({filter:/^cloudflare:workers$/},()=>({path:'test-env',namespace:'test'}));b.onLoad({filter:/.*/,namespace:'test'},()=>({contents:'export const env=globalThis.TEST_ENV;',loader:'js'}));b.onResolve({filter:/^@\//},args=>({path:resolve(args.path.replace(/^@\//,''))+'.ts'}));}};
+await build({entryPoints:{workspace:'app/api/workspace/route.ts',documents:'app/api/documents/route.ts',chat:'app/api/chat/route.ts',chatExport:'app/api/chat-export/route.ts',artifactFile:'app/api/artifact-file/route.ts',documentTool:'app/api/document-tool/route.ts',model:'lib/model.ts',data:'app/api/data/route.ts',vault:'app/api/vault/route.ts',versions:'app/api/versions/route.ts',appData:'app/api/app-data/route.ts',integrations:'app/api/integrations/route.ts',research:'app/api/research/route.ts',jobs:'app/api/jobs/route.ts',engine:'lib/data-engine.ts',jobEngine:'lib/job-engine.ts',connect:'lib/integrations.ts',slides:'lib/slides.ts',fileTools:'lib/file-tools.ts',office:'lib/office-content.ts'},external:['pdfjs-dist'],outdir:temp,bundle:true,format:'esm',platform:'node',plugins:[workerPlugin],logLevel:'silent'});
+const workspace=await import(join(temp,'workspace.js'));
+const documents=await import(join(temp,'documents.js'));
+const chat=await import(join(temp,'chat.js'));
+const model=await import(join(temp,'model.js'));
+const modules=Object.fromEntries(await Promise.all(['chatExport','artifactFile','documentTool','data','vault','versions','appData','integrations','research','jobs','engine','jobEngine','connect','slides','fileTools'].map(async n=>[n,await import(join(temp,n+'.js'))])));
+function req(path,body,user='user-a',method='POST'){const h={'content-type':'application/json','origin':'https://work.example.com'};if(user)h['oai-authenticated-user-id']=user;return new Request('https://work.example.com'+path,{method:body?method:'GET',headers:h,...body?{body:JSON.stringify(body)}:{}})}
+const save=(id,kind,data,user)=>workspace.POST(req('/api/workspace',{id,kind,data},user));
+let checks=0;function check(condition,message){assert.ok(condition,message);checks++;}
+try{
+ check((await workspace.GET(req('/api/workspace',null,''))).status===401,'missing identity blocked');
+ check((await save('profile-a','profile',{name:'Test model',baseUrl:'https://models.example.com/v1',model:'test-model',apiKey:'not-persisted'})).status===200,'profile saved');
+ const saved=JSON.parse(sqlite.prepare('SELECT data FROM records WHERE id=?').get('profile-a').data);
+ check(!('apiKey' in saved),'key excluded from database');
+ for(const url of ['http://models.example.com','https://127.0.0.1','https://[::1]','https://x.local','https://user:pass@example.com','https://example.com?key=abc']){assert.throws(()=>model.modelEndpoint(url));checks++;}
+ check(model.modelEndpoint('https://models.example.com/v1/')==='https://models.example.com/v1/chat/completions','compatible endpoint normalized');
+ await save('space-a','space',{name:'Manufacturing'});
+ let r=await documents.POST(req('/api/documents',{space:'space-a',name:'维修经验.txt',text:'一线员工使用口语描述设备故障。管理人员需要将维修经验转化为标准操作知识。不要编造专业术语。'}));
+ check(r.status===200,'document upload succeeds');const docId=(await r.json()).id;
+ check(files.size===1&&sqlite.prepare('SELECT count(*) n FROM chunks').get().n===1,'text stored and indexed');
+ check((await documents.POST(req('/api/documents',{space:'space-a',name:'other.txt',text:'cross tenant'},'user-b'))).status===400,'cross-user upload denied');
+ check((await documents.GET(new Request('https://work.example.com/api/documents?id='+docId,{headers:{'oai-authenticated-user-id':'user-b'}}))).status===400,'cross-user file access denied');
+ let outbound;
+ globalThis.fetch=async(url,opts)=>{outbound={url,opts,payload:JSON.parse(opts.body)};return Response.json({choices:[{message:{content:'可以将维修经验按现象、步骤、依据整理。[1]'},finish_reason:'stop'}],usage:{prompt_tokens:230,completion_tokens:45}})};
+ r=await chat.POST(req('/api/chat',{profileId:'profile-a',spaceId:'space-a',apiKey:'test-only-key',messages:[{role:'user',content:'如何整理维修经验？'}]}));
+ const reply=await r.json();check(r.status===200&&reply.sources.length>0,'chat grounds response in retrieved source');
+ check(reply.sources[0].retrieval.locator==='片段 1'&&reply.sources[0].retrieval.matchedTerms.includes('维修经验'),'chat returns one-based locator and matched terms');
+ check(reply.sources[0].excerpt.includes('维修经验')&&reply.sources[0].excerpt.length<=reply.sources[0].content.length+2,'chat returns focused evidence excerpt');
+ check(reply.citationAudit.status==='valid'&&reply.citationAudit.valid[0]===1,'chat validates citation numbers against provided evidence');
+ check(reply.events.find(e=>e.type==='knowledge')?.matches[0].locator==='片段 1','retrieval evidence is included in execution events');
+ check(outbound.payload.messages[0].content.includes('维修经验')&&outbound.opts.headers.Authorization==='Bearer test-only-key','provider gets system context and session key');
+ check(reply.usage.input===230&&reply.usage.output===45,'actual provider token usage returned');
+ check(sqlite.prepare('SELECT count(*) n FROM usage').get().n===1,'usage persisted');
+ check((await chat.POST(req('/api/chat',{profileId:'profile-a',apiKey:'test-only-key',messages:[{role:'user',content:'hello'}]},'user-b'))).status===400,'cross-user model access denied');
+ const stranger=await (await workspace.GET(req('/api/workspace',null,'user-b'))).json();check(stranger.records.length===0&&stranger.documents.length===0&&stranger.usage.length===0,'workspace isolation');
+ check(model.rankChunks([{name:'file',content:'苹果供应链'}],'维修经验').length===0,'no false fallback citations');
+ const long='ABCDE'.repeat(1000),parts=model.splitDocument(long);check(parts.join('').includes('ABCDE')&&parts.at(-1).endsWith(long.slice(-50)),'chunking preserves document tail');
+ globalThis.fetch=async()=>new Response('secret provider detail',{status:401});
+ r=await chat.POST(req('/api/chat',{profileId:'profile-a',apiKey:'bad-key',messages:[{role:'user',content:'hello'}]}));
+ const err=await r.json();check(r.status===400&&err.error.includes('鉴权')&&!err.error.includes('secret'),'provider failure safely reported');
+ globalThis.fetch=async()=>Response.json({choices:[{message:{content:'partial'},finish_reason:'length'}]});
+ r=await chat.POST(req('/api/chat',{profileId:'profile-a',apiKey:'key',messages:[{role:'user',content:'hello'}]}));const partial=await r.json();check(partial.truncated&&partial.usage.input===null,'truncation and missing usage explicit');check(partial.citationAudit.status==='none','answer without citations is labelled without inventing evidence');
+ globalThis.fetch=async()=>Response.json({choices:[{message:{content:'维修经验应结构化。[9]'},finish_reason:'stop'}]});
+ r=await chat.POST(req('/api/chat',{profileId:'profile-a',spaceId:'space-a',apiKey:'key',messages:[{role:'user',content:'维修经验'}]}));const invalidCitation=await r.json();check(invalidCitation.citationAudit.status==='invalid'&&invalidCitation.citationAudit.invalid[0]===9,'chat flags a model citation outside the supplied source list');check(invalidCitation.events.at(-1).type==='citation_warning','invalid citation emits a visible execution warning');
+ check((await workspace.DELETE(new Request('https://work.example.com/api/workspace?id=space-a',{method:'DELETE',headers:{'oai-authenticated-user-id':'user-a'}}))).status===400,'nonempty space deletion blocked');
+ r=await documents.DELETE(new Request('https://work.example.com/api/documents?id='+docId,{method:'DELETE',headers:{'oai-authenticated-user-id':'user-a'}}));
+ check(r.status===200&&files.size===0&&sqlite.prepare('SELECT count(*) n FROM chunks').get().n===0,'document deletion removes object and chunks');
+ check((await workspace.POST(new Request('https://work.example.com/api/workspace',{method:'POST',headers:{'oai-authenticated-user-id':'user-a',origin:'https://evil.example'},body:'{}'}))).status===400,'foreign-origin writes denied');
+ // Encryption, owned-resource access, data arithmetic, version snapshots and durable jobs.
+ let d;const call=async(module,payload,user='user-a')=>{const r=await modules[module].POST(req('/api/'+module,payload,user));return {status:r.status,data:await r.json()}};
+ d=await call('vault',{id:'profile-a',key:'persisted-secret'});check(d.status===200,'vault saves credential');
+ const sealed=sqlite.prepare('SELECT sealed FROM vault').get().sealed;check(!sealed.includes('persisted-secret'),'vault ciphertext excludes plaintext');
+ check((await call('vault',{id:'profile-a',key:'foreign'},'user-b')).status===400,'foreign resource credential denied');
+ globalThis.fetch=async(url,opts)=>{outbound={url,opts,payload:JSON.parse(opts.body)};return Response.json({choices:[{message:{content:'vault response'},finish_reason:'stop'}]})};
+ r=await chat.POST(req('/api/chat',{profileId:'profile-a',messages:[{role:'user',content:'hello'}]}));check(r.status===200&&outbound.opts.headers.Authorization==='Bearer persisted-secret','vault credential used without client key');
+ const w=await(await workspace.GET(req('/api/workspace'))).json();check(w.vault.includes('profile-a')&&!JSON.stringify(w).includes('persisted-secret'),'workspace only exposes credential availability');
+ d=await call('data',{op:'import',name:'Sales',csv:'Region,Value,Note\nEast,10,"line one\nline two"\nEast,20,ok\nWest,5,ok\nWest,,empty\nWest,bad,invalid'});check(d.status===200&&d.data.rowCount===5,'quoted multiline CSV imports');const datasetId=d.data.id;
+ d=await call('data',{op:'analyze',id:datasetId,query:{group:'Region',metric:'Value',aggregate:'sum'}});check(d.data.data.find(x=>x.name==='East').value===30&&d.data.data.find(x=>x.name==='West').value===5,'sum ignores empty and invalid numbers');
+ d=await call('data',{op:'analyze',id:datasetId,query:{group:'Region',metric:'Value',aggregate:'avg',filterColumn:'Region',filterValue:'East'}});check(d.data.data[0].value===15&&d.data.filteredRows===2,'filter and average are computed from all matching rows');
+ check((await call('data',{op:'analyze',id:datasetId,query:{}},'user-b')).status===400,'dataset owner isolation');
+ // Import -> reopen -> spreadsheet-safe export -> reimport -> original unchanged.
+ const csvInput={columns:['备注','金额'],rows:[{备注:'=1+1',金额:-12.5},{备注:'中文,"引号"\n第二行',金额:20}]};
+ const csvCreated=await call('data',{op:'import',name:'CSV 安全验收（合成）',table:csvInput});
+ check(csvCreated.status===200,'CSV acceptance dataset imports through production API');
+ const csvReopened=await(await modules.data.GET(req('/api/data?id='+csvCreated.data.id))).json();
+ const csvProtected=modules.engine.toSpreadsheetCSV(csvReopened.columns,csvReopened.rows);
+ const csvImported=await call('data',{op:'import',name:'防护 CSV 再导入（合成）',csv:csvProtected.csv});
+ const csvFinal=await(await modules.data.GET(req('/api/data?id='+csvImported.data.id))).json();
+ check(csvProtected.protectedCells===1&&csvFinal.rows[0]['备注']==="'=1+1"&&csvFinal.rows[1]['备注']===csvInput.rows[1]['备注'],'safe export and reimport retain explicit text marker and multiline record');
+ const csvOriginal=await(await modules.data.GET(req('/api/data?id='+csvCreated.data.id))).json();
+ check(JSON.stringify(csvOriginal.rows)===JSON.stringify(csvInput.rows),'export does not alter persisted original dataset');
+ const csvSum=await call('data',{op:'analyze',id:csvImported.data.id,query:{metric:'金额',aggregate:'sum'}});
+ check(csvSum.data.data[0].value===7.5,'safe CSV numeric values remain usable for aggregation after reimport');
+ assert.throws(()=>modules.engine.parseCSV('A,B\n"unclosed'));checks++;
+ assert.throws(()=>modules.engine.parseCSV('A,B\n1,2,3'));checks++;
+ check(modules.engine.parseCSV('A,A\n1,2').columns.join(',')==='A,A_','duplicate CSV headers normalized');
+ await save('app-a','app',{name:'Notes app',html:'<h1>v1</h1>'});
+ check((await call('appData',{app:'app-a',op:'set',key:'items',value:[{text:'保存成功'}]})).status===200,'app data persists');
+ d=await call('appData',{app:'app-a',op:'get',key:'items'});check(d.data.value[0].text==='保存成功','app data read after separate request');
+ check((await call('appData',{app:'app-a',op:'get',key:'items'},'user-b')).status===400,'app data is owner isolated');
+ check((await call('appData',{app:'app-a',op:'set',key:'large',value:'x'.repeat(65000)})).status===400,'app single value limit');
+ d=await call('versions',{id:'app-a',op:'publish'});check(d.data.version===1,'first published snapshot');await save('app-a','app',{name:'Notes app',html:'<h1>v2</h1>',publishedVersion:1});
+ d=await call('versions',{id:'app-a',op:'restore',version:1});check(d.status===200&&JSON.parse(sqlite.prepare('SELECT data FROM records WHERE id=?').get('app-a').data).html==='<h1>v1</h1>','restore snapshot as draft');
+ const spec={openapi:'3.0.0',servers:[{url:'https://service.example.com/v1'}],paths:{'/items/{id}':{get:{operationId:'read',summary:'Read item',parameters:[{name:'id',in:'path',required:true},{name:'q',in:'query'}]}},'/items':{post:{operationId:'create',summary:'Create item'}}}};
+ d=await call('integrations',{op:'parse-openapi',spec});check(d.data.actions.length===2&&d.data.base==='https://service.example.com/v1','OpenAPI operations discovered');
+ await save('connector-a','connector',{name:'Test service',type:'openapi',baseUrl:d.data.base,actions:d.data.actions});let external=0;
+ globalThis.fetch=async(url,opts)=>{external++;outbound={url,opts};return Response.json({id:123,ok:true})};
+ d=await call('integrations',{op:'stage',id:'connector-a',action:'create',args:{body:{name:'test'}}});const approvalId=d.data.approvalId;check(d.status===200&&external===0,'staging never sends external request');
+ d=await call('integrations',{op:'execute',id:'connector-a',approvalId,apiKey:'connector-key'});check(d.data.result.id===123&&external===1&&JSON.parse(outbound.opts.body).name==='test','confirmed operation executes once with exact body');
+ check((await call('integrations',{op:'execute',id:'connector-a',approvalId})).status===400&&external===1,'duplicate approval cannot replay action');
+ d=await call('integrations',{op:'stage',id:'connector-a',action:'read',args:{id:'a/b',q:'中文'}});await call('integrations',{op:'execute',id:'connector-a',approvalId:d.data.approvalId});check(String(outbound.url).includes('a%2Fb')&&String(outbound.url).includes('q='),'REST path and query encoded');
+ // MCP initialization, session propagation and SSE matching.
+ const methods=[];globalThis.fetch=async(url,opts)=>{const b=JSON.parse(opts.body);methods.push(b.method);if(b.method==='initialize')return Response.json({jsonrpc:'2.0',id:b.id,result:{protocolVersion:'2025-03-26',capabilities:{tools:{}}}},{headers:{'Mcp-Session-Id':'session-1'}});check(opts.headers['Mcp-Session-Id']==='session-1','MCP session forwarded');if(b.method==='notifications/initialized')return new Response(null,{status:202});return new Response('event: message\ndata: '+JSON.stringify({jsonrpc:'2.0',method:'notifications/progress'})+'\n\ndata: '+JSON.stringify({jsonrpc:'2.0',id:b.id,result:{tools:[{name:'lookup',inputSchema:{type:'object'}}]}})+'\n\n',{headers:{'Content-Type':'text/event-stream'}})};
+ const mcp=await modules.connect.mcpCall('https://mcp.example.com/mcp','key','tools/list',{});check(mcp.tools[0].name==='lookup'&&methods.join(',')==='initialize,notifications/initialized,tools/list','MCP discovery handles SSE notifications and response');
+ // Research uses collected sources and appends a traceable bibliography.
+ await save('research-a','research',{name:'设备研究',goal:'设备维护',plan:{questions:['设备维护'],queries:['设备维护'],sections:['发现']},status:'planned'});
+ globalThis.fetch=async()=>new Response('<html><title>设备规范</title><script>do not index</script><p>设备维护需要记录检查结果。</p></html>',{headers:{'content-type':'text/html'}});
+ d=await call('research',{op:'gather',id:'research-a',urls:['https://docs.example.com/maintenance']});check(d.data.sources[0].name==='设备规范'&&!d.data.sources[0].content.includes('do not index'),'research collects actual webpage text');
+ globalThis.fetch=async(url,opts)=>{outbound=JSON.parse(opts.body);return Response.json({choices:[{message:{content:'维护应记录检查结果。[1]'},finish_reason:'stop'}]})};
+ d=await call('research',{op:'write',id:'research-a',profileId:'profile-a'});check(d.data.report.includes('https://docs.example.com/maintenance')&&outbound.messages.at(-1).content.includes('设备规范'),'research writes with provided evidence and bibliography');
+ const nodes=[{id:'start',type:'input'},{id:'branch',type:'condition',expression:'{{input}}',operator:'contains',value:'yes',then:'review',otherwise:'no'},{id:'no',type:'output',prompt:'rejected branch'},{id:'review',type:'approval',title:'Approve',prompt:'{{input}}'},{id:'end',type:'output',prompt:'{{step.start}}'}];
+ assert.throws(()=>modules.jobEngine.validateNodes([{id:'a',type:'condition',then:'a'}]));checks++;
+ const preflight=modules.jobEngine.inspectNodes([{id:'input',type:'input'},{id:'branch',type:'condition',expression:'{{input}}',then:'action',otherwise:'end'},{id:'unused',type:'output',prompt:'never'},{id:'action',type:'action',connectorId:'connector-a',actionId:'create',args:{body:{name:'{{step.input}}'}}}]);
+ check(preflight.valid&&preflight.summary.externalActions===1&&preflight.summary.humanApprovals===1&&preflight.summary.reachableSteps===3&&preflight.warnings.some(x=>x.code==='unreachable'),'workflow preflight summarizes reachability, side effects and approval boundaries');
+ const brokenPreflight=modules.jobEngine.inspectNodes([{id:'start',type:'input'},{id:'write',type:'action',prompt:'{{step.later}}'},{id:'later',type:'output',prompt:'{{unknown}}'}]);
+ check(!brokenPreflight.valid&&['missing_action','future_reference','unknown_template'].every(code=>brokenPreflight.errors.some(x=>x.code===code)),'workflow preflight rejects incomplete actions and unsafe template references');
+ d=await call('jobs',{op:'inspect',nodes});check(d.status===200&&d.data.valid&&d.data.boundaries.doesNotExecute&&d.data.boundaries.modelCalls===0,'workflow preflight API is authenticated and performs no execution or model call');
+ check((await call('jobs',{op:'inspect',nodes},'')).status===401,'workflow preflight API requires an authenticated user');
+ const substituted=modules.jobEngine.substituteValues({body:{text:'{{input}}'}},{input:'a"b\nc',outputs:[]});check(substituted.body.text==='a"b\nc','parameter substitution preserves quotes and newlines');
+ await save('auto-a','automation',{name:'Durable task',nodes});check((await call('jobs',{op:'create',resource:'auto-a',input:'yes'})).status===400,'unpublished flow blocked in published mode');
+ await call('versions',{id:'auto-a',op:'publish'});d=await call('jobs',{op:'create',resource:'auto-a',input:'yes'});const jobId=d.data.id;check(d.status===200&&d.data.status==='ready','published flow starts from snapshot');
+ d=await call('jobs',{op:'step',id:jobId});check(d.data.outputs[0].content==='yes'&&d.data.cursor===1,'first step checkpoint persisted');
+ d=await call('jobs',{op:'step',id:jobId});check(d.data.cursor===3,'condition jumps to correct forward node');
+ d=await call('jobs',{op:'step',id:jobId});check(d.data.status==='waiting'&&d.data.pending.content==='yes','human approval suspends execution');
+ d=await call('jobs',{op:'step',id:jobId});check(d.data.status==='waiting'&&d.data.cursor===3,'refresh cannot bypass approval');
+ d=await call('jobs',{op:'approve',id:jobId});check(d.data.status==='ready'&&d.data.cursor===4,'approval advances only once');
+ check((await call('jobs',{op:'approve',id:jobId})).status===400,'duplicate human approval blocked');
+ d=await call('jobs',{op:'step',id:jobId});check(d.data.status==='succeeded'&&d.data.outputs.at(-1).content==='yes','resumed job completes with referenced output');
+ check(!!sqlite.prepare('SELECT id FROM records WHERE id=?').get('job-result-'+jobId),'job creates persistent artifact');
+ check((await call('jobs',{op:'step',id:jobId},'user-b')).status===400,'job ownership enforced');
+ // An interrupted external operation is never silently retried.
+ const uncertain={id:'uncertain',status:'executing_action',nodes:[{id:'a',type:'action'}],cursor:0};sqlite.prepare('INSERT INTO jobs(owner,id,state,revision,lease,updated) VALUES(?,?,?,0,0,0)').run('user-a','uncertain',JSON.stringify(uncertain));
+ d=await call('jobs',{op:'step',id:'uncertain'});check(d.data.status==='executing_action','uncertain external result cannot replay');
+ // Natural-language data requests execute the interpreted query before answering.
+ let modelCalls=0;globalThis.fetch=async(url,opts)=>{modelCalls++;const payload=JSON.parse(opts.body);outbound=payload;return Response.json({choices:[{message:{content:modelCalls===1?JSON.stringify({group:'Region',metric:'Value',aggregate:'sum'}):'East = 30; West = 5'},finish_reason:'stop'}]})};
+ r=await chat.POST(req('/api/chat',{profileId:'profile-a',datasetId,messages:[{role:'user',content:'按区域汇总金额'}]}));d=await r.json();check(r.status===200&&modelCalls===2&&d.explanation.aggregate==='sum','data question interprets then computes a constrained query');check(outbound.messages[0].content.includes('"value":30'),'answer model receives deterministic full-table aggregation');
+ // Freeze the connector target when an action is staged.
+ globalThis.fetch=async(url,opts)=>{outbound={url,opts};return Response.json({ok:true})};
+ d=await call('integrations',{op:'stage',id:'connector-a',action:'create',args:{body:{name:'snapshot'}}});const snap=d.data.approvalId;const original=JSON.parse(sqlite.prepare('SELECT data FROM records WHERE id=?').get('connector-a').data);await save('connector-a','connector',{...original,baseUrl:'https://changed.example.com'});await call('integrations',{op:'execute',id:'connector-a',approvalId:snap});check(String(outbound.url).startsWith(original.baseUrl),'approval executes the reviewed target snapshot');await save('connector-a','connector',original);
+ // External action jobs suspend before I/O and can never execute twice.
+ await save('auto-action','automation',{name:'Action task',nodes:[{id:'write',type:'action',connectorId:'connector-a',actionId:'create',args:{body:{name:'{{input}}'}}}]});await call('versions',{id:'auto-action',op:'publish'});d=await call('jobs',{op:'create',resource:'auto-action',input:'a"b'});const actionJob=d.data.id;let actions=0;globalThis.fetch=async()=>{actions++;return Response.json({ok:true})};d=await call('jobs',{op:'step',id:actionJob});check(actions===0&&d.data.pending.args.body.name==='a"b'&&d.data.pending.target===original.baseUrl,'action job pauses with safe substituted parameters');d=await call('jobs',{op:'approve',id:actionJob});check(actions===1&&d.data.status==='ready','approved action job makes one request');check((await call('jobs',{op:'approve',id:actionJob})).status===400&&actions===1,'action job duplicate approval is rejected');d=await call('jobs',{op:'step',id:actionJob});check(d.data.status==='succeeded'&&!!sqlite.prepare('SELECT id FROM records WHERE id=?').get('job-result-'+actionJob),'flow ending on approval still saves final artifact');
+ // Server-managed model credentials cannot be read, overridden or redirected by the client.
+ globalThis.TEST_ENV.DEEPSEEK_API_KEY='server-only-test-key';
+ const managed=await(await workspace.GET(req('/api/workspace'))).json();check(managed.records.some(x=>x.id==='managed-deepseek'&&x.managed)&&!JSON.stringify(managed).includes('server-only-test-key'),'managed profile visible without its credential');
+ check((await save('managed-deepseek','profile',{name:'hijack',baseUrl:'https://attacker.example.com',model:'x'})).status===400,'managed provider origin cannot be overwritten');
+ globalThis.fetch=async(url,opts)=>{outbound={url,opts,payload:JSON.parse(opts.body)};return Response.json({choices:[{message:{content:'连接成功'},finish_reason:'stop'}]})};
+ r=await chat.POST(req('/api/chat',{profileId:'managed-deepseek',apiKey:'client-key',messages:[{role:'user',content:'hello'}]}));check(r.status===200&&outbound.url==='https://api.deepseek.com/chat/completions'&&outbound.opts.headers.Authorization==='Bearer server-only-test-key','managed secret is sent only to fixed DeepSeek origin');
+ check(outbound.payload.thinking.type==='disabled'&&outbound.payload.max_tokens===2048,'managed validation model has bounded output and explicit thinking mode');
+ check((await modules.vault.POST(req('/api/vault',{id:'managed-deepseek',key:'replacement'}))).status===400,'managed secret cannot be replaced through user vault');
+ delete globalThis.TEST_ENV.DEEPSEEK_API_KEY;
+ // Genuine Office ZIP generation, not renamed text.
+ const presentation=modules.slides.buildPptx('验收','## 第一页\n一条事实\n## 第二页\n另一条事实');const bytes=await presentation.write({outputType:'uint8array'});check(bytes[0]===80&&bytes[1]===75&&bytes.length>3000,'PowerPoint is a real OOXML ZIP');
+ const {regression}=await import('./regression-extra.mjs');
+ await regression({check,modules,workspace,documents,chat,req,call,save,sqlite,db});
+ const {exportsRegression}=await import('./exports-regression.mjs');
+ await exportsRegression({check,fileTools:modules.fileTools,slides:modules.slides,engine:modules.engine});
+ const {knowledgeBenchmark}=await import('./knowledge-benchmark.mjs');
+ await knowledgeBenchmark({check,model});
+ const {officeContentRegression}=await import('./office-content-regression.mjs');
+ await officeContentRegression({check,office:await import(join(temp,'office.js')),fileTools:modules.fileTools});
+ console.log(`PASS: ${checks} integration assertions (real SQLite + simulated object storage and model API). No paid model calls.`);
+}finally{sqlite.close();rmSync(temp,{recursive:true,force:true});delete globalThis.TEST_ENV;}

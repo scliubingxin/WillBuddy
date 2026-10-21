@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import vm from 'node:vm';
+import ts from 'typescript';
+const source=readFileSync('lib/document-audit.ts','utf8'),js=ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS}}).outputText,exports={};
+vm.runInNewContext(js,{exports,Set,Number,String,Date});
+const {documentAuditReceipt,approvalAuditExport}=exports;let checks=0;const check=(value,message)=>{assert.ok(value,message);checks++};
+const proposal={tool:'create_spreadsheet',status:'completed',proposalDigest:'a'.repeat(64),created:1,expiresAt:2,decided:3,completed:4,arguments:'SECRET_RAW_ARGS',apiKey:'SECRET_KEY',artifact:{id:'file-1',name:'清单.xlsx',size:123,sha256:'b'.repeat(64),rowCount:2,columnCount:3,url:'/private'}};
+const receipt=documentAuditReceipt('proposal-1',proposal),serialized=JSON.stringify(receipt);
+check(receipt.status==='completed'&&receipt.artifact.sha256==='b'.repeat(64),'receipt includes terminal status and artifact evidence');
+check(!serialized.includes('SECRET_RAW_ARGS')&&!serialized.includes('SECRET_KEY')&&!serialized.includes('/private'),'receipt excludes arguments, keys and private URL');
+const report=approvalAuditExport('chat-1','deepseek-flash',[{receipt},{receipt},{receipt:{...receipt,proposalId:'pending',status:'pending'}}],5);
+check(report.receipts.length===1&&report.generatedAt===5&&report.chatId==='chat-1','export keeps one terminal receipt per proposal');
+check(!JSON.stringify(report).includes('arguments')&&!JSON.stringify(report).includes('apiKey'),'export contains no hidden execution parameters');
+console.log(`PASS: ${checks} document approval audit export assertions; no model or network calls.`);

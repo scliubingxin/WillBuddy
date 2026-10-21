@@ -1,0 +1,47 @@
+import {unzipSync,strFromU8} from 'fflate';
+
+export function docxRegression({check,fileTools}){
+ const word=text=>strFromU8(unzipSync(fileTools.buildDocx(text))['word/document.xml']);
+ const count=(xml,tag)=>(xml.match(new RegExp(`<w:${tag}(?:>| )`,'g'))||[]).length;
+ let xml=word('# 幕云AI采购复核\r\n说明\r\n\r\n| 项目 | 数量 | 责任人 |\r\n| :--- | ---: | :---: |\r\n| 零件 <A> & B | 12 | 张三 |\r\n| 垫片 | 3 | 李四 |\r\n\r\n复核结束');
+ check(count(xml,'tbl')===1&&count(xml,'tr')===3&&count(xml,'tc')===9,'Markdown exports one native editable Word table with all cells');
+ check(xml.indexOf('说明')<xml.indexOf('<w:tbl>')&&xml.indexOf('</w:tbl>')<xml.indexOf('复核结束'),'Word table preserves surrounding paragraph order');
+ check(xml.includes('<w:tblHeader/>')&&xml.includes('<w:cantSplit/>'),'Word table repeats header and keeps normal rows together');
+ check(!xml.includes('<w:trHeight')&&xml.includes('<w:vAlign w:val="center"/>'),'Word table allows wrapping without fixed-height clipping');
+ check(xml.includes('零件 &lt;A&gt; &amp; B')&&!xml.includes('<A>'),'Word table text cannot inject XML');
+ check(xml.includes('<w:jc w:val="left"/>')&&xml.includes('<w:jc w:val="right"/>')&&xml.includes('<w:jc w:val="center"/>'),'Markdown table column alignment preserved');
+ const widths=[...xml.matchAll(/<w:gridCol w:w="(\d+)"\/>/g)].map(m=>Number(m[1]));
+ check(widths.length===3&&widths.reduce((a,b)=>a+b,0)===9506,'Word table grid fits the existing A4 printable width');
+ check(xml.includes('D9D9D9')&&xml.includes('E8F0FA')&&xml.includes('<w:tblCellMar>'),'Word table has explicit borders, header fill and cell padding');
+ xml=word('字段 | 说明\n--- | ---\nA\\|B | 第一行<br/>第二行');
+ check(count(xml,'tc')===4&&xml.includes('A|B'),'Optional outer pipes and escaped cell pipes supported');
+ check(xml.includes('<w:br/>')&&xml.includes('第二行'),'Explicit table line breaks become Word breaks');
+ xml=word('| 甲 | 乙 |\n| --- | --- |\n| 仅甲 |');
+ check(count(xml,'tc')===4,'Short table rows padded with empty cells');
+ xml=word('| 甲 | 乙 |\n| --- | --- |\n| 一 | 二 | 三 |');
+ check(count(xml,'tr')===1&&xml.includes('| 一 | 二 | 三 |'),'Extra cells are preserved as text rather than silently dropped');
+ xml=word('| 甲 | 乙 |\n| --- |\n| 一 | 二 |');
+ check(count(xml,'tbl')===0&&xml.includes('| --- |'),'Mismatched delimiter row stays ordinary text');
+ xml=word('甲 | 乙\n-- | ---\n一 | 二');
+ check(count(xml,'tbl')===0,'Invalid short delimiter does not create a table');
+ xml=word('```md\n| 甲 | 乙 |\n| --- | --- |\n| **原文** | 二 |\n```\n\n| 真表 | 值 |\n| --- | --- |\n| 三 | 四 |');
+ check(count(xml,'tbl')===1&&xml.includes('**原文**'),'Fenced code preserves literal Markdown and resumes parsing after fence');
+ xml=word('~~~~\n甲 | 乙\n--- | ---\n~~~\n甲 | 乙\n--- | ---');
+ check(count(xml,'tbl')===0,'Shorter closing fence cannot enable table parsing inside code');
+ xml=word('| 甲 | 乙 |\n| --- | --- |\n| =1+1 | <script>内容</script> |');
+ check(xml.includes('=1+1')&&xml.includes('&lt;script&gt;内容&lt;/script&gt;')&&!xml.includes('instrText'),'Formula-like and HTML-like cell input remain inert text');
+ xml=word('| 字段 | 值 |\n| --- | --- |\n| 开始\u0000结束 | 有效 |');
+ check(!xml.includes('\u0000')&&xml.includes('开始结束'),'Invalid XML control characters removed without corrupting surrounding text');
+ xml=word('| 路径 | 值 |\n| --- | --- |\n| C:\\work\\file | 测试 |');
+ check(xml.includes('C:\\work\\file'),'Ordinary path backslashes preserved');
+ xml=word('| 甲 | 乙 |\n| --- | --- |\n| 一 | 二 |\n\n| 丙 | 丁 |\n| --- | --- |\n| 三 | 四 |');
+ check(count(xml,'tbl')===2,'Separate Markdown tables remain separate native tables');
+ xml=word('| 编号 | 描述 |\n| --- | --- |\n'+Array.from({length:80},(_,i)=>`| ${i+1} | 中文长描述 第 ${i+1} 行 |`).join('\n'));
+ check(count(xml,'tr')===81&&count(xml,'tc')===162&&xml.includes('中文长描述 第 80 行'),'Long table retains every record and one repeated header');
+ xml=word('| 状态 | 完整说明 |\n| --- | --- |\n| 完成 | 此列包含较长的中文说明并需要更多空间用于自动换行 |');
+ const unequal=[...xml.matchAll(/<w:gridCol w:w="(\d+)"\/>/g)].map(m=>Number(m[1]));
+ check(unequal[1]>unequal[0],'Narrative column receives more width than short status field');
+ xml=word('单列\n---\n正文');
+ check(count(xml,'tbl')===0,'Ordinary prose and rules without pipes are not mistaken for a table');
+ console.log('PASS category: native Word tables, alignment, escaped pipes, malformed rows, fences and multi-page content structure');
+}

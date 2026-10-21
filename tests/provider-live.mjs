@@ -1,0 +1,11 @@
+/** Direct provider acceptance for an explicitly supplied runtime secret. Never reads source/chat for keys. */
+import {readFileSync,writeFileSync,mkdirSync,mkdtempSync,rmSync} from 'node:fs';
+import {createRequire} from 'node:module';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+const key=process.env.DEEPSEEK_API_KEY;if(!key)throw new Error('Provide DEEPSEEK_API_KEY as a process secret; do not place it in code');
+const require=createRequire(import.meta.url),vr=createRequire(require.resolve('vite/package.json'));const {build}=vr('esbuild');const temp=mkdtempSync(join(tmpdir(),'zhixing-provider-'));
+try{await build({entryPoints:['lib/model.ts'],outfile:join(temp,'model.mjs'),bundle:true,format:'esm',platform:'node',logLevel:'silent'});const {complete}=await import(join(temp,'model.mjs'));const cases=JSON.parse(readFileSync(new URL('./acceptance/cases.json',import.meta.url),'utf8'));const results=[];
+for(const c of cases){try{const d=await complete({baseUrl:'https://api.deepseek.com',model:'deepseek-flash',maxTokens:2048,thinking:false},key,[{role:'user',content:c.input}],AbortSignal.timeout(90000));let passed=false;if(c.assertion.startsWith('json-')){const j=JSON.parse(d.text.replace(/^```(?:json)?\s*/,'').replace(/\s*```$/,''));passed=c.assertion==='json-task'?j.tasks?.[0]?.owner==='张三'&&j.tasks[0].due==='2026-09-20'&&j.tasks[0].task?.includes('巡检'):j.total===35&&j.highest==='A';}else passed=/(无法|不能|缺少|没有|尚未|不具备)/.test(d.text)&&!/[0-9]+(?:\.\d+)?\s*(万元|亿元|元|美元)/.test(d.text);results.push({id:c.id,passed:!!passed&&!d.truncated,usage:d.usage,elapsed:d.elapsed,truncated:d.truncated});}catch(e){results.push({id:c.id,passed:false,error:String(e.message).slice(0,160)});break;}}
+const report={at:new Date().toISOString(),scope:'real provider through lib/model.ts; not browser end-to-end',model:'deepseek-flash',expected:cases.length,completed:results.length,passed:results.length===cases.length&&results.every(x=>x.passed),results};mkdirSync('outputs',{recursive:true});writeFileSync('outputs/provider-live-report.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report));if(!report.passed)process.exitCode=1;
+}finally{rmSync(temp,{recursive:true,force:true});}
