@@ -1,0 +1,43 @@
+{
+  "rea_version": "6.7.0",
+  "status": "partial: source parsing blocked by host process ownership inspection",
+  "error": {
+    "code": "capability_unavailable",
+    "category": "unsupported_provider",
+    "message": "Linux process ownership inspection requires a procps-compatible ps on REA's PATH before launching a child: Command failed: ps -axo pid=,ppid=,pgid=,uid=,stat=,command=\nfatal library error, lookup self\n"
+  },
+  "evidence_id": "ev_16138c78942f22ed60c3c690661eaf79d964586fba31fce0117c4b31afba8d05",
+  "subject": {
+    "name": "app.asar",
+    "digest": {
+      "sha256": "43b3ad45cea7e0a587a2699ae4de1fe91e2d3e0cb6ab1b4dee295d2f9ad96dc4"
+    },
+    "local_path": "/workspace/scratch/0d433941ca14/quick-extracted/Amazon Quick.app/Contents/Resources/app.asar",
+    "format": "asar",
+    "architecture": null
+  },
+  "parameters": {
+    "format": "auto",
+    "integrity_policy": "fail",
+    "max_semantic_nodes": 1500,
+    "max_semantic_nodes_per_file": 1500,
+    "source_paths": [
+      "dist/main/preload.js"
+    ],
+    "analysis_timeout_ms": 60000
+  },
+  "limitations": [
+    "Caller-selected source analysis leaves 3839 inventoried files outside analysis scope. Inventory identity covers the complete artifact; relationships through unselected sources remain unknown.",
+    "CommonJS and ESM binding relationships were recovered from inert syntax and resolved only within the inventoried artifact container.",
+    "Graph coverage is incomplete; unavailable facts remain explicit and must not be read as absence.",
+    "JavaScript and HTML were parsed as inert text; bundle bootstrap code was never executed.",
+    "Static imports, entrypoints, workers, endpoints, and storage relationships do not prove runtime execution.",
+    "Static paths and relationships may remain unresolved when expressions are dynamic or obfuscated.",
+    "Webpack/Rspack factories were recovered from AST literals; REA did not invoke push handlers or bundle bootstrap code.",
+    "dist/main/preload.js: Provider process-ownership cannot execute prepare_owned_process: Linux process ownership inspection requires a procps-compatible ps on REA's PATH before launching a child: Command failed: ps -axo pid=,ppid=,pgid=,uid=,stat=,command=\nfatal library error, lookup self\n"
+  ],
+  "inventory_counts": {
+    "integrity_contradictions": 0,
+    "limitations": 8
+  }
+}
