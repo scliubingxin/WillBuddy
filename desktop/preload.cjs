@@ -1,0 +1,4 @@
+const { contextBridge, ipcRenderer } = require('electron');
+// An explicit bridge: renderer cannot select arbitrary IPC channels or access Node.
+const methods=['state','settings','pickFolder','removeFolder','listFiles','readFile','chat','cancelChat','deleteChat','memory','agent','task','runTask','artifact','exportText','openRunner','openBrowser','readBrowser','inspectBrowser','browserAction','executeCommand','cancelCommand'];
+contextBridge.exposeInMainWorld('actwill', Object.freeze({...Object.fromEntries(methods.map(name=>[name,(payload)=>ipcRenderer.invoke('actwill:'+name,payload)])),onRuntime:(callback)=>{if(typeof callback!=='function')throw new Error('callback required');const listener=()=>callback();ipcRenderer.on('actwill:runtime',listener);return ()=>ipcRenderer.removeListener('actwill:runtime',listener);}}));

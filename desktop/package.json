@@ -1,0 +1,75 @@
+{
+  "name": "actwill-desktop",
+  "productName": "WillBuddy",
+  "version": "0.6.0",
+  "private": true,
+  "description": "WillBuddy desktop AI workspace",
+  "author": "Actwill",
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "main.mjs",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test tests/*.test.mjs",
+    "pack": "electron-builder --dir",
+    "dist:mac": "electron-builder --mac --arm64",
+    "dist:win": "electron-builder --win nsis --x64",
+    "dist:linux": "electron-builder --linux AppImage --x64",
+    "test:browser": "node --test tests/acceptance/browser-live.mjs",
+    "test:workspace": "node --test tests/acceptance/workspace-live.mjs"
+  },
+  "devDependencies": {
+    "electron": "42.0.0",
+    "electron-builder": "26.0.12",
+    "jsdom": "^30.1.3",
+    "playwright-core": "1.56.1"
+  },
+  "build": {
+    "appId": "com.actwill.desktop",
+    "productName": "WillBuddy",
+    "asar": true,
+    "files": [
+      "main.mjs",
+      "preload.cjs",
+      "core.mjs",
+      "src/**",
+      "runtime/**",
+      "assets/**",
+      "package.json"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "arm64"
+          ]
+        }
+      ],
+      "hardenedRuntime": true,
+      "icon": "assets/app.icns",
+      "entitlements": "installer/entitlements.mac.plist",
+      "entitlementsInherit": "installer/entitlements.mac.plist"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "assets/app.ico"
+    },
+    "linux": {
+      "target": "AppImage",
+      "category": "Office",
+      "icon": "assets/icon-512.png"
+    },
+    "artifactName": "WillBuddy-${version}-${os}-${arch}.${ext}"
+  }
+}
