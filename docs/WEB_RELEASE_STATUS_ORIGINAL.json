@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "brand": "幕云AI",
+  "checked_date": "2026-10-07",
+  "source_status": "deployed_private",
+  "application_base_commit": "3d56637ce2f7bad7ceb347e0d54bd7c6b3e3fdf4",
+  "live": {
+    "project_id": "appgprj_6aa25a60e3c08191b9b5ea71879a62d7",
+    "url": "https://zhixing-ai-workbench.keith-cooper602824.chatgpt.site",
+    "version_number": 46,
+    "commit_sha": "2e8b23b1197c4c691efefec00910e58fd7391c5a",
+    "version_id": "appgprj_6aa25a60e3c08191b9b5ea71879a62d7~appgver_6a47be3581c48191857e5cb2f760ebb6",
+    "deployment_id": "appgdep_6ac5975c7fe881919ec61872cccfe241",
+    "deployment_status": "succeeded",
+    "deployed_at": "2026-10-07T00:50:47.117575+00:00",
+    "env_set_revision": 3,
+    "audience": "owner_private"
+  },
+  "candidate_difference": "无应用代码差异；源码仅追加私人版本46的发布终态与版本清单。",
+  "validation": {
+    "date": "2026-10-07",
+    "typecheck": "passed",
+    "integration_assertions_passed": 411,
+    "worker_runtime_assertions_passed": 26,
+    "local_runner_test_cases_passed": 35,
+    "production_build": "passed",
+    "external_services_in_integration": "simulated",
+    "real_genoffice": "not run this round",
+    "real_local_acceptance": "real SQLite proves safe muyun-chat-export/v1 import, rejection of unsupported schema/system roles/conflicts, owner-isolated conditional creation, preservation of readable messages/model usage/public sources/artifact SHA-256, stripping of replay/proposals/events/private fields, zero tool or model-request creation, and safe re-export; actual Workbench handler passes six import scenarios",
+    "visual_review": {
+      "result": "not run this round"
+    },
+    "production_identity_precheck": "HTTP 401 on protected workspace with Sites access credential",
+    "real_model_requests_for_candidate": 0,
+    "provider_tokens_for_candidate": {
+      "input": 0,
+      "output": 0
+    },
+    "real_model_acceptance": "not executed: authenticated application session unavailable",
+    "real_docker_acceptance": "not executed: Docker/Podman absent; bwrap and user/network namespaces blocked by host policy; Landlock unavailable",
+    "browser_e2e": "not executed inside the app: automation browser stopped at the official ChatGPT sign-in page",
+    "genoffice_native_render_pdf_ocr": "not executed; compatibility preview uses LibreOffice + Poppler",
+    "evidence": "tests/composer-import.mjs; tests/composer-rename.mjs; tests/composer-export.mjs; tests/composer-branch.mjs; tests/composer-delete.mjs; tests/composer-send.mjs; tests/regression-extra.mjs; tests/chat-idempotency.mjs; tests/document-agent.mjs; tests/document-audit.mjs; scripts/self-test.mjs",
+    "composer_scenarios_passed": 11,
+    "composer_delete_scenarios_passed": 8,
+    "composer_branch_scenarios_passed": 3,
+    "composer_rename_scenarios_passed": 5,
+    "composer_export_scenarios_passed": 4,
+    "composer_import_scenarios_passed": 6,
+    "composer_draft_scenarios_passed": 6,
+    "document_agent_assertions_passed": 83,
+    "document_audit_assertions_passed": 4,
+    "chat_idempotency_assertions_passed": 40
+  },
+  "deployment_blocker": null,
+  "quick_comparison": "没有相同任务的真实对照，不宣称超越 Quick。",
+  "remaining_risks": [
+    "聊天保存、安全重命名、安全分支、权威导出与安全导入、版本化删除、七天恢复、幂等、完成态恢复、服务端自动落盘与多标签页合并在真实本地 SQLite/workerd/D1 与模拟供应商通过，但生产浏览器导出→导入/重命名/分支/删除/恢复、双标签页、断网刷新、真实 DeepSeek 用量和账单尚未核对；导入只恢复可读证据而非原文件、执行授权或完整备份，回收快照期限为7天，重放窗口为24小时。",
+    "仅云端 XLSX 受限工具候选；GenOffice/LibreOffice 尚未接入聊天工具循环，无本机自动配对。",
+    "共享、数组、结构化、超过 1000 个公式不自动编辑；常用函数和错误值样本仍少。",
+    "GenOffice 原生渲染/PDF/OCR、生产浏览器、Office/WPS 和 Docker 真实隔离未验收；兼容性预览不替代这些检查。",
+    "DeepSeek 实际工具协议、工具选择和生产下载未验收，因此生产文档工具开关保持关闭。",
+    "断点重试仅覆盖本机文件任务；不是外部副作用补偿或云端后台队列，本机代码须单独更新。",
+    "单批运行预算不是 OS 隔离或计费配额；真实代码沙盒仍因宿主环境不可用而失败关闭。",
+    "公平轮转只覆盖单进程就绪批次；不提供分布式队列、租户权重或持久化优先级。",
+    "中文简报编译仅支持编号的标题与正文，不是模型自主规划；模糊任务、代码和外部动作仍需明确入口与授权。"
+  ]
+}
