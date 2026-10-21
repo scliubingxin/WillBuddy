@@ -1,0 +1,36 @@
+{
+  "date": "2026-09-16",
+  "fixture": "synthetic-enterprise-handover-42-rows",
+  "production_serializer": "lib/xlsx-export.ts",
+  "source_workbook": {
+    "rows": 42,
+    "columns": 4,
+    "sha256": "849ac2582c89ca5c9c601f084380202c7162a82e763cdfbd0beac728250682c6"
+  },
+  "machine_checks": {
+    "openpyxl_open": "passed",
+    "freeze_panes": "A2",
+    "auto_filter": "A1:D43",
+    "formula_like_text_preserved": true,
+    "numeric_cells_preserved": true,
+    "wrapped_multiline_preserved": true,
+    "column_width_range": "10..40"
+  },
+  "libreoffice": {
+    "version": "LibreOfficeDev 26.8.0.0.alpha0",
+    "open_and_resave": "passed",
+    "resaved_sha256": "940a27e99909a5bb153c163b0009421b82be49183d1edb9e2550e115a02f33fe",
+    "resaved_machine_checks": "passed",
+    "pdf_pages": 2,
+    "pdf_sha256": "eb5c4273fd376751be93f888f0136105b4f5ed49c8b4ce9b3a7fdd460de74beb",
+    "visual_review": "all pages inspected; Chinese text, banding, negative-number color, wrapping and borders visible; no clipping or overlap"
+  },
+  "model_requests": 0,
+  "provider_tokens": 0,
+  "not_verified": [
+    "Microsoft Excel",
+    "WPS Office",
+    "production browser download",
+    "arbitrary large or wide workbooks"
+  ]
+}

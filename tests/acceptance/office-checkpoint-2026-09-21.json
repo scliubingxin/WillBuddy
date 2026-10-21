@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "date": "2026-09-21",
+  "scope": "real GenOffice CLI through authenticated localhost HTTP/DAG; checkpoint restore and conflict protection",
+  "genoffice_release": "v0.10.639",
+  "installer_sha256": "33ac55225349a08c220474692cc05c3e45a81a8f6bc8f72312696736547da249",
+  "tasks_succeeded": 23,
+  "downloaded_artifacts_verified": 42,
+  "checkpoints": [
+    {"task": "word_edit", "before_sha256": "8292103598e5ff6e9c98efb1dd5f6ec6b88dadb558350286cb47ba160281d38c", "after_sha256": "789b4ae3909f2f1085aada56ea4d3b1def0154209cbb04b57d17e5fdd8997d33", "restore_matches_before": true, "conflict_refused": true},
+    {"task": "excel_edit", "before_sha256": "2b6dccaa9a4f54fe6b86e8c727bc389cce58f2428e5d04d6c40bd5f5440944bb", "after_sha256": "e34521acf0bbcf5ae5fcb8ce928358bbea1cd57337fc008480148d21ae8d29e8", "restore_matches_before": true, "conflict_refused": true},
+    {"task": "formula_edit", "before_sha256": "bafd146965a3a148ec4966fa05ff4fcc709f9bbc0657e023f84b5d326d2b6904", "after_sha256": "53a8f3a113cb78c800369902a1c234b7d3b1b27564bf0876c3ca684cc464dc38", "restore_matches_before": true, "conflict_refused": true},
+    {"task": "cross_edit", "before_sha256": "bcd5b8f3a7691e31ee4f4b958e13bc8d03d93e19ea04f5f42478e8a02827e41e", "after_sha256": "319e5b75cb852758aea55fc779ec31b4175e0b91c339ac84784bf2a440b2ae3d", "restore_matches_before": true, "conflict_refused": true},
+    {"task": "slides_edit", "before_sha256": "04b21d9c2a58984e72ccd07a5562ed651ed7ec98d3848c188cf6cd3be7c17d28", "after_sha256": "5e8724c58723c45da5b26d7999547eac7d4c57f455356b02a33bc06d8c965ebb", "restore_matches_before": true, "conflict_refused": true}
+  ],
+  "cli_restore": {"passed": true, "current_verified": true, "writes_new_file_only": true},
+  "formula_known_answers": {"same_sheet_sum": 43, "cross_sheet_sum": 43, "cross_sheet_multiplication": 40},
+  "office_preview": "LibreOffice + Poppler completed for DOCX/XLSX/PPTX; no new visual claim this round",
+  "model_requests": 0,
+  "provider_tokens": {"input": 0, "output": 0},
+  "browser_e2e": false,
+  "docker_isolation": "not executed"
+}

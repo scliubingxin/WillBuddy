@@ -1,0 +1,61 @@
+{
+  "date": "2026-09-20",
+  "candidate_status": "not_deployed",
+  "base_commit": "47f322f4c1b67ebb4888053146d9c7e333062d5a",
+  "scope": "local spreadsheet DAG using synthetic Chinese CSV only",
+  "real_flow": {
+    "run_id": "0c84a823b48c4692babe4678ea6f67c9",
+    "transport": "localhost HTTP sheet-plan/validate/run/state/file download",
+    "spreadsheets": 2,
+    "tasks": 7,
+    "all_tasks_succeeded": true,
+    "parallel_render_overlap_seconds": 26.701874,
+    "outputs": {
+      "xlsx": 2,
+      "pdf": 2,
+      "png_pages": 2,
+      "bundle_zip": 1,
+      "bundle_payload_files": 6
+    },
+    "known_answer_checks": [
+      "35 remained numeric",
+      "36.5 remained numeric",
+      "Chinese names and equipment values survived",
+      "=1+1 remained literal text",
+      "zero active formula nodes in both XLSX files"
+    ],
+    "xlsx_sha256": [
+      "3566d7118fee5e50b83df9646f10e7ef6fa50c4309fd793e7593b2aef98bf4c5",
+      "f8d22a73163b2eda451f43ea941012a88ba7f6120a879373ea3ee08849d90767"
+    ],
+    "bundle_sha256": "52507c3c6688137f8a63d36cb94286777c93b646dfc15fd2c58c7979f962da80",
+    "bundle_crc": "passed",
+    "bundle_manifest_sha256": "passed",
+    "http_download_byte_equality": "passed",
+    "visual_review": "all two PNG pages inspected; Chinese readable, no clipping or overlap"
+  },
+  "regression": {
+    "typecheck": "passed",
+    "integration_assertions": 348,
+    "worker_runtime_assertions": 26,
+    "local_runner_tests": 13,
+    "production_build": "passed",
+    "external_models_search_connectors": "simulated",
+    "real_model_requests": 0,
+    "provider_tokens": 0
+  },
+  "initial_failure": {
+    "status": "failed",
+    "reason": "test incorrectly required value 35 in both independent spreadsheets",
+    "repair": "split known-answer assertions by task; production code unchanged; reran in clean output directory"
+  },
+  "not_executed": [
+    "real Docker Python/JavaScript isolation",
+    "production and localhost browser E2E",
+    "Microsoft Excel/WPS",
+    "existing workbook import/template preservation",
+    "AI autonomous task decomposition",
+    "same-task Quick comparison"
+  ],
+  "quick_comparison": "No same-task comparative result; no superiority claim."
+}

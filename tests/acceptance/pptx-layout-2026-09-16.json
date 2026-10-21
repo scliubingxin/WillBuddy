@@ -1,0 +1,47 @@
+{
+  "date": "2026-09-16",
+  "scope": "固定中文企业 PPTX 样例；生产 buildPptx 序列化、LibreOffice 打开/另存、机器重检、PDF 渲染及全部 4 页人工视觉检查",
+  "fixture": {
+    "title": "设备维护月度复盘",
+    "slides": 4,
+    "source_sha256": "2ec054b81f20bd89d128d8d36cb7e82d520547f686930e06a103981dadaaeeeb",
+    "libreoffice_resaved_sha256": "f909d6ef5f6c78f5201bc5935d16b76b8c57f3dfd6bd1f45583616835ccd1081",
+    "rendered_pdf_sha256": "98503b9258862530b55ed3044611aafacf96ce3b26c1fc4ff4027534887ddd20"
+  },
+  "machine_checks": {
+    "original_pptx": "passed",
+    "libreoffice_resaved_pptx": "passed",
+    "expected_chinese_text": "present",
+    "editable_visible_bullets": "present",
+    "text_boxes_within_slide_bounds": true,
+    "author_metadata": "present"
+  },
+  "visual_checks": {
+    "renderer": "LibreOfficeDev 26.8.0.0.alpha0 with local Noto Sans CJK SC font mapping",
+    "pdf_pages": 4,
+    "all_pages_reviewed": true,
+    "missing_glyphs": false,
+    "clipping_or_overlap": false,
+    "page_numbers_and_footers": "present",
+    "first_attempt_issue": "原生项目符号在 LibreOffice 渲染中不可见；判为失败后改成可编辑的可见符号文本并完整重验。"
+  },
+  "full_regression": {
+    "typecheck": "passed",
+    "integration_assertions": 344,
+    "worker_runtime_assertions": 26,
+    "production_build": "passed"
+  },
+  "real_model_usage": {
+    "requests": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "reason": "模型、提示和检索上下文未改变。"
+  },
+  "not_verified": [
+    "Microsoft PowerPoint",
+    "WPS 演示",
+    "生产浏览器下载",
+    "任意长文档、复杂图表、表格、图片或原模板还原",
+    "与 Amazon Quick 相同任务的对照"
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "date": "2026-09-19",
+  "candidate_status": "not_deployed",
+  "base_commit": "fc9de3c312ea47c1e4d00bd7f59fa93840d20003",
+  "scope": "parallel local document delivery bundle; synthetic Chinese fixtures only",
+  "real_flow": {
+    "run_id": "95a61eb14b814d1f9a3fb36b4fb50b12",
+    "transport": "localhost HTTP plan/validate/run/state/file download",
+    "documents": 2,
+    "tasks": 7,
+    "parallel_render_overlap_seconds": 1.3990457,
+    "outputs": {
+      "docx": 2,
+      "pdf": 2,
+      "png_pages": 2,
+      "bundle_zip": 1,
+      "bundle_payload_files": 6
+    },
+    "bundle": {
+      "sha256": "c3a940bc273373763c5e3a603117df6d8c462eac40e01232565d639453fb9075",
+      "zip_crc": "passed",
+      "manifest_sha256_for_all_payloads": "passed",
+      "http_download_byte_equality": "passed",
+      "path_policy": "task-id/basename only"
+    },
+    "visual_review": "all two PNG pages inspected; no missing Chinese, clipping or overlap"
+  },
+  "regression": {
+    "typecheck": "passed",
+    "integration_assertions": 348,
+    "worker_runtime_assertions": 26,
+    "local_runner_tests": 12,
+    "production_build": "passed",
+    "real_model_requests": 0,
+    "provider_tokens": 0
+  },
+  "environment_recovery": {
+    "docker": "not installed",
+    "podman": "not installed",
+    "bubblewrap": "blocked: NETLINK_ROUTE operation not permitted",
+    "user_and_network_namespaces": "blocked: operation not permitted",
+    "landlock": "system call reported ENOSYS by host filter",
+    "decision": "did not commit or claim an unexecutable native sandbox; Docker fail-closed remains"
+  },
+  "not_executed": [
+    "real Docker Python/JavaScript isolation",
+    "local browser UI due ERR_BLOCKED_BY_CLIENT",
+    "production login/browser E2E",
+    "Microsoft Office/WPS",
+    "AI autonomous task decomposition",
+    "same-task Quick comparison"
+  ],
+  "quick_comparison": "No same-task comparative result; no superiority claim."
+}

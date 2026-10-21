@@ -1,0 +1,40 @@
+{
+  "at": "2026-09-11T06:45:14.158Z",
+  "scope": "real provider through lib/model.ts; not browser end-to-end",
+  "model": "deepseek-flash",
+  "expected": 3,
+  "completed": 3,
+  "passed": true,
+  "results": [
+    {
+      "id": "zh-structured-action",
+      "passed": true,
+      "usage": {
+        "input": 55,
+        "output": 26
+      },
+      "elapsed": 20089,
+      "truncated": false
+    },
+    {
+      "id": "grounded-arithmetic",
+      "passed": true,
+      "usage": {
+        "input": 49,
+        "output": 10
+      },
+      "elapsed": 997,
+      "truncated": false
+    },
+    {
+      "id": "missing-evidence",
+      "passed": true,
+      "usage": {
+        "input": 45,
+        "output": 253
+      },
+      "elapsed": 2829,
+      "truncated": false
+    }
+  ]
+}

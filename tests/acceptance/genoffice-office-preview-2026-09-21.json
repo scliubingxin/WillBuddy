@@ -1,0 +1,37 @@
+{
+  "date": "2026-09-21",
+  "passed": true,
+  "scope": "real GenOffice outputs through authenticated localhost HTTP/DAG and LibreOffice + Poppler compatibility preview",
+  "engines": {
+    "genoffice_release": "v0.10.639",
+    "genoffice_cli": "0.10.0",
+    "libreoffice": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+    "poppler": "26.05.0"
+  },
+  "tasks_succeeded": 23,
+  "previews": [
+    {"format": "docx", "pages": 1, "sha256": "092e7b772b8b2de3b0d21f3761d29bf05d95339a2eed831b80a69086a254d3f0", "visual": "Chinese readable; no clipping or overlap"},
+    {"format": "xlsx", "pages": 1, "sha256": "83cbce18b1928a25b454c9a070494193f3e706ea4ddc6057c0822efd704692d0", "visual": "Chinese and known values 20, 23, 43 readable; no clipping or overlap"},
+    {"format": "pptx", "pages": 1, "sha256": "8a99db5c4481a33c34dccf057d2b2a3d356574ea0f1ad9c7fc0c7c590519514d", "visual": "Chinese title and review text readable; no clipping or overlap"}
+  ],
+  "formula_known_answers": {
+    "same_sheet_sum": {"before": 35, "after": 43},
+    "cross_sheet_sum": {"before": 35, "after": 43},
+    "cross_sheet_reference_multiplication": {"before": 24, "after": 40}
+  },
+  "security_checks": [
+    "fixed executable and argument surface",
+    "isolated HOME and LibreOffice profile",
+    "model and vault secrets absent from child environment",
+    "1-20 page and 20 MB per output limits",
+    "download bytes equal runner artifacts"
+  ],
+  "not_verified": [
+    "GenOffice native rendering, PDF conversion or OCR",
+    "Microsoft Office or WPS",
+    "production browser download and authenticated UI",
+    "arbitrary complex templates or untrusted-document sandboxing"
+  ],
+  "model_requests": 0,
+  "provider_tokens": 0
+}

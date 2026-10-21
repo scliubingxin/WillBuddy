@@ -1,0 +1,30 @@
+{
+  "date": "2026-09-15",
+  "status": "passed",
+  "base_commit": "f2952e6573f0e1810e28dc35023f90d6a76405fa",
+  "exporter": "lib/data-engine.ts toSpreadsheetCSV; download Blob checked via lib/file-tools.ts exportCsv",
+  "engine": "LibreOfficeDev 26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+  "import_filter": "Text - txt - csv (StarCalc):44,34,76,1,,0,false,true,true,false,false,0,true",
+  "synthetic_records": 16,
+  "protected_cells": 15,
+  "active_formulas_in_protected_import": 0,
+  "positive_control_formula_result": 2,
+  "numeric_cells_preserved": 16,
+  "all_text_cells_compared": true,
+  "calc_normalized_line_endings_in_cells": 2,
+  "initial_failure": "Literal text comparison identified Calc CR/CRLF to LF normalization; verifier now allows only this named difference and optional text-marker consumption.",
+  "integration_assertions": 338,
+  "typecheck": "passed",
+  "production_build": "passed",
+  "real_model_requests": 0,
+  "provider_tokens": 0,
+  "protected_api_identity_precheck": "HTTP 401",
+  "browser_e2e": "navigation did not return usable page; no login or download evidence",
+  "scope": "actual LibreOffice CSV import with positive control; not Microsoft Excel/WPS, visual rendering, resave/reopen safety or Quick comparison",
+  "sha256": {
+    "protected.csv": "4f1e8ebce4ebd80e2b3c89e087f8cbc9689ffee1bba0d05a89ae6a6eae6d40d3",
+    "control.csv": "373b054776c3633d5b343cb3cb10e3272a1fbc7b79371183cd3f78815b77e459",
+    "protected.xlsx": "cba877e4e43405a561e2809f30559b851f4a41e193576cda247646bfebd0adb0",
+    "control.xlsx": "1d26a10bc45a4d211f3c75ae69d7471948be5b22ca3710d0177f716eb393816d"
+  }
+}

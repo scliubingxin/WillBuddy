@@ -1,0 +1,28 @@
+{
+  "date": "2026-09-20",
+  "passed": true,
+  "engine": "GenOffice official Linux v0.10.639 / CLI 0.10.0",
+  "path": "authenticated loopback HTTP -> DAG -> cross-sheet edit -> native formula re-apply -> OOXML and audit verification",
+  "real_tasks": 20,
+  "edit": {"sheet": "明细", "cell": "B2", "before": 12, "after": 20},
+  "audit": {
+    "formula_count": 2,
+    "sheets": ["汇总"],
+    "changed_cache_count": 2,
+    "changes": [
+      {"cell": "汇总!B2", "formula": "=SUM(明细!B2:B3)", "before": 35, "after": 43},
+      {"cell": "汇总!B3", "formula": "=明细!B2*2", "before": 24, "after": 40}
+    ],
+    "formula_set_unchanged": true,
+    "all_cached_values_present": true
+  },
+  "output_sha256": "587a73933a16c72dd47a3cfce3f25af78e6ca7438503ca0a9cc6c64a3d5a75e0",
+  "engine_report_sha256": "2a13128b06ed7ced5feb5a0ea2567b599ff452ce93390c4c1833feb0e4ad87f1",
+  "run_report_sha256": "73ba5ddd37859723d1c4c86813618b33b2d549218ced4c42bc2feccb07a91b97",
+  "model_requests": 0,
+  "limits": [
+    "Only SUM and direct-reference multiplication were accepted in this cross-sheet fixture",
+    "Shared, array, structured, empty-body, or more than 1000 formulas fail closed",
+    "Excel, WPS, large workbooks, error values, and native GenOffice rendering were not tested"
+  ]
+}

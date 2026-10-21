@@ -1,0 +1,250 @@
+{
+  "passed": true,
+  "scope": "real GenOffice CLI via authenticated loopback HTTP/DAG, no models",
+  "tasks": [
+    {
+      "id": "word",
+      "status": "succeeded",
+      "error": null
+    },
+    {
+      "id": "excel",
+      "status": "succeeded",
+      "error": null
+    },
+    {
+      "id": "slides",
+      "status": "succeeded",
+      "error": null
+    },
+    {
+      "id": "word_edit",
+      "status": "succeeded",
+      "error": null
+    },
+    {
+      "id": "word_read",
+      "status": "succeeded",
+      "error": null
+    },
+    {
+      "id": "word_check",
+      "status": "succeeded",
+      "error": null
+    },
+    {
+      "id": "excel_read",
+      "status": "succeeded",
+      "error": null
+    },
+    {
+      "id": "excel_check",
+      "status": "succeeded",
+      "error": null
+    },
+    {
+      "id": "plain_excel",
+      "status": "succeeded",
+      "error": null
+    },
+    {
+      "id": "excel_edit",
+      "status": "succeeded",
+      "error": null
+    },
+    {
+      "id": "excel_after",
+      "status": "succeeded",
+      "error": null
+    },
+    {
+      "id": "slides_read",
+      "status": "succeeded",
+      "error": null
+    },
+    {
+      "id": "slides_audit",
+      "status": "succeeded",
+      "error": null
+    },
+    {
+      "id": "slides_edit",
+      "status": "succeeded",
+      "error": null
+    },
+    {
+      "id": "structure",
+      "status": "succeeded",
+      "error": null
+    },
+    {
+      "id": "word_markdown",
+      "status": "succeeded",
+      "error": null
+    }
+  ],
+  "files": [
+    {
+      "task": "word",
+      "name": "result.docx",
+      "bytes": 3310,
+      "sha256": "fd29bac910a610fd92e82189519bed51b005162e09e4bdf57d6d89183526c851"
+    },
+    {
+      "task": "word",
+      "name": "genoffice-report.json",
+      "bytes": 265,
+      "sha256": "76dbf6979a2b136887c3d10ed58445a78e118a616f4dc937dc548ac62b61ceb0"
+    },
+    {
+      "task": "excel",
+      "name": "result.xlsx",
+      "bytes": 4234,
+      "sha256": "fa128cd02093cace081a866252aea28e78dc6dfaaf1b1f421971c9cc65ab1d37"
+    },
+    {
+      "task": "excel",
+      "name": "genoffice-report.json",
+      "bytes": 330,
+      "sha256": "701911b10ba8087863fb9f1a1ff61b5d1e4afc33b5d1039b6c31387dc360d9c0"
+    },
+    {
+      "task": "slides",
+      "name": "result.pptx",
+      "bytes": 5822,
+      "sha256": "8c07b70ea2e7b0310a87e1f0af81b17d3eab9e2977198cc4acbd95a0e1a0d8c3"
+    },
+    {
+      "task": "slides",
+      "name": "genoffice-report.json",
+      "bytes": 439,
+      "sha256": "561c6d65cbd4b8d665ac8d18a6175b043267c607d46892afad7e0f9f75a7610f"
+    },
+    {
+      "task": "word_edit",
+      "name": "result.docx",
+      "bytes": 3333,
+      "sha256": "498bbe467740dcede95d0c83e646de27a22a737c26dbb8f159416a145dad7349"
+    },
+    {
+      "task": "word_edit",
+      "name": "genoffice-report.json",
+      "bytes": 593,
+      "sha256": "c52e40831a3baeee453d4c751c43120dd74c0168b83e43092ff4b1493c1aa506"
+    },
+    {
+      "task": "word_read",
+      "name": "genoffice-report.json",
+      "bytes": 845,
+      "sha256": "f42ef91a7bdaff78b2c94d6588cc1075082bfd39521873f439e6f401a9a5151f"
+    },
+    {
+      "task": "word_check",
+      "name": "genoffice-report.json",
+      "bytes": 471,
+      "sha256": "f3520241ba72eaf74ffa14fb86f0c2c05fb88533aeacf1c1de84827304e31f63"
+    },
+    {
+      "task": "excel_read",
+      "name": "genoffice-report.json",
+      "bytes": 961,
+      "sha256": "a4c56ea042d75936ec2b0a0154aafbccb6ed6e5867f3742fbd96f861a55bc4d1"
+    },
+    {
+      "task": "excel_check",
+      "name": "genoffice-report.json",
+      "bytes": 571,
+      "sha256": "c389a9a234cd46e67c6b8059936b6cecba7faba4604951226eb7a8a154302b82"
+    },
+    {
+      "task": "plain_excel",
+      "name": "result.xlsx",
+      "bytes": 4198,
+      "sha256": "74e2cc1cf8b175d00eaa4f09370b695eb97700eb3a0dadd05c57dd4b0e703c69"
+    },
+    {
+      "task": "plain_excel",
+      "name": "genoffice-report.json",
+      "bytes": 336,
+      "sha256": "3eea72e768f2d5befc8b3cbe1b2e0585d832b31fd2114f808947c06a7a69a3dc"
+    },
+    {
+      "task": "excel_edit",
+      "name": "result.xlsx",
+      "bytes": 4198,
+      "sha256": "8fd7c40280dedb502df603a5769074fef72ae4fd2f37e022614ec15b640f1727"
+    },
+    {
+      "task": "excel_edit",
+      "name": "genoffice-report.json",
+      "bytes": 510,
+      "sha256": "36daaf84bb9afa715e3231d9d542cb3f1ee50ac30fa0d52c7ebb95df6db96f9b"
+    },
+    {
+      "task": "excel_after",
+      "name": "genoffice-report.json",
+      "bytes": 884,
+      "sha256": "25768bbb0677b6497133949bf28808ba9bc43f5f7702c5900c26d88439bebdd8"
+    },
+    {
+      "task": "slides_read",
+      "name": "genoffice-report.json",
+      "bytes": 1250,
+      "sha256": "421cfe4ef29cbf595c2604a694584bd26e94ea2f4e7af7cd3f56df090529ad3f"
+    },
+    {
+      "task": "slides_audit",
+      "name": "genoffice-report.json",
+      "bytes": 500,
+      "sha256": "38c3e33c3ca94781c65133c72f890ac60726f0e6be9bcb1dda12407fbf449427"
+    },
+    {
+      "task": "slides_edit",
+      "name": "result.pptx",
+      "bytes": 5896,
+      "sha256": "6273789114de837fd1fbbab8726f7235b97246fd7809045595424280ac7391fb"
+    },
+    {
+      "task": "slides_edit",
+      "name": "genoffice-report.json",
+      "bytes": 545,
+      "sha256": "d52fb928d7c17738dfa4da8a8f642f211d270cdf8287bd740f81bcc5da6f6d36"
+    },
+    {
+      "task": "structure",
+      "name": "genoffice-report.json",
+      "bytes": 649,
+      "sha256": "34dbc4b033d32ba3cb4531eafc50e47557f23a4aa4dd4deb89bcb02ab076cb41"
+    },
+    {
+      "task": "word_markdown",
+      "name": "result.md",
+      "bytes": 119,
+      "sha256": "87a4a6eb87fe94845ebbab488ae24fea372a8cbc124a1043ad78b89bffb8d20f"
+    },
+    {
+      "task": "word_markdown",
+      "name": "genoffice-report.json",
+      "bytes": 367,
+      "sha256": "90ae0b5afefe6b42312f2eee991181c2c6f0716a2b69e516c34deff85397fa05"
+    }
+  ],
+  "formula_known_answer": 35,
+  "browser_e2e": false,
+  "genoffice_render": "not executed; requires complete app display runtime",
+  "model_requests": 0,
+  "date": "2026-09-20",
+  "package": "v0.10.639",
+  "cli": "0.10.0",
+  "formula_edit": {
+    "initial_real_test": "failed: B2 changed from 12 to 20, SUM remained cached as 35 instead of 43",
+    "mitigation": "adapter refuses sheet_apply when input worksheet has formulas; regression verified no engine call"
+  },
+  "visual_review": {
+    "engine": "LibreOffice + Poppler; not GenOffice render",
+    "pages": 3,
+    "inspected": 3,
+    "result": "Chinese visible, no crop or overlap; minimal synthetic fixtures, not professional layout benchmark"
+  },
+  "production_precheck": "protected workspace GET HTTP401; did not bypass, no model request"
+}

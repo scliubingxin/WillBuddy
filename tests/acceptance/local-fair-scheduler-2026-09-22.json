@@ -1,0 +1,26 @@
+{
+  "status": "passed",
+  "kind": "real_http_two_batch_fair_scheduler_with_libreoffice",
+  "date": "2026-09-22",
+  "scheduler": "fair_round_robin",
+  "globalConcurrency": 2,
+  "batchA": {"tasks": 4, "dispatches": 4, "status": "succeeded", "acceptance": "passed"},
+  "batchB": {"tasks": 4, "dispatches": 4, "status": "succeeded", "acceptance": "passed"},
+  "firstDispatchOnePerBatch": true,
+  "libreofficeRenderOverlap": true,
+  "regression": {
+    "documentDagTasks": 7,
+    "documentAcceptanceRules": 5,
+    "retryResumed": true,
+    "singleBatchConcurrencyOneNoOverlap": true,
+    "artifactLimitFailureClosed": true
+  },
+  "environment": {
+    "realLibreOffice": "passed",
+    "realPoppler": "passed",
+    "realDockerSandbox": "not executed; host isolation unavailable",
+    "browserE2E": "not executed"
+  },
+  "modelRequests": 0,
+  "tokens": 0
+}

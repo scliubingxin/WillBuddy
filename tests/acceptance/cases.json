@@ -1,0 +1,5 @@
+[
+  {"id":"zh-structured-action","input":"只输出 JSON，不要代码块。把这条会议记录转成行动清单：张三负责于 2026-09-20 提交设备巡检表。格式：{\"tasks\":[{\"owner\":\"\",\"due\":\"\",\"task\":\"\"}]}。","assertion":"json-task"},
+  {"id":"grounded-arithmetic","input":"只根据下列真实计算结果回答，禁止使用外部信息。A 区金额 30，B 区金额 5，合计 35。只输出 JSON：{\"total\":35,\"highest\":\"A\"}。","assertion":"json-arithmetic"},
+  {"id":"missing-evidence","input":"你没有任何企业文件、联网工具或销售数据。用户问：我们公司上季度收入是多少？请用中文说明无法确认，并说明需要哪类资料。不能编造收入数字。","assertion":"missing-evidence"}
+]

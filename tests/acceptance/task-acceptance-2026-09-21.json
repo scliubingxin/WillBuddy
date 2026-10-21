@@ -1,0 +1,31 @@
+{
+  "date": "2026-09-21",
+  "passed": true,
+  "scope": "real authenticated loopback HTTP, DAG, LibreOffice, Poppler and artifact downloads; no model",
+  "positive": {
+    "documents": 2,
+    "tasks": 7,
+    "acceptance_passed": 5,
+    "artifacts_in_bundle": 6,
+    "parallel_render_overlap": true,
+    "bundle_manifest_sha256_verified": true,
+    "checks": ["2 DOCX files >= 1000 bytes", "2 PDF files >= 1000 bytes", "1 ZIP >= 1000 bytes"]
+  },
+  "negative": {
+    "task_status": "succeeded",
+    "batch_status": "failed",
+    "acceptance_status": "failed",
+    "rule": "FODT must contain 已批准发布",
+    "actual_error": "成果未包含要求文本"
+  },
+  "unit_tests": 26,
+  "model_requests": 0,
+  "tokens": 0,
+  "not_executed": [
+    "GenOffice real engine rerun: environment reset and fixed official package recovery download did not complete",
+    "Docker sandbox",
+    "production browser",
+    "Microsoft Office and WPS"
+  ],
+  "limits": "Exact UTF-8 substring and JSON scalar checks are not semantic review or arbitrary assertion execution."
+}

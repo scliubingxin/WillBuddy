@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-20",
+  "passed": true,
+  "engine": "GenOffice official Linux v0.10.639 / CLI 0.10.0",
+  "path": "authenticated loopback HTTP -> DAG -> sheet_apply -> native formula re-apply -> sheet_read",
+  "workbook": {
+    "sheet": "content",
+    "input_cells": {"B2": 12, "B3": 23, "B4": "=SUM(B2:B3)"},
+    "input_cached_B4": 35,
+    "edit": {"B2": 20},
+    "output_cached_B4": 43,
+    "formula_refresh_count": 1,
+    "output_sha256": "80372861d991de10b020e07df098edcab94611c40e2e38b694971ef5feafa43e"
+  },
+  "real_tasks": 18,
+  "report_sha256": "0cc128f6cb10ada7cd089f753172e252b0998de21861cabdd000e8520100ba51",
+  "model_requests": 0,
+  "limits": [
+    "Only ordinary cell formulas are refreshed automatically",
+    "Shared, array, structured, empty-body, or more than 1000 formulas fail closed",
+    "Cross-sheet and broad Excel/WPS compatibility are not yet acceptance-tested"
+  ]
+}

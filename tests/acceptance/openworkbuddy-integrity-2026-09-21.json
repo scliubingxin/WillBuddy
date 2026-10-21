@@ -1,0 +1,250 @@
+{
+  "passed": true,
+  "scope": "real persisted GenOffice outputs + authenticated localhost HTTP",
+  "files_verified": 37,
+  "negative_downloads": [
+    {
+      "case": "same_size_change",
+      "http_status": 400
+    },
+    {
+      "case": "deleted",
+      "http_status": 400
+    }
+  ],
+  "restored_download": "passed",
+  "restart_evidence": "passed",
+  "browser_e2e": false,
+  "model_requests": 0,
+  "files": [
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/word/result.docx",
+      "bytes": 3310,
+      "sha256": "cb72ba9ea7e93c055b64bcbef505fe8078f4c3db49ffd1f083fc6fcae91f9b63"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/word/genoffice-report.json",
+      "bytes": 268,
+      "sha256": "12f418579027d73dc91b266a080076a8cdcf4154c9301c925fbcaf32405104cc"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/excel/result.xlsx",
+      "bytes": 4234,
+      "sha256": "64045d29e4e1f848d55b39e25587cc65858259d1a4656ede7c703381b43dbb42"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/excel/genoffice-report.json",
+      "bytes": 333,
+      "sha256": "8a599ac124bdadc509f63182e06a65772b3e0fb50e4bfe0c778d5bee68edb3a1"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/slides/result.pptx",
+      "bytes": 5822,
+      "sha256": "fb56b97264c369fe76ba807198a1b640409f259495c73348d1fdc31a59cd8ed6"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/slides/genoffice-report.json",
+      "bytes": 442,
+      "sha256": "b2f89e922b8ff35d740d3e20f6158569cb62413dbb26e1f5e3432e22abd1ec8f"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/word_edit/result.docx",
+      "bytes": 3333,
+      "sha256": "4084b0c5a9d68cf30732f8efc4cf19d7f19ec7a21f9e991e8bf0b649da96558e"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/word_edit/genoffice-report.json",
+      "bytes": 596,
+      "sha256": "2bc0bf857f61c5a38953b8bdbc902b649795037d0af3c1ff6e8982b37dafb2ea"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/word_read/genoffice-report.json",
+      "bytes": 845,
+      "sha256": "f42ef91a7bdaff78b2c94d6588cc1075082bfd39521873f439e6f401a9a5151f"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/word_check/genoffice-report.json",
+      "bytes": 471,
+      "sha256": "f3520241ba72eaf74ffa14fb86f0c2c05fb88533aeacf1c1de84827304e31f63"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/excel_read/genoffice-report.json",
+      "bytes": 961,
+      "sha256": "a4c56ea042d75936ec2b0a0154aafbccb6ed6e5867f3742fbd96f861a55bc4d1"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/excel_check/genoffice-report.json",
+      "bytes": 571,
+      "sha256": "c389a9a234cd46e67c6b8059936b6cecba7faba4604951226eb7a8a154302b82"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/plain_excel/result.xlsx",
+      "bytes": 4198,
+      "sha256": "dcc4fafcf572d441bea6659b303d2b6e22e395ccb5ab5fc02253a9656b8486eb"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/plain_excel/genoffice-report.json",
+      "bytes": 339,
+      "sha256": "1640c57acedd934642cf6b153b8c44d18dcd66a65e9dfb4053afaff0147869d0"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/excel_edit/result.xlsx",
+      "bytes": 4198,
+      "sha256": "023b159c42a49312feed4ab6dd686ee6d55ddc82af2014e12adf204a2abe7ba3"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/excel_edit/genoffice-report.json",
+      "bytes": 513,
+      "sha256": "a3eb3102bcf7802c881828dd801304365936352be3662f55712c8e6dcf0165c7"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/excel_after/genoffice-report.json",
+      "bytes": 884,
+      "sha256": "25768bbb0677b6497133949bf28808ba9bc43f5f7702c5900c26d88439bebdd8"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/formula_edit/result.xlsx",
+      "bytes": 4233,
+      "sha256": "2ee87e14d8b9ab5b57102ec2ef75e5d3898cf3ae9e39c3acd10599ce816991f3"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/formula_edit/genoffice-report.json",
+      "bytes": 921,
+      "sha256": "9ef691be7ee308ffd76d1fa70fd115844a30309fa3d98ff6d0057a01fddc5957"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/formula_after/genoffice-report.json",
+      "bytes": 961,
+      "sha256": "9441637eab6ed3adbb3488a0dd2c3b3315a40861f9549edb2c87f4a14de242b9"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/cross_excel/result.xlsx",
+      "bytes": 4735,
+      "sha256": "e4fe9ce9701aa9a77658096778dee8e27b5110af6238183a8c7e0f2d5f26be19"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/cross_excel/genoffice-report.json",
+      "bytes": 340,
+      "sha256": "3f2427a5ed4fd27357e27dd98b97e94a44a6cee4b2d2371eb8b29588ea045669"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/cross_edit/result.xlsx",
+      "bytes": 4734,
+      "sha256": "194ef6667a257224891761ae4523ad738ad5bafcceaed7a31b6a71835f24d4c8"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/cross_edit/genoffice-report.json",
+      "bytes": 1041,
+      "sha256": "7d643a9c6184dd9f952c35543e139089b23cf97547cbdf6d389526e846577f86"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/slides_read/genoffice-report.json",
+      "bytes": 1250,
+      "sha256": "c2c2ab8387cd3c0c5a688efb32c35ac041d259c99875726a1377e4f108496da4"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/slides_audit/genoffice-report.json",
+      "bytes": 500,
+      "sha256": "38c3e33c3ca94781c65133c72f890ac60726f0e6be9bcb1dda12407fbf449427"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/slides_edit/result.pptx",
+      "bytes": 5894,
+      "sha256": "44421c302001be87e452cc9197cfc39fa1e092844d6658c507c31637de661531"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/slides_edit/genoffice-report.json",
+      "bytes": 548,
+      "sha256": "2958d5862d432ed7cddde02e1b0cb880200e6264a88382b12d6960ee17133a1b"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/structure/genoffice-report.json",
+      "bytes": 652,
+      "sha256": "4d18683980a5a56559e8521599446d3edf84aa3bcaf5b509af6e8e963d14d2f2"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/word_markdown/result.md",
+      "bytes": 119,
+      "sha256": "87a4a6eb87fe94845ebbab488ae24fea372a8cbc124a1043ad78b89bffb8d20f"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/word_markdown/genoffice-report.json",
+      "bytes": 370,
+      "sha256": "d18764007993bc67d16922fe68de458fba8b792ef35c9928cd276e402e76cde4"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/word_preview/pages/page-1.png",
+      "bytes": 20765,
+      "sha256": "092e7b772b8b2de3b0d21f3761d29bf05d95339a2eed831b80a69086a254d3f0"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/word_preview/genoffice-report.json",
+      "bytes": 246,
+      "sha256": "ae3c99b3a9868e6707d71ed68cc00d091f5e37898d0ee3966881ee3f5244d845"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/excel_preview/pages/page-1.png",
+      "bytes": 13279,
+      "sha256": "83cbce18b1928a25b454c9a070494193f3e706ea4ddc6057c0822efd704692d0"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/excel_preview/genoffice-report.json",
+      "bytes": 246,
+      "sha256": "4cca2fbfc36e0117ceb28674e406d0fa12d74a502be016e79eb3d229833fc2e5"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/slides_preview/pages/page-1.png",
+      "bytes": 20547,
+      "sha256": "8a99db5c4481a33c34dccf057d2b2a3d356574ea0f1ad9c7fc0c7c590519514d"
+    },
+    {
+      "path": "353013ac4b114be8af8a16e9d979ef05/slides_preview/genoffice-report.json",
+      "bytes": 246,
+      "sha256": "9b28363cc865e1a5f70993c3c8bf9c3189ab84c3de42a6052074ce58320c9888"
+    }
+  ],
+  "date": "2026-09-21",
+  "genoffice_tasks": 23,
+  "regression": {
+    "application_assertions": 357,
+    "worker_assertions": 26,
+    "runner_tests": 22,
+    "typecheck": "passed",
+    "build": "passed"
+  },
+  "visual_review": {
+    "genoffice_pages": 3,
+    "result": "passed: readable Chinese, no clipping or overlap",
+    "engine": "LibreOffice + Poppler"
+  },
+  "other_real_flows": {
+    "documents": {
+      "status": "passed",
+      "kind": "real_http_libreoffice_poppler_local_dag",
+      "run_id": "ff4ca40539c6496a94e484349eaedce0",
+      "concurrency": 2,
+      "parallel_render_overlap": true,
+      "tasks": 7,
+      "bundle_files": 6,
+      "bundle_manifest_sha256_verified": true,
+      "model_requests": 0,
+      "tokens": 0,
+      "visual_review": "pending"
+    },
+    "spreadsheets": {
+      "status": "passed",
+      "kind": "real_http_libreoffice_spreadsheet_dag",
+      "run_id": "e9e76f26f26d44b894e24774dc8b4854",
+      "concurrency": 2,
+      "parallel_render_overlap": true,
+      "tasks": 7,
+      "spreadsheets": 2,
+      "bundle_files": 6,
+      "active_formulas": 0,
+      "bundle_manifest_sha256_verified": true,
+      "model_requests": 0,
+      "tokens": 0,
+      "visual_review": "pending"
+    }
+  }
+}

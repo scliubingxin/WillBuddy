@@ -1,0 +1,25 @@
+{
+  "date": "2026-09-22",
+  "passed": true,
+  "scope": "real authenticated loopback HTTP, DAG cancellation, LibreOffice, Poppler, resume and artifact verification; no model",
+  "source_run": {
+    "status": "cancelled",
+    "cancelled_during": "two parallel LibreOffice render tasks",
+    "successful_reusable_tasks": ["doc_1", "doc_2"]
+  },
+  "retry_run": {
+    "attempt": 2,
+    "reused_tasks": ["doc_1", "doc_2"],
+    "reused_artifacts_reverified": true,
+    "reran": ["doc_1_render", "doc_2_render", "doc_1_preview", "doc_2_preview", "deliverables"],
+    "status": "succeeded",
+    "acceptance_status": "passed",
+    "acceptance_rules_passed": 5,
+    "bundle_files": 6
+  },
+  "unit_tests": 28,
+  "model_requests": 0,
+  "tokens": 0,
+  "not_executed": ["Docker sandbox", "production browser", "Microsoft Office and WPS", "automatic external side-effect compensation"],
+  "limits": "Retry is explicit and local. It creates a new run, never rewrites history or automatically replays external side effects."
+}

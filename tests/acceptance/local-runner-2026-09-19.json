@@ -1,0 +1,82 @@
+{
+  "date": "2026-09-19",
+  "candidate_status": "not_deployed",
+  "base_commit": "6eddfda7022cadb54216b0f6684403049b488645",
+  "live_version": 9,
+  "scope": "local companion first version; synthetic Chinese document fixtures, no real customer data",
+  "regression": {
+    "typecheck": "passed",
+    "integration_assertions": 348,
+    "worker_runtime_assertions": 26,
+    "local_runner_tests": 11,
+    "build": "passed",
+    "external_models_search_connectors": "simulated",
+    "local_task_work_in_scheduler_tests": "some simulated; real threads/SQLite/HTTP",
+    "console_javascript_syntax": "passed; not browser interaction"
+  },
+  "real_documents": {
+    "command": "python3 tests/local-runner-live.py outputs/local-runner-acceptance (with installed Noto Sans CJK SC or valid FONTCONFIG_FILE)",
+    "run_id": "dc54ca0a11604577b68b639da83a9644",
+    "transport": "real loopback HTTP plan/validate/run/state/artifact download; scheduler tick driven in-process by test",
+    "documents": 2,
+    "tasks": 6,
+    "all_tasks_succeeded": true,
+    "render_intervals": [
+      {
+        "start": 1789821649.4177232,
+        "end": 1789821650.8685746
+      },
+      {
+        "start": 1789821649.417783,
+        "end": 1789821650.8689365
+      }
+    ],
+    "overlap_seconds": 1.4507916,
+    "docx_files": 2,
+    "pdf_files": 2,
+    "png_pages": 2,
+    "checks": [
+      "DOCX ZIP CRC and parsed text known answers",
+      "PDF and PNG signatures",
+      "HTTP PDF download exact bytes",
+      "all two PNG pages viewed: no missing Chinese, clipping or overlap"
+    ],
+    "visual_review": "passed_all_two_pages",
+    "docx_sha256": [
+      "29207a3d193ccfa7bd31329157b48d59f6fc436a6c49c87503604cca331c9cd4",
+      "daaf64338199b0b5acdb20c6a7f047427d4cf7f6f6ad7d03b1c159d9233c7bc0"
+    ]
+  },
+  "failures_and_repairs": [
+    "Initial render missing Chinese glyphs: failed; use existing Noto CJK font config and rerender.",
+    "CJK detection language changed to zh-cn; missing-font fail-closed regression added.",
+    "Chinese heading size corrected with explicit Asian font size and font weight.",
+    "DOCX text spans split across XML runs: test corrected to parse text nodes instead of raw substring; known-answer checks retained."
+  ],
+  "blocked": {
+    "real_docker": {
+      "command": "python3 tests/local-runner-docker.py",
+      "exit_code": 1,
+      "reason": "Docker daemon and installed Python/Node images unavailable",
+      "actual_containers_executed": 0
+    },
+    "alternative_isolation": "bwrap probe failed NETLINK_ROUTE Operation not permitted; no privilege workaround or host-code fallback",
+    "local_browser": "ERR_BLOCKED_BY_CLIENT",
+    "production_browser": "not executed this run"
+  },
+  "not_covered": [
+    "AI autonomous decomposition",
+    "multiple model agents",
+    "cloud/local automatic pairing",
+    "arbitrary Office upload/macros",
+    "Microsoft Office/WPS",
+    "previous CSV/XLSX/PPTX visual fixtures this run",
+    "actual container cancellation and cleanup acceptance"
+  ],
+  "model_requests": 0,
+  "provider_tokens": {
+    "input": 0,
+    "output": 0
+  },
+  "quick_comparison": "No same-task comparative evidence; no superiority claim"
+}

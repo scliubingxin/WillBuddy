@@ -1,0 +1,42 @@
+{
+  "status": "passed",
+  "kind": "real_http_libreoffice_poppler_local_dag_with_run_policy",
+  "date": "2026-09-22",
+  "positive": {
+    "tasks": 7,
+    "acceptance_rules_passed": 5,
+    "bundle_files": 6,
+    "parallel_render_overlap": true,
+    "bundle_manifest_sha256_verified": true
+  },
+  "serial_policy": {
+    "maxConcurrency": 1,
+    "tasks": 2,
+    "overlap": false,
+    "artifactBytes": 2722,
+    "status": "succeeded"
+  },
+  "artifact_limit_policy": {
+    "maxArtifactBytes": 1,
+    "actualArtifactBytes": 1376,
+    "taskStatus": "succeeded",
+    "runStatus": "failed",
+    "acceptanceStatus": "not_run"
+  },
+  "retry": {
+    "sourceStatus": "cancelled",
+    "reusedTasks": ["doc_1", "doc_2"],
+    "resumedStatus": "succeeded",
+    "acceptanceStatus": "passed"
+  },
+  "environment": {
+    "docker": "not installed",
+    "podman": "not installed",
+    "bwrap": "blocked by host security policy",
+    "userNetworkNamespace": "blocked by host security policy",
+    "landlock": "unavailable",
+    "realCodeSandbox": "not executed"
+  },
+  "modelRequests": 0,
+  "tokens": 0
+}

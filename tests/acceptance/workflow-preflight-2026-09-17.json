@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "feature": "流程运行前检查",
+  "date": "2026-09-17",
+  "implementation": {
+    "engine": "lib/job-engine.ts#inspectNodes",
+    "api": "POST /api/jobs { op: inspect, nodes }",
+    "ui": "自动化 > 流程编辑器 > 运行前检查",
+    "does_not_execute": true,
+    "model_calls": 0,
+    "external_actions_require_confirmation": true
+  },
+  "acceptance_cases": [
+    {
+      "name": "可达性与副作用摘要",
+      "result": "passed",
+      "expected": "识别 1 个不可达步骤、1 个外部操作和 1 个人工确认点",
+      "evidence": "tests/integration.mjs"
+    },
+    {
+      "name": "危险引用与缺失操作配置",
+      "result": "passed",
+      "expected": "拒绝未来步骤引用、未知变量和未配置的连接器操作",
+      "evidence": "tests/integration.mjs"
+    },
+    {
+      "name": "受保护 API 与零执行边界",
+      "result": "passed",
+      "expected": "已登录请求返回报告，匿名请求 401，检查过程不调用模型或连接器",
+      "evidence": "tests/integration.mjs"
+    }
+  ],
+  "limitations": [
+    "这是确定性静态检查，不证明模型答案质量或外部服务可用性。",
+    "检查不执行流程，运行时网络、权限、配额和外部系统错误仍需单独处理。",
+    "生产登录浏览器验证受人机校验阻塞，本轮未将本地集成测试表述为线上端到端通过。"
+  ]
+}
