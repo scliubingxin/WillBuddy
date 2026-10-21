@@ -1,10 +1,12 @@
+import { liveRunStates } from '../runtime/run-queue.mjs';
 import { uid, nextDaily } from '../core.mjs';
 import { requiredText as text } from './validation.mjs';
 /** Workspace mutations preserve the existing persisted schema. */
 export function createWorkspaceService({ store, active, view }) {
+    const queued = (kind, id) => (store.data.runJobs || []).some(j => j.kind === kind && j.ownerId === id && liveRunStates.has(j.status));
     return {
         deleteChat: async (p) => {
-            if (active.has(p.id))
+            if (active.has(p.id) || queued('conversation', p.id))
                 throw new Error('请先停止生成');
             store.data.chats = store.data.chats.filter(c => c.id !== p.id);
             await store.save();
@@ -40,11 +42,12 @@ export function createWorkspaceService({ store, active, view }) {
         },
         task: async (p) => {
             if (p.remove) {
-                if (active.has('task:' + p.id))
+                if (active.has('task:' + p.id) || queued('task', p.id))
                     throw new Error('请等待任务结束');
                 store.data.tasks = store.data.tasks.filter(t => t.id !== p.id);
             }
             else if (p.id) {
+                if (queued('task', p.id)) throw Error('请先停止任务再修改定时设置');
                 const t = store.data.tasks.find(t => t.id === p.id);
                 if (!t)
                     throw new Error('任务不存在');
