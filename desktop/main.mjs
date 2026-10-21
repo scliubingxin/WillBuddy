@@ -56,7 +56,7 @@ const runTask = id => tasks.run(id);
 app.setPath('userData', await chooseUserDataDirectory(app.getPath('appData')));
 // Preserve the pre-rename OS cryptographic/application identity for existing keys.
 app.setName('Actwill AI');
-app.setAboutPanelOptions({ applicationName: 'WillBuddy', applicationVersion: '0.6.1' });
+app.setAboutPanelOptions({ applicationName: 'WillBuddy', applicationVersion: '0.7.0' });
 if (!app.requestSingleInstanceLock())
     app.quit();
 else {
@@ -74,7 +74,7 @@ else {
         store.data.executions ??= [];
         toolRuntime = new ToolRuntime({ store, browser, approve, notify: notifyRuntime });
         recoverInterruptedWork(store.data);
-        conversations = createConversationService({ store, active, key, view, executeTool, notify: notifyRuntime });
+        conversations = createConversationService({ store, active, key, view, executeTool, notify: notifyRuntime,notifyStream:event=>{if(win&&!win.isDestroyed())win.webContents.send('actwill:stream',event);} });
         tasks = createTaskService({ store, active, key, view, notifyCompleted: task => {
                 if (Notification.isSupported())
                     new Notification({ title: 'WillBuddy · 任务完成', body: task.name }).show();
