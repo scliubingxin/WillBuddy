@@ -1,3 +1,4 @@
+import { createCommandService } from './services/commands.mjs';
 import { createWorkspaceService } from './services/workspace.mjs';
 import { createApprover } from './main/approval.mjs';
 import { createRegistrar } from './main/ipc.mjs';
@@ -51,12 +52,12 @@ function focus() {
         win.focus();
     }
 }
-let conversations, tasks;
+let conversations, tasks, commands;
 const runTask = id => tasks.run(id);
 app.setPath('userData', await chooseUserDataDirectory(app.getPath('appData')));
 // Preserve the pre-rename OS cryptographic/application identity for existing keys.
 app.setName('Actwill AI');
-app.setAboutPanelOptions({ applicationName: 'WillBuddy', applicationVersion: '0.7.0' });
+app.setAboutPanelOptions({ applicationName: 'WillBuddy', applicationVersion: '0.8.0' });
 if (!app.requestSingleInstanceLock())
     app.quit();
 else {
@@ -74,6 +75,7 @@ else {
         store.data.executions ??= [];
         toolRuntime = new ToolRuntime({ store, browser, approve, notify: notifyRuntime });
         recoverInterruptedWork(store.data);
+        commands = createCommandService({ store, active, executeTool, notify: notifyRuntime });
         conversations = createConversationService({ store, active, key, view, executeTool, notify: notifyRuntime,notifyStream:event=>{if(win&&!win.isDestroyed())win.webContents.send('actwill:stream',event);} });
         tasks = createTaskService({ store, active, key, view, notifyCompleted: task => {
                 if (Notification.isSupported())
@@ -143,20 +145,10 @@ else {
                 throw new Error('未知浏览器操作');
             return executeTool(operation, args);
         });
-        register('executeCommand', async (p) => {
-            const id = p.id || uid();
-            if (active.size >= 2 || active.has('cli:' + id))
-                throw new Error('当前执行已满，请稍后重试');
-            const c = new AbortController();
-            active.set('cli:' + id, c);
-            try {
-                return await executeTool('cli_execute', p, c.signal);
-            }
-            finally {
-                active.delete('cli:' + id);
-            }
-        });
-        register('cancelCommand', p => { active.get('cli:' + p.id)?.abort(); return true; });
+        register('enqueueCommand', p => commands.enqueue(p));
+        register('retryCommand', p => commands.retry(p));
+        register('forgetCommand', p => commands.forget(p.id));
+        register('cancelCommand', p => commands.cancel(p.id));
         register('cancelChat', p => conversations.cancel(p.id));
         register('runTask', p => runTask(p.id));
         register('exportText', async (p) => {
@@ -196,15 +188,17 @@ else {
         await launch();
         shortcutReady = globalShortcut.register('CommandOrControl+Shift+Space', focus);
         tick = setInterval(() => {
+            void commands.pump();
             for (const t of store.data.tasks) {
                 if (t.enabled && t.nextRun && t.nextRun <= Date.now() && t.status !== 'running' && active.size < 2)
                     runTask(t.id).catch(() => { });
             }
-        }, 15000);
+        }, 1000);
     }).catch(e => { dialog.showErrorBox('WillBuddy 启动失败', e.message); app.quit(); });
     app.on('activate', focus);
     app.on('before-quit', () => {
         closing = true;
+        commands?.stop();
         clearInterval(tick);
         globalShortcut.unregisterAll();
         for (const c of active.values())

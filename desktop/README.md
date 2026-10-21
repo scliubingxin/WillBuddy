@@ -1,14 +1,16 @@
+0.8.0：手动 CLI 持久队列、刷新后停止、去重、重启暂停和重新审批重试；输出检查点与磁盘故障门禁。详见 [命令队列说明](../docs/DURABLE_COMMANDS.md)。
+
 0.7.0 修复：真实 SSE 流式输出，完整 Markdown 排版、带样式的隔离 HTML 预览、停止后保留内容，以及草稿/选区稳定。详见 [说明](../docs/STREAMING_AND_RENDERING.md)。
 
 项目结构与修改入口见 ../docs/ARCHITECTURE.md（0.6.1 分层整理）。
 
-# WillBuddy 桌面版 0.7.0
+# WillBuddy 桌面版 0.8.0
 
 在原 Web 系统与 0.3.0 桌面基础上新增浏览器、CLI 及模型工具调用闭环。原 Web 代码、数据库迁移和 Python Office 执行器保留；桌面无需先运行 Web 服务或 Cloudflare。
 
 ## 免依赖安装（Apple 芯片）
 
-日常使用请下载独立的 `WillBuddy-v0.7.0-mac-arm64-offline.zip`，完整解压后把 `WillBuddy.app` 拖入应用程序，或双击 `Install-WillBuddy.command` 安装到个人 Applications 文件夹。应用已内置 Electron/Chromium/Node 运行时，安装不执行 npm，也不要求开发工具。下方 npm 命令仅供源码开发。
+日常使用请下载独立的 `WillBuddy-v0.8.0-mac-arm64-offline.zip`，完整解压后把 `WillBuddy.app` 拖入应用程序，或双击 `Install-WillBuddy.command` 安装到个人 Applications 文件夹。应用已内置 Electron/Chromium/Node 运行时，安装不执行 npm，也不要求开发工具。下方 npm 命令仅供源码开发。
 
 只制作 Apple 芯片版，最低 macOS 12。包采用 ad-hoc 签名，尚无 Developer ID 或公证，未完成真机启动；系统首次运行可能需要在隐私与安全性中确认。安装脚本不会关闭 Gatekeeper 或移除隔离标记。Git/Codex/Python/Ollama 等外部工具及原 Python Office 工具链不包含在桌面主程序依赖中，使用这些外部能力仍需对应本机程序。
 
@@ -24,7 +26,7 @@
 
 每轮请求显示独立执行过程，可展开真实参数、stdout/stderr、退出码或浏览器回执。审批仍在原生系统确认窗口，页面不会替代原生授权。已拒绝、失败和中断会如实显示；旧数据没有 runId 的历史记录可在右侧执行记录查看，不伪造归属。
 
-回复下的「在工作区查看」、成果中心的「查看」、本地文件的「预览」会打开右侧页签，支持 Markdown 标题、表格、列表、代码和安全转义。原始 HTML/脚本只作为文字显示。可导出原文或「继续修改」到草稿，保留已有输入；用户发送后才调用模型。只读文件预览不意味着已实现本地写入。页签按任务隔离，只在当前窗口保留。
+回复下的「在工作区查看」、成果中心的「查看」、本地文件的「预览」会打开右侧页签，支持 Markdown 标题、表格、列表、代码和安全转义。HTML 正文净化排版，文档可在隔离工作区静态预览；脚本不会执行（0.7.0 起）。可导出原文或「继续修改」到草稿，保留已有输入；用户发送后才调用模型。只读文件预览不意味着已实现本地写入。页签按任务隔离，只在当前窗口保留。
 
 `npm test` 为 28 项回归；`npm run test:workspace` 使用真实 Chromium 和模拟原生桥检查布局/键盘/预览/导出。构建端先安装 Playwright Chromium；产品安装端无需 Playwright。`test:browser` 可将 CHROME_PATH 指向 Chromium Headless Shell；容器测试使用 CHROME_TEST_NO_SANDBOX=1 仅影响测试浏览器，桌面产品的 sandbox:true 不变。Mac 原生、真实模型、Office/图片编辑仍未验收或实现。
 
@@ -59,7 +61,7 @@ Mac 快捷唤起 `Command+Shift+Space`，Windows/Linux `Ctrl+Shift+Space`；应�
 
 内置浏览器使用独立的内存会话，不读取系统 Chrome/Safari 已有登录状态；退出后不保留此会话。最多 5 个窗口，网页加载最多等待 30 秒。仅支持 HTTP/HTTPS，拒绝任意自定义协议和内嵌账号密码。页面下载、设备和系统权限请求暂不支持。某些依赖弹窗、设备权限或特殊认证的站点可能需要外部浏览器。
 
-当前可打开网页并读取正文；尚未实现 DOM 元素定位、自动点击、表单填写或复用 Chrome 登录会话。网页内容是外部资料，不是新的用户指令。
+已支持受限顶层 DOM 快照引用、点击与普通文本填写；尚未复用系统 Chrome 登录会话。网页内容是外部资料，不是新的用户指令。
 
 ## CLI：执行真实命令
 
@@ -67,7 +69,7 @@ Mac 快捷唤起 `Command+Shift+Space`，Windows/Linux `Ctrl+Shift+Space`；应�
 2. 在「浏览器与 CLI」选择工作目录。
 3. 程序填 `node`，参数填 `["--version"]`，点击「审阅并执行」。
 4. 在原生弹窗中核对**解析后的程序绝对路径、参数、工作目录和超时**，点击「允许这一次」。
-5. 执行记录显示 stdout、stderr、退出码、耗时和真实状态；运行时可取消。
+5. 持久命令队列显示 stdout、stderr、退出码、耗时和真实状态；刷新后仍可取消。重启暂停旧命令，手动重试需重新审批。
 
 常见示例：
 
