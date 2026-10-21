@@ -1,0 +1,17 @@
+'use client';
+import {useState} from 'react';
+import {Button} from '@/components/ui/button';
+import {Textarea} from '@/components/ui/textarea';
+import {genOfficePlan,saveOfficePlan} from '@/lib/office-content';
+import {toast} from 'sonner';
+const operations=[['create_docx','创建 Word'],['create_xlsx','创建 Excel'],['create_pptx','创建 PowerPoint'],['info','文件结构'],['docs_read','读取 Word'],['docs_check','检查 Word'],['docs_apply','编辑 Word'],['sheet_read','读取 Excel'],['sheet_check','检查 Excel'],['sheet_apply','编辑 Excel'],['slides_read','读取 PowerPoint'],['slides_audit','检查 PowerPoint'],['slides_apply','编辑 PowerPoint'],['convert','转换格式'],['render','LibreOffice 逐页预览']];
+export default function GenOfficePanel(){
+ const [action,setAction]=useState('create_docx'),[payload,setPayload]=useState('# 项目报告\n\n在这里填写正文。'),[file,setFile]=useState<File|null>(null),[to,setTo]=useState('pdf'),[busy,setBusy]=useState(false);
+ async function prepare(){setBusy(true);try{let input:undefined|{extension:string,base64:string};if(!action.startsWith('create_')){if(!file)throw Error('请选择输入文件');if(file.size>400000)throw Error('当前计划内文件上限为 400KB');const bytes=new Uint8Array(await file.arrayBuffer());let raw='';for(const b of bytes)raw+=String.fromCharCode(b);input={extension:'.'+file.name.split('.').pop()?.toLowerCase(),base64:btoa(raw)};}const needsJSON=['create_xlsx','create_pptx'].includes(action)||action.endsWith('_apply');const data=needsJSON?JSON.parse(payload):action==='create_docx'?payload:'';saveOfficePlan(genOfficePlan(action,data,input,action==='convert'?to:undefined));toast.success('计划已下载，请在本地任务台导入、校验并执行');}catch(e:any){toast.error(e.message);}finally{setBusy(false);}}
+ return <div className="suite-panel"><h2>GenOffice 文档操作</h2><p>创建、读取、编辑和检查真实 Office 文件。现有文件先复制到任务目录，编辑结果另存，原文件保持不变。</p><p className="help-text">先安装 <a href="https://github.com/genspark-ai/genoffice/releases" target="_blank" rel="noreferrer">GenOffice 官方应用</a>，确保 genoffice 命令可用，再启动本地任务台。这里只准备计划；实际操作在你的电脑上运行。</p>
+ <div className="form-fields"><label>操作<select value={action} onChange={e=>{setAction(e.target.value);setPayload(e.target.value==='create_docx'?'# 项目报告\n\n在这里填写正文。':e.target.value==='create_xlsx'?'[["项目","金额"],["A",12],["B",23]]':'[]');}}>{operations.map(([v,label])=><option key={v} value={v}>{label}</option>)}</select></label>
+ {!action.startsWith('create_')&&<label>输入文件（最多 400KB）<input type="file" accept=".docx,.xlsx,.pptx,.pdf,.md,.html,.csv" onChange={e=>setFile(e.target.files?.[0]||null)}/></label>}
+ {action==='convert'&&<label>目标格式<select value={to} onChange={e=>setTo(e.target.value)}>{['pdf','docx','xlsx','pptx','md','html','csv'].map(v=><option key={v}>{v}</option>)}</select></label>}
+ {(action.startsWith('create_')||action.endsWith('_apply'))&&<label>{action==='create_docx'?'Markdown 正文':'GenOffice 内容 / 操作 JSON'}<Textarea rows={8} value={payload} onChange={e=>setPayload(e.target.value)}/></label>}</div>
+ <Button disabled={busy} onClick={prepare}>导出 GenOffice 操作计划</Button><p className="warning-text">每次 Office 编辑都会附带检查点，保存编辑前原件以及前后 SHA-256。恢复工具只接受与该次编辑结果完全一致的当前文件，并始终写入新文件；检测到后续修改会拒绝恢复。</p><p className="warning-text">普通单元格公式会在编辑后由 GenOffice 原生引擎重新提交并刷新缓存，报告记录涉及工作表及缓存前后值。共享、数组、结构化公式或超过 1000 个公式的工作簿会停止编辑，原上传文件不覆盖。</p><p className="help-text">编辑操作采用 GenOffice 官方 DSL，可在本机运行 genoffice guide docs / sheets / slides 查看。DOCX、XLSX、PPTX 和 PDF 的逐页预览由 LibreOffice + Poppler 执行，报告会明确标出引擎；这不是 GenOffice 原生渲染。计划必须在本机审阅后提交，暂不自动把聊天指令转为任意编辑操作。仅处理可信文档，不把本机文档引擎当作代码沙盒。</p></div>;
+}
