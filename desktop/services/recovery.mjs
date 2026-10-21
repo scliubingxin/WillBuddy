@@ -14,5 +14,11 @@ export function recoverInterruptedWork(data, now = Date.now()) {
         if (chat.run?.status === 'running') {
             chat.run.status = 'interrupted';
             chat.run.finishedAt = now;
+            for (const message of chat.messages || [])
+                if (message.streaming) {
+                    message.streaming = false;
+                    message.partial = true;
+                    message.error = true;
+                }
         }
 }
