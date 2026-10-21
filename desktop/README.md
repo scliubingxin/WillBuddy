@@ -1,16 +1,18 @@
+0.9.0：对话与每日任务共用持久调度，排队/刷新后停止、定时发生去重、迟到结果拦截与重启暂停。详见 [共享执行说明](../docs/SHARED_RUNS.md)。
+
 0.8.0：手动 CLI 持久队列、刷新后停止、去重、重启暂停和重新审批重试；输出检查点与磁盘故障门禁。详见 [命令队列说明](../docs/DURABLE_COMMANDS.md)。
 
 0.7.0 修复：真实 SSE 流式输出，完整 Markdown 排版、带样式的隔离 HTML 预览、停止后保留内容，以及草稿/选区稳定。详见 [说明](../docs/STREAMING_AND_RENDERING.md)。
 
 项目结构与修改入口见 ../docs/ARCHITECTURE.md（0.6.1 分层整理）。
 
-# WillBuddy 桌面版 0.8.0
+# WillBuddy 桌面版 0.9.0
 
 在原 Web 系统与 0.3.0 桌面基础上新增浏览器、CLI 及模型工具调用闭环。原 Web 代码、数据库迁移和 Python Office 执行器保留；桌面无需先运行 Web 服务或 Cloudflare。
 
 ## 免依赖安装（Apple 芯片）
 
-日常使用请下载独立的 `WillBuddy-v0.8.0-mac-arm64-offline.zip`，完整解压后把 `WillBuddy.app` 拖入应用程序，或双击 `Install-WillBuddy.command` 安装到个人 Applications 文件夹。应用已内置 Electron/Chromium/Node 运行时，安装不执行 npm，也不要求开发工具。下方 npm 命令仅供源码开发。
+日常使用请下载独立的 `WillBuddy-v0.9.0-mac-arm64-offline.zip`，完整解压后把 `WillBuddy.app` 拖入应用程序，或双击 `Install-WillBuddy.command` 安装到个人 Applications 文件夹。应用已内置 Electron/Chromium/Node 运行时，安装不执行 npm，也不要求开发工具。下方 npm 命令仅供源码开发。
 
 只制作 Apple 芯片版，最低 macOS 12。包采用 ad-hoc 签名，尚无 Developer ID 或公证，未完成真机启动；系统首次运行可能需要在隐私与安全性中确认。安装脚本不会关闭 Gatekeeper 或移除隔离标记。Git/Codex/Python/Ollama 等外部工具及原 Python Office 工具链不包含在桌面主程序依赖中，使用这些外部能力仍需对应本机程序。
 

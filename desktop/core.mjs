@@ -4,7 +4,7 @@ import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 export const uid = () => randomUUID();
 export function initialState() {
-    return { schema: 1, chats: [], folders: [], memories: [], tasks: [], artifacts: [], activity: [], executions: [], commandJobs: [], settings: { baseUrl: 'https://api.deepseek.com', model: 'deepseek-chat', name: '我的工作空间' }, agents: [
+    return { schema: 1, chats: [], folders: [], memories: [], tasks: [], artifacts: [], activity: [], executions: [], commandJobs: [], runJobs: [], settings: { baseUrl: 'https://api.deepseek.com', model: 'deepseek-chat', name: '我的工作空间' }, agents: [
             { id: 'assistant', name: 'WillBuddy 助手', description: '梳理思路，完成日常工作', prompt: '你是 WillBuddy 工作助手。用中文清晰地帮助用户完成工作。区分事实和假设，不编造来源。' },
             { id: 'research', name: '研究分析师', description: '从资料中提炼有依据的结论', prompt: '你是研究分析师。优先根据所提供资料分析，标注文件名及证据。不足的信息明确标为待验证，不能假装联网。' },
             { id: 'writer', name: '文档创作者', description: '把零散想法整理成专业文档', prompt: '你是专业中文写作助手。输出可直接使用的完整 Markdown 文档。不要虚构数据和承诺。' }

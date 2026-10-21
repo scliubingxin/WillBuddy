@@ -1,3 +1,4 @@
+import { sharedRunQueue } from './runtime/run-queue.mjs';
 import { createCommandService } from './services/commands.mjs';
 import { createWorkspaceService } from './services/workspace.mjs';
 import { createApprover } from './main/approval.mjs';
@@ -52,12 +53,12 @@ function focus() {
         win.focus();
     }
 }
-let conversations, tasks, commands;
-const runTask = id => tasks.run(id);
+let conversations, tasks, commands, runs;
+const runTask = (id, options) => tasks.run(id, options);
 app.setPath('userData', await chooseUserDataDirectory(app.getPath('appData')));
 // Preserve the pre-rename OS cryptographic/application identity for existing keys.
 app.setName('Actwill AI');
-app.setAboutPanelOptions({ applicationName: 'WillBuddy', applicationVersion: '0.8.0' });
+app.setAboutPanelOptions({ applicationName: 'WillBuddy', applicationVersion: '0.9.0' });
 if (!app.requestSingleInstanceLock())
     app.quit();
 else {
@@ -76,8 +77,9 @@ else {
         toolRuntime = new ToolRuntime({ store, browser, approve, notify: notifyRuntime });
         recoverInterruptedWork(store.data);
         commands = createCommandService({ store, active, executeTool, notify: notifyRuntime });
-        conversations = createConversationService({ store, active, key, view, executeTool, notify: notifyRuntime,notifyStream:event=>{if(win&&!win.isDestroyed())win.webContents.send('actwill:stream',event);} });
-        tasks = createTaskService({ store, active, key, view, notifyCompleted: task => {
+        runs = sharedRunQueue({store, active, notify:notifyRuntime});
+        conversations = createConversationService({ queue:runs, store, active, key, view, executeTool, notify: notifyRuntime,notifyStream:event=>{if(win&&!win.isDestroyed())win.webContents.send('actwill:stream',event);} });
+        tasks = createTaskService({ queue:runs, notify:notifyRuntime, store, active, key, view, notifyCompleted: task => {
                 if (Notification.isSupported())
                     new Notification({ title: 'WillBuddy · 任务完成', body: task.name }).show();
             } });
@@ -88,7 +90,7 @@ else {
             register(name, handler);
         register('state', () => view());
         register('settings', async (p) => {
-            if (active.size)
+            if (active.size || runs.hasPending())
                 throw new Error('请等待当前请求结束再修改模型');
             if (p.baseUrl)
                 modelEndpoint(p.baseUrl);
@@ -150,7 +152,9 @@ else {
         register('forgetCommand', p => commands.forget(p.id));
         register('cancelCommand', p => commands.cancel(p.id));
         register('cancelChat', p => conversations.cancel(p.id));
-        register('runTask', p => runTask(p.id));
+        register('runTask', p => runTask(p.id, {requestId:p.requestId}));
+        register('cancelTask', p => tasks.cancel(p.id));
+        register('cancelRun', p => runs.cancel(p.id));
         register('exportText', async (p) => {
             const content = text(p.text, 500000);
             const result = await dialog.showSaveDialog(win, { title: '保存成果', defaultPath: (p.name || 'WillBuddy 成果').replace(/[\\/:*?"<>|]/g, '_') + '.md', filters: [{ name: 'Markdown', extensions: ['md'] }] });
@@ -189,9 +193,10 @@ else {
         shortcutReady = globalShortcut.register('CommandOrControl+Shift+Space', focus);
         tick = setInterval(() => {
             void commands.pump();
+            void runs.pump();
             for (const t of store.data.tasks) {
-                if (t.enabled && t.nextRun && t.nextRun <= Date.now() && t.status !== 'running' && active.size < 2)
-                    runTask(t.id).catch(() => { });
+                if (t.enabled && t.nextRun && t.nextRun <= Date.now() && !['queued','running','cancelling'].includes(t.status))
+                    runTask(t.id, {scheduledFor:t.nextRun}).catch(() => { });
             }
         }, 1000);
     }).catch(e => { dialog.showErrorBox('WillBuddy 启动失败', e.message); app.quit(); });
@@ -199,6 +204,7 @@ else {
     app.on('before-quit', () => {
         closing = true;
         commands?.stop();
+        runs?.stop();
         clearInterval(tick);
         globalShortcut.unregisterAll();
         for (const c of active.values())
