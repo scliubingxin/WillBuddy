@@ -1,0 +1,50 @@
+{
+  "version": "0.7.0",
+  "date": "2026-10-21",
+  "baseline": {
+    "library_version": 4,
+    "version": "0.6.1",
+    "github_head": "8e8743adedb393447293e79cd9ae0908439fe34b",
+    "file_hashes_verified": 294
+  },
+  "node_tests_passed": 50,
+  "python_packaging_tests_passed": 7,
+  "chromium_acceptance_passed": 3,
+  "streaming_acceptance": {
+    "early_text_before_server_release": true,
+    "real_HTTP_SSE": true,
+    "real_Chromium": true,
+    "native_bridge": "fixture",
+    "model": "local HTTP fixture",
+    "unchanged_composer_node_focus_and_selection": true,
+    "no_duplicate_final": true,
+    "GFM_and_HTML_CSS_preview": true,
+    "script_and_action_injection_blocked": true,
+    "original_export_unchanged": true
+  },
+  "real_CLI_in_stream_tool_loop": "Node process; approval fixture",
+  "providers": {
+    "JSON_only_fallback": "single response, no fake streaming or replay"
+  },
+  "offline_bundle": {
+    "generated": true,
+    "architecture": "arm64",
+    "signature": "ad-hoc",
+    "source_files_match_ASAR": 34,
+    "app_entries": 282,
+    "extra_files": 5,
+    "symlinks": 14,
+    "residues": 0,
+    "macho_binaries": 15,
+    "code_pages": 51216,
+    "sha256": "56c50fe1919dbc02bc7af93da63f3f6d9b406917d1d7eeab7e5595d559ebcbdc"
+  },
+  "not_verified": [
+    "paid model providers",
+    "Electron native IPC and approval windows",
+    "Mac launch/strict codesign/Gatekeeper",
+    "notarization",
+    "third-party Codex CLI",
+    "original Web build this iteration"
+  ]
+}
