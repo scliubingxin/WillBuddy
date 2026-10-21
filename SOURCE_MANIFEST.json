@@ -1,15 +1,15 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.8.0",
-  "packaged_date": "2026-10-21",
+  "version": "0.9.0",
+  "packaged_date": "2026-10-22",
   "provenance": "Complete validated source snapshot; Git commits and deployment are tracked separately",
   "base_source_commit_sha": "ecc5dd81061b5c28999120075d06884a2496114c",
   "release_status": {
     "schema_version": 2,
     "brand": "WillBuddy",
-    "version": "0.8.0",
-    "checked_date": "2026-10-21",
+    "version": "0.9.0",
+    "checked_date": "2026-10-22",
     "source_status": "desktop_source_delivery_not_deployed",
     "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
     "desktop": {
@@ -28,10 +28,11 @@
       "notarized": false,
       "streaming": "SSE text/tool deltas with JSON response compatibility; no hidden retries",
       "content_rendering": "Marked 18.1.1 + DOMPurify 3.4.17; sandboxed static HTML/CSS, no scripts/network",
-      "persistent_commands": "manual CLI FIFO; stable ID deduplication; persisted v1 status events; restart pauses; fresh approval on retry"
+      "persistent_commands": "manual CLI FIFO; stable ID deduplication; persisted v1 status events; restart pauses; fresh approval on retry",
+      "persistent_model_runs": "shared conversation/task FIFO; versioned journal; cancellation; scheduled-occurrence deduplication; restart pause; CLI shares capacity but retains separate queue"
     },
     "validation": {
-      "desktop_tests_passed": 64,
+      "desktop_tests_passed": 81,
       "ui_paths_with_mock_bridge": 17,
       "real_cli_child_process_tested": true,
       "agent_http_fixture_to_real_cli_roundtrip_tested": true,
@@ -47,7 +48,7 @@
       "theme_check": "1000px layout/overflow checked; host lacks Chinese font for pixel QA; no new Mac visual/native runtime verification",
       "offline_bundle": {
         "official_runtime_sha256": "passed",
-        "asar_content": "36 production files match exact bytes including CLI queue and pure queue view",
+        "asar_content": "38 production files match exact bytes including shared model scheduler and run view",
         "zip_integrity": "passed",
         "closed_inventory": "passed; 282 app entries + 5 extras; 14 symlinks; no residue",
         "unexpected_entry_negative": "passed even when every manifest file remains unchanged",
@@ -61,12 +62,14 @@
       },
       "service_boundary_tests_passed": 9,
       "streaming_http_to_chromium_passed": true,
-      "chromium_acceptance_tests_passed": 4,
+      "chromium_acceptance_tests_passed": 5,
       "streaming_to_real_node_cli_passed": true,
       "markdown_and_sandboxed_html_passed": true,
       "command_queue_tests_passed": 14,
       "command_queue_real_node_and_chromium_passed": true,
-      "original_python_executor_tests_passed": 35
+      "original_python_executor_tests_passed": 35,
+      "shared_run_queue_tests_passed": 16,
+      "shared_run_queue_real_http_chromium_passed": true
     },
     "rea": {
       "version": "6.7.0",
@@ -74,7 +77,7 @@
       "javascript_analysis": "partial_host_process_ownership_blocked",
       "report": "docs/REA_FINDINGS.md"
     },
-    "notes": "0.8.0 manual CLI durable queue and output checkpoints, cancel/retry/idempotency/failure gates; no automatic replay of old approvals. Original Web/Python and cryptographic identity preserved. Agent conversations/daily tasks not yet using this queue. No native Mac launch/strict codesign/notarization or paid model/Codex CLI validation.",
+    "notes": "Shared persisted conversation/daily-task scheduling delivered, CLI retains independent queue with shared capacity. Stops queued/active work, ignores late model results, prevents duplicate scheduled occurrences, rechecks revoked attachment grants, never replays old workers or approvals after restart. Original Web/Python and identity preserved. No Mac strict resource seal/Gatekeeper/launch, Developer ID/notarization, paid-model/Codex CLI/OAuth/cloud-sync validation.",
     "architecture": {
       "guide": "docs/ARCHITECTURE.md",
       "layers": [
@@ -127,13 +130,13 @@
     },
     {
       "path": "ITERATION_LOG.md",
-      "bytes": 125037,
-      "sha256": "81cedafb30d72b67e93324800b39f656244a5fc00cbafb6f6b658fc04e281ba6"
+      "bytes": 127390,
+      "sha256": "f17cc6c43afc2752fc654c1c21c7f06c813976dc3648e791afd7a4882a3d31df"
     },
     {
       "path": "ITERATION_PLAN.md",
-      "bytes": 27513,
-      "sha256": "b661796d2b097a48793f230aea80a20966f9fbf9747ec9bca5a810efce0d25e7"
+      "bytes": 28345,
+      "sha256": "8862b69ff69be0d0f7e378b9f55b7c7d749062917f6c6f533f8052e3bfd3d9d5"
     },
     {
       "path": "OPENWORKBUDDY_REFERENCE.md",
@@ -147,13 +150,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 11020,
-      "sha256": "a2a8671a092bc486d18ea474ae38e6f9d90ead97d1cc1c0f1794d25f7956c76a"
+      "bytes": 11205,
+      "sha256": "63b2ee0a1338fac3a424b402d413b7eac84d2ce0205a70d5d52b8767ce1cf828"
     },
     {
       "path": "RELEASE_STATUS.json",
-      "bytes": 4151,
-      "sha256": "b66491133fb9df33a1228bd8d5c84959f293de6792b55881d44ed3447c8e1bad"
+      "bytes": 4582,
+      "sha256": "4f2537fc323e2b505b2b5c500f524c3b86eb58a94686aaa1d595e13b90f915a2"
     },
     {
       "path": "SELF_TEST_MATRIX.md",
@@ -632,8 +635,8 @@
     },
     {
       "path": "desktop/README.md",
-      "bytes": 15600,
-      "sha256": "461f55399e9b2eea0dd56d17a7c24734916fae5f0e4c12058e4b386d17cfbf69"
+      "bytes": 15788,
+      "sha256": "25ec70e076af2dcb9385f0fd8c06dbbb387af83f03833d4d276154e4f6d9ef92"
     },
     {
       "path": "desktop/assets/app.icns",
@@ -662,8 +665,8 @@
     },
     {
       "path": "desktop/core.mjs",
-      "bytes": 7064,
-      "sha256": "54d67f2efdba15a5643791f13a71c9e4179e3e9bd6fa875c8811c99f63cdd875"
+      "bytes": 7077,
+      "sha256": "8c577f2482110191b87d7d0aacdca4ca8cdc27675bb105915486aabfd6c5a746"
     },
     {
       "path": "desktop/installer/Install-WillBuddy.command",
@@ -692,23 +695,23 @@
     },
     {
       "path": "desktop/main.mjs",
-      "bytes": 12139,
-      "sha256": "cacbd981a70acbaaa79f724c1d4f61588a70c379f98667179023127425479e40"
+      "bytes": 12587,
+      "sha256": "40ac0ad24d845a5fa4fb1e348a927fea4b700a9f35a8af8b3e2a18f362681c74"
     },
     {
       "path": "desktop/package-lock.json",
       "bytes": 176145,
-      "sha256": "b97bcaa6a438b987c4e5175c56ffe90b00ee8f3f0daeb6645c42704a225290bb"
+      "sha256": "774973e421da28a4fd91ca74f86be1f422b8ce270a6da31d068a73181a76ea26"
     },
     {
       "path": "desktop/package.json",
-      "bytes": 2180,
-      "sha256": "c6eff2d14a2e9c89d86acc67ad99102847c1f034fc255b48bad426fc24441d0b"
+      "bytes": 2243,
+      "sha256": "1bbc69a90df1995380c30bc831c6e3607c1c9f4cec2eea0c375772e9a6bb60f3"
     },
     {
       "path": "desktop/preload.cjs",
-      "bytes": 1111,
-      "sha256": "c99f819d0676684e81644594a245fed35d4fc7104f78b735e411d36bff9cfadc"
+      "bytes": 1136,
+      "sha256": "87dc2739024283d8e8ec244170c22b9e3cada4e98f6851c151d69bb8a9ad107d"
     },
     {
       "path": "desktop/runtime/agent.mjs",
@@ -741,6 +744,11 @@
       "sha256": "5e09143ef7b66e2d5877e7ed12737c48f0676eb32f56a2b4d41165568a4c5b69"
     },
     {
+      "path": "desktop/runtime/run-queue.mjs",
+      "bytes": 7734,
+      "sha256": "daf1994564b034d1fb225b314874ed896e50d310878807de7045762beb0cceb0"
+    },
+    {
       "path": "desktop/runtime/tools.mjs",
       "bytes": 6273,
       "sha256": "f4cbc5ae3b6315df20019d4507cff4d338a5a631019b42d5f76a08eac36601b5"
@@ -752,18 +760,18 @@
     },
     {
       "path": "desktop/services/conversation.mjs",
-      "bytes": 7922,
-      "sha256": "05df7701565a0b71ff1a3fc16a477fadbb19cfdbe1eba2d8a62c3dd60b2e3112"
+      "bytes": 9344,
+      "sha256": "ef5b91d7618cde78801dfbdc5c5facbb050049303620dc68160ac3f6bfcaf4bd"
     },
     {
       "path": "desktop/services/recovery.mjs",
-      "bytes": 1507,
-      "sha256": "8c9cfa1e1e7d9504d9cce0f4aa3423524326bc4116a1bc2a0f0a5768522be774"
+      "bytes": 2156,
+      "sha256": "ddf4e39ffe0482e597cc537b641b61c0901fb16e504f308b261c82351570bce2"
     },
     {
       "path": "desktop/services/tasks.mjs",
-      "bytes": 2007,
-      "sha256": "dfde1b60fefa01875d3675c26fbd2dc78527cab91fc3e6f59d599ec729e1d430"
+      "bytes": 2892,
+      "sha256": "40ec0c09b3b7f3f01747301e0466888d846df5b285766607eefa93d656e08d59"
     },
     {
       "path": "desktop/services/validation.mjs",
@@ -772,13 +780,13 @@
     },
     {
       "path": "desktop/services/workspace.mjs",
-      "bytes": 3067,
-      "sha256": "8109225ea390b95ab9189aa698ce2d68221ca302a11c9f7d019ae6e3960a95d6"
+      "bytes": 3418,
+      "sha256": "bf6b6796a4a26db76bff28d6ee0f25a6c5f0a0870258a69bbc795235718e8340"
     },
     {
       "path": "desktop/src/app.js",
-      "bytes": 52141,
-      "sha256": "a0b16410f91e03dd3f71952c04e6dde6b62edde2398bf7752bd6f04aee70e443"
+      "bytes": 53417,
+      "sha256": "c3fb05116b167ed4319712d19002cb53e87e731197e136b915fbea3ebe38beeb"
     },
     {
       "path": "desktop/src/assets/logo.png",
@@ -806,9 +814,14 @@
       "sha256": "1697c5c5fbfe9e44d84e29ae32fb19d2ac469495d7f4c30c3dda7637eecaa710"
     },
     {
+      "path": "desktop/src/ui/runs.js",
+      "bytes": 1211,
+      "sha256": "5a3b7f8db4bb73afe9f430aeebe17e4dafc5956713f2c263355f23b092039c1a"
+    },
+    {
       "path": "desktop/src/ui/workspace.js",
-      "bytes": 8445,
-      "sha256": "5bc0234d7ca8f4818ddcc63b600a54ae5260270d4e9806a51843af3d73b9dae8"
+      "bytes": 8738,
+      "sha256": "3868d1a9c3134543cc528b30afe668f5b4e55e4ff1e488becb38d016c386bf9f"
     },
     {
       "path": "desktop/src/vendor/MANIFEST.json",
@@ -847,8 +860,13 @@
     },
     {
       "path": "desktop/tests/acceptance/commands-live.mjs",
-      "bytes": 5074,
-      "sha256": "3bf92018748d0f42d9434b55f06ff9fe1476b3a025094bcbc0365f9d106ca7c3"
+      "bytes": 5168,
+      "sha256": "364a775f643f4d2b0b3dfe2f7aea301ed6f914dc42e6627a1b289606f7204da3"
+    },
+    {
+      "path": "desktop/tests/acceptance/runs-live.mjs",
+      "bytes": 5433,
+      "sha256": "45f3157751fbc63f104f26c1569a3e6722d88c12def69ac49b75a4aace82e114"
     },
     {
       "path": "desktop/tests/acceptance/streaming-live.mjs",
@@ -891,14 +909,19 @@
       "sha256": "3529bd481c0bda6e4502d7ea13ab7de10805eeebf2dfdd60d0df153e29e23c6c"
     },
     {
+      "path": "desktop/tests/run-queue.test.mjs",
+      "bytes": 13719,
+      "sha256": "d12be6f75d3a4bbd29571e6c06a8b8e6e23af38ab00f3c0eb6b795490e2b868e"
+    },
+    {
       "path": "desktop/tests/runtime.test.mjs",
       "bytes": 8226,
       "sha256": "f68df651b6885b878599095a81acd61202f0e29eee10f053598e997c8d25bc38"
     },
     {
       "path": "desktop/tests/services.test.mjs",
-      "bytes": 7919,
-      "sha256": "1e4d1d212018d931b730a6356dfd7fbae3cfc9eea40cc1d3e58e74a8e3910d00"
+      "bytes": 8303,
+      "sha256": "2ec40e388c4d09ea8265526c5b708979f30d8b70ab00f0721895c89edde98628"
     },
     {
       "path": "desktop/tests/streaming.test.mjs",
@@ -912,13 +935,13 @@
     },
     {
       "path": "desktop/tests/workspace.test.mjs",
-      "bytes": 10084,
-      "sha256": "75602e98faed55ffbd5e60550cec3cff937940370ac73f9b7f33e049cb14b175"
+      "bytes": 11466,
+      "sha256": "5f6e1e731733648b52393c3b731fbdec22ae607e2fccde06d8d4aa78895b7e7a"
     },
     {
       "path": "docs/ARCHITECTURE.md",
-      "bytes": 4495,
-      "sha256": "2421f50da8e9b0128716df5157eb5169e467fbe00e4a8d1ed68aabb31062658a"
+      "bytes": 4814,
+      "sha256": "db1b44fa229b26c301b2cc7c7ad75f3b7c7d4270427a3cf55ca1dec164e7dd8e"
     },
     {
       "path": "docs/DURABLE_COMMANDS.md",
@@ -932,18 +955,23 @@
     },
     {
       "path": "docs/QUICK_GAPS.md",
-      "bytes": 4499,
-      "sha256": "0efbfb54a6b658d74422420ae683275d6682f9d7427ac886991234e1a9c21807"
+      "bytes": 5232,
+      "sha256": "698255bb3db595c542588ead4273ef7410fd24642cb6a704dca02e239bd5307e"
     },
     {
       "path": "docs/REA_FINDINGS.md",
-      "bytes": 7020,
-      "sha256": "840237cf999ba54d5b1a4f862c55659424558a9a0d6038321022c61502d5dc60"
+      "bytes": 7284,
+      "sha256": "33f994620f6f671266266b03a81bddfdee22e0a2ef31dff2e7f9ec46894ac351"
     },
     {
       "path": "docs/SCREENSHOT_ALIGNMENT.md",
       "bytes": 2704,
       "sha256": "c68743b1c86fcbf805ac33afce3629c5ab6165943ab4a47c12c312f89557cd8f"
+    },
+    {
+      "path": "docs/SHARED_RUNS.md",
+      "bytes": 5198,
+      "sha256": "282e554a67319c8f719c416ce524f472d2d0e3e1d8bed3ad5b5061b812b81f8e"
     },
     {
       "path": "docs/STREAMING_AND_RENDERING.md",
@@ -989,6 +1017,11 @@
       "path": "docs/validation/v0.8.0.json",
       "bytes": 3471,
       "sha256": "0457d1e2033a0890bdd9c6a32ad92576fb75bf8183e6a291f97627667abd4e99"
+    },
+    {
+      "path": "docs/validation/v0.9.0.json",
+      "bytes": 3603,
+      "sha256": "802c74d804c475f9f3666400b19d2809cbcc33d501150f3d1e2d4e3ebeb89db9"
     },
     {
       "path": "drizzle/0000_yellow_silver_samurai.sql",

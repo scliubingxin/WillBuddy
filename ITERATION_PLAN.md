@@ -1,3 +1,9 @@
+# 当前入口 · 0.9.0
+
+先读 docs/SHARED_RUNS.md 与 docs/validation/v0.9.0.json。模型对话/每日任务已有共用持久调度与事件，CLI保留原队列并共享容量；不得误称三者已统一FIFO或跨Web核心已完成。旧worker/审批不自动重放。保持流式、安全Markdown/HTML、原Web/Python/身份/白蓝主题。
+
+下一轮：有Apple芯片Mac先验收严格codesign/安装启动、原生审批/钥匙串/模型/CLI；无目标机时，优先桌面MCP工具发现与受控调用，或授权文件写入与成果验收，继续合并队列/事件协议并测公平调度。不要持续只增加队列UI。保留全源码与arm64离线候选，每轮检查包内残留/符号链接/执行位/ASAR和签名边界。GitHub使用最新版独立分支，仍无PR/合并授权，不从旧main倒退。
+
 # 当前入口 · 0.8.0
 
 先读 docs/DURABLE_COMMANDS.md 和 docs/validation/v0.8.0.json。手动CLI已有持久队列/去重/取消/重新审批重试，重启不自动重放。保留0.7的流式与安全Markdown/HTML。
