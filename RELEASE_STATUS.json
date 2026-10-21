@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "brand": "WillBuddy",
+  "version": "0.6.0",
+  "checked_date": "2026-10-21",
+  "source_status": "desktop_source_delivery_not_deployed",
+  "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
+  "desktop": {
+    "electron": "42.0.0",
+    "entry": "desktop/main.mjs",
+    "native_build_generated": false,
+    "mac_arm_runtime_verified": false,
+    "cloud_sync": false,
+    "tool_runtime": "agent_loop+native_approval+browser_snapshot_ref_click_fill+cli",
+    "product_name": "WillBuddy",
+    "theme": "White #FFFFFF canvas; logo blue #0078CB primary; restrained logo red",
+    "offline_app_bundle_generated": true,
+    "offline_architecture": "arm64",
+    "minimum_macos": "12.0",
+    "signature": "ad-hoc",
+    "notarized": false
+  },
+  "validation": {
+    "desktop_tests_passed": 28,
+    "ui_paths_with_mock_bridge": 17,
+    "real_cli_child_process_tested": true,
+    "agent_http_fixture_to_real_cli_roundtrip_tested": true,
+    "browser_verification": "real_Chromium_headless_shell_CDP_trusted_inputs_and_isolated_world_passed; Electron_adapter_and_approval_model_are_fixtures; full_Chrome_socket_blocked",
+    "workspace_browser_test_passed": true,
+    "packaging_tests_passed": 7,
+    "workspace_test_scope": "real Chromium layout, keyboard, Markdown, preview/export; deterministic native bridge and model content",
+    "native_chat_lifecycle_integration": "not_tested; syntax and run-scoped tool persistence tests passed",
+    "mac_native_runtime_verified": false,
+    "real_model_provider_tested": false,
+    "third_party_cli_codex_tested": false,
+    "web_build_tested_this_iteration": false,
+    "theme_check": "real Chromium white surface check; Chinese font installed only for local QA; no new Mac runtime verification",
+    "offline_bundle": {
+      "official_runtime_sha256": "passed",
+      "asar_content": "passed",
+      "zip_integrity": "passed",
+      "closed_inventory": "passed; 282 app entries + 5 extras; 14 symlinks; no residue",
+      "unexpected_entry_negative": "passed even when every manifest file remains unchanged",
+      "case_collision_link_mode_checks": "passed",
+      "user_reported_050_signing_issue": "addressed by staging cleanup, closed inventory and native CI gate; new Mac validation pending",
+      "macho_binaries": 15,
+      "code_pages": 51216,
+      "negative_tamper_check": "passed",
+      "macOS_bundle_codesign_and_gatekeeper": "not_tested",
+      "installer_shell_syntax": "passed"
+    }
+  },
+  "rea": {
+    "version": "6.7.0",
+    "dmg_inventory": "root_hash_observed",
+    "javascript_analysis": "partial_host_process_ownership_blocked",
+    "report": "docs/REA_FINDINGS.md"
+  },
+  "notes": "Original Web and Python retained. Screenshot-driven task workspace and packaging residue prevention delivered. ARM64 offline app is an ad-hoc candidate; native Mac strict codesign, launch, Gatekeeper and notarization remain unverified. GitHub upload pending secure sign-in."
+}
