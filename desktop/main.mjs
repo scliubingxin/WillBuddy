@@ -60,7 +60,7 @@ const runTask = (id, options) => tasks.run(id, options);
 app.setPath('userData', await chooseUserDataDirectory(app.getPath('appData')));
 // Preserve the pre-rename OS cryptographic/application identity for existing keys.
 app.setName('Actwill AI');
-app.setAboutPanelOptions({ applicationName: 'WillBuddy', applicationVersion: '0.10.0' });
+app.setAboutPanelOptions({ applicationName: 'WillBuddy', applicationVersion: '0.10.1' });
 if (!app.requestSingleInstanceLock())
     app.quit();
 else {
@@ -80,13 +80,13 @@ else {
         recoverInterruptedWork(store.data);
         commands = createCommandService({ store, active, executeTool, notify: notifyRuntime });
         runs = sharedRunQueue({store, active, notify:notifyRuntime});
-        conversations = createConversationService({ queue:runs, store, active, key, view, executeTool, notify: notifyRuntime,notifyStream:event=>{if(win&&!win.isDestroyed())win.webContents.send('actwill:stream',event);} });
+        conversations = createConversationService({ queue:runs, store, active, key, view, executeTool, releaseToolGrants:id=>toolRuntime.browserPermissions.release(id), notify: notifyRuntime,notifyStream:event=>{if(win&&!win.isDestroyed())win.webContents.send('actwill:stream',event);} });
         tasks = createTaskService({ queue:runs, notify:notifyRuntime, store, active, key, view, notifyCompleted: task => {
                 if (Notification.isSupported())
                     new Notification({ title: 'WillBuddy · 任务完成', body: task.name }).show();
             } });
         await store.save();
-        Menu.setApplicationMenu(Menu.buildFromTemplate([{ label: 'WillBuddy', submenu: [{ label: '显示工作台', click: focus }, { role: 'about' }, { type: 'separator' }, { role: 'quit' }] }, { label: '编辑', submenu: [{ role: 'undo' }, { role: 'redo' }, { type: 'separator' }, { role: 'cut' }, { role: 'copy' }, { role: 'paste' }, { role: 'selectAll' }] }, { label: '视图', submenu: [{ role: 'reload' }, { role: 'togglefullscreen' }, { role: 'zoomIn' }, { role: 'zoomOut' }, { role: 'resetZoom' }] }]));
+        Menu.setApplicationMenu(Menu.buildFromTemplate([{ label: 'WillBuddy', submenu: [{ label: '显示工作台', click: focus }, { label: '取消所有操作确认', accelerator: 'CommandOrControl+Shift+Escape', click: () => approve.cancelAll() }, { label: '撤销浏览器任务授权', click: () => { toolRuntime.browserPermissions.revoke(); approve.cancelAll(); } }, { role: 'about' }, { type: 'separator' }, { role: 'quit' }] }, { label: '编辑', submenu: [{ role: 'undo' }, { role: 'redo' }, { type: 'separator' }, { role: 'cut' }, { role: 'copy' }, { role: 'paste' }, { role: 'selectAll' }] }, { label: '视图', submenu: [{ role: 'reload' }, { role: 'togglefullscreen' }, { role: 'zoomIn' }, { role: 'zoomOut' }, { role: 'resetZoom' }] }]));
         const workspace = createWorkspaceService({ store, active, view });
         for (const [name, handler] of Object.entries(workspace))
             register(name, handler);
@@ -140,6 +140,8 @@ else {
         register('listFiles', p => listGranted(store.data.folders, p.id, String(p.query || '').slice(0, 200)));
         register('readFile', p => readGranted(store.data.folders, p.folderId, p.relative));
         register('chat', p => conversations.run(p));
+        register('revokeBrowserApprovals', () => { toolRuntime.browserPermissions.revoke(); approve.cancelAll(); return true; });
+        register('cancelApprovals', () => { approve.cancelAll(); return true; });
         register('openBrowser', p => executeTool('browser_open', p, undefined, { manual: true }));
         register('readBrowser', p => executeTool('browser_read', p));
         register('inspectBrowser', p => executeTool('browser_snapshot', p));
@@ -228,6 +230,8 @@ else {
     app.on('activate', focus);
     app.on('before-quit', () => {
         closing = true;
+        approve.cancelAll();
+        toolRuntime?.browserPermissions.revoke();
         commands?.stop();
         runs?.stop();
         clearInterval(tick);
