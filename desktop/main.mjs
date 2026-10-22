@@ -1,3 +1,5 @@
+import {createConversionBrowser} from './main/conversion-browser.mjs';
+import {createDocumentConverter} from './runtime/document-converter.mjs';
 import {createGenOfficeBridge} from './main/genoffice.mjs';
 import {readDocumentSource,writeDocumentDestination} from './main/document-files.mjs';
 import {documentViews} from './services/documents.mjs';
@@ -10,7 +12,7 @@ import { createConversationService } from './services/conversation.mjs';
 import { createTaskService } from './services/tasks.mjs';
 import { recoverInterruptedWork } from './services/recovery.mjs';
 import { requiredText as text } from './services/validation.mjs';
-import { app, BrowserWindow, ipcMain, dialog, globalShortcut, Menu, safeStorage, shell, Notification } from 'electron';
+import { app, BrowserWindow, ipcMain, dialog, globalShortcut, Menu, safeStorage, shell, Notification, session } from 'electron';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { readFile, writeFile, stat } from 'node:fs/promises';
@@ -77,7 +79,8 @@ else {
         if (defaultAgent?.prompt === '你是 Actwill 工作助手。用中文清晰地帮助用户完成工作。区分事实和假设，不编造来源。')
             defaultAgent.prompt = '你是 WillBuddy 工作助手。用中文清晰地帮助用户完成工作。区分事实和假设，不编造来源。';
         store.data.executions ??= [];
-        toolRuntime = new ToolRuntime({ store, browser, approve, notify: notifyRuntime });
+        const convertDocument=createDocumentConverter({createDriver:signal=>createConversionBrowser({BrowserWindow,session,signal})});
+        toolRuntime = new ToolRuntime({ store, browser, approve, notify: notifyRuntime, convertDocument });
         genoffice=createGenOfficeBridge({documents:toolRuntime.documents,approve});
         recoverInterruptedWork(store.data);
         commands = createCommandService({ store, active, executeTool, notify: notifyRuntime });
@@ -163,11 +166,12 @@ else {
         register('cancelRun', p => runs.cancel(p.id));
         register('documentOperation', p => {
             const {operation,...args}=p;
-            if (!['document_create','document_read','document_edit'].includes(operation)) throw Error('未知文档操作');
+            if (!['document_create','document_read','document_edit','document_convert','document_write'].includes(operation)) throw Error('未知文档操作');
             return executeTool(operation,args);
         });
         register('genofficeOpen', p => genoffice.open(p.id,p.revision));
         register('genofficeImport', p => genoffice.importEdited(p.id));
+        register('documentRichEditor', p => toolRuntime.documents.richEditor(p.id));
         register('documentEditor', p => toolRuntime.documents.editor(p.id));
         register('documentSaveEditor', p => toolRuntime.documents.updateEditor(p.id,p.revision,p.patch,approve));
         register('documentRead', p => toolRuntime.documents.read(p.id));

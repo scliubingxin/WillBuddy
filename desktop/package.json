@@ -1,7 +1,7 @@
 {
   "name": "actwill-desktop",
   "productName": "WillBuddy",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "private": true,
   "description": "WillBuddy desktop AI workspace",
   "author": "Actwill",
@@ -22,7 +22,8 @@
     "test:commands": "node --test tests/acceptance/commands-live.mjs",
     "test:runs": "node --test tests/acceptance/runs-live.mjs",
     "vendor:office": "node ../scripts/vendor-desktop-office.mjs",
-    "test:documents": "node --test tests/acceptance/documents-live.mjs"
+    "test:documents": "node --test tests/acceptance/documents-live.mjs",
+    "vendor:genoffice": "node ../scripts/vendor-genoffice.mjs"
   },
   "devDependencies": {
     "@xmldom/xmldom": "0.9.12",
