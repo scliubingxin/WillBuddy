@@ -101,6 +101,8 @@ test("real Chromium: Office create/edit/export and two concurrent model tasks wi
         const { operation, ...args } = p;
         return tools.execute(operation, args);
       }
+      if(n === "documentEditor")return tools.documents.editor(p.id);
+      if(n === "documentSaveEditor")return tools.documents.updateEditor(p.id,p.revision,p.patch,async()=>true);
       if (n === "documentExport") {
         const result = tools.documents.bytes(p.id, p.revision);
         exported = path.join(dir, "actual." + result.format);
@@ -118,7 +120,7 @@ test("real Chromium: Office create/edit/export and two concurrent model tasks wi
           "cancelChat",
           "cancelRun",
           "documentOperation",
-          "documentExport",
+          "documentExport", "documentEditor", "documentSaveEditor",
         ].map((n) => [n, (p) => window.hostRun(n, p)]),
       );
       window.actwill.onRuntime = (fn) => {
@@ -226,6 +228,33 @@ test("real Chromium: Office create/edit/export and two concurrent model tasks wi
       store.data.chats.find((c) => c.id === second).run.status,
       "completed",
     );
+    // Actual HTTP model tool call -> trusted document card -> binary Office download.
+    await page.getByRole('button',{name:/新建任务/}).click();
+    await page.locator('#prompt').fill('生成一个可以下载并编辑的Word');
+    await page.getByRole('button',{name:'发送任务',exact:true}).click();
+    for(let i=0;i<100&&held.length<3;i++)await new Promise(r=>setTimeout(r,10));
+    held[2].res.end(JSON.stringify({choices:[{message:{role:'assistant',content:null,tool_calls:[{id:'word',type:'function',function:{name:'document_create',arguments:JSON.stringify({name:'工具生成Word',format:'docx',content:JSON.stringify({title:'可编辑标题',blocks:[{type:'paragraph',text:'编辑前正文'}]})})}}]}}]}));
+    for(let i=0;i<100&&held.length<4;i++)await new Promise(r=>setTimeout(r,10));
+    held[3].res.end(JSON.stringify({choices:[{message:{role:'assistant',content:'已创建。无需查找文档ID，点击下面的实际文件。'}}]}));
+    const card=page.getByRole('region',{name:'已生成的文档'});
+    await card.getByRole('button',{name:'下载 DOCX',exact:true}).waitFor();
+    exported=null;
+    await page.getByRole('button',{name:'下载生成文件',exact:true}).click();
+    for(let i=0;i<100&&!exported;i++)await new Promise(r=>setTimeout(r,10));
+    assert.match(inspectDocument('docx',await readFile(exported)).text,/编辑前正文/);
+    await card.getByRole('button',{name:'编辑内容',exact:true}).click();
+    await page.locator('[name="block1"]').fill('在生产界面修改后的正文');
+    await page.getByRole('button',{name:'保存文档版本',exact:true}).click();
+    await card.filter({hasText:'v2'}).waitFor();
+    await page.getByRole('button',{name:'在工作区查看',exact:true}).click();
+    await page.getByRole('article',{name:'成果正文'}).filter({hasText:'在生产界面修改后的正文'}).waitFor();
+    exported=null;
+    await page.getByRole('button',{name:'导出当前成果',exact:true}).click();
+    for(let i=0;i<100&&!exported;i++)await new Promise(r=>setTimeout(r,10));
+    assert.match(inspectDocument('docx',await readFile(exported)).text,/在生产界面修改后的正文/);
+    await page.reload();
+    await page.locator('.recent [data-action="openChat"]').first().click();
+    await page.getByRole('region',{name:'已生成的文档'}).getByRole('button',{name:'下载 DOCX',exact:true}).waitFor();
     assert.deepEqual(errors, []);
     console.log(
       "PASS: production renderer + real DOCX codec/file export + shared service + two actual HTTP requests; native dialogs/approval bridge and model content remain fixtures",
