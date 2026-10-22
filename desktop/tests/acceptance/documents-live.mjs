@@ -101,7 +101,7 @@ test("real Chromium: Office create/edit/export and two concurrent model tasks wi
         const { operation, ...args } = p;
         return tools.execute(operation, args);
       }
-      if(n === "documentEditor")return tools.documents.editor(p.id);
+      if(n === "documentEditor")return tools.documents.editor(p.id,p.mode);
       if(n === "documentSaveEditor")return tools.documents.updateEditor(p.id,p.revision,p.patch,async()=>true);
       if (n === "documentExport") {
         const result = tools.documents.bytes(p.id, p.revision);
@@ -242,9 +242,9 @@ test("real Chromium: Office create/edit/export and two concurrent model tasks wi
     await page.getByRole('button',{name:'下载生成文件',exact:true}).click();
     for(let i=0;i<100&&!exported;i++)await new Promise(r=>setTimeout(r,10));
     assert.match(inspectDocument('docx',await readFile(exported)).text,/编辑前正文/);
-    await card.getByRole('button',{name:'编辑内容',exact:true}).click();
-    await page.locator('[name="block1"]').fill('在生产界面修改后的正文');
-    await page.getByRole('button',{name:'保存文档版本',exact:true}).click();
+    await card.getByRole('button',{name:'Word 分段编辑',exact:true}).click();
+    await page.locator('[data-word-run]').filter({hasText:'编辑前正文'}).fill('在生产界面修改后的正文');
+    await page.getByRole('button',{name:'保存Word新版本',exact:true}).click();
     await card.filter({hasText:'v2'}).waitFor();
     await page.getByRole('button',{name:'在工作区查看',exact:true}).click();
     await page.getByRole('article',{name:'成果正文'}).filter({hasText:'在生产界面修改后的正文'}).waitFor();
