@@ -1,3 +1,48 @@
+# WillBuddy 0.10.0 · 2026-10-22
+
+用户最新主线：AI编辑/生成Office、Markdown、HTML及多任务并发。已实际实现真实文档编解码、导入不写回原件、create/read/edit模型工具、原生逐次审批、乐观版本检查、五份历史字节、历史导出、原生保存暂存/回读校验。Office基础排版和定向修改，不宣称全面替代Office。修复前端全局pending禁止并发任务的真实问题，改为逐会话状态/草稿/工作区；最多两项模型请求并发，更多排队、独立停止。
+
+96项Node/JSDOM（新增15文档/权限/故障/文件/HTTP）、6项真实Chromium、7项打包Python、35项原Python执行器通过。生成编辑的真实DOCX/XLSX/PPTX经独立Python Office解析器校验。浏览器实际生成/编辑/导出Word并并行两项HTTP请求，取消一项不影响另一项；原生桥/审批/模型内容仍夹具。修正旧混合CLI测试的状态观察竞态：等待worker idle后断言名额释放，未改生产调度。
+
+arm64离线包包含全部运行时和已预打包Office纯JS编解码器/16个模块许可。45个生产文件与ASAR逐字节一致；282应用条目+5配套、14链接、零残留；15 Mach-O/51216代码页及篡改负例通过。仍ad-hoc、未公证，无Mac原生严格资源封印/Gatekeeper/启动、真实模型、Microsoft Office/WPS保真排版或CodexCLI结论。源码包使用闭合清单和逐文件SHA256，排除依赖、真实密钥、用户数据与缓存。
+
+Office未完成：保真渲染、复杂结构/样式/模板/图表图片、公式引擎、修订批注/PDF；并行未完成：模型自主拆解子任务组、跨队列公平和跨重启进程续跑。下一轮从 docs/OFFICE_WORKSPACE.md、docs/validation/v0.10.0.json 接续，有Mac先原生验收；原Web/Python保留，未部署、未创建PR/合并main。
+
+实际修改文件：
+
+- .github/workflows/willbuddy-mac-arm64.yml
+- ITERATION_PLAN.md
+- README.md
+- RELEASE_STATUS.json
+- desktop/README.md
+- desktop/main/document-files.mjs
+- desktop/main.mjs
+- desktop/package-lock.json
+- desktop/package.json
+- desktop/preload.cjs
+- desktop/runtime/agent.mjs
+- desktop/runtime/documents.mjs
+- desktop/runtime/tools.mjs
+- desktop/runtime/vendor/OFFICE-LICENSES.txt
+- desktop/runtime/vendor/OFFICE-MANIFEST.json
+- desktop/runtime/vendor/office.cjs
+- desktop/services/conversation.mjs
+- desktop/services/documents.mjs
+- desktop/src/app.js
+- desktop/src/ui/documents.js
+- desktop/tests/acceptance/documents-live.mjs
+- desktop/tests/documents.test.mjs
+- desktop/tests/run-queue.test.mjs
+- docs/ARCHITECTURE.md
+- docs/OFFICE_WORKSPACE.md
+- docs/QUICK_GAPS.md
+- docs/validation/v0.10.0.json
+- scripts/native-isarray.cjs
+- scripts/package-offline-mac.py
+- scripts/requirements-office-tests.txt
+- scripts/vendor-desktop-office.mjs
+- ITERATION_LOG.md
+
 # 桌面迭代 0.9.0 · 2026-10-22 · 共用模型调度与取消边界
 
 重新读取权威0.8.0/版本6并核对312文件哈希，从公开GitHub已核对的b8ecf63接续，不从旧main回退。新增runtime/run-queue.mjs，对话与每日模型任务共用持久受理/FIFO/取消/状态事件；同一逻辑ID与定时发生去重、过期请求冲突拒绝。CLI仍保留原队列，共享两个执行名额，不声称三者统一FIFO或跨Web核心完成。自动化页显示真实队列，刷新后可停止排队对话及运行中的每日任务，迟到回复不生成成果/通知。重启只暂停/标记中断，不重放模型worker、工具或审批。schema1新增runJobs，原Web/Python、加密身份和白蓝logo保留。
