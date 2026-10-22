@@ -1,3 +1,46 @@
+# WillBuddy 0.11.0 · Office真实交付、内容编辑与GenOffice接续 · 2026-10-22
+
+修复用户截图的关键缺陷：生成的Office文档没有关联回复/工作区，导致“导出”保存文本收据.md。现在从真实成功工具结果持久化run文档引用，卡片和工作区导出原文件；旧审计可找回同run文件，绝不从模型文本猜ID。新增直接段落/常量单元格/Markdown和HTML原文编辑、乐观版本检查和审批。GenOffice已增加可选Mac应用副本接续/核验收回；不是内嵌完整编辑器，没有捆绑GenOffice，也没有执行其真实Mac GUI。
+
+README已重写产品介绍、功能/边界/安装/模型/常见问题/开发/English关键词；3张明确标记的生产界面演示截图及自制工作流SVG，原Web介绍保留。未改变UNLICENSED或第三方许可。
+
+验证：113项核心、6项真实Chromium、7项打包Python。新增8项编辑/GenOffice夹具/权限/故障边界，真实HTTP模型夹具到生产Chromium与真实DOCX下载/修改/刷新链路通过。初次JSDOM回归失败因测试加载器未注入新增UI模块，更新加载器后通过。Mac原生GenOffice/付费模型/签名公证仍未验收。详情与下一步见docs/GENOFFICE_DESKTOP.md及validation/v0.11.0.json。
+
+实际变更文件：
+
+- ITERATION_LOG.md
+- ITERATION_PLAN.md
+- README.md
+- RELEASE_STATUS.json
+- desktop/README.md
+- desktop/main.mjs
+- desktop/main/document-files.mjs
+- desktop/main/genoffice.mjs
+- desktop/package-lock.json
+- desktop/package.json
+- desktop/preload.cjs
+- desktop/runtime/documents.mjs
+- desktop/services/conversation.mjs
+- desktop/services/documents.mjs
+- desktop/src/app.js
+- desktop/src/styles.css
+- desktop/src/ui/documents.js
+- desktop/src/ui/workspace.js
+- desktop/tests/acceptance/documents-live.mjs
+- desktop/tests/document-editor.test.mjs
+- desktop/tests/helpers/load-ui.mjs
+- docs/GENOFFICE_DESKTOP.md
+- docs/QUICK_GAPS.md
+- docs/WEB_README_ORIGINAL.md
+- docs/images/documents.png
+- docs/images/editor.png
+- docs/images/workflow.svg
+- docs/images/workspace.png
+- docs/validation/v0.11.0.json
+- scripts/capture-readme.mjs
+
+arm64离线候选：119051628字节；47生产文件ASAR逐字节一致，282应用条目+5配套、14符号链接、零残留，15Mach-O/51216代码页及篡改负例通过。仍未公证，未做Mac原生严格资源密封/Gatekeeper/启动验收。
+
 本次实际修改文件：
 
 - ITERATION_LOG.md

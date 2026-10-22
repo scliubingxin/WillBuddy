@@ -1,3 +1,9 @@
+# 0.11.0 当前入口 · 2026-10-22
+
+先读docs/GENOFFICE_DESKTOP.md和docs/validation/v0.11.0.json。已修复Office误导出Markdown，补可信文件卡片/直接内容编辑/可选Mac GenOffice副本接续。完整GenOffice编辑器没有内嵌，不能声称已取代Office或已通过Mac原生启动。
+
+下一轮：优先用户Mac真实模型生成→DOCX卡片→下载→编辑→再下载，以及GenOffice原生打开/保存/收回；缺目标机时提取可独立构建的GenOffice编辑器/引擎，许可/字体/arm64 sidecar先核验，推进内嵌保真编辑和公式计算，避免持续只改介绍和队列。保留双任务并发、原Web/Python、白蓝logo、兼容身份；不自动重放已审批工具，不建PR/合并main。
+
 # 0.10.1 当前优先入口 · 2026-10-22
 
 按用户截图修复document_create长JSON原生sheet超出屏幕、取消信号未传入dialog导致队列等待的问题。文档确认用摘要；浏览器可显式选择本任务/本站点授权，不逐步弹窗，新站点/新任务重新确认；撤销、任务结束和退出清理许可。增加60秒超时、菜单⌘⇧Esc紧急取消、拒绝无父窗口/过长消息及迟到允许，导航前后校验防止站点授权泄漏。完整边界见docs/APPROVAL_FIX.md（从docs阅读为APPROVAL_FIX.md）。

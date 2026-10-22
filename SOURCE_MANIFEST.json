@@ -1,14 +1,14 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.10.1",
+  "version": "0.11.0",
   "packaged_date": "2026-10-22",
   "provenance": "Complete validated source snapshot; Git commits and deployment are tracked separately",
   "base_source_commit_sha": "ecc5dd81061b5c28999120075d06884a2496114c",
   "release_status": {
     "schema_version": 2,
     "brand": "WillBuddy",
-    "version": "0.10.1",
+    "version": "0.11.0",
     "checked_date": "2026-10-22",
     "source_status": "desktop_source_delivery_not_deployed",
     "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -33,10 +33,13 @@
       "documents": "real DOCX/XLSX/PPTX generation/import/targeted edits; md/html text edits; 5 previous revisions; native export with readback",
       "concurrent_ui": "per-chat pending/drafts/workspaces; two shared model slots; background navigation and isolated cancellation; no automatic subtask groups",
       "browser_approvals": "explicit volatile exact-run/exact-origin consent; revoke/release; CLI/documents stay per-operation",
-      "native_confirmations": "bounded summary; AbortSignal+60s timeout+emergency cancellation; no parentless Mac dialogs"
+      "native_confirmations": "bounded summary; AbortSignal+60s timeout+emergency cancellation; no parentless Mac dialogs",
+      "document_delivery": "trusted run-linked binary cards; reply/workspace export routes to actual Office bytes; chat export explicitly Markdown",
+      "document_editor": "revision-bound paragraph/cell/source content editor; not full WYSIWYG; modified paragraphs use first run style",
+      "genoffice": "optional macOS installed-app handoff and validated copy import; not embedded/bundled; launch remains fixture-tested"
     },
     "validation": {
-      "desktop_tests_passed": 105,
+      "desktop_tests_passed": 113,
       "ui_paths_with_mock_bridge": 17,
       "real_cli_child_process_tested": true,
       "agent_http_fixture_to_real_cli_roundtrip_tested": true,
@@ -49,10 +52,10 @@
       "real_model_provider_tested": false,
       "third_party_cli_codex_tested": false,
       "web_build_tested_this_iteration": false,
-      "theme_check": "1000px layout/overflow checked; host lacks Chinese font for pixel QA; no new Mac visual/native runtime verification",
+      "theme_check": "Chinese font available for documentation screenshots; production forms and layout inspected; no Mac pixel/runtime validation",
       "offline_bundle": {
         "official_runtime_sha256": "passed",
-        "asar_content": "46 production files match exact bytes",
+        "asar_content": "47 production files match exact bytes",
         "zip_integrity": "passed",
         "closed_inventory": "passed; 282 app entries + 5 extras; 14 symlinks; no residue",
         "unexpected_entry_negative": "passed even when every manifest file remains unchanged",
@@ -78,7 +81,9 @@
       "office_independent_parsers": "python-docx/openpyxl/python-pptx open generated and edited DOCX/XLSX/PPTX, verify actual content/tables/cells/notes",
       "document_model_integration": "actual HTTP Chat Completions fixture -> real create/read/edit tools -> validated Word bytes; no real paid provider",
       "parallel_ui_integration": "real production Chromium -> two real HTTP requests -> independent cancellation/completion and drafts; native bridge is fixture",
-      "approval_lifecycle_new_tests": 9
+      "approval_lifecycle_new_tests": 9,
+      "office_delivery_editor": "real HTTP model fixture -> tool codec -> production Chromium -> binary export -> paragraph edit -> new revision export -> reload",
+      "genoffice_native_tested": false
     },
     "rea": {
       "version": "6.7.0",
@@ -139,13 +144,13 @@
     },
     {
       "path": "ITERATION_LOG.md",
-      "bytes": 131692,
-      "sha256": "b50901356026ea0d4127f60fabe9e8755e5925cff9f23fa4bd10a0f0f41b646d"
+      "bytes": 134080,
+      "sha256": "b4e67c55e9478e9aa42f66f240834ea83a0b1f8f6e3835eb556a6ad0691958ba"
     },
     {
       "path": "ITERATION_PLAN.md",
-      "bytes": 30319,
-      "sha256": "f10969aba477c2491615f95fc8bdd4c3828e12e4bc5315f9bb8e8d2cf059b366"
+      "bytes": 31073,
+      "sha256": "aa4f3e59134d431c6120f64660604999c557910154732031ee2410cb667ca08b"
     },
     {
       "path": "OPENWORKBUDDY_REFERENCE.md",
@@ -159,13 +164,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 11727,
-      "sha256": "8183db57a97ed3ad71caccf900d144dbbc862c93a2626f6344a0fba6be534e4f"
+      "bytes": 15593,
+      "sha256": "ff1bd138f62fc375b190a34668ebf42112c820cfd4b702ca094366307e20bd1a"
     },
     {
       "path": "RELEASE_STATUS.json",
-      "bytes": 5589,
-      "sha256": "ceaa22a06be4a30c43120591a30f6ed4823a961b8a4b9639214bae17626c92f8"
+      "bytes": 6218,
+      "sha256": "4aa116b5013bbd43d919539d06fdc3b86f4636c2b51276afe861b1e7921e8303"
     },
     {
       "path": "SELF_TEST_MATRIX.md",
@@ -644,8 +649,8 @@
     },
     {
       "path": "desktop/README.md",
-      "bytes": 16768,
-      "sha256": "3fea5fff928c44dfb9e4e4a188ba312508f8ace350b5cf887508275b1cb84d8f"
+      "bytes": 17102,
+      "sha256": "b58d6aca757c2e57ceb1ebb55510a4ba58678e091f8c81e4ab64588446f61fbb"
     },
     {
       "path": "desktop/assets/app.icns",
@@ -699,8 +704,13 @@
     },
     {
       "path": "desktop/main/document-files.mjs",
-      "bytes": 1995,
-      "sha256": "91c27f6961ebaf6319eed31b76b1a951417e774a573405c2f2dca2e1c2d16c82"
+      "bytes": 2106,
+      "sha256": "28990e82af98ed427d07008b05472ee85da26656f0bae5a49d93cd7b50e8dab1"
+    },
+    {
+      "path": "desktop/main/genoffice.mjs",
+      "bytes": 5211,
+      "sha256": "a3625fe503fb2992cb1e712d05cf4aad6087721ff3b236b93c6ecc5c6a161cf8"
     },
     {
       "path": "desktop/main/ipc.mjs",
@@ -709,23 +719,23 @@
     },
     {
       "path": "desktop/main.mjs",
-      "bytes": 15155,
-      "sha256": "067b9215c06ebfe650a025680046df583098187030ef960e26e9c2adf328c5ac"
+      "bytes": 15688,
+      "sha256": "be7efb4bcc774df389e84374e3a3921b140fc7ec832339a3e696110fc4c50e47"
     },
     {
       "path": "desktop/package-lock.json",
       "bytes": 200281,
-      "sha256": "20595316d39b3d6a49165e6d0912af091d7bb9c8b4bc2557843c719475c689a8"
+      "sha256": "06d0458ddaa8a000470d38bf842a6e683c64c421167bb3e736db8fb5797b88f0"
     },
     {
       "path": "desktop/package.json",
       "bytes": 2536,
-      "sha256": "3a8490bb7c9933de1923d3b9b9367b4989f541e71c3da9692259fd4cbe496c6d"
+      "sha256": "df15066349cfb06c866d077e4993653e5cea6ebd211dbf1868b9f8e6b1081b8e"
     },
     {
       "path": "desktop/preload.cjs",
-      "bytes": 1265,
-      "sha256": "ccde62a9812d555c7a54876a2a7b8a5847cba9f12c19a8fd7d40a92884b17f73"
+      "bytes": 1337,
+      "sha256": "3c2b19b83c0a6c47a38a6a95468d8caa6f5c15e4ed57d5afbaa4af526b294ca2"
     },
     {
       "path": "desktop/runtime/agent.mjs",
@@ -754,8 +764,8 @@
     },
     {
       "path": "desktop/runtime/documents.mjs",
-      "bytes": 21178,
-      "sha256": "3b05c497941c48033201c1d06580d5c2e9607ffcb6bfa3fd7b296755c6d9ae0b"
+      "bytes": 25245,
+      "sha256": "667bbec3430934ae725b59e932597161214382a71717b3b81397880435bdf66c"
     },
     {
       "path": "desktop/runtime/identity.mjs",
@@ -799,13 +809,13 @@
     },
     {
       "path": "desktop/services/conversation.mjs",
-      "bytes": 10036,
-      "sha256": "b75085903cb67834c881e1bb7bdf439d32f551e90a73285f03b195b37625cab3"
+      "bytes": 10454,
+      "sha256": "e3e3a6692807d7559b6dd98bb12453c0dd1eacc34eb67aebc9b9f2c80cc9c850"
     },
     {
       "path": "desktop/services/documents.mjs",
-      "bytes": 6888,
-      "sha256": "56e1a23b447325f845f983076d7a2e3c96b75f73b612a007dccd37d5a21afe71"
+      "bytes": 8437,
+      "sha256": "dac95e81732f2889241c5be37a00f608cefd55f5ed595e26af7ff9b5d2dd5ab5"
     },
     {
       "path": "desktop/services/recovery.mjs",
@@ -829,8 +839,8 @@
     },
     {
       "path": "desktop/src/app.js",
-      "bytes": 58074,
-      "sha256": "e13182f3cddc3a0dc9b0a17ae78436857d5163102bbf3c19c2b24505d9b5cb48"
+      "bytes": 60653,
+      "sha256": "af0de5e6b2d8157bac9c8509d9bc19ed847cfd3becf76189673dbffad286d7cb"
     },
     {
       "path": "desktop/src/assets/logo.png",
@@ -844,8 +854,8 @@
     },
     {
       "path": "desktop/src/styles.css",
-      "bytes": 14412,
-      "sha256": "66dbac2962e94a6c4da6c66301fe0766f7063feff25a9e3fc5a043d18f67bd0a"
+      "bytes": 14847,
+      "sha256": "3f286aab3523815ab1d211aa05838854bf23d493a20583a3388b8e255458e667"
     },
     {
       "path": "desktop/src/ui/commands.js",
@@ -854,8 +864,8 @@
     },
     {
       "path": "desktop/src/ui/documents.js",
-      "bytes": 2500,
-      "sha256": "51035ce7fcc328a1c247bb2d3a162f2573d063467f4f962db8dca0a9282f6d5a"
+      "bytes": 3647,
+      "sha256": "c5f9aa759a08892c2c9fc6202b659187610e394b783da8025995b08df2e00768"
     },
     {
       "path": "desktop/src/ui/markdown.js",
@@ -869,8 +879,8 @@
     },
     {
       "path": "desktop/src/ui/workspace.js",
-      "bytes": 8738,
-      "sha256": "3868d1a9c3134543cc528b30afe668f5b4e55e4ff1e488becb38d016c386bf9f"
+      "bytes": 9289,
+      "sha256": "dee7bb4bfa57a32885ec87e36dde08df7d1aa1317b29ca0c80df8c6be62be8fd"
     },
     {
       "path": "desktop/src/vendor/MANIFEST.json",
@@ -914,8 +924,8 @@
     },
     {
       "path": "desktop/tests/acceptance/documents-live.mjs",
-      "bytes": 8916,
-      "sha256": "258400ab008554756e009d0f73f1165efe74bfdd152ddb8cc27dfcc81d2ca7e5"
+      "bytes": 11534,
+      "sha256": "3c48fcb110a1f44742103ebbea84d853863798e40538891a170646282eafa472"
     },
     {
       "path": "desktop/tests/acceptance/runs-live.mjs",
@@ -958,14 +968,19 @@
       "sha256": "1313a0a04fb7b011a38193d133e6c08d34c9fb6ff3a0b6839340e0249072641e"
     },
     {
+      "path": "desktop/tests/document-editor.test.mjs",
+      "bytes": 7468,
+      "sha256": "909064a1727a23b143c481c6ee18ab606db089c5e1948a3d5bea95b01d7da98f"
+    },
+    {
       "path": "desktop/tests/documents.test.mjs",
       "bytes": 16861,
       "sha256": "6880ddf3f235b5f90e15c4db1ad9a2f7cfed70d9a682e0e8b8a342b8de39ba8d"
     },
     {
       "path": "desktop/tests/helpers/load-ui.mjs",
-      "bytes": 638,
-      "sha256": "d61e6a74170768a3a095028cb2e3e132ccace0cbc953b0f987dc715e68d50485"
+      "bytes": 831,
+      "sha256": "300e808aa5340954654e850bcdd50469fe5c2c18ca5de2bb470c4024a39634cc"
     },
     {
       "path": "desktop/tests/rendering.test.mjs",
@@ -1018,6 +1033,11 @@
       "sha256": "5cea20210918e18561432585f5a2d442180a023fe4ca27d1753acd888185d917"
     },
     {
+      "path": "docs/GENOFFICE_DESKTOP.md",
+      "bytes": 5061,
+      "sha256": "8f22e1c41bffc5a8c8d424cad92f2cd3b89001e09d300a483a2f49220f4b069d"
+    },
+    {
       "path": "docs/OFFICE_WORKSPACE.md",
       "bytes": 4959,
       "sha256": "0e2beb23d17c9c175407db09919b4833f4754ae66c630235c3a5ab5bd179eeca"
@@ -1029,8 +1049,8 @@
     },
     {
       "path": "docs/QUICK_GAPS.md",
-      "bytes": 7937,
-      "sha256": "4b825beb1ea3f3cc56fa66cbe1fd16e105e95f604d274fb133f7a0379566b318"
+      "bytes": 8524,
+      "sha256": "b513499915fa320a689f6d6ad701627b7495e0cb927d47e78782b93eba0ad3e2"
     },
     {
       "path": "docs/REA_FINDINGS.md",
@@ -1053,9 +1073,34 @@
       "sha256": "1875c5470809c1d7838eccc8d077c122fa86815a8ec83fb1cc54e7517f09b45e"
     },
     {
+      "path": "docs/WEB_README_ORIGINAL.md",
+      "bytes": 9761,
+      "sha256": "d52db3f461f1f93df36cba5bcc4212932f22979697b2a63422cd83f919aaf675"
+    },
+    {
       "path": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
       "bytes": 4808,
       "sha256": "ea861ee556ad29a046d49655b490321c5374b843dd0a06505bcd06b4f473c895"
+    },
+    {
+      "path": "docs/images/documents.png",
+      "bytes": 207438,
+      "sha256": "6c42cd9c65b359a49e85e4d23f8e946e3ff87e0519bd4163761b8cb4fa7eb754"
+    },
+    {
+      "path": "docs/images/editor.png",
+      "bytes": 228180,
+      "sha256": "a1b71d4c68e04522cb70d287111f2b9b857c685607beac7964a5157f8687c3fe"
+    },
+    {
+      "path": "docs/images/workflow.svg",
+      "bytes": 2675,
+      "sha256": "179051df79c2d7a855de4a5e3e080427255b22acd695b6b5e4657d77456c2b69"
+    },
+    {
+      "path": "docs/images/workspace.png",
+      "bytes": 201447,
+      "sha256": "7a04652febc9ac5fe979e0f6ffce99fe1eec796cb1106053feb6fff06616c326"
     },
     {
       "path": "docs/rea/quick-dmg-evidence.json",
@@ -1076,6 +1121,11 @@
       "path": "docs/validation/v0.10.1.json",
       "bytes": 2479,
       "sha256": "45169e11a47d3995d16144a6e85d38dedac5fe1e7961777923021f62a0b3c28b"
+    },
+    {
+      "path": "docs/validation/v0.11.0.json",
+      "bytes": 1293,
+      "sha256": "045883ad6b8caff91215bc48e37402bff5bf5bb8eb380d10ed7bfb58c45a7cc8"
     },
     {
       "path": "docs/validation/v0.5.0.json",
@@ -1356,6 +1406,11 @@
       "path": "scripts/build-verified.sh",
       "bytes": 661,
       "sha256": "2ae5329ac860076070c9217a43106a15cb5ecf907a0f7baeb9ef903f76b53c68"
+    },
+    {
+      "path": "scripts/capture-readme.mjs",
+      "bytes": 5694,
+      "sha256": "c0c129e82ed7b8ec078fea561164efd7aa4b58b7c40240a559c8848ef798302c"
     },
     {
       "path": "scripts/execution-profile.mjs",
