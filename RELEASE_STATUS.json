@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "checked_date": "2026-10-22",
   "source_status": "desktop_source_delivery_not_deployed",
   "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -24,10 +24,12 @@
     "persistent_commands": "manual CLI FIFO; stable ID deduplication; persisted v1 status events; restart pauses; fresh approval on retry",
     "persistent_model_runs": "shared conversation/task FIFO; versioned journal; cancellation; scheduled-occurrence deduplication; restart pause; CLI shares capacity but retains separate queue",
     "documents": "real DOCX/XLSX/PPTX generation/import/targeted edits; md/html text edits; 5 previous revisions; native export with readback",
-    "concurrent_ui": "per-chat pending/drafts/workspaces; two shared model slots; background navigation and isolated cancellation; no automatic subtask groups"
+    "concurrent_ui": "per-chat pending/drafts/workspaces; two shared model slots; background navigation and isolated cancellation; no automatic subtask groups",
+    "browser_approvals": "explicit volatile exact-run/exact-origin consent; revoke/release; CLI/documents stay per-operation",
+    "native_confirmations": "bounded summary; AbortSignal+60s timeout+emergency cancellation; no parentless Mac dialogs"
   },
   "validation": {
-    "desktop_tests_passed": 96,
+    "desktop_tests_passed": 105,
     "ui_paths_with_mock_bridge": 17,
     "real_cli_child_process_tested": true,
     "agent_http_fixture_to_real_cli_roundtrip_tested": true,
@@ -43,7 +45,7 @@
     "theme_check": "1000px layout/overflow checked; host lacks Chinese font for pixel QA; no new Mac visual/native runtime verification",
     "offline_bundle": {
       "official_runtime_sha256": "passed",
-      "asar_content": "45 production files match exact bytes including licensed offline Office codecs",
+      "asar_content": "46 production files match exact bytes",
       "zip_integrity": "passed",
       "closed_inventory": "passed; 282 app entries + 5 extras; 14 symlinks; no residue",
       "unexpected_entry_negative": "passed even when every manifest file remains unchanged",
@@ -68,7 +70,8 @@
     "document_codec_tests_passed": 15,
     "office_independent_parsers": "python-docx/openpyxl/python-pptx open generated and edited DOCX/XLSX/PPTX, verify actual content/tables/cells/notes",
     "document_model_integration": "actual HTTP Chat Completions fixture -> real create/read/edit tools -> validated Word bytes; no real paid provider",
-    "parallel_ui_integration": "real production Chromium -> two real HTTP requests -> independent cancellation/completion and drafts; native bridge is fixture"
+    "parallel_ui_integration": "real production Chromium -> two real HTTP requests -> independent cancellation/completion and drafts; native bridge is fixture",
+    "approval_lifecycle_new_tests": 9
   },
   "rea": {
     "version": "6.7.0",
@@ -76,7 +79,7 @@
     "javascript_analysis": "partial_host_process_ownership_blocked",
     "report": "docs/REA_FINDINGS.md"
   },
-  "notes": "Desktop document workflow delivered with actual editable Office packages and native save-as boundary, version conflicts and audit redaction. Source originals remain unchanged. Basic text/constant-cell editing only; no Office layout fidelity, formula engine, charts, tracked changes or autonomous parallel subtask groups. Existing Web/Python preserved. Ad-hoc package; no Mac native strict resource seal/Gatekeeper/launch, paid provider or Codex CLI validation.",
+  "notes": "Fixes user screenshot: oversized document JSON hid native confirmation buttons. Document creation/read use short summaries; oversized sensitive parameters fail closed. Explicit per-run/per-origin browser grants reduce repeated prompts, revoke on completion/exit/revocation. Native confirmation cancellation/timeout are adapter tested; no Mac native window/shortcut/signature/launch verification.",
   "architecture": {
     "guide": "docs/ARCHITECTURE.md",
     "layers": [

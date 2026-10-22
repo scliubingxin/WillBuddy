@@ -1,3 +1,32 @@
+本次实际修改文件：
+
+- ITERATION_LOG.md
+- ITERATION_PLAN.md
+- README.md
+- RELEASE_STATUS.json
+- desktop/README.md
+- desktop/main/approval.mjs
+- desktop/main.mjs
+- desktop/package-lock.json
+- desktop/package.json
+- desktop/preload.cjs
+- desktop/runtime/browser-permissions.mjs
+- desktop/runtime/browser.mjs
+- desktop/runtime/tools.mjs
+- desktop/services/conversation.mjs
+- desktop/services/documents.mjs
+- desktop/src/app.js
+- desktop/tests/approval-lifecycle.test.mjs
+- docs/APPROVAL_FIX.md
+- docs/QUICK_GAPS.md
+- docs/validation/v0.10.1.json
+
+# 0.10.1 修复记录 · 2026-10-22
+
+按用户截图修复document_create长JSON原生sheet超出屏幕、取消信号未传入dialog导致队列等待的问题。文档确认用摘要；浏览器可显式选择本任务/本站点授权，不逐步弹窗，新站点/新任务重新确认；撤销、任务结束和退出清理许可。增加60秒超时、菜单⌘⇧Esc紧急取消、拒绝无父窗口/过长消息及迟到允许，导航前后校验防止站点授权泄漏。完整边界见docs/APPROVAL_FIX.md（从docs阅读为APPROVAL_FIX.md）。
+
+105项核心、6项真实Chromium回归；原生弹窗为适配器夹具，Mac真机/严格签名/启动仍未验收。继续保留0.10.0文档、双任务能力及原Web/Python/白蓝logo/加密身份。下一步优先用户Mac弹窗/浏览器/文档链路验证，继而Office保真预览和结构编辑；不回退纯壳、不创建PR/合并main。
+
 # WillBuddy 0.10.0 · 2026-10-22
 
 用户最新主线：AI编辑/生成Office、Markdown、HTML及多任务并发。已实际实现真实文档编解码、导入不写回原件、create/read/edit模型工具、原生逐次审批、乐观版本检查、五份历史字节、历史导出、原生保存暂存/回读校验。Office基础排版和定向修改，不宣称全面替代Office。修复前端全局pending禁止并发任务的真实问题，改为逐会话状态/草稿/工作区；最多两项模型请求并发，更多排队、独立停止。
