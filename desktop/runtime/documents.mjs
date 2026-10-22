@@ -1,3 +1,11 @@
+import { cellAddress } from "../src/shared/formula-core.js";
+import {
+  formulaValue,
+  validateFormula,
+  recalculateWorkbook,
+  spreadsheetEditor,
+  validateSpreadsheet,
+} from "./spreadsheet.mjs";
 /** Offline document codecs. No subprocess, Office installation, remote URL or macros. */
 import office from "./vendor/office.cjs";
 import { createHash } from "node:crypto";
@@ -97,8 +105,10 @@ export function normalizeSpec(format, content) {
           if (typeof cell === "string") text(cell, 2000);
           else if (typeof cell === "number") {
             if (!Number.isFinite(cell)) throw Error("无效数字");
+          } else if (formulaValue(cell)) {
+            validateFormula(cell);
           } else if (typeof cell !== "boolean" && cell !== null)
-            throw Error("单元格只接受文本、数值、布尔或 null");
+            throw Error("单元格只接受文本、数值、布尔、null 或显式公式对象");
         }),
       );
     });
@@ -127,13 +137,15 @@ function spreadsheet(spec) {
     files[`xl/worksheets/sheet${i + 1}.xml`] =
       `<worksheet xmlns="${S}"><sheetData>${s.rows.map((row, r) => `<row r="${r + 1}">${row.map((value, c) => cellXML(col(c) + (r + 1), value)).join("")}</row>`).join("")}</sheetData></worksheet>`;
   });
-  return zip.zipSync(
-    Object.fromEntries(
-      Object.entries(files).map(([k, v]) => [k, encoder.encode(v)]),
-    ),
+  const entries = Object.fromEntries(
+    Object.entries(files).map(([k, v]) => [k, encoder.encode(v)]),
   );
+  recalculateWorkbook(entries);
+  return zip.zipSync(entries);
 }
 function cellXML(address, value) {
+  if (formulaValue(value))
+    return `<c r="${address}"><f>${xml(validateFormula(value))}</f><v>0</v></c>`;
   if (value === null) return `<c r="${address}"/>`;
   if (typeof value === "number") return `<c r="${address}"><v>${value}</v></c>`;
   if (typeof value === "boolean")
@@ -397,7 +409,7 @@ export function inspectDocument(format, bytes) {
                       ? "true"
                       : "false"
                     : value;
-            return `${n.getAttribute("r")}: ${formula ? "=" + formula + "（未重新计算；缓存值 " + display + "）" : display}`;
+            return `${n.getAttribute("r")}: ${formula ? "=" + formula + "（缓存值 " + display + "；导入后未必已重算）" : display}`;
           })
           .join("\n");
     }
@@ -434,6 +446,14 @@ export function editDocument(format, bytes, { replacements = [], cells = [] }) {
       throw Error(
         "Excel 请使用 sheetIndex/address/value 更新，避免误改共享字符串",
       );
+    const hadFormulas =
+      format === "xlsx" &&
+      Object.entries(files).some(
+        ([n, b]) =>
+          /^xl\/worksheets\//.test(n) &&
+          /<(?:\w+:)?f[\s>]/.test(decoder.decode(b)),
+      );
+    if (format === "xlsx" && cells.length) validateSpreadsheet(files);
     const counts = replacements.map(() => 0);
     for (const name of parts(format, files)) {
       const doc = parse(decoder.decode(files[name]));
@@ -480,18 +500,27 @@ export function editDocument(format, bytes, { replacements = [], cells = [] }) {
     }
     if (counts.some((n) => !n)) throw Error("查找文字不存在（不跨段落）");
     changes += counts.reduce((a, b) => a + b, 0);
-    for (const cell of cells) {
+    const changedCells = new Set();
+    for (const originalCell of cells) {
+      const cell = {
+        ...originalCell,
+        address: cellAddress(originalCell.address).address,
+      };
+      const cellKey = cell.sheetIndex + ":" + cell.address;
+      if (changedCells.has(cellKey)) throw Error("单元格更新重复");
+      changedCells.add(cellKey);
       if (
         !Number.isInteger(cell.sheetIndex) ||
         cell.sheetIndex < 1 ||
         cell.sheetIndex > 100 ||
-        !/^([A-Z]{1,2})([1-9][0-9]{0,3})$/.test(cell.address)
+        typeof cell.address !== "string"
       )
         throw Error("单元格地址无效");
       const name = `xl/worksheets/sheet${cell.sheetIndex}.xml`;
       if (!files[name]) throw Error("工作表不存在");
       let v = cell.value;
       if (typeof v === "string") text(v, 2000);
+      else if (formulaValue(v)) validateFormula(v);
       else if (
         v !== null &&
         typeof v !== "boolean" &&
@@ -540,15 +569,8 @@ export function editDocument(format, bytes, { replacements = [], cells = [] }) {
       files[name] = encoder.encode(serialize(doc));
       changes++;
     }
-    // Cached calculation results cannot safely be recalculated without a spreadsheet engine.
-    if (format === "xlsx" && cells.length) {
-      for (const [name, data] of Object.entries(files))
-        if (
-          /^xl\/worksheets\//.test(name) &&
-          /<(?:\w+:)?f[\s>]/.test(decoder.decode(data))
-        )
-          throw Error("含公式工作簿暂不修改，避免保留过期计算值");
-    }
+    if (format === "xlsx" && cells.length)
+      recalculateWorkbook(files, { force: hadFormulas });
     output = zip.zipSync(files);
   }
   const result = inspectDocument(format, output);
@@ -561,49 +583,7 @@ export function documentEditor(format, bytes) {
   if (format === "md" || format === "html")
     return { kind: "source", source: decoder.decode(bytes) };
   const files = openPackage(bytes);
-  if (format === "xlsx") {
-    const shared = files["xl/sharedStrings.xml"]
-      ? Array.from(
-          parse(
-            decoder.decode(files["xl/sharedStrings.xml"]),
-          ).getElementsByTagNameNS(S, "si"),
-        ).map((n) => n.textContent)
-      : [];
-    const cells = [];
-    for (const name of Object.keys(files)
-      .filter((n) => /^xl\/worksheets\/sheet\d+\.xml$/.test(n))
-      .sort()) {
-      const doc = parse(decoder.decode(files[name]));
-      if (doc.getElementsByTagNameNS(S, "f").length)
-        throw Error(
-          "含公式工作簿请使用 GenOffice 编辑，内置编辑器不重新计算公式",
-        );
-      for (const n of Array.from(doc.getElementsByTagNameNS(S, "c"))) {
-        const type = n.getAttribute("t"),
-          raw = n.getElementsByTagNameNS(S, "v")[0]?.textContent || "";
-        const value =
-          type === "s"
-            ? shared[Number(raw)] || ""
-            : type === "inlineStr"
-              ? n.getElementsByTagNameNS(S, "is")[0]?.textContent || ""
-              : type === "b"
-                ? raw === "1"
-                : raw !== ""
-                  ? Number(raw)
-                  : null;
-        cells.push({
-          sheetIndex: Number(name.match(/sheet(\d+)/)[1]),
-          address: n.getAttribute("r"),
-          value,
-        });
-      }
-    }
-    if (cells.length > 500)
-      throw Error(
-        "内置表格编辑最多显示500个现有单元格，请用GenOffice处理较大工作簿",
-      );
-    return { kind: "cells", cells };
-  }
+  if (format === "xlsx") return spreadsheetEditor(files);
   const blocks = [];
   for (const name of parts(format, files)) {
     const paragraphs = Array.from(

@@ -90,7 +90,7 @@ export class ToolRuntime {
             else if (name === 'browser_snapshot') result = await this.browser.snapshot(args.id, signal);
             else if (prepared) result = await this.browser.perform(prepared, signal);
             else throw new Error('未知工具');
-            record.result = documentToken && result.document ? {...result,document:(( {text,history,editableHtml,wordEditing,...rest})=>rest)(result.document)} : result;
+            record.result = documentToken && result.document ? {...result,document:(( {text,history,editableHtml,wordEditing,spreadsheetEditing,...rest})=>rest)(result.document)} : result;
             record.status = result.status || 'succeeded';
             return result;
         } catch (error) {
