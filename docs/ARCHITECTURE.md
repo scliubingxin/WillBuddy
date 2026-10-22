@@ -1,3 +1,9 @@
+# 0.10.0 文档服务扩展
+
+`runtime/documents.mjs` 负责有界OOXML/UTF-8生成、导入检查和定向修改；`runtime/vendor/` 是构建时预打包的纯JS编解码器与许可。`services/documents.mjs` 管理文档版本、单次候选凭证、串行乐观提交和持久化回滚，不依赖Electron。`main/document-files.mjs` 只处理原生对话框授权路径的有界导入与暂存导出，渲染进程和模型不能指定任意路径。`ToolRuntime` 将document工具接入既有逐次原生审批/审计；`src/ui/documents.js` 是纯视图。普通state不暴露二进制，正文读取模型另行审批。documents是schema1增量字段，旧Web/Python/密钥身份不变。
+
+前端pending和草稿按chatId保存，移除全局阻止新建/切换的门禁，后台仍采用现有两名额shared run queue；CLI独立FIFO未改变。不是自动子任务树或全局exactly-once。详见OFFICE_WORKSPACE.md。
+
 0.9.0：runtime/run-queue.mjs负责对话与每日任务持久受理/并发/去重/取消/事件；services/conversation与tasks仅保留业务流程，main组装注入。src/ui/runs.js纯队列视图，重启迁移与状态版本拒绝过期覆盖。CLI仍是独立队列，共享active容量。见 SHARED_RUNS.md。
 
 0.8.0：新增无Electron的 services/commands.mjs 管理手动CLI持久队列与版本化状态事件；runtime/tools.mjs增加审计关联、输出检查点和持久化门禁；src/ui/commands.js为独立纯队列视图。详情见 DURABLE_COMMANDS.md。原Web/Agent/每日任务尚未共用此队列。
