@@ -1,3 +1,4 @@
+import {createGenOfficeBridge} from './main/genoffice.mjs';
 import {readDocumentSource,writeDocumentDestination} from './main/document-files.mjs';
 import {documentViews} from './services/documents.mjs';
 import { sharedRunQueue } from './runtime/run-queue.mjs';
@@ -27,7 +28,7 @@ const notifyRuntime = () => {
         win.webContents.send('actwill:runtime');
 };
 const approve = createApprover({ dialog, getWindow: () => win, focus });
-let toolRuntime;
+let toolRuntime, genoffice;
 const executeTool = (...args) => toolRuntime.execute(...args);
 const view = () => { const { encryptedKey, ...settings } = store.data.settings; return { ...store.data, documents:documentViews(store.data), settings: { ...settings, hasKey: !!sessionKey || !!encryptedKey, keySaved: !!encryptedKey, secureStorage: safeStorage.isEncryptionAvailable() && safeStorage.getSelectedStorageBackend?.() !== 'basic_text' }, browsers: browser.list(), desktop: { platform: process.platform, shortcutReady } }; };
 function key() {
@@ -77,6 +78,7 @@ else {
             defaultAgent.prompt = '你是 WillBuddy 工作助手。用中文清晰地帮助用户完成工作。区分事实和假设，不编造来源。';
         store.data.executions ??= [];
         toolRuntime = new ToolRuntime({ store, browser, approve, notify: notifyRuntime });
+        genoffice=createGenOfficeBridge({documents:toolRuntime.documents,approve});
         recoverInterruptedWork(store.data);
         commands = createCommandService({ store, active, executeTool, notify: notifyRuntime });
         runs = sharedRunQueue({store, active, notify:notifyRuntime});
@@ -164,6 +166,10 @@ else {
             if (!['document_create','document_read','document_edit'].includes(operation)) throw Error('未知文档操作');
             return executeTool(operation,args);
         });
+        register('genofficeOpen', p => genoffice.open(p.id,p.revision));
+        register('genofficeImport', p => genoffice.importEdited(p.id));
+        register('documentEditor', p => toolRuntime.documents.editor(p.id));
+        register('documentSaveEditor', p => toolRuntime.documents.updateEditor(p.id,p.revision,p.patch,approve));
         register('documentRead', p => toolRuntime.documents.read(p.id));
         register('documentDelete', p => toolRuntime.documents.remove(p.id));
         register('documentImport', async () => {
@@ -229,6 +235,7 @@ else {
     }).catch(e => { dialog.showErrorBox('WillBuddy 启动失败', e.message); app.quit(); });
     app.on('activate', focus);
     app.on('before-quit', () => {
+        genoffice?.close().catch(()=>{});
         closing = true;
         approve.cancelAll();
         toolRuntime?.browserPermissions.revoke();

@@ -1,3 +1,5 @@
+0.11.0：修复回复/工作区误导出 Markdown 的Office交付问题，新增可信文件卡片、直接段落/单元格/原文编辑、可选GenOffice副本接续。GenOffice未内嵌，需用户自行安装；当前接续仅适配macOS，原生启动待验收。操作见[桌面GenOffice说明](../docs/GENOFFICE_DESKTOP.md)。
+
 0.10.1 修复：文档确认改为短摘要，防止按钮超出屏幕；确认框支持取消、60秒超时和菜单 ⌘⇧Esc 紧急取消。浏览器可选“本任务本站点允许”，后续同任务同站不重复弹窗，工具页可撤销。
 
 0.10.0：新增真实 Word/Excel/PowerPoint、Markdown/HTML 文档创建、导入、修改、版本与导出；修复全局生成状态阻塞，支持两项模型任务并发、独立草稿与停止。操作与边界见 [文档工作台](../docs/OFFICE_WORKSPACE.md)。
@@ -10,13 +12,13 @@
 
 项目结构与修改入口见 ../docs/ARCHITECTURE.md（0.6.1 分层整理）。
 
-# WillBuddy 桌面版 0.10.1
+# WillBuddy 桌面版 0.11.0
 
 在原 Web 系统与 0.3.0 桌面基础上新增浏览器、CLI 及模型工具调用闭环。原 Web 代码、数据库迁移和 Python Office 执行器保留；桌面无需先运行 Web 服务或 Cloudflare。
 
 ## 免依赖安装（Apple 芯片）
 
-日常使用请下载独立的 `WillBuddy-v0.10.1-mac-arm64-offline.zip`，完整解压后把 `WillBuddy.app` 拖入应用程序，或双击 `Install-WillBuddy.command` 安装到个人 Applications 文件夹。应用已内置 Electron/Chromium/Node 运行时，安装不执行 npm，也不要求开发工具。下方 npm 命令仅供源码开发。
+日常使用请下载独立的 `WillBuddy-v0.11.0-mac-arm64-offline.zip`，完整解压后把 `WillBuddy.app` 拖入应用程序，或双击 `Install-WillBuddy.command` 安装到个人 Applications 文件夹。应用已内置 Electron/Chromium/Node 运行时，安装不执行 npm，也不要求开发工具。下方 npm 命令仅供源码开发。
 
 只制作 Apple 芯片版，最低 macOS 12。包采用 ad-hoc 签名，尚无 Developer ID 或公证，未完成真机启动；系统首次运行可能需要在隐私与安全性中确认。安装脚本不会关闭 Gatekeeper 或移除隔离标记。Git/Codex/Python/Ollama 等外部工具及原 Python Office 工具链不包含在桌面主程序依赖中，使用这些外部能力仍需对应本机程序。
 
