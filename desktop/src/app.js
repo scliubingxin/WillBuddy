@@ -1,3 +1,4 @@
+import {mountWordCanvas} from './ui/word-canvas.js';
 import {documentLibrary,documentExamples,messageDocuments} from './ui/documents.js';
 import { escape, rich, htmlPreview } from './ui/markdown.js';
 import * as views from './ui/workspace.js';
@@ -343,12 +344,22 @@ async function handle(actionId, id) {
     if(actionId==='documentExportVersion'){const [doc,revision]=id.split(':');await invoke('documentExport',{id:doc,revision:Number(revision)});return;}
     if(actionId==='revokeBrowserApprovals'||actionId==='cancelApprovals'){await invoke(actionId);toast(actionId==='cancelApprovals'?'已取消当前与排队的确认；也可按 ⌘⇧Esc':'已撤销全部浏览器任务授权');return;}
     if (actionId==='documentImport') {await invoke('documentImport');await update('state');return;}
+    if (actionId==='documentCanvas') {
+        const editor=id?await invoke('documentRichEditor',{id}):{name:'新文档',html:'<h1>项目方案</h1><p>在这里编辑正文，选择文字后可设置格式。</p>'};
+        let canvas;
+        modal('Word 写作画布',input('文档名称','canvasName',editor.name)+'<p>支持标题、粗体、列表、表格；使用本机GenOffice引擎生成可编辑DOCX。此画布不是导入Word的保真排版编辑器。</p><div id="wordCanvas"></div>','保存为 Word',async f=>{
+            const result=await invoke('documentOperation',{operation:'document_write',name:f.get('canvasName'),...(id?{id,expectedRevision:editor.revision}:{}),html:canvas.html()});
+            if(result.status!=='succeeded')throw Error(result.error||'未保存');await update('state');toast('真实Word已保存，可在成果中心下载');
+        });
+        canvas=mountWordCanvas($('#wordCanvas'),editor.html);return;
+    }
     if (actionId==='documentNew') {
         modal('新建文档',input('名称','documentName','新文档')+'<label>文件格式<select name="format" id="documentFormat">'+Object.keys(documentExamples).map(f=>'<option>'+f+'</option>').join('')+'</select></label>'+area('内容（Office 使用结构化 JSON；可让 AI 代写）','documentContent',documentExamples.docx),'审阅并创建',async f=>{const result=await invoke('documentOperation',{operation:'document_create',name:f.get('documentName'),format:f.get('format'),content:f.get('documentContent')});if(result.status!=='succeeded')throw Error(result.error||result.message||'未保存');await update('state');toast('文档已创建并校验，可导出');});
         $('#documentFormat').onchange=e=>{$('#modal [name="documentContent"]').value=documentExamples[e.target.value];};return;
     }
     if (actionId?.startsWith('document')) {
         const d=(state.documents||[]).find(x=>x.id===id);if(!d)throw Error('文档不存在');
+        if(actionId==='documentConvert'){toast('正在本机转换为Word…');const result=await invoke('documentOperation',{operation:'document_convert',id,expectedRevision:d.revision});if(result.status==='denied')return;if(result.status!=='succeeded')throw Error(result.error||'转换未完成');await update('state');const doc=result.document;openPreview({id:'document:'+doc.id,name:doc.name+'.docx',text:doc.text,kind:'document',documentId:doc.id});toast('真实Word文档已保存，可直接导出');return;}
         if(actionId==='documentGenOffice'){const result=await invoke('genofficeOpen',{id,revision:d.revision});if(result.status==='denied')return;toast('已交给 GenOffice 编辑副本；保存后、退出WillBuddy前点击「收回编辑结果」');return;}
         if(actionId==='documentGenOfficeImport'){const result=await invoke('genofficeImport',{id});if(result.status==='denied')return;await update('state');toast('已验证并保存编辑后的新版本');return;}
         if(actionId==='documentEditor'){
@@ -362,7 +373,7 @@ async function handle(actionId, id) {
         if(actionId==='documentView'){openPreview({id:'document:'+id,name:d.name+'.'+d.format,text:d.text,kind:'document',documentId:id});return;}
         if(actionId==='documentHistory'){modal('历史版本 · '+d.name,d.history.map(h=>`<div class="file-row"><div>v${h.revision} · ${date(h.time)}<small>${h.size} 字节 · ${escape(h.sha256)}</small></div>${action('导出此版本','documentExportVersion',id+':'+h.revision)}</div>`).join(''));return;}
         if(actionId==='documentExport'){await invoke('documentExport',{id,revision:d.revision});return;}
-        if(actionId==='documentContinue'){switchChat('');page='home';toolsEnabled=true;draft=`请先调用 document_read 读取文档「${d.name}.${d.format}」（id=${id}，当前版本 ${d.revision}），再根据以下要求调用 document_edit 保存新版本。修改要求：`;render();$('#prompt')?.focus();return;}
+        if(actionId==='documentContinue'){switchChat('');page='home';toolsEnabled=true;draft=`请先调用 document_read 读取文档「${d.name}.${d.format}」（id=${id}，当前版本 ${d.revision}），再根据以下要求调用 ${d.hasRichSource?'document_write（保留editableHtml结构）':'document_edit'} 保存新版本。修改要求：`;render();$('#prompt')?.focus();return;}
         if(actionId==='documentEdit'){
             const body=d.format==='xlsx'?area('单元格修改 JSON（sheetIndex 指 sheetN.xml，从 1 开始）','cells','[{"sheetIndex":1,"address":"A1","value":"新内容"}]'):input('查找原文（Word/PPT 不跨段落）','find')+area('替换内容','replacement','新内容');
             modal('精确修改 · '+d.name,body,'审阅并保存版本',async f=>{const changes=d.format==='xlsx'?{cells:JSON.parse(f.get('cells'))}:{replacements:[{find:f.get('find'),replace:f.get('replacement')}]};const r=await invoke('documentOperation',{operation:'document_edit',id,expectedRevision:d.revision,...changes});if(r.status!=='succeeded')throw Error(r.error||r.message||'未保存');await update('state');toast('新版本已保存，原始导入文件不变');});return;
@@ -378,7 +389,7 @@ async function handle(actionId, id) {
     if (actionId === 'previewContinue') {
         const item = previewTabs.find(t => t.id === previewId);
         if (item) {
-            if(item.documentId){const d=(state.documents||[]).find(x=>x.id===item.documentId);switchChat('');page='home';toolsEnabled=true;draft=`请先 document_read 文档 id=${item.documentId}，再 document_edit。修改要求：`;render();return;}
+            if(item.documentId){const d=(state.documents||[]).find(x=>x.id===item.documentId);switchChat('');page='home';toolsEnabled=true;draft=`请先 document_read 文档 id=${item.documentId}，再 ${d?.hasRichSource?'document_write（基于editableHtml保留其他结构）':'document_edit'}。修改要求：`;render();return;}
             const addition = `请继续修改「${item.name}」。修改要求：\n\n参考原文${item.text.length > 14000 ? '（前 14000 字符）' : ''}：\n${item.text.slice(0, 14000)}`;
             if (draft.length + addition.length > 20000)
                 throw new Error('当前草稿过长，请先整理草稿再继续修改');
