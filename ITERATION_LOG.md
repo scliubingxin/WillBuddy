@@ -4,7 +4,7 @@
 
 转换独立无持久session、隐藏sandbox/contextIsolation浏览器，无Node/preload/共享授权，拒绝网络/file/弹窗/权限；HTML/样式白名单净化、输入/元素/布局/输出限制、2容量和15秒取消超时。源/目标revision冲突及保存失败不发布，工具审计隐藏HTML；大画布源不完整发给模型。
 
-123核心（新增10）/8真实Chromium（新增2）/7打包Python通过。实际GenOffice引擎与生产UI写作、再编辑、下载、重载，并用python-docx独立核对标题/粗体/表格。Electron/原生审批/IPC为夹具，无Mac/真实付费模型/Word-WPS保真验收。56生产文件ASAR精确匹配；arm64离线119173346字节，282应用+5配套/14链接/零残留、15MachO/51216页及篡改负例通过，仍ad-hoc未公证。原Web/Python受保护188文件哈希不变。
+123核心（新增10）/8真实Chromium（新增2）/7打包Python通过。实际GenOffice引擎与生产UI写作、再编辑、下载、重载，并用python-docx独立核对标题/粗体/表格。Electron/原生审批/IPC为夹具，无Mac/真实付费模型/Word-WPS保真验收。56生产文件ASAR精确匹配；arm64离线119173332字节，282应用+5配套/14链接/零残留、15MachO/51216页及篡改负例通过，仍ad-hoc未公证。原Web/Python受保护188文件哈希不变。
 
 下一步：优先Mac原生转换链路/用户模型；继续DOCX结构与保真往返、图片/页眉/修订和Excel真实公式引擎，避免把此子集称为全面取代Office。完整边界见docs/GENOFFICE_ENGINE.md与validation/v0.12.0.json。
 

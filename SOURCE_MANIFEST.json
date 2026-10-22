@@ -147,7 +147,7 @@
     {
       "path": "ITERATION_LOG.md",
       "bytes": 138768,
-      "sha256": "182afa761053100a471db4c2f7c9cfd6410a665373e83db85b1ea610a58e2960"
+      "sha256": "8fe4728ceede6942db55c8445896eff9281d312886d2d7038ce03ed8b8a75fb3"
     },
     {
       "path": "ITERATION_PLAN.md",
@@ -806,8 +806,8 @@
     },
     {
       "path": "desktop/runtime/vendor/GENOFFICE-MANIFEST.json",
-      "bytes": 7736,
-      "sha256": "3ffdccd0fa95daefb8765fd01dd1d49119995c1570ef63e3c47d4d65a8ff85b7"
+      "bytes": 7735,
+      "sha256": "6752db1d91fc55e516e67737c44c6587bac46d1049c210f28962b7dccf510600"
     },
     {
       "path": "desktop/runtime/vendor/GenOffice-LICENSE.txt",
@@ -1202,7 +1202,7 @@
     {
       "path": "docs/validation/v0.12.0.json",
       "bytes": 1845,
-      "sha256": "8a37feccbac2675c9b631b509c416782c37080ff2782bc536d9add438dd0129c"
+      "sha256": "d2459c9c43541cdaa08dc96f7154c9b9c1d9e2aab8cc82ef6212a34f76a76aa0"
     },
     {
       "path": "docs/validation/v0.5.0.json",
@@ -1586,8 +1586,8 @@
     },
     {
       "path": "scripts/vendor-genoffice.mjs",
-      "bytes": 4187,
-      "sha256": "3862673fe55df1f0a84675b173a30b800f528f76a2b7e33d1d1633241e94bfab"
+      "bytes": 4186,
+      "sha256": "5762cb4df029afe76ca1c4fa051bb2e1a897738e61ef83efc8588f47fe59ac55"
     },
     {
       "path": "scripts/verify-macho-pages.py",
