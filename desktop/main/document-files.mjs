@@ -1,9 +1,10 @@
 /** Native-dialog destinations only. Renderer/model never supplies a filesystem path. */
 import { open, rename, unlink, readFile } from "node:fs/promises";
 import path from "node:path";
+import {constants} from "node:fs";
 import { randomUUID } from "node:crypto";
-export async function readDocumentSource(source) {
-  const file = await open(source, "r");
+export async function readDocumentSource(source, {noFollow=false}={}) {
+  const file = await open(source, noFollow ? constants.O_RDONLY | constants.O_NOFOLLOW : "r");
   try {
     const before = await file.stat();
     if (!before.isFile() || before.size > 4 * 1024 * 1024)
