@@ -3,6 +3,8 @@
 import argparse
 import hashlib
 import json
+import os
+import tempfile
 from pathlib import Path
 import zipfile
 from datetime import datetime, timezone, timedelta
@@ -34,20 +36,30 @@ def package(output):
         'files': [{'path': rel, 'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest()} for rel, data, _ in files],
     }
     manifest_bytes = (json.dumps(manifest, ensure_ascii=False, indent=2) + '\n').encode()
-    (root / 'SOURCE_MANIFEST.json').write_bytes(manifest_bytes)
-    with zipfile.ZipFile(output, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as z:
-        for rel, data, mode in files:
-            info = zipfile.ZipInfo('muyun-ai/' + rel)
-            info.external_attr = mode << 16
-            z.writestr(info, data, compress_type=zipfile.ZIP_DEFLATED)
-        z.writestr('muyun-ai/SOURCE_MANIFEST.json', manifest_bytes, compress_type=zipfile.ZIP_DEFLATED)
-    with zipfile.ZipFile(output) as z:
-        assert z.testzip() is None
-        for entry in manifest['files']:
-            data = z.read('muyun-ai/' + entry['path'])
-            assert len(data) == entry['bytes']
-            assert hashlib.sha256(data).hexdigest() == entry['sha256']
-        assert len(z.namelist()) == len(files) + 1
+    # Never expose a partially written release filename to file watchers/uploaders.
+    fd, temporary_name = tempfile.mkstemp(prefix='.' + output.name + '-', suffix='.tmp', dir=output.parent)
+    os.close(fd)
+    temporary = Path(temporary_name)
+    try:
+        with zipfile.ZipFile(temporary, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as z:
+            for rel, data, mode in files:
+                info = zipfile.ZipInfo('muyun-ai/' + rel)
+                info.external_attr = mode << 16
+                z.writestr(info, data, compress_type=zipfile.ZIP_DEFLATED)
+            z.writestr('muyun-ai/SOURCE_MANIFEST.json', manifest_bytes, compress_type=zipfile.ZIP_DEFLATED)
+        with zipfile.ZipFile(temporary) as z:
+            assert z.testzip() is None
+            for entry in manifest['files']:
+                data = z.read('muyun-ai/' + entry['path'])
+                assert len(data) == entry['bytes']
+                assert hashlib.sha256(data).hexdigest() == entry['sha256']
+            assert len(z.namelist()) == len(files) + 1
+        with temporary.open('rb') as stream:
+            os.fsync(stream.fileno())
+        (root / 'SOURCE_MANIFEST.json').write_bytes(manifest_bytes)
+        os.replace(temporary, output)
+    finally:
+        temporary.unlink(missing_ok=True)
     print(json.dumps({'file': str(output), 'source_files': len(files), 'zip_bytes': output.stat().st_size, 'sha256': hashlib.sha256(output.read_bytes()).hexdigest(), 'manifest_verified': True}))
 
 if __name__ == '__main__':
