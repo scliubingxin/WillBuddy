@@ -1,3 +1,9 @@
+# 0.12.0 当前入口 · 2026-10-22
+
+先读docs/GENOFFICE_ENGINE.md、validation/v0.12.0.json、vendor/genoffice-html2docx及runtime/vendor/GENOFFICE-MANIFEST.json。已内置真实GenOffice HTML→DOCX子引擎和新建Word写作画布，非仅外部打开；完整套件/导入Word保真往返仍未完成。
+
+下一轮有Mac先原生隔离转换窗口/签名/安装启动/审批及真实模型tool_calls验收；没有目标机则推进DOCX结构解析与画布往返，不丢失模板/图片/页眉/批注，随后引入真实电子表格公式引擎。禁止把内容重建称为无损保真，保持旧Web/Python、白蓝logo/加密身份/双任务。严格原生审批、队列与源版本门禁，别自动重放；不开PR、不合并功能main，用户拒绝GitHub插件。
+
 # 0.11.0 当前入口 · 2026-10-22
 
 先读docs/GENOFFICE_DESKTOP.md和docs/validation/v0.11.0.json。已修复Office误导出Markdown，补可信文件卡片/直接内容编辑/可选Mac GenOffice副本接续。完整GenOffice编辑器没有内嵌，不能声称已取代Office或已通过Mac原生启动。

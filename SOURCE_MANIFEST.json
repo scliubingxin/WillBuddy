@@ -1,14 +1,14 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "packaged_date": "2026-10-22",
   "provenance": "Complete validated source snapshot; Git commits and deployment are tracked separately",
   "base_source_commit_sha": "ecc5dd81061b5c28999120075d06884a2496114c",
   "release_status": {
     "schema_version": 2,
     "brand": "WillBuddy",
-    "version": "0.11.0",
+    "version": "0.12.0",
     "checked_date": "2026-10-22",
     "source_status": "desktop_source_delivery_not_deployed",
     "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -18,7 +18,7 @@
       "native_build_generated": false,
       "mac_arm_runtime_verified": false,
       "cloud_sync": false,
-      "tool_runtime": "agent_loop+native_approval+browser_snapshot_ref_click_fill+cli+document_create_read_edit",
+      "tool_runtime": "agent_loop+native_approval+browser_snapshot_ref_click_fill+cli+document_create_read_edit + document_write/document_convert",
       "product_name": "WillBuddy",
       "theme": "White #FFFFFF canvas; logo blue #0078CB primary; restrained logo red",
       "offline_app_bundle_generated": true,
@@ -35,11 +35,11 @@
       "browser_approvals": "explicit volatile exact-run/exact-origin consent; revoke/release; CLI/documents stay per-operation",
       "native_confirmations": "bounded summary; AbortSignal+60s timeout+emergency cancellation; no parentless Mac dialogs",
       "document_delivery": "trusted run-linked binary cards; reply/workspace export routes to actual Office bytes; chat export explicitly Markdown",
-      "document_editor": "revision-bound paragraph/cell/source content editor; not full WYSIWYG; modified paragraphs use first run style",
-      "genoffice": "optional macOS installed-app handoff and validated copy import; not embedded/bundled; launch remains fixture-tested"
+      "document_editor": "new/converted Word rich canvas, persisted HTML source and optimistic revisions; imported DOCX retains older targeted editor",
+      "genoffice": "bundled Apache-2.0 HTML→DOCX engine subset, pinned 342abce; local Word canvas and md/html conversion; full suite not embedded"
     },
     "validation": {
-      "desktop_tests_passed": 113,
+      "desktop_tests_passed": 123,
       "ui_paths_with_mock_bridge": 17,
       "real_cli_child_process_tested": true,
       "agent_http_fixture_to_real_cli_roundtrip_tested": true,
@@ -55,7 +55,7 @@
       "theme_check": "Chinese font available for documentation screenshots; production forms and layout inspected; no Mac pixel/runtime validation",
       "offline_bundle": {
         "official_runtime_sha256": "passed",
-        "asar_content": "47 production files match exact bytes",
+        "asar_content": "56 production files match exact bytes",
         "zip_integrity": "passed",
         "closed_inventory": "passed; 282 app entries + 5 extras; 14 symlinks; no residue",
         "unexpected_entry_negative": "passed even when every manifest file remains unchanged",
@@ -69,7 +69,7 @@
       },
       "service_boundary_tests_passed": 9,
       "streaming_http_to_chromium_passed": true,
-      "chromium_acceptance_tests_passed": 6,
+      "chromium_acceptance_tests_passed": 8,
       "streaming_to_real_node_cli_passed": true,
       "markdown_and_sandboxed_html_passed": true,
       "command_queue_tests_passed": 14,
@@ -83,7 +83,9 @@
       "parallel_ui_integration": "real production Chromium -> two real HTTP requests -> independent cancellation/completion and drafts; native bridge is fixture",
       "approval_lifecycle_new_tests": 9,
       "office_delivery_editor": "real HTTP model fixture -> tool codec -> production Chromium -> binary export -> paragraph edit -> new revision export -> reload",
-      "genoffice_native_tested": false
+      "genoffice_native_tested": false,
+      "genoffice_real_engine_tested": "actual upstream engine with real Chromium + independent python-docx + production canvas/file export; native adapter/approval remain fixtures",
+      "original_web_python_unchanged_files": 188
     },
     "rea": {
       "version": "6.7.0",
@@ -144,13 +146,13 @@
     },
     {
       "path": "ITERATION_LOG.md",
-      "bytes": 134080,
-      "sha256": "b4e67c55e9478e9aa42f66f240834ea83a0b1f8f6e3835eb556a6ad0691958ba"
+      "bytes": 138768,
+      "sha256": "182afa761053100a471db4c2f7c9cfd6410a665373e83db85b1ea610a58e2960"
     },
     {
       "path": "ITERATION_PLAN.md",
-      "bytes": 31073,
-      "sha256": "aa4f3e59134d431c6120f64660604999c557910154732031ee2410cb667ca08b"
+      "bytes": 31858,
+      "sha256": "6e95881a01be051333cda0f1fc01ae2fb53b57f79e4b118f1ea51d4a71f84084"
     },
     {
       "path": "OPENWORKBUDDY_REFERENCE.md",
@@ -164,13 +166,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 15593,
-      "sha256": "24dfa864d5066f463217458de593adde6b770fcbed1667192508cf45676f2278"
+      "bytes": 16074,
+      "sha256": "678bc764b544dffa829a8221b2b6c06895ff9760c4008c84f28ec7e5483f530c"
     },
     {
       "path": "RELEASE_STATUS.json",
-      "bytes": 6218,
-      "sha256": "4aa116b5013bbd43d919539d06fdc3b86f4636c2b51276afe861b1e7921e8303"
+      "bytes": 6505,
+      "sha256": "3a991dd49b988a507270c6665e3d663b370c13f6adc54978c8796e57f891da9c"
     },
     {
       "path": "SELF_TEST_MATRIX.md",
@@ -649,8 +651,8 @@
     },
     {
       "path": "desktop/README.md",
-      "bytes": 17102,
-      "sha256": "b58d6aca757c2e57ceb1ebb55510a4ba58678e091f8c81e4ab64588446f61fbb"
+      "bytes": 17427,
+      "sha256": "87edadfd32bb0f3dfef012a4f9bf1e4514991cf5adfae96f67705d3a2ed82a06"
     },
     {
       "path": "desktop/assets/app.icns",
@@ -703,6 +705,11 @@
       "sha256": "9a70a8e41d659665828d20f9eba7a6040dffbf280ebf71559d66a19d8ad00727"
     },
     {
+      "path": "desktop/main/conversion-browser.mjs",
+      "bytes": 4326,
+      "sha256": "bb3b9de3083cb6353ef88872aba97073143f56edad0410086883e37b87b60d86"
+    },
+    {
       "path": "desktop/main/document-files.mjs",
       "bytes": 2106,
       "sha256": "28990e82af98ed427d07008b05472ee85da26656f0bae5a49d93cd7b50e8dab1"
@@ -719,28 +726,28 @@
     },
     {
       "path": "desktop/main.mjs",
-      "bytes": 15688,
-      "sha256": "be7efb4bcc774df389e84374e3a3921b140fc7ec832339a3e696110fc4c50e47"
+      "bytes": 16115,
+      "sha256": "8f4d6e11cb3b6ca18df21f038ac4c73e17b72e5028b77d2dfe5f269385bc6c9c"
     },
     {
       "path": "desktop/package-lock.json",
       "bytes": 200281,
-      "sha256": "06d0458ddaa8a000470d38bf842a6e683c64c421167bb3e736db8fb5797b88f0"
+      "sha256": "2ce86f85015d116b5103927aeafd398a3e8fcf07908ebe6689691ea80da77c2f"
     },
     {
       "path": "desktop/package.json",
-      "bytes": 2536,
-      "sha256": "df15066349cfb06c866d077e4993653e5cea6ebd211dbf1868b9f8e6b1081b8e"
+      "bytes": 2600,
+      "sha256": "019bf85e80929e780c15b7a7727701a92b7f0bf4edaf9fcb70475f3b54932f63"
     },
     {
       "path": "desktop/preload.cjs",
-      "bytes": 1337,
-      "sha256": "3c2b19b83c0a6c47a38a6a95468d8caa6f5c15e4ed57d5afbaa4af526b294ca2"
+      "bytes": 1358,
+      "sha256": "47b868253540923d2a5c452eca3f2850779ef3c50555264eb2e12598b610bd54"
     },
     {
       "path": "desktop/runtime/agent.mjs",
-      "bytes": 7684,
-      "sha256": "5f00ef5df754462ccade19fcd4fce39d2799b5262af8ad77d2ce6518a0e4ccf6"
+      "bytes": 8944,
+      "sha256": "d59c42e7cb46037ce3391e06e3dc5680e57958b5f0193433c470f20e6acdfda6"
     },
     {
       "path": "desktop/runtime/browser-dom.mjs",
@@ -761,6 +768,16 @@
       "path": "desktop/runtime/command.mjs",
       "bytes": 5560,
       "sha256": "1d188ae0a7f1743256d87047ee614cb564276b31ae180defe2a3f21be9f1bbf2"
+    },
+    {
+      "path": "desktop/runtime/conversion-sanitizer.js",
+      "bytes": 2239,
+      "sha256": "add0d22d329d2b5384322658517026717374be2f82b9641168bf196d519142d4"
+    },
+    {
+      "path": "desktop/runtime/document-converter.mjs",
+      "bytes": 2970,
+      "sha256": "6c6a433a5535862d64f1efba62dee7e04bed2f77e6a07817f89c3b1c8a410aa3"
     },
     {
       "path": "desktop/runtime/documents.mjs",
@@ -784,8 +801,23 @@
     },
     {
       "path": "desktop/runtime/tools.mjs",
-      "bytes": 8182,
-      "sha256": "f61336a1ffb424906cefdc94faa727a0f17bffb8b0d3cb590fb15f89d85785c8"
+      "bytes": 8289,
+      "sha256": "b9cb827bb362c606eff04047d6ce73c6a2d3e140e38337934226493f4a1c0a6f"
+    },
+    {
+      "path": "desktop/runtime/vendor/GENOFFICE-MANIFEST.json",
+      "bytes": 7736,
+      "sha256": "3ffdccd0fa95daefb8765fd01dd1d49119995c1570ef63e3c47d4d65a8ff85b7"
+    },
+    {
+      "path": "desktop/runtime/vendor/GenOffice-LICENSE.txt",
+      "bytes": 11345,
+      "sha256": "68e32334df324ef4fc79fad3a26487e5abac36055a484bb6c8d7ecf9d8350885"
+    },
+    {
+      "path": "desktop/runtime/vendor/GenOffice-NOTICE.txt",
+      "bytes": 2489,
+      "sha256": "26fa7a458f2463af07f96af3d4b26b3cc3b4de688340838e3c9b3b958d390882"
     },
     {
       "path": "desktop/runtime/vendor/OFFICE-LICENSES.txt",
@@ -796,6 +828,16 @@
       "path": "desktop/runtime/vendor/OFFICE-MANIFEST.json",
       "bytes": 471,
       "sha256": "92d03e17eca4095bd33c0128bc43e9541edf8be848fd18256468a212a32e0e57"
+    },
+    {
+      "path": "desktop/runtime/vendor/conversion-sanitizer.js",
+      "bytes": 32734,
+      "sha256": "b8fca31a585f418e7bf02e87bcb90d37e2d0292be202e39656a0e016b9beed86"
+    },
+    {
+      "path": "desktop/runtime/vendor/genoffice.cjs",
+      "bytes": 365349,
+      "sha256": "dba49a649460d17251e7ea336dbf5414e2b79fc2eb479d9b4a40617057ca3abd"
     },
     {
       "path": "desktop/runtime/vendor/office.cjs",
@@ -809,13 +851,13 @@
     },
     {
       "path": "desktop/services/conversation.mjs",
-      "bytes": 10454,
-      "sha256": "e3e3a6692807d7559b6dd98bb12453c0dd1eacc34eb67aebc9b9f2c80cc9c850"
+      "bytes": 10703,
+      "sha256": "f489bf3f608269ade8b1427b7f37578e124fc0d406c6d129bdbe8baa79f74896"
     },
     {
       "path": "desktop/services/documents.mjs",
-      "bytes": 8437,
-      "sha256": "dac95e81732f2889241c5be37a00f608cefd55f5ed595e26af7ff9b5d2dd5ab5"
+      "bytes": 11902,
+      "sha256": "33a684026a2342ac22ea173136f6780735b8d944ef4c2f685d0df7a5ce338e10"
     },
     {
       "path": "desktop/services/recovery.mjs",
@@ -839,8 +881,8 @@
     },
     {
       "path": "desktop/src/app.js",
-      "bytes": 60653,
-      "sha256": "af0de5e6b2d8157bac9c8509d9bc19ed847cfd3becf76189673dbffad286d7cb"
+      "bytes": 62326,
+      "sha256": "19006656be2ef94a737054fb2dc0740b6dc3a741807bac7349cf385019eb3cf5"
     },
     {
       "path": "desktop/src/assets/logo.png",
@@ -854,8 +896,8 @@
     },
     {
       "path": "desktop/src/styles.css",
-      "bytes": 14847,
-      "sha256": "3f286aab3523815ab1d211aa05838854bf23d493a20583a3388b8e255458e667"
+      "bytes": 15420,
+      "sha256": "814c1d58be155102ef1c1c4327356da9fec12c99dc1d627df6f60ac08df23474"
     },
     {
       "path": "desktop/src/ui/commands.js",
@@ -864,8 +906,8 @@
     },
     {
       "path": "desktop/src/ui/documents.js",
-      "bytes": 3647,
-      "sha256": "c5f9aa759a08892c2c9fc6202b659187610e394b783da8025995b08df2e00768"
+      "bytes": 3920,
+      "sha256": "dc14f8a48a24ac87b279f4f750bf97f84561bdbabf2be39b1206e853a97c1cce"
     },
     {
       "path": "desktop/src/ui/markdown.js",
@@ -878,9 +920,14 @@
       "sha256": "5a3b7f8db4bb73afe9f430aeebe17e4dafc5956713f2c263355f23b092039c1a"
     },
     {
+      "path": "desktop/src/ui/word-canvas.js",
+      "bytes": 2906,
+      "sha256": "57eeac962e7c96cde35225898bd4d50bcda95c90c512aa48d2c0ecad76239ce7"
+    },
+    {
       "path": "desktop/src/ui/workspace.js",
-      "bytes": 9289,
-      "sha256": "dee7bb4bfa57a32885ec87e36dde08df7d1aa1317b29ca0c80df8c6be62be8fd"
+      "bytes": 9375,
+      "sha256": "e008382cc4e27fa336d99685aabd544143bf36de062226f7c0b12111dd800e47"
     },
     {
       "path": "desktop/src/vendor/MANIFEST.json",
@@ -921,6 +968,11 @@
       "path": "desktop/tests/acceptance/commands-live.mjs",
       "bytes": 5168,
       "sha256": "364a775f643f4d2b0b3dfe2f7aea301ed6f914dc42e6627a1b289606f7204da3"
+    },
+    {
+      "path": "desktop/tests/acceptance/conversion-live.mjs",
+      "bytes": 10457,
+      "sha256": "fdb8fc7ef92e0a8fd43007f0e07dc60654069a15a3d6afc0d4e13c11b6cae12e"
     },
     {
       "path": "desktop/tests/acceptance/documents-live.mjs",
@@ -968,6 +1020,11 @@
       "sha256": "1313a0a04fb7b011a38193d133e6c08d34c9fb6ff3a0b6839340e0249072641e"
     },
     {
+      "path": "desktop/tests/document-converter.test.mjs",
+      "bytes": 9532,
+      "sha256": "36257196ed3b9e6e3b2481efe17b4f1fd1618ba67081e49ccf5d8b5376d65a6f"
+    },
+    {
       "path": "desktop/tests/document-editor.test.mjs",
       "bytes": 7468,
       "sha256": "909064a1727a23b143c481c6ee18ab606db089c5e1948a3d5bea95b01d7da98f"
@@ -978,9 +1035,14 @@
       "sha256": "6880ddf3f235b5f90e15c4db1ad9a2f7cfed70d9a682e0e8b8a342b8de39ba8d"
     },
     {
+      "path": "desktop/tests/helpers/conversion-driver.mjs",
+      "bytes": 1534,
+      "sha256": "37607934ccd7d9e4c88876b5682fe85794d143f87d9f43b5f02ebdc848d2756f"
+    },
+    {
       "path": "desktop/tests/helpers/load-ui.mjs",
-      "bytes": 831,
-      "sha256": "300e808aa5340954654e850bcdd50469fe5c2c18ca5de2bb470c4024a39634cc"
+      "bytes": 924,
+      "sha256": "4512d4b3b0561da001e6ef9fd27dba7fa8d55bb6833cd77c3321ccbcc1c7d5e7"
     },
     {
       "path": "desktop/tests/rendering.test.mjs",
@@ -1034,8 +1096,13 @@
     },
     {
       "path": "docs/GENOFFICE_DESKTOP.md",
-      "bytes": 5061,
-      "sha256": "8f22e1c41bffc5a8c8d424cad92f2cd3b89001e09d300a483a2f49220f4b069d"
+      "bytes": 5281,
+      "sha256": "c2e70894786b874e1b7316047a3f735f6fd275c2b2f75225cdc564a3abbb52e1"
+    },
+    {
+      "path": "docs/GENOFFICE_ENGINE.md",
+      "bytes": 5242,
+      "sha256": "736fd9d1efcd545fd958bad0a2b8f1e875b334796d0eba82e00ce168b5453315"
     },
     {
       "path": "docs/OFFICE_WORKSPACE.md",
@@ -1049,8 +1116,8 @@
     },
     {
       "path": "docs/QUICK_GAPS.md",
-      "bytes": 8524,
-      "sha256": "b513499915fa320a689f6d6ad701627b7495e0cb927d47e78782b93eba0ad3e2"
+      "bytes": 9078,
+      "sha256": "b14f547a2eb45e897f27abd271fee9f0623043e3da586b393986b73897f243b8"
     },
     {
       "path": "docs/REA_FINDINGS.md",
@@ -1093,6 +1160,11 @@
       "sha256": "a1b71d4c68e04522cb70d287111f2b9b857c685607beac7964a5157f8687c3fe"
     },
     {
+      "path": "docs/images/word-canvas.png",
+      "bytes": 169103,
+      "sha256": "c3b3b297813a2852c00623e5ec3804df7d3e4be04397d98e7c0fa656e03974d5"
+    },
+    {
       "path": "docs/images/workflow.svg",
       "bytes": 2675,
       "sha256": "179051df79c2d7a855de4a5e3e080427255b22acd695b6b5e4657d77456c2b69"
@@ -1126,6 +1198,11 @@
       "path": "docs/validation/v0.11.0.json",
       "bytes": 1293,
       "sha256": "045883ad6b8caff91215bc48e37402bff5bf5bb8eb380d10ed7bfb58c45a7cc8"
+    },
+    {
+      "path": "docs/validation/v0.12.0.json",
+      "bytes": 1845,
+      "sha256": "8a37feccbac2675c9b631b509c416782c37080ff2782bc536d9add438dd0129c"
     },
     {
       "path": "docs/validation/v0.5.0.json",
@@ -1508,6 +1585,11 @@
       "sha256": "ddbd26bee791ca6fb8d15107fffdf8ea16b26b471d66d983e6a81a32b9e9f61b"
     },
     {
+      "path": "scripts/vendor-genoffice.mjs",
+      "bytes": 4187,
+      "sha256": "3862673fe55df1f0a84675b173a30b800f528f76a2b7e33d1d1633241e94bfab"
+    },
+    {
       "path": "scripts/verify-macho-pages.py",
       "bytes": 3396,
       "sha256": "440f677ce25cd03aa4510f72bb8809fe63bbc423d8aa674f4b6d2ca290f9a385"
@@ -1821,6 +1903,171 @@
       "path": "tsconfig.json",
       "bytes": 800,
       "sha256": "7199c6e4e400921e8049729840165a39f1476fa97901bed00239e7697bfe8da4"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/ARCHITECTURE.md",
+      "bytes": 36480,
+      "sha256": "b1fefa7ef5806923086223b0f36b589b70510b3fad7f4651a0e3617fc5060c77"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/LICENSE",
+      "bytes": 11345,
+      "sha256": "68e32334df324ef4fc79fad3a26487e5abac36055a484bb6c8d7ecf9d8350885"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/NOTICE",
+      "bytes": 2489,
+      "sha256": "26fa7a458f2463af07f96af3d4b26b3cc3b4de688340838e3c9b3b958d390882"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/package.json",
+      "bytes": 658,
+      "sha256": "1f9fe7ba1fdba39cba67e40e1c515569d26a0878e6cf2fd57a265fe14477b91a"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/browser/core/classifier.js",
+      "bytes": 50106,
+      "sha256": "8a3b9becdc89254f47e975abca182fc5b5f93404257d997b8704ab637b1e2c77"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/browser/core/decorators.js",
+      "bytes": 9569,
+      "sha256": "cbfa3befbe3863b14a6bee87b7fca7be14edc3005ae9076b909a1568a877e5f4"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/browser/core/layouts-controls.js",
+      "bytes": 44702,
+      "sha256": "d4d5f62a05c0c66c4c8fce7c39a6174d16db5d54a24c295a5106eab635209f5e"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/browser/core/paragraphs-document.js",
+      "bytes": 12340,
+      "sha256": "a2bb671cf82452c7021c716a9e9ffc854867c02300c99b6ee7b30be9308f2df6"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/browser/core/runs-screenshots.js",
+      "bytes": 31486,
+      "sha256": "dbea469df92b61d75fca8ddae0174dfde5b8541e1686605290f100ad664e5c23"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/browser/core/styles.js",
+      "bytes": 18408,
+      "sha256": "b41184817a98f0487ecd0c977faecb98b070f6a1487cdfb5031a2df361c793e7"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/browser/core/tables-lists.js",
+      "bytes": 22715,
+      "sha256": "8f7f7fd46fb05c9dd7da2de8fdbd13bdd2f6a008ca19d698f6639747f5ae920e"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/browser/forms-media.js",
+      "bytes": 6633,
+      "sha256": "5bea5d87bd0ab9a8f3354ca1acca2a3cb21b738fc26fc6362b186428c8768f61"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/browser/pages.js",
+      "bytes": 35697,
+      "sha256": "aed25ff470dc45456e5690c604c9cde10cb8d4aa557a17ee1146668a6d2bd243"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/browser/table.js",
+      "bytes": 12750,
+      "sha256": "88b17ee126eb97edf9deb21f9cd901a80ea463ef4ea3affe6ec6caa38b05516b"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/browser/visual-effects.js",
+      "bytes": 2624,
+      "sha256": "f61b7f5425b78d9bcb9bc3b014a6cadf5a14c1600e0ce17154aa7633b42251c7"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/convert.ts",
+      "bytes": 26016,
+      "sha256": "ec001d9fe4788f556e65340e6913097ed137a0118b19e57059079aacfbd02678"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/driver.ts",
+      "bytes": 1831,
+      "sha256": "f5852a78199a37141947967e4513226d77dc63235db6e49b0e37ee7104841320"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/drivers/electron.ts",
+      "bytes": 7123,
+      "sha256": "c6fa60d60e7b1e944fbd0dc3e8a56e44f7361dc179af5ff9cd3e7bd7890e9faa"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/drivers/playwright.ts",
+      "bytes": 4473,
+      "sha256": "10977f30d3913f7470033f71279b28f94d15da3dcf4dad14dfb1e99a4f5907a3"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/extract.ts",
+      "bytes": 1747,
+      "sha256": "1d5ea6fec6089153f3afa879aaee491ab952ce74082d05f79f02e2b0b1ef06e6"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/bookmarks.ts",
+      "bytes": 3712,
+      "sha256": "8168e55c60a18dd901746ee2b18d7f85e1c9c0e1194c4c6c145f7bedf610070e"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/content-controls.ts",
+      "bytes": 2078,
+      "sha256": "3158d921703ff5e02e969bd586e8a4e746cc46ca80f319463a4c391b232d2b16"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/document-meta.ts",
+      "bytes": 2409,
+      "sha256": "f1c8cdd69cdebce18e56fdf84c241653d211e03c566aace36cdbd6a384e20601"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/fonts.ts",
+      "bytes": 2714,
+      "sha256": "bda24df9ce0890f766b5b626e58f24561c9ee5c54a25f004d98bf4a3b5080066"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/numbering.ts",
+      "bytes": 2384,
+      "sha256": "27ba0fabfc07d895c8ea43f2106d98a08db1a195cf10eeaa65c6ebe7634b2f93"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/page-settings.ts",
+      "bytes": 11231,
+      "sha256": "3a58a3941c9bedd7930c989a5a29772db70a4abb84028f4581a539a40a02511c"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/render-context.ts",
+      "bytes": 3254,
+      "sha256": "3944d6dfa92add63510a7ec06f8b28c2dee7f2b62e60f122def6b4116fa43d84"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/renderer.ts",
+      "bytes": 27661,
+      "sha256": "29cd81031070212585bc644a11786248e396703d9cf000130aa9f3213df8f1b7"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/table-renderers.ts",
+      "bytes": 48006,
+      "sha256": "c148a24dfea8ef8349b9b0578729256fa80b839ff603d306d4e66d3efa89135f"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/word-utils.ts",
+      "bytes": 13741,
+      "sha256": "d81fa78c0a4735e3fb6a5481d35487c65adf94b7ff12009c5a123faa81fce3de"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate.ts",
+      "bytes": 1240,
+      "sha256": "7d380be876299f7e30fe4327f828e4968ef069123e1401c2ef412bf956e9563d"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/index.ts",
+      "bytes": 491,
+      "sha256": "bd4bd0b6d9d713cea778930d1ed5172bd33930c5cde3c586fc5eecf98c278699"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/raw.d.ts",
+      "bytes": 74,
+      "sha256": "862263317a4ed2b8dda203a834ef18e32df49a676fc5dd58f6de98befcedf6be"
     },
     {
       "path": "vendor/shadcn-tailwind-4.13.0.LICENSE.md",

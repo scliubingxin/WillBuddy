@@ -1,3 +1,86 @@
+# WillBuddy 0.12.0 · 内置GenOffice Word引擎与内部写作画布 · 2026-10-22
+
+从权威0.11.0/v11重新下载并校验346源码文件。实际接入GenOffice固定提交342abce的HTML→DOCX子引擎，29上游源码字节未改，保留Apache2 LICENSE/NOTICE；无ee、字体、原生sidecar或Amazon资产。复用已有锁定docx，最终用户不装npm/GenOffice/Python。新增内部Word富文本画布（标题/粗体/斜体/列表/表格/撤销重做）、Markdown/HTML离线转Word、模型document_write/convert，可信卡片/原生审批/版本历史与导出复用已有服务。不是完整上游编辑器/导入Word保真往返。
+
+转换独立无持久session、隐藏sandbox/contextIsolation浏览器，无Node/preload/共享授权，拒绝网络/file/弹窗/权限；HTML/样式白名单净化、输入/元素/布局/输出限制、2容量和15秒取消超时。源/目标revision冲突及保存失败不发布，工具审计隐藏HTML；大画布源不完整发给模型。
+
+123核心（新增10）/8真实Chromium（新增2）/7打包Python通过。实际GenOffice引擎与生产UI写作、再编辑、下载、重载，并用python-docx独立核对标题/粗体/表格。Electron/原生审批/IPC为夹具，无Mac/真实付费模型/Word-WPS保真验收。56生产文件ASAR精确匹配；arm64离线119173346字节，282应用+5配套/14链接/零残留、15MachO/51216页及篡改负例通过，仍ad-hoc未公证。原Web/Python受保护188文件哈希不变。
+
+下一步：优先Mac原生转换链路/用户模型；继续DOCX结构与保真往返、图片/页眉/修订和Excel真实公式引擎，避免把此子集称为全面取代Office。完整边界见docs/GENOFFICE_ENGINE.md与validation/v0.12.0.json。
+
+本轮实际文件：
+
+- ITERATION_LOG.md
+- ITERATION_PLAN.md
+- README.md
+- RELEASE_STATUS.json
+- SOURCE_MANIFEST.json
+- desktop/README.md
+- desktop/main.mjs
+- desktop/main/conversion-browser.mjs
+- desktop/package-lock.json
+- desktop/package.json
+- desktop/preload.cjs
+- desktop/runtime/agent.mjs
+- desktop/runtime/conversion-sanitizer.js
+- desktop/runtime/document-converter.mjs
+- desktop/runtime/tools.mjs
+- desktop/runtime/vendor/GENOFFICE-MANIFEST.json
+- desktop/runtime/vendor/GenOffice-LICENSE.txt
+- desktop/runtime/vendor/GenOffice-NOTICE.txt
+- desktop/runtime/vendor/conversion-sanitizer.js
+- desktop/runtime/vendor/genoffice.cjs
+- desktop/services/conversation.mjs
+- desktop/services/documents.mjs
+- desktop/src/app.js
+- desktop/src/styles.css
+- desktop/src/ui/documents.js
+- desktop/src/ui/word-canvas.js
+- desktop/src/ui/workspace.js
+- desktop/tests/acceptance/conversion-live.mjs
+- desktop/tests/document-converter.test.mjs
+- desktop/tests/helpers/conversion-driver.mjs
+- desktop/tests/helpers/load-ui.mjs
+- docs/GENOFFICE_DESKTOP.md
+- docs/GENOFFICE_ENGINE.md
+- docs/QUICK_GAPS.md
+- docs/images/word-canvas.png
+- docs/validation/v0.12.0.json
+- scripts/vendor-genoffice.mjs
+- vendor/genoffice-html2docx/ARCHITECTURE.md
+- vendor/genoffice-html2docx/LICENSE
+- vendor/genoffice-html2docx/NOTICE
+- vendor/genoffice-html2docx/package.json
+- vendor/genoffice-html2docx/src/browser/core/classifier.js
+- vendor/genoffice-html2docx/src/browser/core/decorators.js
+- vendor/genoffice-html2docx/src/browser/core/layouts-controls.js
+- vendor/genoffice-html2docx/src/browser/core/paragraphs-document.js
+- vendor/genoffice-html2docx/src/browser/core/runs-screenshots.js
+- vendor/genoffice-html2docx/src/browser/core/styles.js
+- vendor/genoffice-html2docx/src/browser/core/tables-lists.js
+- vendor/genoffice-html2docx/src/browser/forms-media.js
+- vendor/genoffice-html2docx/src/browser/pages.js
+- vendor/genoffice-html2docx/src/browser/table.js
+- vendor/genoffice-html2docx/src/browser/visual-effects.js
+- vendor/genoffice-html2docx/src/convert.ts
+- vendor/genoffice-html2docx/src/driver.ts
+- vendor/genoffice-html2docx/src/drivers/electron.ts
+- vendor/genoffice-html2docx/src/drivers/playwright.ts
+- vendor/genoffice-html2docx/src/extract.ts
+- vendor/genoffice-html2docx/src/generate.ts
+- vendor/genoffice-html2docx/src/generate/bookmarks.ts
+- vendor/genoffice-html2docx/src/generate/content-controls.ts
+- vendor/genoffice-html2docx/src/generate/document-meta.ts
+- vendor/genoffice-html2docx/src/generate/fonts.ts
+- vendor/genoffice-html2docx/src/generate/numbering.ts
+- vendor/genoffice-html2docx/src/generate/page-settings.ts
+- vendor/genoffice-html2docx/src/generate/render-context.ts
+- vendor/genoffice-html2docx/src/generate/renderer.ts
+- vendor/genoffice-html2docx/src/generate/table-renderers.ts
+- vendor/genoffice-html2docx/src/generate/word-utils.ts
+- vendor/genoffice-html2docx/src/index.ts
+- vendor/genoffice-html2docx/src/raw.d.ts
+
 # WillBuddy 0.11.0 · Office真实交付、内容编辑与GenOffice接续 · 2026-10-22
 
 修复用户截图的关键缺陷：生成的Office文档没有关联回复/工作区，导致“导出”保存文本收据.md。现在从真实成功工具结果持久化run文档引用，卡片和工作区导出原文件；旧审计可找回同run文件，绝不从模型文本猜ID。新增直接段落/常量单元格/Markdown和HTML原文编辑、乐观版本检查和审批。GenOffice已增加可选Mac应用副本接续/核验收回；不是内嵌完整编辑器，没有捆绑GenOffice，也没有执行其真实Mac GUI。
