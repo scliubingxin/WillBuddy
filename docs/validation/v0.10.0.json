@@ -1,0 +1,86 @@
+{
+  "version": "0.10.0",
+  "date": "2026-10-22",
+  "base": {
+    "version": "0.9.0",
+    "canonical_version_observed": 7,
+    "files_verified": 318,
+    "source_zip_sha256": "820caaf5bc9aa52115b48bae80dd566bb8e88b29b8b8320eb89d0533500e53bf",
+    "github_parent": "558dccade8e12104d0bb22bbf08e70c841c8934a"
+  },
+  "tests": {
+    "node_jsdom": {
+      "passed": 96,
+      "new_document_tests": 15,
+      "command": "npm --prefix desktop test"
+    },
+    "chromium": {
+      "passed": 6,
+      "command": "CHROME_PATH=<HeadlessShell141> CHROME_TEST_NO_SANDBOX=1 node --test desktop/tests/acceptance/*.mjs",
+      "new_scope": "production UI creates, edits, exports real DOCX; two real HTTP model requests with isolated cancellation/completion and drafts; native bridge/approval/model contents remain fixtures"
+    },
+    "packaging_python": 7,
+    "original_python_executor": 35,
+    "independent_office_parsers": {
+      "docx": "python-docx: paragraph change and editable table cell",
+      "xlsx": "openpyxl: actual numeric B2=999; formula-like text remains type s",
+      "pptx": "python-pptx: title replacement and speaker notes"
+    },
+    "model_loop": "actual HTTP create/read/edit protocol through ToolRuntime, real generated/edited DOCX bytes, fixture responses/approvals"
+  },
+  "offline_bundle": {
+    "file": "WillBuddy-v0.10.0-mac-arm64-offline.zip",
+    "version": "0.10.0",
+    "bytes": 119043604,
+    "sha256": "125496af774647802512c9e9f701f2733a40bc39fde4828f673e17801ce5f79d",
+    "app_asar_sha256": "aa956634b48100f49879ae185c5bc2ce494ab0a450853bbc6a82d08af6ff510f",
+    "architecture": "arm64",
+    "signature": "ad-hoc",
+    "verified": true,
+    "archive_check": {
+      "app_entries": 282,
+      "extra_files": 5,
+      "closed_inventory": true,
+      "residual_entries": 0
+    }
+  },
+  "asar": {
+    "productionFilesMatched": 45,
+    "differences": [],
+    "version": "0.10.0"
+  },
+  "macho": {
+    "binaries": 15,
+    "code_pages": 51216,
+    "tamper_negative": "passed: changed code page rejected"
+  },
+  "archive": {
+    "app_entries": 282,
+    "extras": 5,
+    "symlinks": 14,
+    "residues": 0,
+    "crc": "passed"
+  },
+  "limits": {
+    "source_bytes": 4194304,
+    "zip_entries": 2000,
+    "uncompressed_entry": 8388608,
+    "uncompressed_total": 33554432,
+    "document_count": 100,
+    "document_store_total": 16777216,
+    "previous_revisions": 5
+  },
+  "test_harness_fix": "Existing mixed CLI/model capacity test observed final status before worker released its slot. Now awaits command worker idle before asserting released capacity; no production scheduling change. An initial browser fixture 404 was fixed by normalizing its source root path. Final suite passes.",
+  "not_verified": [
+    "Mac native dialogs/IPC and Office tools",
+    "codesign --verify --deep --strict, Gatekeeper, native launch",
+    "Developer ID/notarization",
+    "real paid model provider",
+    "Microsoft Office/WPS or visual layout rendering",
+    "Codex CLI",
+    "Excel formula calculation",
+    "PDF export",
+    "automatic parallel model subtask groups"
+  ],
+  "next": "Document structure/selection editing, page rendering and bounded formula engine; Mac native installation, model and Office tool acceptance when available"
+}
