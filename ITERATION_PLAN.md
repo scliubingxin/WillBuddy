@@ -1,3 +1,11 @@
+# 0.14.0 表格计算增量 · 2026-10-23
+
+实际新增七函数公式引擎（SUM/AVERAGE/MIN/MAX/COUNT/IF/ROUND）、跨表A1与依赖计算、页面即时预览、单元格显式类型/公式编辑、新增坐标、切表草稿与只看公式。模型read/edit接既有审批与版本服务，主进程独立重算真实XLSX公式缓存、清除旧calcChain，保留样式和原件/前5版。未知/共享/数组公式、循环、外链、图表/透视表/结构化表格/签名工作簿编辑失败关闭。不是完整Excel/GenOffice电子表格套件。见docs/SPREADSHEET_FORMULAS.md和validation/v0.14.0.json。
+
+156核心（新增20）/10真实Chromium（新增1）/9打包（新增2）通过；生产页面生成→修改→即时计算→切表保留→保存v2→导出→磁盘重载。openpyxl核对公式/缓存，容器LibreOffice独立重算8个公式一致；HTTP模型内容/原生IPC/审批仍夹具，无Mac/付费模型/Excel-WPS保真验收。61生产文件与ASAR精确匹配，282应用+5配套/14链接/零残留，15MachO/51216页和篡改负例通过；仍ad-hoc未公证。源码发布新增临时ZIP完整验证后原子替换和失败保留测试，不把它当上一轮截断已知根因修复。
+
+下一轮有Mac先严格签名安装/启动、原生审批和实际模型Office链路；缺目标机优先Word段落/表格结构增删或受控扩展公式/模板质量、图表与预览。不要只加队列/说明；保留原Web/Python、兼容身份、白蓝logo、双任务/浏览器站点许可。不PR/不合并main、不用GitHub插件或聊天密码。
+
 # 0.13.0 导入Word增量 · 2026-10-22
 
 实际新增导入DOCX片段文字/粗体/斜体编辑，正文、表格文字、页眉页脚的简单段落支持；其他格式和未改ZIP部件保留并核对SHA。复杂段落只读、版本/片段指纹门禁、模型read→document_patch、原件保留与新版本真实导出。见docs/IMPORTED_WORD_EDITING.md和validation/v0.13.0.json。新模块为WillBuddy自己的受限OOXML补丁，既有GenOffice子引擎继续保留；不是完整上游编辑器或任意Word保真往返。136核心/9真实Chromium/7打包测试通过；原生IPC/审批/模型内容夹具，无Mac或付费模型/Office显示验收。

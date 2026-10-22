@@ -10,7 +10,7 @@
 
 应用包内置 Electron、Chromium、Node 和基础 Office 文档编解码器，安装时无需再执行 `npm install`。**离线安装不等于所有 AI 功能都能断网运行**：使用云模型、访问网页需要联网；纯离线推理需要自行准备本地模型及运行环境。目前只制作 Apple 芯片（arm64）Mac 应用。
 
-> 本文介绍已交付的桌面 **0.13.0**，对应代码在 [`willbuddy-v0.13.0-imported-word`](https://github.com/scliubingxin/WillBuddy/tree/willbuddy-v0.13.0-imported-word) 分支；`main` 尚未合入该版本，开发时请先切换分支。处于持续开发阶段；已提供的离线包为 ad-hoc 签名候选版，尚未完成 Apple Developer ID 签名、公证及 Mac 原生完整验收。仓库已公开源码，许可证状态见[许可与项目定位](#许可与项目定位)。
+> 本文介绍已交付的桌面 **0.14.0**，对应代码在 [`willbuddy-v0.14.0-spreadsheet-formulas`](https://github.com/scliubingxin/WillBuddy/tree/willbuddy-v0.14.0-spreadsheet-formulas) 分支；`main` 尚未合入该版本，开发时请先切换分支。处于持续开发阶段；已提供的离线包为 ad-hoc 签名候选版，尚未完成 Apple Developer ID 签名、公证及 Mac 原生完整验收。仓库已公开源码，许可证状态见[许可与项目定位](#许可与项目定位)。
 
 ![WillBuddy 桌面 AI 工作流：目标、自选模型、受控工具、可编辑成果](docs/images/workflow.svg)
 
@@ -32,13 +32,19 @@
 
 *截图中的示例文档由项目实际编解码器生成；界面与数据用于功能展示。Office 当前预览为提取文本，尚非 Word / PowerPoint 保真页面渲染。*
 
+**0.14.0 新增本地 Excel 公式编辑与重算**：修改数量后，合计与跨工作表引用会重新计算；支持 SUM、AVERAGE、MIN、MAX、COUNT、IF、ROUND，以及基础运算和 A1 引用。可以切换工作表、只看公式、增加单元格，并导出包含公式及新缓存值的真实 XLSX。
+
+![WillBuddy 表格计算编辑器：公式、跨表引用和即时计算结果](docs/images/spreadsheet-formulas.png)
+
+*生产 Chromium 页面和真实 XLSX，合成预算数据、模拟原生桥与审批；8 个公式结果与容器 LibreOffice 重算一致，不是 Excel 全兼容或 Mac 真机验收。详见[公式范围与使用说明](docs/SPREADSHEET_FORMULAS.md)。*
+
 ## 功能一览
 
 | 能力 | 你可以做什么 | 当前范围 |
 | --- | --- | --- |
 | AI 对话 | 连接自选模型，流式接收回答，查看 Markdown 与静态 HTML | Chat Completions 兼容接口；工具能力取决于模型支持 |
 | Word 文档 | 内部富文本画布、标题/粗体/列表/表格，Markdown/HTML转Word | 真实GenOffice子引擎；导入DOCX可按片段改字/粗体/斜体；复杂段落只读，未分页渲染 |
-| Excel 表格 | 创建多工作表，维护任务、预算和数据常量 | XLSX；常量单元格更新，含公式工作簿暂不修改 |
+| Excel 表格 | 创建多工作表，编辑预算、常量与显式公式 | XLSX；七个基础函数、跨表 A1 引用、即时预览与保存重算；复杂公式/图表工作簿拒绝修改 |
 | PowerPoint | 生成标题、项目符号和演讲备注，修改幻灯片文字 | PPTX；基础排版，非完整模板编辑器 |
 | Markdown / HTML | 创建、整篇原文编辑、预览和导出原文 | HTML 预览隔离运行，禁止脚本与远程资源 |
 | 浏览器工具 | 打开网页、读取正文、检查元素、点击和填写 | 内置浏览器 DOM 操作；快照失效后重新检查 |
@@ -75,7 +81,7 @@
 
 适用平台：**Apple 芯片 Mac / arm64，最低 macOS 12**。当前不提供 Intel Mac 安装包。
 
-1. 获取实际交付的 `WillBuddy-v0.13.0-mac-arm64-offline.zip`。公开安装包是否已发布，请以仓库 [Releases](https://github.com/scliubingxin/WillBuddy/releases) 的实际内容为准；源码分支本身不是安装包。
+1. 获取实际交付的 `WillBuddy-v0.14.0-mac-arm64-offline.zip`。公开安装包是否已发布，请以仓库 [Releases](https://github.com/scliubingxin/WillBuddy/releases) 的实际内容为准；源码分支本身不是安装包。
 2. 先把 ZIP 完整解压到“下载”等用户目录，保留 `.app` 内的符号链接；不要直接向 `/Applications` 解压。
 3. 将 `WillBuddy.app` 移入“应用程序”；也可使用包内安装脚本安装到个人 `Applications` 目录。脚本会执行原生签名检查。
 4. 打开应用，在左下角配置模型，然后新建一个任务。
@@ -121,6 +127,10 @@ WillBuddy 不内置付费模型账户，也不要求使用特定云厂商。
 
 > 第一个任务开始后，点击“新建任务”处理第二项工作。两项独立显示状态、保留草稿和停止；不需要等待第一个任务完成。
 
+**带公式的预算表**
+
+> 创建 Excel 预算，单价和数量用数字，金额使用显式公式对象，合计用 SUM；修改数量后重算并保存新版本。支持范围内的公式才允许修改，不要返回过期缓存。
+
 这些是使用示例，不是固定回复或已经完成的业务结果。实际文件应出现在成果中心，浏览器与 CLI 操作应有执行记录。
 
 ## 本地、权限与数据
@@ -142,7 +152,7 @@ WillBuddy 不内置付费模型账户，也不要求使用特定云厂商。
 
 ### 能替代 Microsoft Office 吗？
 
-目标是减少重复的 Office 操作，目前已能交付真实可编辑的 DOCX、XLSX、PPTX，并继续做定向修改。复杂版式、图表、公式计算、修订批注和保真页面预览仍在完善，当前不能宣称全面替代 Office。
+目标是减少重复的 Office 操作，目前已能交付真实可编辑的 DOCX、XLSX、PPTX，并继续做定向修改。复杂版式、图表、完整 Excel 公式兼容、修订批注和保真页面预览仍在完善，当前不能宣称全面替代 Office。
 
 ### 为什么有些操作仍需要确认？
 
@@ -164,7 +174,7 @@ WillBuddy 不内置付费模型账户，也不要求使用特定云厂商。
 git clone https://github.com/scliubingxin/WillBuddy.git
 cd WillBuddy
 # 本说明对应已交付的桌面修复分支；main 尚未合入该版本。
-git switch willbuddy-v0.13.0-imported-word
+git switch willbuddy-v0.14.0-spreadsheet-formulas
 npm --prefix desktop ci
 npm --prefix desktop start
 ```
@@ -174,6 +184,8 @@ npm --prefix desktop start
 ```bash
 npm --prefix desktop run dist:mac
 ```
+
+完整浏览器验收另外需要开发机提供 `soffice`（LibreOffice，仅作独立重算比对，不随应用分发）；原生 Mac 与真实模型仍待验收。
 
 运行开发测试前，Office 独立解析验收需要开发用 Python 依赖（最终用户不需要）：
 
@@ -195,7 +207,7 @@ npm --prefix desktop test
 
 ## 项目状态与路线
 
-0.13.0 的代码验证包括 **136 项核心测试、9 项真实 Chromium 验收及 7 项打包测试**。原生审批、IPC 和部分模型响应使用测试适配器；这不代表已经完成 Mac 原生、真实付费模型或 Office/WPS 保真验收。
+0.14.0 的代码验证包括 **156 项核心测试、10 项真实 Chromium 验收及 9 项打包测试**。原生审批、IPC 和部分模型响应使用测试适配器；这不代表已经完成 Mac 原生、真实付费模型或 Office/WPS 保真验收。
 
 近期重点：
 
@@ -204,7 +216,7 @@ npm --prefix desktop test
 - Mac 原生安装、严格签名、公证、审批和真实模型验证。
 - 受控并行子任务、跨队列公平、桌面 MCP 和 Web/桌面共用核心。
 
-查看：[发布状态](RELEASE_STATUS.json) · [迭代计划](ITERATION_PLAN.md) · [迭代日志](ITERATION_LOG.md) · [Quick 能力差距](docs/QUICK_GAPS.md) · [0.13.0 验证记录](docs/validation/v0.13.0.json)。
+查看：[发布状态](RELEASE_STATUS.json) · [迭代计划](ITERATION_PLAN.md) · [迭代日志](ITERATION_LOG.md) · [Quick 能力差距](docs/QUICK_GAPS.md) · [0.14.0 验证记录](docs/validation/v0.14.0.json)。
 
 ## 许可与项目定位
 
@@ -220,7 +232,7 @@ WillBuddy 是独立项目，以 Amazon Quick 等产品的公开能力为参考�
 
 The application bundles Electron, Chromium, Node and document codecs. It does **not** bundle model weights, Ollama or every optional external tool. Cloud models and websites require connectivity. Local inference requires a separately configured compatible local model; full offline acceptance remains pending.
 
-The current desktop supports two shared execution slots, individual task cancellation, document revisions and per-task/per-origin browser consent. Office layout fidelity, formula calculation, autonomous parallel subtask groups and native Mac acceptance are ongoing work. Source is public; an explicit open-source license has not yet been selected.
+The current desktop supports two shared execution slots, individual task cancellation, document revisions and per-task/per-origin browser consent. Office layout fidelity, full Excel formula compatibility, autonomous parallel subtask groups and native Mac acceptance are ongoing work. Source is public; an explicit open-source license has not yet been selected.
 
 ---
 
