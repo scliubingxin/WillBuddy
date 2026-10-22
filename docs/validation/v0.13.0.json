@@ -1,0 +1,125 @@
+{
+  "version": "0.13.0",
+  "date": "2026-10-22",
+  "baseline": {
+    "canonical_version_read": 13,
+    "version": "0.12.0",
+    "source_files_sha256_checked": 395
+  },
+  "tests": {
+    "core": 136,
+    "new_core": 13,
+    "real_chromium": 9,
+    "new_browser": 1,
+    "packaging_python": 7
+  },
+  "commands": [
+    "npm --prefix desktop test",
+    "CHROME_PATH=<141.0.7390.37 Headless Shell> CHROME_TEST_NO_SANDBOX=1 node --test --test-concurrency=1 desktop/tests/acceptance/*.mjs",
+    "python3 -m unittest discover -s scripts/tests -v"
+  ],
+  "actual_acceptance": [
+    "production Chromium import real DOCX -> text/bold/italic/table/header edits -> native-bridge fixture approval -> binary export -> disk reload",
+    "independent python-docx reads text, existing color/size, direct marks, table, image, header/footer",
+    "all untouched OOXML parts match uncompressed SHA-256; unchanged paragraphs in changed part have equal serialized subtrees",
+    "standard HTTP model fixture read -> real anchors -> document_patch -> actual DOCX",
+    "negative tests: forged/stale/readonly/duplicate anchors, signed package, bounds, cancellation, denial, version conflict, disk rollback, audit redaction"
+  ],
+  "fixture_boundaries": [
+    "native IPC",
+    "native approval",
+    "model content",
+    "Electron conversion adapter"
+  ],
+  "not_tested": [
+    "Mac native runtime",
+    "codesign deep strict resource seal and Gatekeeper",
+    "Apple Developer ID/notarization",
+    "real paid model",
+    "Office/WPS visual fidelity",
+    "full GenOffice editor"
+  ],
+  "original_web_python": {
+    "unchanged_files": 122,
+    "directories": [
+      "app",
+      "components",
+      "db",
+      "drizzle",
+      "hooks",
+      "lib",
+      "local-runner"
+    ],
+    "python_executor_retested_this_iteration": false
+  },
+  "bundle": {
+    "file": "/workspace/scratch/0d433941ca14/iter013-deliverables/WillBuddy-v0.13.0-mac-arm64-offline.zip",
+    "version": "0.13.0",
+    "bytes": 119177848,
+    "sha256": "27bc78755f3e30618e1f89775a59b8cf871d4e48629089b5ecdfcc30ef7ac7f7",
+    "app_asar_sha256": "1da133cab9025830fa2cc4c35111e3292a104853da00362e144b8cc8840696ca",
+    "architecture": "arm64",
+    "signature": "ad-hoc",
+    "verified": true,
+    "archive_check": {
+      "app_entries": 282,
+      "extra_files": 5,
+      "closed_inventory": true,
+      "residual_entries": 0
+    }
+  },
+  "bundle_checks": {
+    "asar_production_files_exact": 58,
+    "macho_binaries": 15,
+    "code_pages": 51216,
+    "symlinks": 14,
+    "residue": 0,
+    "zip_crc": "passed",
+    "tamper_negative": "passed",
+    "signature": "ad-hoc; native verification pending"
+  },
+  "changed_files": [
+    "ITERATION_LOG.md",
+    "ITERATION_PLAN.md",
+    "README.md",
+    "RELEASE_STATUS.json",
+    "desktop/README.md",
+    "desktop/main.mjs",
+    "desktop/package-lock.json",
+    "desktop/package.json",
+    "desktop/runtime/agent.mjs",
+    "desktop/runtime/tools.mjs",
+    "desktop/services/conversation.mjs",
+    "desktop/services/documents.mjs",
+    "desktop/src/app.js",
+    "desktop/src/styles.css",
+    "desktop/src/ui/documents.js",
+    "desktop/tests/acceptance/documents-live.mjs",
+    "desktop/tests/helpers/load-ui.mjs",
+    "docs/QUICK_GAPS.md",
+    "desktop/runtime/word-structure.mjs",
+    "desktop/src/ui/word-runs.js",
+    "desktop/tests/helpers/word-fixture.mjs",
+    "desktop/tests/word-structure.test.mjs",
+    "desktop/tests/acceptance/word-import-live.mjs",
+    "docs/images/imported-word.png",
+    "docs/IMPORTED_WORD_EDITING.md",
+    "docs/validation/v0.13.0.json"
+  ],
+  "issues_corrected_in_test_work": [
+    "new UI fixture static root trailing slash caused 404; fixed test root normalization",
+    "old acceptance expected deprecated card edit label; updated to new Word run editor and bridge mode, complete regression then passed"
+  ],
+  "github": {
+    "branch": "willbuddy-v0.13.0-imported-word",
+    "base": "000a35dfe9d7e113cf52da311e0f3851580f26b9",
+    "main_merged": false
+  },
+  "limits": [
+    "only simple paragraphs and direct run marks editable",
+    "complex structures remain read-only; no structure insertion/deletion",
+    "ZIP compressed bytes and full XML bytes need not match; untouched parts verified",
+    "model patches limited to 600-character JSON for review; UI up to100 changed runs",
+    "legacy paragraph editor remains with its documented style flattening"
+  ]
+}
