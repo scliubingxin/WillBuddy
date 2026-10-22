@@ -84,7 +84,13 @@ export function createConversationService({ store, active, key, view, executeToo
                         }
                     },
                     execute: (name, args, signal) => executeTool(name, args, signal, { chatId: id, runId }),
-                    onEvent: async (event) => { chat.toolEvents ??= []; chat.toolEvents.push({ tool: event.tool, status: event.status, time: event.time }); await store.save(); notify(); }
+                    onEvent: async (event) => {
+                        const d=event.result?.document;
+                        if(['document_create','document_edit'].includes(event.tool)&&event.result?.verified===true&&event.status==='succeeded'&&d?.id) {
+                            chat.documentRefs ??= [];
+                            chat.documentRefs.push({runId,id:d.id,revision:d.revision,sha256:d.sha256});
+                        }
+                        chat.toolEvents ??= []; chat.toolEvents.push({ tool: event.tool, status: event.status, time: event.time }); await store.save(); notify(); }
                 });
 
                 const finalMessage = { role: 'assistant', content: result.text, usage: result.usage, toolEvents: result.events.map(({ tool, status, time }) => ({ tool, status, time })), time: Date.now(), runId, streaming: false, intermediate: false };

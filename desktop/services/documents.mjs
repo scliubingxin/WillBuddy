@@ -1,5 +1,7 @@
 import { uid } from "../core.mjs";
 import {
+  documentEditor,
+  updateDocumentEditor,
   formats,
   generateDocument,
   inspectDocument,
@@ -120,11 +122,11 @@ export function createDocumentService({ store, notify = () => {} }) {
           result = await generateDocument(args.format, args.content);
         signal?.throwIfAborted();
         candidate = record(name, args.format, result);
-        detail = `新建 ${name}.${args.format}\n${result.size} 字节\nSHA-256 ${result.sha256}\n内容摘要（前400字符，完整内容保存后可预览）：\n${result.text.replace(/\s+/g, ' ').slice(0, 400)}`;
+        detail = `新建 ${name}.${args.format}\n${result.size} 字节\nSHA-256 ${result.sha256}\n内容摘要（前400字符，完整内容保存后可预览）：\n${result.text.replace(/\s+/g, " ").slice(0, 400)}`;
       } else if (operation === "document_read") {
         const d = find(args.id);
         candidate = structuredClone(d);
-        detail = `将文档 ${d.name}.${d.format} 第 ${d.revision} 版的提取文本发送给当前模型（不发送二进制附件）。\n${d.text.replace(/\s+/g, ' ').slice(0, 400)}`;
+        detail = `将文档 ${d.name}.${d.format} 第 ${d.revision} 版的提取文本发送给当前模型（不发送二进制附件）。\n${d.text.replace(/\s+/g, " ").slice(0, 400)}`;
       } else if (operation === "document_edit") {
         const prior = structuredClone(find(args.id));
         if (args.expectedRevision !== prior.revision)
@@ -165,6 +167,51 @@ export function createDocumentService({ store, notify = () => {} }) {
       if (!formats.includes(format)) throw Error("格式不支持");
       const inspected = inspectDocument(format, bytes);
       return save(record(name, format, { bytes, ...inspected }), signal);
+    },
+    editor(id) {
+      const d = find(id);
+      return {
+        id,
+        revision: d.revision,
+        name: d.name,
+        format: d.format,
+        ...documentEditor(d.format, Buffer.from(d.base64, "base64")),
+      };
+    },
+    async updateEditor(id, revision, patch, approve, signal) {
+      const prior = structuredClone(find(id));
+      if (prior.revision !== revision)
+        throw Error("文档版本已变化，请重新打开编辑器");
+      const result = updateDocumentEditor(
+        prior.format,
+        Buffer.from(prior.base64, "base64"),
+        patch,
+      );
+      signal?.throwIfAborted();
+      if (
+        !(await approve(
+          "保存文档编辑",
+          `${prior.name}.${prior.format}\n第 ${revision} → ${revision + 1} 版，${result.changes} 处修改。\n修改已在编辑器中显示；保留前版，原文件不变。\n新 SHA-256 ${result.sha256}`,
+          signal,
+        ))
+      )
+        return { status: "denied" };
+      signal?.throwIfAborted();
+      return save(record(prior.name, prior.format, result, prior), signal);
+    },
+    async replaceBytes(id, revision, bytes, signal) {
+      const prior = structuredClone(find(id));
+      if (prior.revision !== revision)
+        throw Error("文档版本已变化，不能覆盖新版本");
+      return save(
+        record(
+          prior.name,
+          prior.format,
+          { bytes, ...inspectDocument(prior.format, bytes) },
+          prior,
+        ),
+        signal,
+      );
     },
     read(id) {
       return summary(find(id));
