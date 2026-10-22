@@ -1,3 +1,4 @@
+import {mountSpreadsheet} from './ui/spreadsheet.js';
 import {mountWordRuns} from './ui/word-runs.js';
 import {mountWordCanvas} from './ui/word-canvas.js';
 import {documentLibrary,documentExamples,messageDocuments} from './ui/documents.js';
@@ -372,6 +373,12 @@ async function handle(actionId, id) {
         }
         if(actionId==='documentEditor'){
             const editor=await invoke('documentEditor',{id});
+            if(editor.kind==='cells'){
+                let sheet;modal('表格计算编辑 · '+d.name,'<div id="spreadsheetEditor"></div>','保存表格新版本',async()=>{
+                    const result=await invoke('documentSaveEditor',{id,revision:editor.revision,patch:sheet.patch()});
+                    if(result.status!=='succeeded')throw Error(result.error||'未保存');await update('state');toast('表格与公式缓存已保存，可下载XLSX');
+                });sheet=mountSpreadsheet($('#spreadsheetEditor'),editor);return;
+            }
             const fields=editor.kind==='source'?area('文档原文','source',editor.source):editor.kind==='blocks'?editor.blocks.map((b,i)=>area((d.format==='pptx'?'演示文本块 ':'段落 ')+(i+1),'block'+i,b.text)).join(''):editor.cells.map((c,i)=>input('工作表 '+c.sheetIndex+' · '+c.address,'cell'+i,c.value===null?'':String(c.value))).join('');
             modal('编辑内容 · '+d.name, '<p>修改当前文档内容并保存新版本。Word/PPT 为段落内容编辑，整段修改采用首文字样式；保留其他文件部件。复杂排版/公式请使用 GenOffice。</p><div class="editor-fields">'+fields.replace(/ required/g,'')+'</div>','保存文档版本',async f=>{
                 const patch=editor.kind==='source'?{source:f.get('source')}:editor.kind==='blocks'?{blocks:editor.blocks.flatMap((b,i)=>f.get('block'+i)!==b.text?[{...b,text:f.get('block'+i)}]:[])}:{cells:editor.cells.flatMap((c,i)=>{const v=f.get('cell'+i);if(v===(c.value===null?'':String(c.value)))return [];return [{...c,value:typeof c.value==='number'&&v.trim()!==''&&Number.isFinite(Number(v))?Number(v):typeof c.value==='boolean'&&['true','false'].includes(v)?v==='true':v}];})};
