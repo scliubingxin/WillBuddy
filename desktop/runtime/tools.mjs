@@ -1,3 +1,4 @@
+import {createBrowserPermissions} from './browser-permissions.mjs';
 import { createDocumentService } from '../services/documents.mjs';
 import { uid } from '../core.mjs';
 import { prepareCommand, runCommand } from './command.mjs';
@@ -6,6 +7,7 @@ export class ToolRuntime {
     constructor({ store, browser, approve, notify = () => {} }) {
         Object.assign(this, { store, browser, approve, notify });
         this.documents = createDocumentService({store,notify});
+        this.browserPermissions = createBrowserPermissions();
     }
 
     async execute(name, args, signal, { chatId, runId, jobId, onRecord, manual = false } = {}) {
@@ -38,17 +40,28 @@ export class ToolRuntime {
             const detail = documentToken ? documentToken.detail : prepared ? JSON.stringify(record.receipt, null, 2) + (name === 'browser_fill' ? '\n将填写（不自动提交）：\n' + prepared.inputText : '\n点击可能触发网页业务操作，请核对网址与目标。')
                 : name === 'cli_execute' ? JSON.stringify(command, null, 2) + '\nCLI 会以当前账号权限运行，可访问工作目录以外的文件，不是文件夹沙箱。' + (chatId ? '\nstdout/stderr 将发给当前模型。' : '')
                 : readScope ? JSON.stringify(readScope, null, 2) + '\n将读取当前页正文；对话发起的读取会将正文发给模型。' : String(args.url);
-            if (!(manual && name === 'browser_open') && !await this.approve(title, detail, signal)) {
+            const browserScope = this.browserPermissions.scope(name,args,{runId,readScope,prepared});
+            const remembered = this.browserPermissions.has(browserScope);
+            const decision = (manual && name === 'browser_open') || remembered ? true
+                : await this.approve(title,detail,signal,{browserScope});
+            const allowed = decision === true || (browserScope && decision?.allowed === true);
+            if (!allowed) {
                 record.status = 'denied';
-                record.result = { status: 'denied', message: '用户拒绝该操作，不得声称执行成功' };
+                record.result = {status:'denied',message:'用户拒绝该操作，不得声称执行成功'};
                 return record.result;
             }
+            this.browserPermissions.check(browserScope);
+            if(browserScope && decision?.browserTask === true) this.browserPermissions.allow(browserScope);
+            record.authorization = remembered ? 'browser_task_origin' : browserScope && decision?.browserTask ? 'browser_task_origin_granted' : 'once';
+            if(browserScope) record.authorizationScope = {runId:browserScope.runId,origin:browserScope.origin};
             signal?.throwIfAborted();
             if (readScope && this.browser.list().find(w => w.id === args.id)?.url !== readScope.url) throw new Error('审批期间网页地址发生变化，请重新确认');
             record.status = 'running';
             await this.store.save();
             await onRecord?.(record); // A durable queue claim must succeed before any side effect.
             signal?.throwIfAborted();
+            this.browserPermissions.check(browserScope);
+            if (readScope && this.browser.list().find(w => w.id === args.id)?.url !== readScope.url) throw Error('网页已变化，请重新确认');
             this.notify();
             let result;
             if (documentToken) result = await this.documents.perform(documentToken,signal);
