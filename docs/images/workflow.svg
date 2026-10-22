@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="380" viewBox="0 0 1200 380" role="img" aria-labelledby="title desc">
+<title id="title">WillBuddy 桌面 AI 工作流</title><desc id="desc">用户描述任务，自选本地或云端模型，受控调用文档、浏览器和命令行工具，保存可编辑成果。纯离线推理需要自行配置本地模型。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10" fill="none" stroke="#0078CB" stroke-width="1.5"/></marker></defs>
+<rect x="1" y="1" width="1198" height="378" rx="22" fill="white" stroke="#DFE9F2"/>
+<g font-family="-apple-system,BlinkMacSystemFont,'Noto Sans CJK SC','Microsoft YaHei',sans-serif">
+<text x="36" y="49" font-size="15" fill="#0078CB" letter-spacing="2">WILLBUDDY · DESKTOP AI WORKSPACE</text><circle cx="1157" cy="42" r="6" fill="#EC5157"/>
+<text x="36" y="91" font-size="27" fill="#172C40" font-weight="700">从一个目标，到可以继续修改的成果</text>
+<g fill="white" stroke="#D8E6F1"><rect x="36" y="127" width="245" height="156" rx="14"/><rect x="330" y="127" width="245" height="156" rx="14"/><rect x="624" y="127" width="245" height="156" rx="14"/><rect x="918" y="127" width="245" height="156" rx="14"/></g>
+<g fill="#0078CB" font-size="13" font-weight="700"><text x="56" y="157">01 / TASK</text><text x="350" y="157">02 / MODEL</text><text x="644" y="157">03 / TOOLS</text><text x="938" y="157">04 / DELIVER</text></g>
+<g fill="#172C40" font-size="21" font-weight="700"><text x="56" y="192">描述你的目标</text><text x="350" y="192">连接自选模型</text><text x="644" y="192">执行获准的工具</text><text x="938" y="192">预览、修改、导出</text></g>
+<g fill="#526D84" font-size="14"><text x="56" y="227">对话、资料与明确要求</text><text x="56" y="251">多任务独立查看与停止</text><text x="350" y="227">本地 Ollama 或兼容 API</text><text x="350" y="251">离线推理取决于本地配置</text><text x="644" y="227">Office / 浏览器 / CLI</text><text x="644" y="251">授权、真实结果与审计</text><text x="938" y="227">DOCX / XLSX / PPTX</text><text x="938" y="251">Markdown / HTML / 版本</text></g>
+<g fill="none" stroke="#0078CB" stroke-width="2" marker-end="url(#arrow)"><path d="M291 205h27"/><path d="M585 205h27"/><path d="M879 205h27"/></g>
+<rect x="36" y="307" width="1127" height="39" rx="9" fill="#F3F9FE"/><text x="54" y="332" font-size="13" fill="#41617B">本地桌面与成果存储 · 离线安装内置运行时 · 云模型、网页及外部服务按实际配置联网</text>
+</g></svg>
