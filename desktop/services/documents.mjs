@@ -230,6 +230,24 @@ export function createDocumentService({
           status: "succeeded",
           document: {
             ...summary(d),
+            ...(d.format === "xlsx"
+              ? (() => {
+                  try {
+                    const editor = documentEditor(
+                      "xlsx",
+                      Buffer.from(d.base64, "base64"),
+                    );
+                    return JSON.stringify(editor).length <= 12000
+                      ? { spreadsheetEditing: editor }
+                      : {
+                          spreadsheetEditingUnavailable:
+                            "表格结构超过模型读取上限，请在本机表格编辑器处理，不要猜测公式/表名",
+                        };
+                  } catch (e) {
+                    return { spreadsheetEditingUnavailable: e.message };
+                  }
+                })()
+              : {}),
             ...(d.format === "docx" && !d.richSource
               ? (() => {
                   try {
