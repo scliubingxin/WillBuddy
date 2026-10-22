@@ -1,4 +1,4 @@
-import {documentLibrary,documentExamples} from './ui/documents.js';
+import {documentLibrary,documentExamples,messageDocuments} from './ui/documents.js';
 import { escape, rich, htmlPreview } from './ui/markdown.js';
 import * as views from './ui/workspace.js';
 function viewContext() { return { state, chatId, pending, previewTabs, previewId, previewSource, previewZoom, sideTab, icon, composer, action, date, taskStatus, trace, executionRecords, executionRow, rich, htmlPreview, previewHtml }; }
@@ -117,7 +117,7 @@ function render() {
         paintPicker();
 }
 function chatLive() { return pending || ['queued','running','cancelling'].includes(state.chats.find(c=>c.id===chatId)?.run?.status); }
-function composer() { const live=chatLive(); return `<div class="composer-dock"><div class="composer"><div id="inlinePicker" class="inline-picker" hidden role="listbox" aria-label="选择上下文或智能体"></div><div class="chips">${files.map((f, i) => `<span class="attachment-chip">${icon('file')}<button data-action="attachedPreview" data-id="${i}">${escape(f.name)}</button><button data-action="detach" data-id="${i}" aria-label="移除 ${escape(f.name)}">×</button></span>`).join('')}</div><textarea id="prompt" aria-label="任务描述" placeholder="描述你想完成的任务，@ 添加资料，/ 选择智能体" maxlength="20000"></textarea><div class="composer-tools"><div><button class="icon-button" data-action="attach" aria-label="附加本地文件">${icon('plus')}</button><button class="context-button" data-action="contextPicker">@ 资料</button><select id="agent" aria-label="选择智能体">${state.agents.map(a => `<option value="${escape(a.id)}" ${a.id === agentId ? 'selected' : ''}>${escape(a.name)}</option>`).join('') || '<option>WillBuddy 助手</option>'}</select></div><div>${live ? `<button class="send stopping" data-action="stop" aria-label="停止生成">${icon('stop')}</button>` : `<button class="send" data-action="send" aria-label="发送任务">${icon('up')}</button>`}</div></div><div class="tool-switch"><label><input id="toolMode" type="checkbox" ${toolsEnabled ? 'checked' : ''} ${live ? 'disabled' : ''}>浏览器与 CLI · 每次确认</label><button data-page="tools">工具台 ↗</button></div></div><div class="hint"><span>Enter 发送 · Shift Enter 换行</span><span>附加资料将发送给所选模型</span></div></div>`; }
+function composer() { const live=chatLive(); return `<div class="composer-dock"><div class="composer"><div id="inlinePicker" class="inline-picker" hidden role="listbox" aria-label="选择上下文或智能体"></div><div class="chips">${files.map((f, i) => `<span class="attachment-chip">${icon('file')}<button data-action="attachedPreview" data-id="${i}">${escape(f.name)}</button><button data-action="detach" data-id="${i}" aria-label="移除 ${escape(f.name)}">×</button></span>`).join('')}</div><textarea id="prompt" aria-label="任务描述" placeholder="描述你想完成的任务，@ 添加资料，/ 选择智能体" maxlength="20000"></textarea><div class="composer-tools"><div><button class="icon-button" data-action="attach" aria-label="附加本地文件">${icon('plus')}</button><button class="context-button" data-action="contextPicker">@ 资料</button><select id="agent" aria-label="选择智能体">${state.agents.map(a => `<option value="${escape(a.id)}" ${a.id === agentId ? 'selected' : ''}>${escape(a.name)}</option>`).join('') || '<option>WillBuddy 助手</option>'}</select></div><div>${live ? `<button class="send stopping" data-action="stop" aria-label="停止生成">${icon('stop')}</button>` : `<button class="send" data-action="send" aria-label="发送任务">${icon('up')}</button>`}</div></div><div class="tool-switch"><label><input id="toolMode" type="checkbox" ${toolsEnabled ? 'checked' : ''} ${live ? 'disabled' : ''}>AI 文档、浏览器与 CLI · 获准后执行</label><button data-page="tools">工具台 ↗</button></div></div><div class="hint"><span>Enter 发送 · Shift Enter 换行</span><span>附加资料将发送给所选模型</span></div></div>`; }
 function homeContent() { return views.homeContent(viewContext()); }
 function conversationContent() { return views.conversationContent(viewContext()); }
 function closePicker() {
@@ -349,6 +349,16 @@ async function handle(actionId, id) {
     }
     if (actionId?.startsWith('document')) {
         const d=(state.documents||[]).find(x=>x.id===id);if(!d)throw Error('文档不存在');
+        if(actionId==='documentGenOffice'){const result=await invoke('genofficeOpen',{id,revision:d.revision});if(result.status==='denied')return;toast('已交给 GenOffice 编辑副本；保存后、退出WillBuddy前点击「收回编辑结果」');return;}
+        if(actionId==='documentGenOfficeImport'){const result=await invoke('genofficeImport',{id});if(result.status==='denied')return;await update('state');toast('已验证并保存编辑后的新版本');return;}
+        if(actionId==='documentEditor'){
+            const editor=await invoke('documentEditor',{id});
+            const fields=editor.kind==='source'?area('文档原文','source',editor.source):editor.kind==='blocks'?editor.blocks.map((b,i)=>area((d.format==='pptx'?'演示文本块 ':'段落 ')+(i+1),'block'+i,b.text)).join(''):editor.cells.map((c,i)=>input('工作表 '+c.sheetIndex+' · '+c.address,'cell'+i,c.value===null?'':String(c.value))).join('');
+            modal('编辑内容 · '+d.name, '<p>修改当前文档内容并保存新版本。Word/PPT 为段落内容编辑，整段修改采用首文字样式；保留其他文件部件。复杂排版/公式请使用 GenOffice。</p><div class="editor-fields">'+fields.replace(/ required/g,'')+'</div>','保存文档版本',async f=>{
+                const patch=editor.kind==='source'?{source:f.get('source')}:editor.kind==='blocks'?{blocks:editor.blocks.flatMap((b,i)=>f.get('block'+i)!==b.text?[{...b,text:f.get('block'+i)}]:[])}:{cells:editor.cells.flatMap((c,i)=>{const v=f.get('cell'+i);if(v===(c.value===null?'':String(c.value)))return [];return [{...c,value:typeof c.value==='number'&&v.trim()!==''&&Number.isFinite(Number(v))?Number(v):typeof c.value==='boolean'&&['true','false'].includes(v)?v==='true':v}];})};
+                const result=await invoke('documentSaveEditor',{id,revision:editor.revision,patch});if(result.status!=='succeeded')throw Error(result.error||'未保存');await update('state');toast('编辑已保存，可下载新版本');
+            });return;
+        }
         if(actionId==='documentView'){openPreview({id:'document:'+id,name:d.name+'.'+d.format,text:d.text,kind:'document',documentId:id});return;}
         if(actionId==='documentHistory'){modal('历史版本 · '+d.name,d.history.map(h=>`<div class="file-row"><div>v${h.revision} · ${date(h.time)}<small>${h.size} 字节 · ${escape(h.sha256)}</small></div>${action('导出此版本','documentExportVersion',id+':'+h.revision)}</div>`).join(''));return;}
         if(actionId==='documentExport'){await invoke('documentExport',{id,revision:d.revision});return;}
@@ -381,6 +391,8 @@ async function handle(actionId, id) {
     }
     if (actionId === 'previewMessage') {
         const c = state.chats.find(c => c.id === chatId), m = c?.messages[Number(id)];
+        const docs=messageDocuments(state,c,m||{});
+        if(docs.length){for(const d of docs)openPreview({id:'document:'+d.id,name:d.name+'.'+d.format,text:d.text,kind:'document',documentId:d.id});return;}
         if (m)
             openPreview({ id: 'message:' + chatId + ':' + id, name: c.name, text: m.content, kind: 'message' });
         return;
@@ -625,8 +637,12 @@ async function handle(actionId, id) {
             await update('artifact', { name: c.name, text: m.content });
             toast('已保存到成果中心');
         }
-        else
-            await invoke('exportText', { name: c.name, text: m.content });
+        else {
+            const docs=messageDocuments(state,c,m);
+            if(docs.length===1)await invoke('documentExport',{id:docs[0].id,revision:docs[0].revision});
+            else if(docs.length){modal('下载生成文件',docs.map(d=>action(d.name+'.'+d.format,'documentExport',d.id)).join(''));}
+            else await invoke('exportText', { name: c.name, text: m.content });
+        }
         return;
     }
     if (actionId === 'exportChat') {

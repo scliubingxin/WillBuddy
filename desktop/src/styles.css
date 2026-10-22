@@ -5,3 +5,7 @@
 
 /* WillBuddy: white canvas and logo-derived blue. */
 html,body,#app,.main,.workspace,.sidebar,.topbar{background-color:#fff}input[type=checkbox]{accent-color:#0078cb}.primary:hover,.send:hover{background:#0068b1}.secondary:hover,.new:hover{background:#f4f9fd;border-color:#a7d2ef}.composer:focus-within{border-color:#0078cb;box-shadow:0 0 0 3px #0078cb0d}.brand-mark{background:#fff}
+
+.document-results{margin:16px 0;display:grid;gap:10px}.document-result{background:#fff;border:1px solid #0078cb;border-radius:12px;padding:14px;display:grid;gap:8px;overflow-wrap:anywhere}.document-result small{color:#536879}.document-result>div{display:flex;flex-wrap:wrap;gap:8px}
+
+.editor-fields{max-height:49vh;overflow:auto;padding-right:8px}.editor-fields label:first-child{margin-top:0}.editor-fields textarea{min-height:76px}
