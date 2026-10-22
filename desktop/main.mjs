@@ -166,13 +166,13 @@ else {
         register('cancelRun', p => runs.cancel(p.id));
         register('documentOperation', p => {
             const {operation,...args}=p;
-            if (!['document_create','document_read','document_edit','document_convert','document_write'].includes(operation)) throw Error('未知文档操作');
+            if (!['document_create','document_read','document_edit','document_convert','document_write','document_patch'].includes(operation)) throw Error('未知文档操作');
             return executeTool(operation,args);
         });
         register('genofficeOpen', p => genoffice.open(p.id,p.revision));
         register('genofficeImport', p => genoffice.importEdited(p.id));
         register('documentRichEditor', p => toolRuntime.documents.richEditor(p.id));
-        register('documentEditor', p => toolRuntime.documents.editor(p.id));
+        register('documentEditor', p => toolRuntime.documents.editor(p.id,p.mode));
         register('documentSaveEditor', p => toolRuntime.documents.updateEditor(p.id,p.revision,p.patch,approve));
         register('documentRead', p => toolRuntime.documents.read(p.id));
         register('documentDelete', p => toolRuntime.documents.remove(p.id));
