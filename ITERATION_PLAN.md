@@ -1,3 +1,9 @@
+# 0.13.0 导入Word增量 · 2026-10-22
+
+实际新增导入DOCX片段文字/粗体/斜体编辑，正文、表格文字、页眉页脚的简单段落支持；其他格式和未改ZIP部件保留并核对SHA。复杂段落只读、版本/片段指纹门禁、模型read→document_patch、原件保留与新版本真实导出。见docs/IMPORTED_WORD_EDITING.md和validation/v0.13.0.json。新模块为WillBuddy自己的受限OOXML补丁，既有GenOffice子引擎继续保留；不是完整上游编辑器或任意Word保真往返。136核心/9真实Chromium/7打包测试通过；原生IPC/审批/模型内容夹具，无Mac或付费模型/Office显示验收。
+
+下一轮有Mac先安装严格签名/启动/审批/实际模型Word链路；缺目标机则推进受限段落/表格结构增删及电子表格公式引擎。不要持续只加队列或说明。原Web/Python、白蓝logo、加密身份、双任务/浏览器授权保持，不PR/不合并main。
+
 # 0.12.0 当前入口 · 2026-10-22
 
 先读docs/GENOFFICE_ENGINE.md、validation/v0.12.0.json、vendor/genoffice-html2docx及runtime/vendor/GENOFFICE-MANIFEST.json。已内置真实GenOffice HTML→DOCX子引擎和新建Word写作画布，非仅外部打开；完整套件/导入Word保真往返仍未完成。

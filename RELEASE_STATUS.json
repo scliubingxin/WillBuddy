@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "checked_date": "2026-10-22",
   "source_status": "desktop_source_delivery_not_deployed",
   "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -11,7 +11,7 @@
     "native_build_generated": false,
     "mac_arm_runtime_verified": false,
     "cloud_sync": false,
-    "tool_runtime": "agent_loop+native_approval+browser_snapshot_ref_click_fill+cli+document_create_read_edit + document_write/document_convert",
+    "tool_runtime": "agent_loop+native_approval+browser_snapshot_ref_click_fill+cli+document_create_read_edit + document_write/document_convert + document_patch",
     "product_name": "WillBuddy",
     "theme": "White #FFFFFF canvas; logo blue #0078CB primary; restrained logo red",
     "offline_app_bundle_generated": true,
@@ -28,11 +28,11 @@
     "browser_approvals": "explicit volatile exact-run/exact-origin consent; revoke/release; CLI/documents stay per-operation",
     "native_confirmations": "bounded summary; AbortSignal+60s timeout+emergency cancellation; no parentless Mac dialogs",
     "document_delivery": "trusted run-linked binary cards; reply/workspace export routes to actual Office bytes; chat export explicitly Markdown",
-    "document_editor": "new/converted Word rich canvas, persisted HTML source and optimistic revisions; imported DOCX retains older targeted editor",
+    "document_editor": "imported DOCX targeted run text/bold/italic editing; original parts retained, complex paragraphs read-only; existing GenOffice canvas retained",
     "genoffice": "bundled Apache-2.0 HTML→DOCX engine subset, pinned 342abce; local Word canvas and md/html conversion; full suite not embedded"
   },
   "validation": {
-    "desktop_tests_passed": 123,
+    "desktop_tests_passed": 136,
     "ui_paths_with_mock_bridge": 17,
     "real_cli_child_process_tested": true,
     "agent_http_fixture_to_real_cli_roundtrip_tested": true,
@@ -48,7 +48,7 @@
     "theme_check": "Chinese font available for documentation screenshots; production forms and layout inspected; no Mac pixel/runtime validation",
     "offline_bundle": {
       "official_runtime_sha256": "passed",
-      "asar_content": "56 production files match exact bytes",
+      "asar_content": "58 production files match exact bytes",
       "zip_integrity": "passed",
       "closed_inventory": "passed; 282 app entries + 5 extras; 14 symlinks; no residue",
       "unexpected_entry_negative": "passed even when every manifest file remains unchanged",
@@ -62,7 +62,7 @@
     },
     "service_boundary_tests_passed": 9,
     "streaming_http_to_chromium_passed": true,
-    "chromium_acceptance_tests_passed": 8,
+    "chromium_acceptance_tests_passed": 9,
     "streaming_to_real_node_cli_passed": true,
     "markdown_and_sandboxed_html_passed": true,
     "command_queue_tests_passed": 14,
@@ -78,7 +78,10 @@
     "office_delivery_editor": "real HTTP model fixture -> tool codec -> production Chromium -> binary export -> paragraph edit -> new revision export -> reload",
     "genoffice_native_tested": false,
     "genoffice_real_engine_tested": "actual upstream engine with real Chromium + independent python-docx + production canvas/file export; native adapter/approval remain fixtures",
-    "original_web_python_unchanged_files": 188
+    "original_web_python_unchanged_files": 122,
+    "imported_word_run_tests": 13,
+    "imported_word_actual_chromium": "production UI import/edit/export/reload, independent python-docx verifies marks/size/color/table/image/header/footer; native IPC/approval fixtures",
+    "original_web_python_unchanged_scope": "app/components/db/drizzle/hooks/lib/local-runner designated baseline files; hashes checked this run"
   },
   "rea": {
     "version": "6.7.0",
@@ -86,7 +89,7 @@
     "javascript_analysis": "partial_host_process_ownership_blocked",
     "report": "docs/REA_FINDINGS.md"
   },
-  "notes": "Fixes user screenshot: oversized document JSON hid native confirmation buttons. Document creation/read use short summaries; oversized sensitive parameters fail closed. Explicit per-run/per-origin browser grants reduce repeated prompts, revoke on completion/exit/revocation. Native confirmation cancellation/timeout are adapter tested; no Mac native window/shortcut/signature/launch verification.",
+  "notes": "0.13 adds bounded imported Word run editing, optimistic revision and run anchors, part hash verification; no arbitrary layout-fidelity or native Mac claim. Fixes user screenshot: oversized document JSON hid native confirmation buttons. Document creation/read use short summaries; oversized sensitive parameters fail closed. Explicit per-run/per-origin browser grants reduce repeated prompts, revoke on completion/exit/revocation. Native confirmation cancellation/timeout are adapter tested; no Mac native window/shortcut/signature/launch verification.",
   "architecture": {
     "guide": "docs/ARCHITECTURE.md",
     "layers": [

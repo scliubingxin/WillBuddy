@@ -1,3 +1,40 @@
+# 0.13.0 导入Word增量 · 2026-10-22
+
+实际新增导入DOCX片段文字/粗体/斜体编辑，正文、表格文字、页眉页脚的简单段落支持；其他格式和未改ZIP部件保留并核对SHA。复杂段落只读、版本/片段指纹门禁、模型read→document_patch、原件保留与新版本真实导出。见docs/IMPORTED_WORD_EDITING.md和validation/v0.13.0.json。新模块为WillBuddy自己的受限OOXML补丁，既有GenOffice子引擎继续保留；不是完整上游编辑器或任意Word保真往返。136核心/9真实Chromium/7打包测试通过；原生IPC/审批/模型内容夹具，无Mac或付费模型/Office显示验收。
+
+下一轮有Mac先安装严格签名/启动/审批/实际模型Word链路；缺目标机则推进受限段落/表格结构增删及电子表格公式引擎。不要持续只加队列或说明。原Web/Python、白蓝logo、加密身份、双任务/浏览器授权保持，不PR/不合并main。
+
+实际修改文件：
+
+- `ITERATION_LOG.md`
+- `ITERATION_PLAN.md`
+- `README.md`
+- `RELEASE_STATUS.json`
+- `desktop/README.md`
+- `desktop/main.mjs`
+- `desktop/package-lock.json`
+- `desktop/package.json`
+- `desktop/runtime/agent.mjs`
+- `desktop/runtime/tools.mjs`
+- `desktop/services/conversation.mjs`
+- `desktop/services/documents.mjs`
+- `desktop/src/app.js`
+- `desktop/src/styles.css`
+- `desktop/src/ui/documents.js`
+- `desktop/tests/acceptance/documents-live.mjs`
+- `desktop/tests/helpers/load-ui.mjs`
+- `docs/QUICK_GAPS.md`
+- `desktop/runtime/word-structure.mjs`
+- `desktop/src/ui/word-runs.js`
+- `desktop/tests/helpers/word-fixture.mjs`
+- `desktop/tests/word-structure.test.mjs`
+- `desktop/tests/acceptance/word-import-live.mjs`
+- `docs/images/imported-word.png`
+- `docs/IMPORTED_WORD_EDITING.md`
+- `docs/validation/v0.13.0.json`
+
+打包证据：58生产文件与ASAR逐字节一致；282应用条目+5配套、14符号链接、零残留；15 Mach-O/51216代码页、篡改负例、ZIP CRC通过。仍ad-hoc，未原生验签/公证。源码清单由脚本打包时更新。原Web/Python指定目录122文件本轮逐一哈希未变，Python执行器未改也未重跑旧35项。
+
 # WillBuddy 0.12.0 · 内置GenOffice Word引擎与内部写作画布 · 2026-10-22
 
 从权威0.11.0/v11重新下载并校验346源码文件。实际接入GenOffice固定提交342abce的HTML→DOCX子引擎，29上游源码字节未改，保留Apache2 LICENSE/NOTICE；无ee、字体、原生sidecar或Amazon资产。复用已有锁定docx，最终用户不装npm/GenOffice/Python。新增内部Word富文本画布（标题/粗体/斜体/列表/表格/撤销重做）、Markdown/HTML离线转Word、模型document_write/convert，可信卡片/原生审批/版本历史与导出复用已有服务。不是完整上游编辑器/导入Word保真往返。

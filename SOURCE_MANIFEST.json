@@ -1,14 +1,14 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "packaged_date": "2026-10-22",
   "provenance": "Complete validated source snapshot; Git commits and deployment are tracked separately",
   "base_source_commit_sha": "ecc5dd81061b5c28999120075d06884a2496114c",
   "release_status": {
     "schema_version": 2,
     "brand": "WillBuddy",
-    "version": "0.12.0",
+    "version": "0.13.0",
     "checked_date": "2026-10-22",
     "source_status": "desktop_source_delivery_not_deployed",
     "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -18,7 +18,7 @@
       "native_build_generated": false,
       "mac_arm_runtime_verified": false,
       "cloud_sync": false,
-      "tool_runtime": "agent_loop+native_approval+browser_snapshot_ref_click_fill+cli+document_create_read_edit + document_write/document_convert",
+      "tool_runtime": "agent_loop+native_approval+browser_snapshot_ref_click_fill+cli+document_create_read_edit + document_write/document_convert + document_patch",
       "product_name": "WillBuddy",
       "theme": "White #FFFFFF canvas; logo blue #0078CB primary; restrained logo red",
       "offline_app_bundle_generated": true,
@@ -35,11 +35,11 @@
       "browser_approvals": "explicit volatile exact-run/exact-origin consent; revoke/release; CLI/documents stay per-operation",
       "native_confirmations": "bounded summary; AbortSignal+60s timeout+emergency cancellation; no parentless Mac dialogs",
       "document_delivery": "trusted run-linked binary cards; reply/workspace export routes to actual Office bytes; chat export explicitly Markdown",
-      "document_editor": "new/converted Word rich canvas, persisted HTML source and optimistic revisions; imported DOCX retains older targeted editor",
+      "document_editor": "imported DOCX targeted run text/bold/italic editing; original parts retained, complex paragraphs read-only; existing GenOffice canvas retained",
       "genoffice": "bundled Apache-2.0 HTML→DOCX engine subset, pinned 342abce; local Word canvas and md/html conversion; full suite not embedded"
     },
     "validation": {
-      "desktop_tests_passed": 123,
+      "desktop_tests_passed": 136,
       "ui_paths_with_mock_bridge": 17,
       "real_cli_child_process_tested": true,
       "agent_http_fixture_to_real_cli_roundtrip_tested": true,
@@ -55,7 +55,7 @@
       "theme_check": "Chinese font available for documentation screenshots; production forms and layout inspected; no Mac pixel/runtime validation",
       "offline_bundle": {
         "official_runtime_sha256": "passed",
-        "asar_content": "56 production files match exact bytes",
+        "asar_content": "58 production files match exact bytes",
         "zip_integrity": "passed",
         "closed_inventory": "passed; 282 app entries + 5 extras; 14 symlinks; no residue",
         "unexpected_entry_negative": "passed even when every manifest file remains unchanged",
@@ -69,7 +69,7 @@
       },
       "service_boundary_tests_passed": 9,
       "streaming_http_to_chromium_passed": true,
-      "chromium_acceptance_tests_passed": 8,
+      "chromium_acceptance_tests_passed": 9,
       "streaming_to_real_node_cli_passed": true,
       "markdown_and_sandboxed_html_passed": true,
       "command_queue_tests_passed": 14,
@@ -85,7 +85,10 @@
       "office_delivery_editor": "real HTTP model fixture -> tool codec -> production Chromium -> binary export -> paragraph edit -> new revision export -> reload",
       "genoffice_native_tested": false,
       "genoffice_real_engine_tested": "actual upstream engine with real Chromium + independent python-docx + production canvas/file export; native adapter/approval remain fixtures",
-      "original_web_python_unchanged_files": 188
+      "original_web_python_unchanged_files": 122,
+      "imported_word_run_tests": 13,
+      "imported_word_actual_chromium": "production UI import/edit/export/reload, independent python-docx verifies marks/size/color/table/image/header/footer; native IPC/approval fixtures",
+      "original_web_python_unchanged_scope": "app/components/db/drizzle/hooks/lib/local-runner designated baseline files; hashes checked this run"
     },
     "rea": {
       "version": "6.7.0",
@@ -93,7 +96,7 @@
       "javascript_analysis": "partial_host_process_ownership_blocked",
       "report": "docs/REA_FINDINGS.md"
     },
-    "notes": "Fixes user screenshot: oversized document JSON hid native confirmation buttons. Document creation/read use short summaries; oversized sensitive parameters fail closed. Explicit per-run/per-origin browser grants reduce repeated prompts, revoke on completion/exit/revocation. Native confirmation cancellation/timeout are adapter tested; no Mac native window/shortcut/signature/launch verification.",
+    "notes": "0.13 adds bounded imported Word run editing, optimistic revision and run anchors, part hash verification; no arbitrary layout-fidelity or native Mac claim. Fixes user screenshot: oversized document JSON hid native confirmation buttons. Document creation/read use short summaries; oversized sensitive parameters fail closed. Explicit per-run/per-origin browser grants reduce repeated prompts, revoke on completion/exit/revocation. Native confirmation cancellation/timeout are adapter tested; no Mac native window/shortcut/signature/launch verification.",
     "architecture": {
       "guide": "docs/ARCHITECTURE.md",
       "layers": [
@@ -146,13 +149,13 @@
     },
     {
       "path": "ITERATION_LOG.md",
-      "bytes": 138768,
-      "sha256": "8fe4728ceede6942db55c8445896eff9281d312886d2d7038ce03ed8b8a75fb3"
+      "bytes": 140911,
+      "sha256": "3dec1161c3cefa4ee2cfadf63eb7b70b9a4f244731ab3c40d741e5e7ff934289"
     },
     {
       "path": "ITERATION_PLAN.md",
-      "bytes": 31858,
-      "sha256": "6e95881a01be051333cda0f1fc01ae2fb53b57f79e4b118f1ea51d4a71f84084"
+      "bytes": 32817,
+      "sha256": "4b242d6990833abcfd3c2623d61926e400cfe95be7d2c464a42a92658727e2d6"
     },
     {
       "path": "OPENWORKBUDDY_REFERENCE.md",
@@ -166,13 +169,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 16074,
-      "sha256": "678bc764b544dffa829a8221b2b6c06895ff9760c4008c84f28ec7e5483f530c"
+      "bytes": 16601,
+      "sha256": "b45318d70f34ed156cf543912fc26e50f13b6c3c87bc3879eb6422a473933116"
     },
     {
       "path": "RELEASE_STATUS.json",
-      "bytes": 6505,
-      "sha256": "3a991dd49b988a507270c6665e3d663b370c13f6adc54978c8796e57f891da9c"
+      "bytes": 7065,
+      "sha256": "09c20d097e66942dff663e067a49990255c954b41832580cee506ffca7783ed9"
     },
     {
       "path": "SELF_TEST_MATRIX.md",
@@ -651,8 +654,8 @@
     },
     {
       "path": "desktop/README.md",
-      "bytes": 17427,
-      "sha256": "87edadfd32bb0f3dfef012a4f9bf1e4514991cf5adfae96f67705d3a2ed82a06"
+      "bytes": 17706,
+      "sha256": "05a39a2b9ce3d0c4b90b41a6c316e4ab1bb793d04675e9340e45edc9bdfe46a2"
     },
     {
       "path": "desktop/assets/app.icns",
@@ -726,18 +729,18 @@
     },
     {
       "path": "desktop/main.mjs",
-      "bytes": 16115,
-      "sha256": "8f4d6e11cb3b6ca18df21f038ac4c73e17b72e5028b77d2dfe5f269385bc6c9c"
+      "bytes": 16139,
+      "sha256": "f76ea1a1ba342a4b44bf850a6d04cfd69e68d93eb7037f9667a3f49568cee9e1"
     },
     {
       "path": "desktop/package-lock.json",
       "bytes": 200281,
-      "sha256": "2ce86f85015d116b5103927aeafd398a3e8fcf07908ebe6689691ea80da77c2f"
+      "sha256": "cc87033a0eaa435b14e301ace28d5d8fccd6a8b84ddd1354008b160d9c017d13"
     },
     {
       "path": "desktop/package.json",
       "bytes": 2600,
-      "sha256": "019bf85e80929e780c15b7a7727701a92b7f0bf4edaf9fcb70475f3b54932f63"
+      "sha256": "c7a5b1aab5aa39aab1278230fbc521047cdfaa6afed99eb437720d6f28ee2fad"
     },
     {
       "path": "desktop/preload.cjs",
@@ -746,8 +749,8 @@
     },
     {
       "path": "desktop/runtime/agent.mjs",
-      "bytes": 8944,
-      "sha256": "d59c42e7cb46037ce3391e06e3dc5680e57958b5f0193433c470f20e6acdfda6"
+      "bytes": 9982,
+      "sha256": "6f96101a03dd620c46910fd2afed14de6144d1462c511f623667deec9c63f927"
     },
     {
       "path": "desktop/runtime/browser-dom.mjs",
@@ -801,8 +804,8 @@
     },
     {
       "path": "desktop/runtime/tools.mjs",
-      "bytes": 8289,
-      "sha256": "b9cb827bb362c606eff04047d6ce73c6a2d3e140e38337934226493f4a1c0a6f"
+      "bytes": 8345,
+      "sha256": "2a1a9b7984601956307d946ee3cbb1067c0c7004d239f3daf94e3bcf19bdd3c1"
     },
     {
       "path": "desktop/runtime/vendor/GENOFFICE-MANIFEST.json",
@@ -845,19 +848,24 @@
       "sha256": "fac43f0bdd8e3ca34cc97ef22856a0e161047ba47b585731cce9b7e6981369a6"
     },
     {
+      "path": "desktop/runtime/word-structure.mjs",
+      "bytes": 7378,
+      "sha256": "fba925b86275a5076ab4df5b579ef171a10647b2e5ba3a0a4f6aa66f4183434f"
+    },
+    {
       "path": "desktop/services/commands.mjs",
       "bytes": 8742,
       "sha256": "c539c2cac44b5d20cedcb7cf2b353c939a16ab728f111a31222dae64e9f1a067"
     },
     {
       "path": "desktop/services/conversation.mjs",
-      "bytes": 10703,
-      "sha256": "f489bf3f608269ade8b1427b7f37578e124fc0d406c6d129bdbe8baa79f74896"
+      "bytes": 10904,
+      "sha256": "ff94119255ad695f3e02a7f0311c8287322fc00281de417bb7c4d0eec56c637a"
     },
     {
       "path": "desktop/services/documents.mjs",
-      "bytes": 11902,
-      "sha256": "33a684026a2342ac22ea173136f6780735b8d944ef4c2f685d0df7a5ce338e10"
+      "bytes": 13958,
+      "sha256": "58cee06e5fa0b51791fa50d6a551b5beea5d648b8ca5d8fdb42f82e7ef65f071"
     },
     {
       "path": "desktop/services/recovery.mjs",
@@ -881,8 +889,8 @@
     },
     {
       "path": "desktop/src/app.js",
-      "bytes": 62326,
-      "sha256": "19006656be2ef94a737054fb2dc0740b6dc3a741807bac7349cf385019eb3cf5"
+      "bytes": 63143,
+      "sha256": "1a4c9bc90facfda1f059c41e5e2f847de4bdffa1ae629fad7a67a3c77766bad6"
     },
     {
       "path": "desktop/src/assets/logo.png",
@@ -896,8 +904,8 @@
     },
     {
       "path": "desktop/src/styles.css",
-      "bytes": 15420,
-      "sha256": "814c1d58be155102ef1c1c4327356da9fec12c99dc1d627df6f60ac08df23474"
+      "bytes": 16298,
+      "sha256": "394428584259d98c51a54395c10bce12f53caa656748e0ec350d27a37c0b74cd"
     },
     {
       "path": "desktop/src/ui/commands.js",
@@ -906,8 +914,8 @@
     },
     {
       "path": "desktop/src/ui/documents.js",
-      "bytes": 3920,
-      "sha256": "dc14f8a48a24ac87b279f4f750bf97f84561bdbabf2be39b1206e853a97c1cce"
+      "bytes": 4164,
+      "sha256": "76ca197795c98498ed76a7248c3a342e1003f928997e0c39ed752a6c26d9a62b"
     },
     {
       "path": "desktop/src/ui/markdown.js",
@@ -923,6 +931,11 @@
       "path": "desktop/src/ui/word-canvas.js",
       "bytes": 2906,
       "sha256": "57eeac962e7c96cde35225898bd4d50bcda95c90c512aa48d2c0ecad76239ce7"
+    },
+    {
+      "path": "desktop/src/ui/word-runs.js",
+      "bytes": 3526,
+      "sha256": "5493f14564a056f53bca30bef4048316bd282ffa5ed9794af2391d68a6c0c475"
     },
     {
       "path": "desktop/src/ui/workspace.js",
@@ -976,8 +989,8 @@
     },
     {
       "path": "desktop/tests/acceptance/documents-live.mjs",
-      "bytes": 11534,
-      "sha256": "3c48fcb110a1f44742103ebbea84d853863798e40538891a170646282eafa472"
+      "bytes": 11583,
+      "sha256": "0fab174da5fba2c26e81e2209a98146e63b9e69cd73e0c777bd366b1e143ea9d"
     },
     {
       "path": "desktop/tests/acceptance/runs-live.mjs",
@@ -988,6 +1001,11 @@
       "path": "desktop/tests/acceptance/streaming-live.mjs",
       "bytes": 7425,
       "sha256": "c2b05da0c01d7cb5687e770f7a86740e8ba8e4568f39c14c0cd961238b1966d2"
+    },
+    {
+      "path": "desktop/tests/acceptance/word-import-live.mjs",
+      "bytes": 6946,
+      "sha256": "6a821f7beb06db5520344f3e3fff0b540016f76961357bbaa71039d5620e53a2"
     },
     {
       "path": "desktop/tests/acceptance/workspace-live.mjs",
@@ -1041,8 +1059,13 @@
     },
     {
       "path": "desktop/tests/helpers/load-ui.mjs",
-      "bytes": 924,
-      "sha256": "4512d4b3b0561da001e6ef9fd27dba7fa8d55bb6833cd77c3321ccbcc1c7d5e7"
+      "bytes": 1009,
+      "sha256": "50b289426e7801509e51240e66ee0ce8d028d7de4b4fb41e2308a5f2b9176c00"
+    },
+    {
+      "path": "desktop/tests/helpers/word-fixture.mjs",
+      "bytes": 2497,
+      "sha256": "bc692f85d64d2cdde0e75c7ccbc830b31c0fbe34253afafd60a51c24e12f1f75"
     },
     {
       "path": "desktop/tests/rendering.test.mjs",
@@ -1075,6 +1098,11 @@
       "sha256": "44cbbb95d07821a4722b66485b1113b1772cd809c37301ab5512fb174d104807"
     },
     {
+      "path": "desktop/tests/word-structure.test.mjs",
+      "bytes": 13349,
+      "sha256": "1fbe8ea5bce3f5db9390b7cf70f028ccd07ff1eea391778a1868175ddd83d201"
+    },
+    {
       "path": "desktop/tests/workspace.test.mjs",
       "bytes": 11466,
       "sha256": "5f6e1e731733648b52393c3b731fbdec22ae607e2fccde06d8d4aa78895b7e7a"
@@ -1105,6 +1133,11 @@
       "sha256": "736fd9d1efcd545fd958bad0a2b8f1e875b334796d0eba82e00ce168b5453315"
     },
     {
+      "path": "docs/IMPORTED_WORD_EDITING.md",
+      "bytes": 4593,
+      "sha256": "a27fd039f3aae90c26a55689ffeef252118b4f1380e18646ffc0af2e265daf07"
+    },
+    {
       "path": "docs/OFFICE_WORKSPACE.md",
       "bytes": 4959,
       "sha256": "0e2beb23d17c9c175407db09919b4833f4754ae66c630235c3a5ab5bd179eeca"
@@ -1116,8 +1149,8 @@
     },
     {
       "path": "docs/QUICK_GAPS.md",
-      "bytes": 9078,
-      "sha256": "b14f547a2eb45e897f27abd271fee9f0623043e3da586b393986b73897f243b8"
+      "bytes": 10446,
+      "sha256": "3107345e58e691a8c9133004f34592538ef55b0782b5fe1bc821733d61fc0b27"
     },
     {
       "path": "docs/REA_FINDINGS.md",
@@ -1158,6 +1191,11 @@
       "path": "docs/images/editor.png",
       "bytes": 228180,
       "sha256": "a1b71d4c68e04522cb70d287111f2b9b857c685607beac7964a5157f8687c3fe"
+    },
+    {
+      "path": "docs/images/imported-word.png",
+      "bytes": 190272,
+      "sha256": "9991a337f37917301ccc43ed15855748c594488157703b235185ca91dd038d13"
     },
     {
       "path": "docs/images/word-canvas.png",
@@ -1203,6 +1241,11 @@
       "path": "docs/validation/v0.12.0.json",
       "bytes": 1845,
       "sha256": "d2459c9c43541cdaa08dc96f7154c9b9c1d9e2aab8cc82ef6212a34f76a76aa0"
+    },
+    {
+      "path": "docs/validation/v0.13.0.json",
+      "bytes": 4386,
+      "sha256": "eeac96ac264253267aa90d1a4750256472cc634cc1670a72e391a98f4b6dfc74"
     },
     {
       "path": "docs/validation/v0.5.0.json",

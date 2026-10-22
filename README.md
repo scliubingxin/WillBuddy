@@ -10,7 +10,7 @@
 
 应用包内置 Electron、Chromium、Node 和基础 Office 文档编解码器，安装时无需再执行 `npm install`。**离线安装不等于所有 AI 功能都能断网运行**：使用云模型、访问网页需要联网；纯离线推理需要自行准备本地模型及运行环境。目前只制作 Apple 芯片（arm64）Mac 应用。
 
-> 本文介绍已交付的桌面 **0.12.0**，对应代码在 [`willbuddy-v0.12.0-genoffice-engine`](https://github.com/scliubingxin/WillBuddy/tree/willbuddy-v0.12.0-genoffice-engine) 分支；`main` 尚未合入该版本，开发时请先切换分支。处于持续开发阶段；已提供的离线包为 ad-hoc 签名候选版，尚未完成 Apple Developer ID 签名、公证及 Mac 原生完整验收。仓库已公开源码，许可证状态见[许可与项目定位](#许可与项目定位)。
+> 本文介绍已交付的桌面 **0.13.0**，对应代码在 [`willbuddy-v0.13.0-imported-word`](https://github.com/scliubingxin/WillBuddy/tree/willbuddy-v0.13.0-imported-word) 分支；`main` 尚未合入该版本，开发时请先切换分支。处于持续开发阶段；已提供的离线包为 ad-hoc 签名候选版，尚未完成 Apple Developer ID 签名、公证及 Mac 原生完整验收。仓库已公开源码，许可证状态见[许可与项目定位](#许可与项目定位)。
 
 ![WillBuddy 桌面 AI 工作流：目标、自选模型、受控工具、可编辑成果](docs/images/workflow.svg)
 
@@ -37,7 +37,7 @@
 | 能力 | 你可以做什么 | 当前范围 |
 | --- | --- | --- |
 | AI 对话 | 连接自选模型，流式接收回答，查看 Markdown 与静态 HTML | Chat Completions 兼容接口；工具能力取决于模型支持 |
-| Word 文档 | 内部富文本画布、标题/粗体/列表/表格，Markdown/HTML转Word | 真实GenOffice子引擎；任意导入Word的保真往返仍待实现 |
+| Word 文档 | 内部富文本画布、标题/粗体/列表/表格，Markdown/HTML转Word | 真实GenOffice子引擎；导入DOCX可按片段改字/粗体/斜体；复杂段落只读，未分页渲染 |
 | Excel 表格 | 创建多工作表，维护任务、预算和数据常量 | XLSX；常量单元格更新，含公式工作簿暂不修改 |
 | PowerPoint | 生成标题、项目符号和演讲备注，修改幻灯片文字 | PPTX；基础排版，非完整模板编辑器 |
 | Markdown / HTML | 创建、整篇原文编辑、预览和导出原文 | HTML 预览隔离运行，禁止脚本与远程资源 |
@@ -59,6 +59,12 @@
 
 *生产界面与真实 GenOffice 引擎验收截图，使用合成数据和模拟原生审批；不是 Mac 真机或付费模型运行证明。*
 
+**0.13.0 新增导入 Word 的片段编辑**：直接修改正文、表格内文字及页眉页脚，设置片段粗体/斜体，保留既有其他格式和未修改文件部件。复杂段落只读保护，原件不覆盖，保存真实新版本。
+
+![导入Word的实际片段编辑页面](docs/images/imported-word.png)
+
+*生产页面与真实DOCX，合成资料及模拟原生审批；不是分页预览或Mac运行证明。详见[导入Word编辑与边界](docs/IMPORTED_WORD_EDITING.md)。*
+
 完整 GenOffice 套件尚未内嵌；任意导入 DOCX 的保真编辑仍未完成，复杂文件可继续使用可选外部应用接续。详见 [内置引擎与边界](docs/GENOFFICE_ENGINE.md)及[外部接续](docs/GENOFFICE_DESKTOP.md)。
 
 详细操作：[文档工作台](docs/OFFICE_WORKSPACE.md) · [浏览器授权与弹窗](docs/APPROVAL_FIX.md) · [CLI 持久队列](docs/DURABLE_COMMANDS.md) · [共享任务调度](docs/SHARED_RUNS.md)。
@@ -69,7 +75,7 @@
 
 适用平台：**Apple 芯片 Mac / arm64，最低 macOS 12**。当前不提供 Intel Mac 安装包。
 
-1. 获取实际交付的 `WillBuddy-v0.12.0-mac-arm64-offline.zip`。公开安装包是否已发布，请以仓库 [Releases](https://github.com/scliubingxin/WillBuddy/releases) 的实际内容为准；源码分支本身不是安装包。
+1. 获取实际交付的 `WillBuddy-v0.13.0-mac-arm64-offline.zip`。公开安装包是否已发布，请以仓库 [Releases](https://github.com/scliubingxin/WillBuddy/releases) 的实际内容为准；源码分支本身不是安装包。
 2. 先把 ZIP 完整解压到“下载”等用户目录，保留 `.app` 内的符号链接；不要直接向 `/Applications` 解压。
 3. 将 `WillBuddy.app` 移入“应用程序”；也可使用包内安装脚本安装到个人 `Applications` 目录。脚本会执行原生签名检查。
 4. 打开应用，在左下角配置模型，然后新建一个任务。
@@ -144,7 +150,7 @@ WillBuddy 不内置付费模型账户，也不要求使用特定云厂商。
 
 ### 确认框把按钮挤到屏幕外怎么办？
 
-旧版可先按 Esc 取消，并完整退出后升级。0.12.0 已将文档确认改为短摘要，限制确认信息大小，加入取消和超时；详见[弹窗修复](docs/APPROVAL_FIX.md)。
+旧版可先按 Esc 取消，并完整退出后升级。0.13.0 已将文档确认改为短摘要，限制确认信息大小，加入取消和超时；详见[弹窗修复](docs/APPROVAL_FIX.md)。
 
 ### 是否支持 MCP、连接器和原 Web 系统？
 
@@ -158,7 +164,7 @@ WillBuddy 不内置付费模型账户，也不要求使用特定云厂商。
 git clone https://github.com/scliubingxin/WillBuddy.git
 cd WillBuddy
 # 本说明对应已交付的桌面修复分支；main 尚未合入该版本。
-git switch willbuddy-v0.12.0-genoffice-engine
+git switch willbuddy-v0.13.0-imported-word
 npm --prefix desktop ci
 npm --prefix desktop start
 ```
@@ -189,7 +195,7 @@ npm --prefix desktop test
 
 ## 项目状态与路线
 
-0.12.0 的代码验证包括 **123 项核心测试、8 项真实 Chromium 验收及 7 项打包测试**。原生审批、IPC 和部分模型响应使用测试适配器；这不代表已经完成 Mac 原生、真实付费模型或 Office/WPS 保真验收。
+0.13.0 的代码验证包括 **136 项核心测试、9 项真实 Chromium 验收及 7 项打包测试**。原生审批、IPC 和部分模型响应使用测试适配器；这不代表已经完成 Mac 原生、真实付费模型或 Office/WPS 保真验收。
 
 近期重点：
 
@@ -198,7 +204,7 @@ npm --prefix desktop test
 - Mac 原生安装、严格签名、公证、审批和真实模型验证。
 - 受控并行子任务、跨队列公平、桌面 MCP 和 Web/桌面共用核心。
 
-查看：[发布状态](RELEASE_STATUS.json) · [迭代计划](ITERATION_PLAN.md) · [迭代日志](ITERATION_LOG.md) · [Quick 能力差距](docs/QUICK_GAPS.md) · [0.12.0 验证记录](docs/validation/v0.12.0.json)。
+查看：[发布状态](RELEASE_STATUS.json) · [迭代计划](ITERATION_PLAN.md) · [迭代日志](ITERATION_LOG.md) · [Quick 能力差距](docs/QUICK_GAPS.md) · [0.13.0 验证记录](docs/validation/v0.13.0.json)。
 
 ## 许可与项目定位
 
