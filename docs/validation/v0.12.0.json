@@ -1,0 +1,60 @@
+{
+  "version": "0.12.0",
+  "date": "2026-10-22",
+  "tests": {
+    "core": 123,
+    "real_chromium": 8,
+    "packaging_python": 7,
+    "new_core": 10,
+    "new_browser": 2
+  },
+  "genoffice": {
+    "commit": "342abce4280ea92bf7e59580f1ecaf9b562d0f72",
+    "source_files_exact": 29,
+    "engine": "actual HTML DOM extraction and OOXML generation",
+    "docx": "existing 9.13.0 namespace reused",
+    "native_sidecars": false,
+    "fonts_redistributed": false,
+    "full_suite": false
+  },
+  "actual_acceptance": [
+    "Markdown and HTML -> actual upstream engine -> independently parsed Word bold/list/table",
+    "production Word canvas -> actual DOCX -> revision edit -> actual file export -> disk reload",
+    "hostile HTML sanitized with no outbound requests"
+  ],
+  "fixture_boundaries": [
+    "Electron conversion BrowserWindow/session adapter",
+    "native IPC",
+    "native approval",
+    "model content"
+  ],
+  "not_tested": [
+    "Mac native runtime",
+    "strict native resource sealing/Gatekeeper",
+    "Apple notarization",
+    "paid model",
+    "arbitrary imported Word layout roundtrip",
+    "Office/WPS fidelity"
+  ],
+  "bundle": {
+    "file": "/workspace/scratch/0d433941ca14/iter012-deliverables/WillBuddy-v0.12.0-mac-arm64-offline.zip",
+    "version": "0.12.0",
+    "bytes": 119173332,
+    "sha256": "de717eb5f0590c9a23a404a776c8822f767839f803c595144b4d991f73e98f20",
+    "app_asar_sha256": "f172f88ecb0032116286c5200c9a1964c5a3a3b522fa34c633dd132e07905dac",
+    "architecture": "arm64",
+    "signature": "ad-hoc",
+    "verified": true,
+    "archive_check": {
+      "app_entries": 282,
+      "extra_files": 5,
+      "closed_inventory": true,
+      "residual_entries": 0
+    }
+  },
+  "asar_exact_files": 56,
+  "macho_binaries": 15,
+  "macho_code_pages": 51216,
+  "tamper_negative": true,
+  "original_web_python_unchanged": 188
+}
