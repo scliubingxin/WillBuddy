@@ -1,3 +1,7 @@
+# 0.14.0 表格公式增量 · 2026-10-23
+
+参考 [Quick 官方创作说明](https://docs.aws.amazon.com/quick/latest/userguide/document-and-visual-creation.html)，本轮增加七函数/跨表A1计算、编辑预览和真实XLSX缓存重算；与完整Office工作流仍有明显差距：无完整函数兼容、图表/透视表编辑、分页/任意文档保真、修订协作或自主并行子任务组。2项独立模型任务并发保持。没有新Amazon安装包/原生运行结论，复用REA既有证据。没有Mac设备时不将适配器测试当原生验证。下一轮优先Mac安装/审批/真实模型Office验收，其次结构编辑与公式/模板质量。
+
 2026-10-22 复查官方文档 https://docs.aws.amazon.com/quick/latest/userguide/document-and-visual-creation.html ：Quick描述上传文档后编辑内容/格式/结构并预览下载。WillBuddy本轮只落实有界Word片段编辑，结构增删、完整保真/图片编辑、Excel公式与图表、PPT画布仍有差距。REA复用既有哈希/部分静态证据，没有新增Amazon二进制运行结论。
 
 # 0.13.0 导入Word增量 · 2026-10-22

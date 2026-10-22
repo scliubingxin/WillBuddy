@@ -58,3 +58,7 @@ python3 scripts/package-desktop-source.py /absolute/output/WillBuddy-source.zip
 ## 仍待推进
 
 Web 与桌面尚未共用完整业务核心；本轮提供无 Electron 的服务边界，但没有声称已经完成跨端统一。core 的存储/授权/模型接口仍可继续拆分，界面控制器的其他页面与事件也可逐步模块化。持久任务队列、MCP、文件写入、Office 成果、原生 Mac 启动与公证属于后续能力，不在本次目录整理中伪实现。
+
+## 0.14.0 表格计算核心
+
+页面与主进程复用 src/shared/formula-core.js 的有界解析/依赖/求值；runtime/spreadsheet.mjs 做OOXML适配，services/documents保留审批候选/版本/持久化边界。页面预览不构成保存授权，主进程重新验证与计算，审计不写公式正文。尚未迁移原Web/Python核心。见SPREADSHEET_FORMULAS.md。
