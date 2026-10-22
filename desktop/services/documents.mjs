@@ -1,3 +1,4 @@
+import { wordStructure, patchWord } from "../runtime/word-structure.mjs";
 import { uid } from "../core.mjs";
 import {
   documentEditor,
@@ -175,7 +176,21 @@ export function createDocumentService({
       } else if (operation === "document_read") {
         const d = find(args.id);
         candidate = structuredClone(d);
-        detail = `将文档 ${d.name}.${d.format} 第 ${d.revision} 版的提取文本${d.richSource ? "与画布HTML源" : ""}发送给当前模型（不发送二进制附件）。\n${d.text.replace(/\s+/g, " ").slice(0, 400)}`;
+        detail = `将文档 ${d.name}.${d.format} 第 ${d.revision} 版的提取文本、可编辑片段坐标${d.richSource ? "与画布HTML源" : ""}发送给当前模型（不发送二进制附件）。\n${d.text.replace(/\s+/g, " ").slice(0, 400)}`;
+      } else if (operation === "document_patch") {
+        const prior = structuredClone(find(args.id));
+        if (prior.format !== "docx" || prior.richSource)
+          throw Error("仅导入/结构化Word支持片段编辑，画布请用document_write");
+        if (prior.revision !== args.expectedRevision)
+          throw Error("文档版本不匹配，请先读取");
+        if (JSON.stringify(args.patches).length > 600)
+          throw Error("本次修改太长，请拆成较小批次审阅");
+        const result = patchWord(
+          Buffer.from(prior.base64, "base64"),
+          args.patches,
+        );
+        candidate = record(prior.name, "docx", result, prior);
+        detail = `修改Word片段：${prior.name}.docx\n第 ${prior.revision} → ${candidate.revision} 版；${result.changes}个片段。保留前版与原件。\n${JSON.stringify(args.patches)}\n新 SHA-256 ${result.sha256}`;
       } else if (operation === "document_edit") {
         const prior = structuredClone(find(args.id));
         if (prior.richSource)
@@ -215,6 +230,23 @@ export function createDocumentService({
           status: "succeeded",
           document: {
             ...summary(d),
+            ...(d.format === "docx" && !d.richSource
+              ? (() => {
+                  try {
+                    const structure = wordStructure(
+                      Buffer.from(d.base64, "base64"),
+                    );
+                    return JSON.stringify(structure).length <= 12000
+                      ? { wordEditing: structure }
+                      : {
+                          wordEditingUnavailable:
+                            "片段信息超过模型读取上限，请在本机Word分段编辑器操作；不要猜测坐标",
+                        };
+                  } catch (e) {
+                    return { wordEditingUnavailable: e.message };
+                  }
+                })()
+              : {}),
             ...(d.richSource
               ? {
                   text: d.text.slice(0, 5000),
@@ -243,26 +275,31 @@ export function createDocumentService({
         throw Error("该文件没有画布源，请使用内容编辑或GenOffice应用");
       return { id, name: d.name, revision: d.revision, html: d.richSource };
     },
-    editor(id) {
+    editor(id, mode) {
       const d = find(id);
       return {
         id,
         revision: d.revision,
         name: d.name,
         format: d.format,
-        ...documentEditor(d.format, Buffer.from(d.base64, "base64")),
+        ...(mode === "runs" && d.format === "docx" && !d.richSource
+          ? wordStructure(Buffer.from(d.base64, "base64"))
+          : documentEditor(d.format, Buffer.from(d.base64, "base64"))),
       };
     },
     async updateEditor(id, revision, patch, approve, signal) {
       const prior = structuredClone(find(id));
-      if(prior.richSource)throw Error("画布文档请使用Word画布编辑");
+      if (prior.richSource) throw Error("画布文档请使用Word画布编辑");
       if (prior.revision !== revision)
         throw Error("文档版本已变化，请重新打开编辑器");
-      const result = updateDocumentEditor(
-        prior.format,
-        Buffer.from(prior.base64, "base64"),
-        patch,
-      );
+      const result =
+        patch.patches && prior.format === "docx"
+          ? patchWord(Buffer.from(prior.base64, "base64"), patch.patches)
+          : updateDocumentEditor(
+              prior.format,
+              Buffer.from(prior.base64, "base64"),
+              patch,
+            );
       signal?.throwIfAborted();
       if (
         !(await approve(
@@ -277,7 +314,7 @@ export function createDocumentService({
     },
     async replaceBytes(id, revision, bytes, signal) {
       const prior = structuredClone(find(id));
-      if(prior.richSource)throw Error("画布文档请使用Word画布编辑");
+      if (prior.richSource) throw Error("画布文档请使用Word画布编辑");
       if (prior.revision !== revision)
         throw Error("文档版本已变化，不能覆盖新版本");
       return save(
