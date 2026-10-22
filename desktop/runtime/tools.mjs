@@ -4,15 +4,15 @@ import { uid } from '../core.mjs';
 import { prepareCommand, runCommand } from './command.mjs';
 
 export class ToolRuntime {
-    constructor({ store, browser, approve, notify = () => {} }) {
+    constructor({ store, browser, approve, notify = () => {}, convertDocument }) {
         Object.assign(this, { store, browser, approve, notify });
-        this.documents = createDocumentService({store,notify});
+        this.documents = createDocumentService({store,notify,convertDocument});
         this.browserPermissions = createBrowserPermissions();
     }
 
     async execute(name, args, signal, { chatId, runId, jobId, onRecord, manual = false } = {}) {
         const auditArgs = structuredClone(args);
-        if (name.startsWith('document_')) { delete auditArgs.content; delete auditArgs.replacements; delete auditArgs.cells; auditArgs.note='文档正文/修改内容不写入执行审计'; }
+        if (name.startsWith('document_')) { delete auditArgs.content; delete auditArgs.html; delete auditArgs.replacements; delete auditArgs.cells; auditArgs.note='文档正文/修改内容不写入执行审计'; }
         if (name === 'browser_fill' && 'text' in auditArgs) auditArgs.text = '[输入文本已隐藏]';
         const record = { id: uid(), tool: name, args: auditArgs, chatId, runId, jobId,
             time: Date.now(), status: 'pending_approval' };
@@ -26,7 +26,7 @@ export class ToolRuntime {
             await onRecord?.(record);
             this.notify();
             signal?.throwIfAborted();
-            if (!['cli_execute', 'browser_open', 'browser_read', 'browser_snapshot', 'browser_click', 'browser_fill', 'document_create', 'document_read', 'document_edit'].includes(name)) throw new Error('未知工具');
+            if (!['cli_execute', 'browser_open', 'browser_read', 'browser_snapshot', 'browser_click', 'browser_fill', 'document_create', 'document_read', 'document_edit', 'document_convert', 'document_write'].includes(name)) throw new Error('未知工具');
             let command, readScope;
             if (['browser_read', 'browser_snapshot'].includes(name)) {
                 readScope = this.browser.list().find(w => w.id === args.id);
@@ -90,7 +90,7 @@ export class ToolRuntime {
             else if (name === 'browser_snapshot') result = await this.browser.snapshot(args.id, signal);
             else if (prepared) result = await this.browser.perform(prepared, signal);
             else throw new Error('未知工具');
-            record.result = documentToken && result.document ? {...result,document:(( {text,history,...rest})=>rest)(result.document)} : result;
+            record.result = documentToken && result.document ? {...result,document:(( {text,history,editableHtml,...rest})=>rest)(result.document)} : result;
             record.status = result.status || 'succeeded';
             return result;
         } catch (error) {
