@@ -1,3 +1,7 @@
+# 0.12.0 文档引擎增量 · 2026-10-22
+
+已内嵌GenOffice HTML→DOCX子引擎，Markdown/HTML真实转Word，内部写作画布并可保存/修改新版本。仍缺任意导入DOCX的保真往返、分页/图片/修订、Excel计算与图表、PPT画布、自动并行子任务组及Mac真机验收。独立模块来源/许可/测试见GENOFFICE_ENGINE.md；不是已实现Quick全套Office能力。复用已有Quick公开文档与REA证据，本轮官方system-tools-desktop页面读取失败，未补造最新AWS文档或原生二进制结论。
+
 # 0.11.0 文档主线更新 · 2026-10-22
 
 已实现：真实生成文件→可信卡片→下载原格式；段落/常量单元格/Markdown和HTML原文直接编辑；可选GenOffice外部副本接续与校验收回。仍缺：内嵌Word/PPT保真布局、Excel公式计算/图表、完整结构编辑、图片/复杂模板、用户真实模型及Mac原生验收。不是只靠自然语言收据就算完成Office交付。GenOffice具体依赖/许可证/集成边界见GENOFFICE_DESKTOP.md。本轮复用既有Quick公开文档与REA证据，未新增Amazon应用原生运行结论。
