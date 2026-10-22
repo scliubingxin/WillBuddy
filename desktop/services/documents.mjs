@@ -120,22 +120,27 @@ export function createDocumentService({ store, notify = () => {} }) {
           result = await generateDocument(args.format, args.content);
         signal?.throwIfAborted();
         candidate = record(name, args.format, result);
-        detail = `新建 ${name}.${args.format}\n${result.size} 字节\nSHA-256 ${result.sha256}\n内容结构/原文：\n${args.content}`;
+        detail = `新建 ${name}.${args.format}\n${result.size} 字节\nSHA-256 ${result.sha256}\n内容摘要（前400字符，完整内容保存后可预览）：\n${result.text.replace(/\s+/g, ' ').slice(0, 400)}`;
       } else if (operation === "document_read") {
         const d = find(args.id);
         candidate = structuredClone(d);
-        detail = `将文档 ${d.name}.${d.format} 第 ${d.revision} 版的提取文本发送给当前模型（不发送二进制附件）。\n${d.text.slice(0, 1000)}`;
+        detail = `将文档 ${d.name}.${d.format} 第 ${d.revision} 版的提取文本发送给当前模型（不发送二进制附件）。\n${d.text.replace(/\s+/g, ' ').slice(0, 400)}`;
       } else if (operation === "document_edit") {
         const prior = structuredClone(find(args.id));
         if (args.expectedRevision !== prior.revision)
           throw Error("文档版本不匹配，请先读取");
+        if (
+          JSON.stringify({ replacements: args.replacements, cells: args.cells })
+            .length > 600
+        )
+          throw Error("本次修改太长，请拆成较小批次审阅");
         const result = editDocument(
           prior.format,
           Buffer.from(prior.base64, "base64"),
           args,
         );
         candidate = record(prior.name, prior.format, result, prior);
-        detail = `修改 ${prior.name}.${prior.format}\n第 ${prior.revision} → ${candidate.revision} 版；${result.changes} 处修改\n保留前版，原始导入文件不变。\n${JSON.stringify({ replacements: args.replacements, cells: args.cells }, null, 2)}\n新 SHA-256 ${result.sha256}`;
+        detail = `修改 ${prior.name}.${prior.format}\n第 ${prior.revision} → ${candidate.revision} 版；${result.changes} 处修改\n保留前版，原始导入文件不变。\n${JSON.stringify({ replacements: args.replacements, cells: args.cells })}\n新 SHA-256 ${result.sha256}`;
       } else throw Error("未知文档操作");
       // Token owns immutable, host-generated candidate. Never trust a renderer-supplied receipt.
       const token = Object.freeze({ operation, detail });
