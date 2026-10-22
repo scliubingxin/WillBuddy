@@ -1,3 +1,4 @@
+import {documentLibrary,documentExamples} from './ui/documents.js';
 import { escape, rich, htmlPreview } from './ui/markdown.js';
 import * as views from './ui/workspace.js';
 function viewContext() { return { state, chatId, pending, previewTabs, previewId, previewSource, previewZoom, sideTab, icon, composer, action, date, taskStatus, trace, executionRecords, executionRow, rich, htmlPreview, previewHtml }; }
@@ -6,12 +7,13 @@ const browserTargets = new Map();
 const $ = s => document.querySelector(s);
 const paths = { spark: 'm12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5Z', chat: 'M5 4h14v12H9l-4 4Z', folder: 'M3 7V5h6l2 3h10v12H3Z', grid: 'M3 3h7v7H3Zm11 0h7v7h-7ZM3 14h7v7H3Zm11 0h7v7h-7Z', agent: 'M5 7h14v13H5ZM12 3v4M8 12h1m6 0h1m-7 4h6', clock: 'M12 8v5l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0', settings: 'M4 7h16M4 17h16M8 4v6m8 4v6', search: 'M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Zm6-2 6 6', plus: 'M12 5v14M5 12h14', arrow: 'M5 12h14m-5-5 5 5-5 5', up: 'M12 20V4m-6 6 6-6 6 6', file: 'M5 3h9l5 5v13H5Zm9 0v6h5M8 13h8m-8 4h6', link: 'm9 15 6-6M8 17l-1 1a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0m2 8a4 4 0 0 0 6 0l4-4a4 4 0 0 0-6-6l-1 1', check: 'm5 12 4 4L19 6', close: 'm5 5 14 14M5 19 19 5', activity: 'M3 12h4l3-8 4 16 3-8h4', download: 'M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4', shield: 'm12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6Z', stop: 'M6 6h12v12H6Z' };
 const icon = (name) => `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${paths[name] || paths.spark}"/></svg>`;
+const pendingChats=new Set();
 let state = { chats: [], folders: [], memories: [], agents: [], tasks: [], artifacts: [], activity: [], settings: { model: '尚未配置', name: '我的工作空间' } }, page = 'home', chatId = '', agentId = 'assistant', files = [], pending = false, folderId = '', fileResults = [], fileTruncated = false, searchTerm = '', draft = '', toolsEnabled = true, activeCommand = '', toolDraft = { url: 'https://example.com', executable: 'node', args: '["--version"]', folderId: '', relative: '' };
 const nav = [['home', 'chat', '工作台'], ['feed', 'activity', '动态'], ['library', 'grid', '成果中心'], ['files', 'folder', '本地文件'], ['agents', 'agent', '智能体'], ['tools', 'activity', '浏览器与 CLI'], ['tasks', 'clock', '自动化'], ['context', 'spark', '我的记忆']];
 let sidebarCollapsed = false, sidePanel = false, sideTab = 'preview', previewId = '', previewTabs = [], previewSource = false, previewHtml = false, previewZoom = 100, recentQuery = '', pickerKind = '', pickerItems = [], pickerIndex = 0, pickerSerial = 0;
 const openedDetails = new Set();
 const taskWorkspaces = new Map();
-function switchChat(next) { taskWorkspaces.set(chatId, { previewTabs, previewId, sidePanel, sideTab }); const saved = taskWorkspaces.get(next); previewTabs = saved?.previewTabs || []; previewId = saved?.previewId || ''; sidePanel = saved?.sidePanel || false; sideTab = saved?.sideTab || 'preview'; chatId = next; closePicker(); }
+function switchChat(next) { taskWorkspaces.set(chatId, { previewTabs, previewId, sidePanel, sideTab, draft, files }); const saved = taskWorkspaces.get(next); previewTabs = saved?.previewTabs || []; previewId = saved?.previewId || ''; sidePanel = saved?.sidePanel || false; sideTab = saved?.sideTab || 'preview'; draft=saved?.draft||''; files=saved?.files||[]; chatId = next; closePicker(); }
 const toolNames = { cli_execute: '运行命令', browser_open: '打开网页', browser_read: '读取网页正文', browser_snapshot: '检查页面元素', browser_click: '点击页面元素', browser_fill: '填写文本框' };
 const statusNames = { pending_approval: '等待你确认', running: '执行中', succeeded: '已完成', completed: '已完成', opened: '已打开', read: '已读取', inspected: '已检查', clicked: '已发送点击', filled: '已填写', failed: '失败', denied: '已拒绝', cancelled: '已取消', interrupted: '已中断', queued: '排队中', paused: '已暂停', cancelling: '正在停止', timed_out: '已超时', output_limit: '输出超限', inherited_pipes: '子进程未关闭' };
 function taskStatus(c) {
@@ -19,7 +21,7 @@ function taskStatus(c) {
         return statusNames[c.run.status] || '待查看';
     return c.messages?.at(-1)?.error ? '失败' : c.messages?.some(m => m.role === 'assistant') ? '已完成' : '待继续';
 }
-function recentRows() { return [...state.chats].sort((a, b) => (b.time || 0) - (a.time || 0)).filter(c => c.name.toLowerCase().includes(recentQuery.toLowerCase())).slice(0, 40).map(c => `<button class="${chatId === c.id && page === 'chat' ? 'selected' : ''}" data-action="openChat" data-id="${escape(c.id)}" title="${escape(c.name)} · ${taskStatus(c)}"><span class="recent-name">${escape(c.name)}</span><small class="${c.run?.status === 'running' ? 'live' : ''}">${c.run?.status === 'running' ? '执行中' : date(c.time || 0)}</small></button>`).join('') || '<p>还没有任务。从一个具体目标开始。</p>'; }
+function recentRows() { return [...state.chats].sort((a, b) => (b.time || 0) - (a.time || 0)).filter(c => c.name.toLowerCase().includes(recentQuery.toLowerCase())).slice(0, 40).map(c => `<button class="${chatId === c.id && page === 'chat' ? 'selected' : ''}" data-action="openChat" data-id="${escape(c.id)}" title="${escape(c.name)} · ${taskStatus(c)}"><span class="recent-name">${escape(c.name)}</span><small class="${c.run?.status === 'running' ? 'live' : ''}">${['queued','running','cancelling'].includes(c.run?.status) ? statusNames[c.run.status] : date(c.time || 0)}</small></button>`).join('') || '<p>还没有任务。从一个具体目标开始。</p>'; }
 function executionRecords(runId) { return (state.executions || []).filter(r => r.chatId === chatId && (!runId || r.runId === runId)).slice().reverse(); }
 function executionRow(r) { const output = r.tool === 'cli_execute' ? [r.partial || r.result?.stdout || '', r.result?.stderr ? 'stderr:\n' + r.result.stderr : '', r.result?.error || '', r.result?.exitCode !== undefined ? '退出码：' + r.result.exitCode : ''].filter(Boolean).join('\n') : JSON.stringify(r.result || {}, null, 2); return `<details class="execution-step" data-detail="${escape(r.id)}" ${openedDetails.has(r.id) ? 'open' : ''}><summary>${icon(r.tool === 'cli_execute' ? 'activity' : 'link')}<span>${toolNames[r.tool] || escape(r.tool)}</span><span class="step-status ${['failed', 'denied', 'cancelled', 'interrupted'].includes(r.status) ? 'issue' : ''}">${escape(statusNames[r.status] || r.status)}</span><span class="step-time">${r.finishedAt ? ((r.finishedAt - r.time) / 1000).toFixed(1) + 's' : date(r.time)}</span></summary><div class="step-detail"><b>实际参数</b><pre>${escape(JSON.stringify(r.command || r.receipt || r.args, null, 2))}</pre>${output && output !== '{}' ? `<b>执行结果</b><pre>${escape(output)}</pre>` : ''}${r.status === 'pending_approval' ? '<p>请在系统确认窗口核对目标与参数；此处不能代替原生授权。</p>' : ''}</div></details>`; }
 function commandQueue() { return views.commandQueue({state, action, date, statusNames}); }
@@ -54,13 +56,14 @@ function heading(kicker, title, desc, button = '') { return `<div class="page-ti
 function date(t) { return new Date(t).toLocaleString('zh-CN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }); }
 const boundComposers=new WeakSet();
 function render() {
+    pending=pendingChats.has(chatId);
     const previousComposer=$('#prompt');
     const oldScroll = $('.messages-scroll'), scrollTop = oldScroll?.scrollTop || 0, stick = !oldScroll || oldScroll.scrollHeight - oldScroll.scrollTop - oldScroll.clientHeight < 90;
     const focused = document.activeElement?.id, selection = focused === 'prompt' ? [$('#prompt').selectionStart, $('#prompt').selectionEnd] : null;
     const active = nav.find(n => n[0] === page);
     const name = state.settings.name || '我的工作空间';
     $('#app').className = sidebarCollapsed ? 'sidebar-collapsed' : '';
-    $('#app').innerHTML = `<div class="titlebar"></div><aside class="sidebar"><div class="brand"><span class="brand-mark"><img src="assets/logo.png" alt="WillBuddy 工具 logo"></span><div>WillBuddy<small>你的桌面工作伙伴</small></div></div><button class="new" data-action="new">${icon('plus')}<span>新建任务</span><span>⌘ N</span></button><nav class="nav">${nav.filter(n => ['home', 'feed', 'library', 'files', 'agents'].includes(n[0])).map(([id, i, title]) => `<button class="${page === id ? 'active' : ''}" data-page="${id}">${icon(i)}<span>${title}</span></button>`).join('')}<details class="more-nav" ${['tools', 'tasks', 'context'].includes(page) ? 'open' : ''}><summary>${icon('grid')}<span>更多工具</span></summary>${nav.filter(n => ['tools', 'tasks', 'context'].includes(n[0])).map(([id, i, title]) => `<button class="${page === id ? 'active' : ''}" data-page="${id}">${icon(i)}<span>${title}</span></button>`).join('')}</details></nav><div class="recent"><div class="recent-header"><span>任务 <small>${state.chats.length}</small></span><button data-action="search" aria-label="搜索任务与成果">${icon('search')}</button></div><input id="recentQuery" aria-label="筛选历史任务" placeholder="筛选任务" value="${escape(recentQuery)}"><div id="recentList">${recentRows()}</div></div><button class="profile" data-action="settings"><div class="avatar">WB</div><div>${escape(name)}<small>${escape(state.settings.model)} · 本地工作空间</small></div>${icon('settings')}</button></aside><main class="main"><header class="topbar"><div><button class="icon-button" data-action="sidebarToggle" aria-label="${sidebarCollapsed ? '展开' : '收起'}侧栏">${icon('grid')}</button><span class="topbar-title">${escape(page === 'chat' ? state.chats.find(c => c.id === chatId)?.name || '新任务' : active?.[2] || '工作台')}</span></div><div>${page === 'chat' ? `<button class="topbar-action" data-action="panelTab" data-id="execution">${icon('activity')}执行过程</button>` : ''}<button class="topbar-action ${sidePanel ? 'chosen' : ''}" data-action="panelToggle">${icon('file')}工作区</button><button class="status" data-action="settings"><span class="dot ${state.settings.hasKey ? 'on' : ''}"></span>${state.settings.hasKey ? escape(state.settings.model) : '连接模型'}</button></div></header><div class="workbench ${sidePanel ? 'with-panel' : ''}"><div class="workspace ${page === 'chat' ? 'conversation-space' : ''}">${content()}</div>${sidePanel ? previewPanel() : ''}</div></main>`;
+    $('#app').innerHTML = `<div class="titlebar"></div><aside class="sidebar"><div class="brand"><span class="brand-mark"><img src="assets/logo.png" alt="WillBuddy 工具 logo"></span><div>WillBuddy<small>你的桌面工作伙伴</small></div></div><button class="new" data-action="new">${icon('plus')}<span>新建任务</span><span>⌘ N</span></button><nav class="nav">${nav.filter(n => ['home', 'feed', 'library', 'files', 'agents'].includes(n[0])).map(([id, i, title]) => `<button class="${page === id ? 'active' : ''}" data-page="${id}">${icon(i)}<span>${title}</span></button>`).join('')}<details class="more-nav" ${['tools', 'tasks', 'context'].includes(page) ? 'open' : ''}><summary>${icon('grid')}<span>更多工具</span></summary>${nav.filter(n => ['tools', 'tasks', 'context'].includes(n[0])).map(([id, i, title]) => `<button class="${page === id ? 'active' : ''}" data-page="${id}">${icon(i)}<span>${title}</span></button>`).join('')}</details></nav><div class="recent"><div class="recent-header"><span>任务 <small>${state.chats.length}</small></span><button data-action="search" aria-label="搜索任务与成果">${icon('search')}</button></div><input id="recentQuery" aria-label="筛选历史任务" placeholder="筛选任务" value="${escape(recentQuery)}"><div id="recentList">${recentRows()}</div></div><button class="profile" data-action="settings"><div class="avatar">WB</div><div>${escape(name)}<small>${escape(state.settings.model)} · 本地工作空间</small></div>${icon('settings')}</button></aside><main class="main"><header class="topbar"><div><button class="icon-button" data-action="sidebarToggle" aria-label="${sidebarCollapsed ? '展开' : '收起'}侧栏">${icon('grid')}</button><span class="topbar-title">${escape(page === 'chat' ? state.chats.find(c => c.id === chatId)?.name || '新任务' : active?.[2] || '工作台')}</span></div><div><button class="topbar-action" data-page="tasks" aria-label="查看后台任务">后台 ${(state.runJobs||[]).filter(j=>['running','cancelling'].includes(j.status)).length} 执行 · ${(state.runJobs||[]).filter(j=>j.status==='queued').length} 排队</button>${page === 'chat' ? `<button class="topbar-action" data-action="panelTab" data-id="execution">${icon('activity')}执行过程</button>` : ''}<button class="topbar-action ${sidePanel ? 'chosen' : ''}" data-action="panelToggle">${icon('file')}工作区</button><button class="status" data-action="settings"><span class="dot ${state.settings.hasKey ? 'on' : ''}"></span>${state.settings.hasKey ? escape(state.settings.model) : '连接模型'}</button></div></header><div class="workbench ${sidePanel ? 'with-panel' : ''}"><div class="workspace ${page === 'chat' ? 'conversation-space' : ''}">${content()}</div>${sidePanel ? previewPanel() : ''}</div></main>`;
     if(previousComposer&&$('#prompt'))$('#prompt').replaceWith(previousComposer);
     const composer = $('#prompt');
     if(composer&&composer.value!==draft)composer.value=draft;
@@ -203,7 +206,7 @@ function content() {
     if (page === 'tasks')
         return `<div class="page">${heading('MISSION CONTROL', '把重复的工作，交给自动化。', '任务结果自动归入成果中心；执行失败可查看原因并手动重试。', action(icon('plus') + '新建任务', 'newTask'))}<div class="banner">每日任务从创建或启用时间起，每隔一天执行一次。应用必须运行，电脑休眠或退出时不执行；恢复后补执行一次。任务仅调用模型，不具备联网、发信或文件操作能力。</div><div class="toolbar">${action('刷新状态', 'refresh')}${action('打开本地 Office 执行器 ↗', 'runner')}</div><br>${views.runQueue({state,action,date,statusNames})}${state.tasks.length ? `<div class="cards">${state.tasks.map(t => `<div class="card"><span class="badge">${escape(({ ready: '待执行', done: '已完成', ...statusNames })[t.status] || t.status)}</span><h3>${escape(t.name)}</h3><p>${escape(t.prompt.slice(0, 160))}</p><div class="meta">${t.enabled ? '每日执行 · 下次 ' + date(t.nextRun) : '仅手动运行'}</div>${t.error ? `<p class="task-error">${escape(t.error)}</p>` : ''}<div class="actions">${!['queued','running','cancelling'].includes(t.status) ? action('立即运行', 'runTask', t.id, 'primary') : action('停止任务', 'cancelTask', t.id, 'danger')}${t.result ? action('查看结果', 'taskResult', t.id) : ''}${!['queued','running','cancelling'].includes(t.status) ? action(t.enabled ? '暂停定时' : '开启每日', 'toggleTask', t.id) + action('删除', 'deleteTask', t.id) : ''}</div></div>`).join('')}</div>` : empty('从一个小任务开始', '例如：根据固定提示词生成每日写作练习。真实数据需要在提示中提供。', action('创建任务', 'newTask', '', 'primary'))}</div>`;
     if (page === 'library')
-        return `<div class="page">${heading('YOUR LIBRARY', '好成果，值得留下。', '对话与自动化生成的成果都在这里，可随时预览和导出。')}${state.artifacts.length ? `<div class="cards">${state.artifacts.map(a => `<div class="card"><span class="tile-icon amber">${icon('file')}</span><h3>${escape(a.name)}</h3><p>${escape(a.text.slice(0, 110))}…</p><div class="meta">${date(a.time)}</div><div class="actions">${action('查看', 'viewArtifact', a.id)}${action('导出', 'exportArtifact', a.id)}${action('删除', 'deleteArtifact', a.id)}</div></div>`).join('')}</div>` : empty('还没有保存的成果', '在助手回复下点击“保存到成果中心”，或完成一个自动化任务。')}</div>`;
+        return `<div class="page">${heading('YOUR LIBRARY', '好成果，值得留下。', '对话与自动化生成的成果都在这里，可随时预览和导出。')}${documentLibrary({state,action,date})}${state.artifacts.length ? `<div class="cards">${state.artifacts.map(a => `<div class="card"><span class="tile-icon amber">${icon('file')}</span><h3>${escape(a.name)}</h3><p>${escape(a.text.slice(0, 110))}…</p><div class="meta">${date(a.time)}</div><div class="actions">${action('查看', 'viewArtifact', a.id)}${action('导出', 'exportArtifact', a.id)}${action('删除', 'deleteArtifact', a.id)}</div></div>`).join('')}</div>` : empty('还没有保存的成果', '在助手回复下点击“保存到成果中心”，或完成一个自动化任务。')}</div>`;
     if (page === 'context')
         return `<div class="page">${heading('PERSONAL CONTEXT', '记住对你重要的事。', '手动保存工作背景与偏好。这些内容会在每次对话时发送给当前模型。', action(icon('plus') + '添加记忆', 'newMemory'))}${state.memories.length ? state.memories.map(m => `<div class="file-row">${icon('spark')}<div>${escape(m.text)}</div>${action('删除', 'deleteMemory', m.id)}</div>`).join('') : empty('从一句话认识你', '例如“请用简洁的中文回答，优先给出行动建议”。')}</div>`;
     if (page === 'feed')
@@ -258,7 +261,7 @@ async function send() {
     const selected = [...files];
     chatId = id;
     page = 'chat';
-    pending = true;
+    pendingChats.add(id); pending = true;
     draft = '';
     files = [];
     if (!state.chats.some(c => c.id === id))
@@ -271,11 +274,10 @@ async function send() {
     catch (e) {
         toast(e.message);
         applyState(await invoke('state'));
-        draft = prompt;
-        files = selected;
+        if(chatId===id){draft = prompt;files = selected;}
     }
     finally {
-        pending = false;
+        pendingChats.delete(id); pending = pendingChats.has(chatId);
         render();
     }
 }
@@ -338,15 +340,34 @@ async function handle(actionId, id) {
         render();
         return;
     }
+    if(actionId==='documentExportVersion'){const [doc,revision]=id.split(':');await invoke('documentExport',{id:doc,revision:Number(revision)});return;}
+    if (actionId==='documentImport') {await invoke('documentImport');await update('state');return;}
+    if (actionId==='documentNew') {
+        modal('新建文档',input('名称','documentName','新文档')+'<label>文件格式<select name="format" id="documentFormat">'+Object.keys(documentExamples).map(f=>'<option>'+f+'</option>').join('')+'</select></label>'+area('内容（Office 使用结构化 JSON；可让 AI 代写）','documentContent',documentExamples.docx),'审阅并创建',async f=>{const result=await invoke('documentOperation',{operation:'document_create',name:f.get('documentName'),format:f.get('format'),content:f.get('documentContent')});if(result.status!=='succeeded')throw Error(result.error||result.message||'未保存');await update('state');toast('文档已创建并校验，可导出');});
+        $('#documentFormat').onchange=e=>{$('#modal [name="documentContent"]').value=documentExamples[e.target.value];};return;
+    }
+    if (actionId?.startsWith('document')) {
+        const d=(state.documents||[]).find(x=>x.id===id);if(!d)throw Error('文档不存在');
+        if(actionId==='documentView'){openPreview({id:'document:'+id,name:d.name+'.'+d.format,text:d.text,kind:'document',documentId:id});return;}
+        if(actionId==='documentHistory'){modal('历史版本 · '+d.name,d.history.map(h=>`<div class="file-row"><div>v${h.revision} · ${date(h.time)}<small>${h.size} 字节 · ${escape(h.sha256)}</small></div>${action('导出此版本','documentExportVersion',id+':'+h.revision)}</div>`).join(''));return;}
+        if(actionId==='documentExport'){await invoke('documentExport',{id,revision:d.revision});return;}
+        if(actionId==='documentContinue'){switchChat('');page='home';toolsEnabled=true;draft=`请先调用 document_read 读取文档「${d.name}.${d.format}」（id=${id}，当前版本 ${d.revision}），再根据以下要求调用 document_edit 保存新版本。修改要求：`;render();$('#prompt')?.focus();return;}
+        if(actionId==='documentEdit'){
+            const body=d.format==='xlsx'?area('单元格修改 JSON（sheetIndex 指 sheetN.xml，从 1 开始）','cells','[{"sheetIndex":1,"address":"A1","value":"新内容"}]'):input('查找原文（Word/PPT 不跨段落）','find')+area('替换内容','replacement','新内容');
+            modal('精确修改 · '+d.name,body,'审阅并保存版本',async f=>{const changes=d.format==='xlsx'?{cells:JSON.parse(f.get('cells'))}:{replacements:[{find:f.get('find'),replace:f.get('replacement')}]};const r=await invoke('documentOperation',{operation:'document_edit',id,expectedRevision:d.revision,...changes});if(r.status!=='succeeded')throw Error(r.error||r.message||'未保存');await update('state');toast('新版本已保存，原始导入文件不变');});return;
+        }
+        if(actionId==='documentDelete'){modal('删除文档与本地版本','<p>请先导出所需版本；原始导入文件不受影响。</p>','删除',async()=>{await invoke('documentDelete',{id});await update('state');});return;}
+    }
     if (actionId === 'previewExport') {
         const item = previewTabs.find(t => t.id === previewId);
-        if (item)
-            await invoke('exportText', { name: item.name, text: item.text });
+        if (item?.documentId){const d=(state.documents||[]).find(x=>x.id===item.documentId);if(!d)throw Error('文档已删除');await invoke('documentExport',{id:d.id,revision:d.revision});}
+        else if(item) await invoke('exportText', { name: item.name, text: item.text });
         return;
     }
     if (actionId === 'previewContinue') {
         const item = previewTabs.find(t => t.id === previewId);
         if (item) {
+            if(item.documentId){const d=(state.documents||[]).find(x=>x.id===item.documentId);switchChat('');page='home';toolsEnabled=true;draft=`请先 document_read 文档 id=${item.documentId}，再 document_edit。修改要求：`;render();return;}
             const addition = `请继续修改「${item.name}」。修改要求：\n\n参考原文${item.text.length > 14000 ? '（前 14000 字符）' : ''}：\n${item.text.slice(0, 14000)}`;
             if (draft.length + addition.length > 20000)
                 throw new Error('当前草稿过长，请先整理草稿再继续修改');
@@ -476,8 +497,6 @@ async function handle(actionId, id) {
         return;
     }
     if (actionId === 'new') {
-        if (pending)
-            throw new Error('请先停止当前生成');
         switchChat('');
         draft = '';
         files = [];
@@ -486,11 +505,7 @@ async function handle(actionId, id) {
         return;
     }
     if (actionId === 'openChat') {
-        if (pending)
-            throw new Error('请等待当前对话结束');
         switchChat(id);
-        draft = '';
-        files = [];
         page = 'chat';
         render();
         return;
@@ -555,10 +570,8 @@ async function handle(actionId, id) {
         return;
     }
     if (actionId === 'useAgent') {
-        if (pending)
-            throw new Error('请等待当前对话结束');
         agentId = id;
-        chatId = '';
+        switchChat('');
         page = 'home';
         draft = '';
         files = [];
@@ -740,6 +753,7 @@ function applyState(next) {
             chat.messages.push({ ...local.message });
     }
     state = next;
+    for(const tabs of [previewTabs,...[...taskWorkspaces.values()].map(w=>w.previewTabs||[])])for(const t of tabs){if(t.documentId){const d=(state.documents||[]).find(d=>d.id===t.documentId);if(d){t.text=d.text;t.name=d.name+'.'+d.format;}}}
 }
 let streamPaintTimer;
 api?.onStream?.(event => {
