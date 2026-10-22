@@ -554,3 +554,122 @@ export function editDocument(format, bytes, { replacements = [], cells = [] }) {
   const result = inspectDocument(format, output);
   return { bytes: Buffer.from(output), ...result, changes };
 }
+
+/** Stable, revision-bound editing coordinates, never inferred from model prose. */
+export function documentEditor(format, bytes) {
+  inspectDocument(format, bytes);
+  if (format === "md" || format === "html")
+    return { kind: "source", source: decoder.decode(bytes) };
+  const files = openPackage(bytes);
+  if (format === "xlsx") {
+    const shared = files["xl/sharedStrings.xml"]
+      ? Array.from(
+          parse(
+            decoder.decode(files["xl/sharedStrings.xml"]),
+          ).getElementsByTagNameNS(S, "si"),
+        ).map((n) => n.textContent)
+      : [];
+    const cells = [];
+    for (const name of Object.keys(files)
+      .filter((n) => /^xl\/worksheets\/sheet\d+\.xml$/.test(n))
+      .sort()) {
+      const doc = parse(decoder.decode(files[name]));
+      if (doc.getElementsByTagNameNS(S, "f").length)
+        throw Error(
+          "含公式工作簿请使用 GenOffice 编辑，内置编辑器不重新计算公式",
+        );
+      for (const n of Array.from(doc.getElementsByTagNameNS(S, "c"))) {
+        const type = n.getAttribute("t"),
+          raw = n.getElementsByTagNameNS(S, "v")[0]?.textContent || "";
+        const value =
+          type === "s"
+            ? shared[Number(raw)] || ""
+            : type === "inlineStr"
+              ? n.getElementsByTagNameNS(S, "is")[0]?.textContent || ""
+              : type === "b"
+                ? raw === "1"
+                : raw !== ""
+                  ? Number(raw)
+                  : null;
+        cells.push({
+          sheetIndex: Number(name.match(/sheet(\d+)/)[1]),
+          address: n.getAttribute("r"),
+          value,
+        });
+      }
+    }
+    if (cells.length > 500)
+      throw Error(
+        "内置表格编辑最多显示500个现有单元格，请用GenOffice处理较大工作簿",
+      );
+    return { kind: "cells", cells };
+  }
+  const blocks = [];
+  for (const name of parts(format, files)) {
+    const paragraphs = Array.from(
+      parse(decoder.decode(files[name])).getElementsByTagNameNS(
+        format === "docx" ? W : A,
+        "p",
+      ),
+    );
+    paragraphs.forEach((p, index) => {
+      const nodes = Array.from(
+        p.getElementsByTagNameNS(format === "docx" ? W : A, "t"),
+      );
+      if (nodes.length)
+        blocks.push({
+          part: name,
+          index,
+          text: nodes.map((n) => n.textContent).join(""),
+        });
+    });
+  }
+  if (blocks.length > 500)
+    throw Error("内置编辑最多显示500个段落，请用GenOffice处理长文档");
+  return { kind: "blocks", blocks };
+}
+export function updateDocumentEditor(format, bytes, patch) {
+  const editor = documentEditor(format, bytes);
+  let output,
+    changes = 0;
+  if (editor.kind === "source") {
+    const source = text(patch.source, 100000);
+    if (source === editor.source) throw Error("内容没有变化");
+    output = encoder.encode(source);
+    changes = 1;
+  } else if (editor.kind === "cells") {
+    return editDocument(format, bytes, { cells: patch.cells });
+  } else {
+    array(patch.blocks, 100);
+    if (!patch.blocks.length) throw Error("内容没有变化");
+    const files = openPackage(bytes),
+      seen = new Set();
+    for (const b of patch.blocks) {
+      text(b.text, 10000);
+      const key = b.part + ":" + b.index;
+      if (
+        seen.has(key) ||
+        !editor.blocks.some((x) => x.part === b.part && x.index === b.index)
+      )
+        throw Error("段落坐标无效或重复");
+      seen.add(key);
+      const doc = parse(decoder.decode(files[b.part])),
+        p = doc.getElementsByTagNameNS(format === "docx" ? W : A, "p")[b.index];
+      const nodes = Array.from(
+        p.getElementsByTagNameNS(format === "docx" ? W : A, "t"),
+      );
+      nodes.forEach((n, i) => {
+        n.textContent = i === 0 ? b.text : "";
+        if (i === 0) n.setAttribute("xml:space", "preserve");
+      });
+      files[b.part] = encoder.encode(serialize(doc));
+      changes++;
+    }
+    output = zip.zipSync(files);
+  }
+  return {
+    bytes: Buffer.from(output),
+    ...inspectDocument(format, output),
+    changes,
+  };
+}
