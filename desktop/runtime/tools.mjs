@@ -1,13 +1,16 @@
+import { createDocumentService } from '../services/documents.mjs';
 import { uid } from '../core.mjs';
 import { prepareCommand, runCommand } from './command.mjs';
 
 export class ToolRuntime {
     constructor({ store, browser, approve, notify = () => {} }) {
         Object.assign(this, { store, browser, approve, notify });
+        this.documents = createDocumentService({store,notify});
     }
 
     async execute(name, args, signal, { chatId, runId, jobId, onRecord, manual = false } = {}) {
         const auditArgs = structuredClone(args);
+        if (name.startsWith('document_')) { delete auditArgs.content; delete auditArgs.replacements; delete auditArgs.cells; auditArgs.note='文档正文/修改内容不写入执行审计'; }
         if (name === 'browser_fill' && 'text' in auditArgs) auditArgs.text = '[输入文本已隐藏]';
         const record = { id: uid(), tool: name, args: auditArgs, chatId, runId, jobId,
             time: Date.now(), status: 'pending_approval' };
@@ -15,13 +18,13 @@ export class ToolRuntime {
         // Keep audits for live queue jobs even when many browser operations are recorded.
         const live = new Set((this.store.data.commandJobs || []).filter(j => ['queued', 'pending_approval', 'running', 'cancelling'].includes(j.status)).map(j => j.id));
         this.store.data.executions = this.store.data.executions.filter((r, i) => i < 200 || live.has(r.jobId));
-        let prepared;
+        let prepared, documentToken;
         try {
             await this.store.save();
             await onRecord?.(record);
             this.notify();
             signal?.throwIfAborted();
-            if (!['cli_execute', 'browser_open', 'browser_read', 'browser_snapshot', 'browser_click', 'browser_fill'].includes(name)) throw new Error('未知工具');
+            if (!['cli_execute', 'browser_open', 'browser_read', 'browser_snapshot', 'browser_click', 'browser_fill', 'document_create', 'document_read', 'document_edit'].includes(name)) throw new Error('未知工具');
             let command, readScope;
             if (['browser_read', 'browser_snapshot'].includes(name)) {
                 readScope = this.browser.list().find(w => w.id === args.id);
@@ -30,8 +33,9 @@ export class ToolRuntime {
             }
             if (name === 'cli_execute') { command = await prepareCommand(this.store.data.folders, args); record.command = command; }
             if (['browser_click', 'browser_fill'].includes(name)) { prepared = await this.browser.prepareAction(name, args, signal); record.receipt = this.browser.receipt(prepared); }
-            const title = name === 'cli_execute' ? '执行本机 CLI' : name === 'browser_read' ? '读取网页内容' : name === 'browser_snapshot' ? '检查网页元素' : name === 'browser_click' ? '点击网页元素' : name === 'browser_fill' ? '填写网页文本框' : '打开浏览器';
-            const detail = prepared ? JSON.stringify(record.receipt, null, 2) + (name === 'browser_fill' ? '\n将填写（不自动提交）：\n' + prepared.inputText : '\n点击可能触发网页业务操作，请核对网址与目标。')
+            if (name.startsWith('document_')) documentToken = await this.documents.prepare(name,args,signal);
+            const title = documentToken ? '文档操作 · ' + name : name === 'cli_execute' ? '执行本机 CLI' : name === 'browser_read' ? '读取网页内容' : name === 'browser_snapshot' ? '检查网页元素' : name === 'browser_click' ? '点击网页元素' : name === 'browser_fill' ? '填写网页文本框' : '打开浏览器';
+            const detail = documentToken ? documentToken.detail : prepared ? JSON.stringify(record.receipt, null, 2) + (name === 'browser_fill' ? '\n将填写（不自动提交）：\n' + prepared.inputText : '\n点击可能触发网页业务操作，请核对网址与目标。')
                 : name === 'cli_execute' ? JSON.stringify(command, null, 2) + '\nCLI 会以当前账号权限运行，可访问工作目录以外的文件，不是文件夹沙箱。' + (chatId ? '\nstdout/stderr 将发给当前模型。' : '')
                 : readScope ? JSON.stringify(readScope, null, 2) + '\n将读取当前页正文；对话发起的读取会将正文发给模型。' : String(args.url);
             if (!(manual && name === 'browser_open') && !await this.approve(title, detail, signal)) {
@@ -47,7 +51,8 @@ export class ToolRuntime {
             signal?.throwIfAborted();
             this.notify();
             let result;
-            if (name === 'cli_execute') {
+            if (documentToken) result = await this.documents.perform(documentToken,signal);
+            else if (name === 'cli_execute') {
                 const checked = await prepareCommand(this.store.data.folders, args);
                 if (checked.cwd !== command.cwd || checked.executable !== command.executable) throw new Error('工作目录或程序路径在审批期间发生变化，请重新执行');
                 const persistence = new AbortController();
@@ -72,7 +77,7 @@ export class ToolRuntime {
             else if (name === 'browser_snapshot') result = await this.browser.snapshot(args.id, signal);
             else if (prepared) result = await this.browser.perform(prepared, signal);
             else throw new Error('未知工具');
-            record.result = result;
+            record.result = documentToken && result.document ? {...result,document:(( {text,history,...rest})=>rest)(result.document)} : result;
             record.status = result.status || 'succeeded';
             return result;
         } catch (error) {
