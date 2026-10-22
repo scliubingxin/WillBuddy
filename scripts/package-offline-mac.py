@@ -64,7 +64,7 @@ def main():
         src=ROOT/'desktop'/name;dst=source/name
         if src.is_dir():shutil.copytree(src,dst)
         else:shutil.copy2(src,dst)
-    # Production is built-in Node/Electron modules only. Never ship the build toolchain.
+    # Production uses built-in Node/Electron and prebundled licensed JS codecs; never ship the build toolchain.
     package={k:metadata[k] for k in ['name','productName','version','description','author','license','type','main']}
     (source/'package.json').write_text(json.dumps(package,indent=2)+'\n')
     cli=ROOT/'desktop/node_modules/@electron/asar/bin/asar.js'
