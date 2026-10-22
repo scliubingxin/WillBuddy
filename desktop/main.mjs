@@ -1,3 +1,5 @@
+import {readDocumentSource,writeDocumentDestination} from './main/document-files.mjs';
+import {documentViews} from './services/documents.mjs';
 import { sharedRunQueue } from './runtime/run-queue.mjs';
 import { createCommandService } from './services/commands.mjs';
 import { createWorkspaceService } from './services/workspace.mjs';
@@ -27,7 +29,7 @@ const notifyRuntime = () => {
 const approve = createApprover({ dialog, getWindow: () => win, focus });
 let toolRuntime;
 const executeTool = (...args) => toolRuntime.execute(...args);
-const view = () => { const { encryptedKey, ...settings } = store.data.settings; return { ...store.data, settings: { ...settings, hasKey: !!sessionKey || !!encryptedKey, keySaved: !!encryptedKey, secureStorage: safeStorage.isEncryptionAvailable() && safeStorage.getSelectedStorageBackend?.() !== 'basic_text' }, browsers: browser.list(), desktop: { platform: process.platform, shortcutReady } }; };
+const view = () => { const { encryptedKey, ...settings } = store.data.settings; return { ...store.data, documents:documentViews(store.data), settings: { ...settings, hasKey: !!sessionKey || !!encryptedKey, keySaved: !!encryptedKey, secureStorage: safeStorage.isEncryptionAvailable() && safeStorage.getSelectedStorageBackend?.() !== 'basic_text' }, browsers: browser.list(), desktop: { platform: process.platform, shortcutReady } }; };
 function key() {
     if (sessionKey)
         return sessionKey;
@@ -58,7 +60,7 @@ const runTask = (id, options) => tasks.run(id, options);
 app.setPath('userData', await chooseUserDataDirectory(app.getPath('appData')));
 // Preserve the pre-rename OS cryptographic/application identity for existing keys.
 app.setName('Actwill AI');
-app.setAboutPanelOptions({ applicationName: 'WillBuddy', applicationVersion: '0.9.0' });
+app.setAboutPanelOptions({ applicationName: 'WillBuddy', applicationVersion: '0.10.0' });
 if (!app.requestSingleInstanceLock())
     app.quit();
 else {
@@ -155,6 +157,29 @@ else {
         register('runTask', p => runTask(p.id, {requestId:p.requestId}));
         register('cancelTask', p => tasks.cancel(p.id));
         register('cancelRun', p => runs.cancel(p.id));
+        register('documentOperation', p => {
+            const {operation,...args}=p;
+            if (!['document_create','document_read','document_edit'].includes(operation)) throw Error('未知文档操作');
+            return executeTool(operation,args);
+        });
+        register('documentRead', p => toolRuntime.documents.read(p.id));
+        register('documentDelete', p => toolRuntime.documents.remove(p.id));
+        register('documentImport', async () => {
+            const result=await dialog.showOpenDialog(win,{title:'导入可编辑文档（原文件不变）',properties:['openFile'],filters:[{name:'文档',extensions:['docx','xlsx','pptx','md','html']}]});
+            if(result.canceled)return false;
+            const source=result.filePaths[0],bytes=await readDocumentSource(source);
+            return toolRuntime.documents.importFile(path.basename(source,path.extname(source)),path.extname(source).slice(1).toLowerCase(),bytes);
+        });
+        register('documentExport', async p => {
+            const selected=toolRuntime.documents.bytes(p.id,p.revision);
+            const result=await dialog.showSaveDialog(win,{title:'导出文档',defaultPath:selected.name.replace(/[\\/:*?"<>|]/g,'_')+'.'+selected.format,filters:[{name:selected.format.toUpperCase(),extensions:[selected.format]}]});
+            if(result.canceled)return false;
+            // Dialog explicitly authorizes the destination; recheck version after user interaction.
+            toolRuntime.documents.bytes(p.id,p.revision);
+            const written=await writeDocumentDestination(result.filePath,selected.bytes);
+            store.log('已导出文档',path.basename(result.filePath));await store.save();
+            return {saved:true,sha256:selected.sha256,bytes:written};
+        });
         register('exportText', async (p) => {
             const content = text(p.text, 500000);
             const result = await dialog.showSaveDialog(win, { title: '保存成果', defaultPath: (p.name || 'WillBuddy 成果').replace(/[\\/:*?"<>|]/g, '_') + '.md', filters: [{ name: 'Markdown', extensions: ['md'] }] });

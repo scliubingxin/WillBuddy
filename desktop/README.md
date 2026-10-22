@@ -1,3 +1,5 @@
+0.10.0：新增真实 Word/Excel/PowerPoint、Markdown/HTML 文档创建、导入、修改、版本与导出；修复全局生成状态阻塞，支持两项模型任务并发、独立草稿与停止。操作与边界见 [文档工作台](../docs/OFFICE_WORKSPACE.md)。
+
 0.9.0：对话与每日任务共用持久调度，排队/刷新后停止、定时发生去重、迟到结果拦截与重启暂停。详见 [共享执行说明](../docs/SHARED_RUNS.md)。
 
 0.8.0：手动 CLI 持久队列、刷新后停止、去重、重启暂停和重新审批重试；输出检查点与磁盘故障门禁。详见 [命令队列说明](../docs/DURABLE_COMMANDS.md)。
@@ -6,13 +8,13 @@
 
 项目结构与修改入口见 ../docs/ARCHITECTURE.md（0.6.1 分层整理）。
 
-# WillBuddy 桌面版 0.9.0
+# WillBuddy 桌面版 0.10.0
 
 在原 Web 系统与 0.3.0 桌面基础上新增浏览器、CLI 及模型工具调用闭环。原 Web 代码、数据库迁移和 Python Office 执行器保留；桌面无需先运行 Web 服务或 Cloudflare。
 
 ## 免依赖安装（Apple 芯片）
 
-日常使用请下载独立的 `WillBuddy-v0.9.0-mac-arm64-offline.zip`，完整解压后把 `WillBuddy.app` 拖入应用程序，或双击 `Install-WillBuddy.command` 安装到个人 Applications 文件夹。应用已内置 Electron/Chromium/Node 运行时，安装不执行 npm，也不要求开发工具。下方 npm 命令仅供源码开发。
+日常使用请下载独立的 `WillBuddy-v0.10.0-mac-arm64-offline.zip`，完整解压后把 `WillBuddy.app` 拖入应用程序，或双击 `Install-WillBuddy.command` 安装到个人 Applications 文件夹。应用已内置 Electron/Chromium/Node 运行时，安装不执行 npm，也不要求开发工具。下方 npm 命令仅供源码开发。
 
 只制作 Apple 芯片版，最低 macOS 12。包采用 ad-hoc 签名，尚无 Developer ID 或公证，未完成真机启动；系统首次运行可能需要在隐私与安全性中确认。安装脚本不会关闭 Gatekeeper 或移除隔离标记。Git/Codex/Python/Ollama 等外部工具及原 Python Office 工具链不包含在桌面主程序依赖中，使用这些外部能力仍需对应本机程序。
 
@@ -152,3 +154,7 @@ Web 与桌面核心统一、持久化队列、MCP、可操作浏览器、跨设�
 `npm test`：24 项 Node 测试通过，包含真实 CLI 子进程与 HTTP 模型夹具；浏览器 DOM 为 JSDOM + 注入 Electron 适配器，界面为模拟原生桥（17 条路径）。没有用夹具结果冒充 Mac 集成测试。
 
 可复现真实 Chromium 输入测试：安装开发依赖后设置 `CHROME_PATH` 为受支持 Chrome 可执行文件，执行 `npm run test:browser`；也可使用已启动且可信本机的 `CHROME_CDP_URL`。测试使用本机 HTTP 表单与确定性模型/审批夹具，不访问真实账户。当前构建主机启动 Chrome 因 socket() Operation not permitted 失败，未通过该真实浏览器检查。Mac 原生 Electron、系统确认框、真实第三方模型/Codex CLI 仍待独立验收。
+
+## 0.10.0 开发验证补充
+
+文档工具不依赖最终用户安装Python或Office。开发/CI中的独立Office解析验收需先在开发虚拟环境中 `python3 -m pip install -r scripts/requirements-office-tests.txt`（从项目根目录），再执行 `npm --prefix desktop test`。构建依赖固定在package-lock.json，编解码器重建用 `npm --prefix desktop run vendor:office`，最终产物使用已预打包且带许可/哈希的JS。
