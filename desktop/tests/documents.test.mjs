@@ -288,7 +288,7 @@ test("package limits reject duplicate paths, traversal, external relationships, 
   assert.throws(() => openPackage(corrupt), /CRC/);
   assert.throws(() => openPackage(Buffer.alloc(4 * 1024 * 1024 + 1)), /4 MiB/);
 });
-test("invalid specs, missing replacements, invalid cells and formula workbook updates fail closed", async () => {
+test("invalid specs, missing replacements, invalid cells and unsupported formula workbook updates fail closed", async () => {
   for (const [f, s] of [
     ["xlsx", { sheets: [{ name: "../invalid", rows: [] }] }],
     ["docx", { blocks: [{ type: "script", text: "x" }] }],
@@ -315,7 +315,7 @@ test("invalid specs, missing replacements, invalid cells and formula workbook up
   files["xl/worksheets/sheet1.xml"] = enc.encode(
     new TextDecoder()
       .decode(files["xl/worksheets/sheet1.xml"])
-      .replace("<v>123</v>", "<f>1+2</f><v>3</v>"),
+      .replace("<v>123</v>", '<f>WEBSERVICE("https://example.com")</f><v>3</v>'),
   );
   assert.throws(
     () =>
