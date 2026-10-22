@@ -10,3 +10,14 @@ html,body,#app,.main,.workspace,.sidebar,.topbar{background-color:#fff}input[typ
 
 .editor-fields{max-height:49vh;overflow:auto;padding-right:8px}.editor-fields label:first-child{margin-top:0}.editor-fields textarea{min-height:76px}
 .word-toolbar{display:flex;flex-wrap:wrap;gap:6px;border:1px solid #dce5ee;background:#fff;padding:8px;border-radius:8px 8px 0 0}.word-toolbar button{padding:5px 8px;color:#0078cb;border:1px solid #dce5ee;border-radius:5px}.word-canvas{min-height:260px;max-height:45vh;overflow:auto;border:1px solid #dce5ee;border-top:0;padding:22px;background:#fff;line-height:1.7;outline-color:#0078cb}.word-canvas h1,.word-canvas h2{color:#0078cb}.word-canvas table{border-collapse:collapse;width:100%;margin:12px 0}.word-canvas th,.word-canvas td{border:1px solid #ccd9e3;padding:7px}
+
+/* Imported Word: direct run editing, no claim of page layout fidelity. */
+.word-run-toolbar{display:flex;gap:8px;align-items:center;position:sticky;top:0;background:#fff;padding:10px 0;z-index:1;border-bottom:1px solid #dbe7ef}
+.word-run-toolbar [role=status]{font-size:12px;color:#526474}
+.word-import-page{padding:16px;background:#fff;border:1px solid #dbe7ef;max-height:58vh;overflow:auto}
+.word-run-paragraph,.word-readonly{padding:8px 0;border-bottom:1px solid #edf2f7}
+.word-run-paragraph small,.word-readonly small{font-size:11px;color:#526474}
+.word-run-paragraph p{white-space:pre-wrap;line-height:1.8;margin:8px 0;overflow-wrap:anywhere}
+[data-word-run]{outline:1px dotted #b3d8ef;min-width:12px;display:inline-block;white-space:pre-wrap}
+[data-word-run]:focus{outline:2px solid #0078cb}
+.word-readonly{color:#657683;background:#fff}.word-readonly p{font-size:13px}

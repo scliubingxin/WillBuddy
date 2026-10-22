@@ -1,3 +1,4 @@
+import {mountWordRuns} from './ui/word-runs.js';
 import {mountWordCanvas} from './ui/word-canvas.js';
 import {documentLibrary,documentExamples,messageDocuments} from './ui/documents.js';
 import { escape, rich, htmlPreview } from './ui/markdown.js';
@@ -362,6 +363,13 @@ async function handle(actionId, id) {
         if(actionId==='documentConvert'){toast('正在本机转换为Word…');const result=await invoke('documentOperation',{operation:'document_convert',id,expectedRevision:d.revision});if(result.status==='denied')return;if(result.status!=='succeeded')throw Error(result.error||'转换未完成');await update('state');const doc=result.document;openPreview({id:'document:'+doc.id,name:doc.name+'.docx',text:doc.text,kind:'document',documentId:doc.id});toast('真实Word文档已保存，可直接导出');return;}
         if(actionId==='documentGenOffice'){const result=await invoke('genofficeOpen',{id,revision:d.revision});if(result.status==='denied')return;toast('已交给 GenOffice 编辑副本；保存后、退出WillBuddy前点击「收回编辑结果」');return;}
         if(actionId==='documentGenOfficeImport'){const result=await invoke('genofficeImport',{id});if(result.status==='denied')return;await update('state');toast('已验证并保存编辑后的新版本');return;}
+        if(actionId==='documentWordEditor'){
+            const editor=await invoke('documentEditor',{id,mode:'runs'});let word;
+            modal('Word 分段编辑 · '+d.name,'<div id="wordRuns"></div>','保存Word新版本',async()=>{
+                const result=await invoke('documentSaveEditor',{id,revision:editor.revision,patch:{patches:word.patches()}});
+                if(result.status!=='succeeded')throw Error(result.error||'未保存');await update('state');toast('新版本已保存，未修改部件通过校验');
+            });word=mountWordRuns($('#wordRuns'),editor);return;
+        }
         if(actionId==='documentEditor'){
             const editor=await invoke('documentEditor',{id});
             const fields=editor.kind==='source'?area('文档原文','source',editor.source):editor.kind==='blocks'?editor.blocks.map((b,i)=>area((d.format==='pptx'?'演示文本块 ':'段落 ')+(i+1),'block'+i,b.text)).join(''):editor.cells.map((c,i)=>input('工作表 '+c.sheetIndex+' · '+c.address,'cell'+i,c.value===null?'':String(c.value))).join('');
@@ -373,7 +381,7 @@ async function handle(actionId, id) {
         if(actionId==='documentView'){openPreview({id:'document:'+id,name:d.name+'.'+d.format,text:d.text,kind:'document',documentId:id});return;}
         if(actionId==='documentHistory'){modal('历史版本 · '+d.name,d.history.map(h=>`<div class="file-row"><div>v${h.revision} · ${date(h.time)}<small>${h.size} 字节 · ${escape(h.sha256)}</small></div>${action('导出此版本','documentExportVersion',id+':'+h.revision)}</div>`).join(''));return;}
         if(actionId==='documentExport'){await invoke('documentExport',{id,revision:d.revision});return;}
-        if(actionId==='documentContinue'){switchChat('');page='home';toolsEnabled=true;draft=`请先调用 document_read 读取文档「${d.name}.${d.format}」（id=${id}，当前版本 ${d.revision}），再根据以下要求调用 ${d.hasRichSource?'document_write（保留editableHtml结构）':'document_edit'} 保存新版本。修改要求：`;render();$('#prompt')?.focus();return;}
+        if(actionId==='documentContinue'){switchChat('');page='home';toolsEnabled=true;draft=`请先调用 document_read 读取文档「${d.name}.${d.format}」（id=${id}，当前版本 ${d.revision}），再根据以下要求调用 ${d.hasRichSource?'document_write（保留editableHtml结构）':d.format==='docx'?'document_patch（使用wordEditing片段坐标，保留其他样式）':'document_edit'} 保存新版本。修改要求：`;render();$('#prompt')?.focus();return;}
         if(actionId==='documentEdit'){
             const body=d.format==='xlsx'?area('单元格修改 JSON（sheetIndex 指 sheetN.xml，从 1 开始）','cells','[{"sheetIndex":1,"address":"A1","value":"新内容"}]'):input('查找原文（Word/PPT 不跨段落）','find')+area('替换内容','replacement','新内容');
             modal('精确修改 · '+d.name,body,'审阅并保存版本',async f=>{const changes=d.format==='xlsx'?{cells:JSON.parse(f.get('cells'))}:{replacements:[{find:f.get('find'),replace:f.get('replacement')}]};const r=await invoke('documentOperation',{operation:'document_edit',id,expectedRevision:d.revision,...changes});if(r.status!=='succeeded')throw Error(r.error||r.message||'未保存');await update('state');toast('新版本已保存，原始导入文件不变');});return;
@@ -389,7 +397,7 @@ async function handle(actionId, id) {
     if (actionId === 'previewContinue') {
         const item = previewTabs.find(t => t.id === previewId);
         if (item) {
-            if(item.documentId){const d=(state.documents||[]).find(x=>x.id===item.documentId);switchChat('');page='home';toolsEnabled=true;draft=`请先 document_read 文档 id=${item.documentId}，再 ${d?.hasRichSource?'document_write（基于editableHtml保留其他结构）':'document_edit'}。修改要求：`;render();return;}
+            if(item.documentId){const d=(state.documents||[]).find(x=>x.id===item.documentId);switchChat('');page='home';toolsEnabled=true;draft=`请先 document_read 文档 id=${item.documentId}，再 ${d?.hasRichSource?'document_write（基于editableHtml保留其他结构）':d?.format==='docx'?'document_patch（使用wordEditing片段坐标）':'document_edit'}。修改要求：`;render();return;}
             const addition = `请继续修改「${item.name}」。修改要求：\n\n参考原文${item.text.length > 14000 ? '（前 14000 字符）' : ''}：\n${item.text.slice(0, 14000)}`;
             if (draft.length + addition.length > 20000)
                 throw new Error('当前草稿过长，请先整理草稿再继续修改');
