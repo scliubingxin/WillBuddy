@@ -1,0 +1,97 @@
+{
+  "version": "0.17.0",
+  "date": "2026-10-23",
+  "baseline": {
+    "version": "0.16.0",
+    "canonical_version_read": 17,
+    "source_hashes": 428
+  },
+  "tests": {
+    "core": 173,
+    "new_core": 4,
+    "real_chromium": 12,
+    "packaging_python": 9,
+    "native_electron_harnesses": 2
+  },
+  "native_evidence": {
+    "runtime": "Electron42.0.0 Linux x64, virtual X display; root test --no-sandbox only",
+    "legacy_file_host": {
+      "ready": false,
+      "timeout_ms": 5001
+    },
+    "secure_protocol_same_fixture": {
+      "completed": true,
+      "elapsed_ms": 134.1
+    },
+    "production_source_file_host_ms": {
+      "xlsx": 172.1,
+      "docx": 168,
+      "pptx": 192.1
+    },
+    "production_asar_file_host_ms": {
+      "xlsx": 165.4,
+      "docx": 180.5,
+      "pptx": 198.4
+    },
+    "production_uses": [
+      "actual src/index.html",
+      "actual preload.cjs",
+      "actual createRegistrar IPC",
+      "real document service and Office bytes",
+      "SHA verified application protocol"
+    ],
+    "asar_child_assertions": [
+      "ready=true",
+      "expected worksheet/paragraph/final slide text",
+      "no actwill bridge",
+      "no require"
+    ]
+  },
+  "fixture_boundaries": [
+    "synthetic document content",
+    "model content and business approvals in old regression remain fixtures",
+    "native tests do not exercise real Mac UI or actual model"
+  ],
+  "not_tested": [
+    "Mac arm64 native install/strict resource seal/Gatekeeper/launch",
+    "Mac Office/WPS display",
+    "paid model",
+    "full Office fidelity",
+    "autonomous task groups/MCP/cross-Web core",
+    "original Python35 unchanged not rerun"
+  ],
+  "production_asar_exact_files": 68,
+  "protected_original_files_unchanged": 122,
+  "offline": {
+    "bytes": 119679616,
+    "sha256": "14c87ccd00c1e679e9c1ffc35811c34554b46679a728551a54d48f56c04a6dbd",
+    "signature": "ad-hoc; not notarized",
+    "app_entries": 282,
+    "extra_files": 5,
+    "symlinks": 14,
+    "residue": 0,
+    "macho": 15,
+    "code_pages": 51216
+  },
+  "changed_files": [
+    ".github/workflows/willbuddy-mac-arm64.yml",
+    "ITERATION_LOG.md",
+    "ITERATION_PLAN.md",
+    "README.md",
+    "RELEASE_STATUS.json",
+    "desktop/README.md",
+    "desktop/main/preview-protocol.mjs",
+    "desktop/package.json",
+    "desktop/src/ui/office-preview.js",
+    "desktop/tests/native/preview-electron.mjs",
+    "desktop/tests/native/production-preview.mjs",
+    "desktop/tests/office-preview.test.mjs",
+    "desktop/tests/preview-protocol.test.mjs",
+    "docs/PREVIEW_TIMEOUT_FIX.md",
+    "docs/QUICK_GAPS.md"
+  ],
+  "notes": [
+    "0.16 static source-regex security test corrected after formatting; actual JSDOM bridge behavior now verified",
+    "unpublished preview cache/image work was lost on environment reset, not delivered or counted; this release prioritizes reproduced startup failure"
+  ]
+}
