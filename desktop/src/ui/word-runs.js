@@ -1,14 +1,14 @@
 import { escape } from "./markdown.js";
 /** Plain text spans only: renderer never accepts arbitrary OOXML or generates anchors. */
 export function mountWordRuns(root, editor) {
-  const runs = new Map();
+  const runs = new Map(), structures = new Map();
   let focused;
-  root.innerHTML = `<p>直接编辑文字片段；先点击片段，再用工具栏设置粗体/斜体。段落、表格结构和未修改的文件部件保留。继承样式不解析；这里不是分页排版预览。灰色段落只读。</p><div class="word-run-toolbar"><button type="button" data-word-mark="bold"><b>B</b> 粗体</button><button type="button" data-word-mark="italic"><i>I</i> 斜体</button><span role="status">点击一个文字片段开始编辑</span></div><div class="word-import-page">${editor.paragraphs
+  root.innerHTML = `<p>直接编辑文字片段；先点击片段，再用工具栏设置粗体/斜体。简单正文支持在后面插入段落或标记删除；保存前可撤销。表格/页眉页脚结构和复杂段落只读。继承样式不解析；这里不是分页排版预览。灰色段落只读。</p><div class="word-run-toolbar"><button type="button" data-word-mark="bold"><b>B</b> 粗体</button><button type="button" data-word-mark="italic"><i>I</i> 斜体</button><span role="status">点击一个文字片段开始编辑</span></div><div class="word-import-page">${editor.paragraphs
     .map((p, i) => {
       const label = `${p.part} · 段落 ${p.paragraph + 1}`;
       if (!p.editable)
         return `<section class="word-readonly"><small>${escape(label)} · ${escape(p.reason)}</small><p>${escape(p.text) || "（非文字内容）"}</p></section>`;
-      return `<section class="word-run-paragraph"><small>${escape(label)}</small><p>${p.runs
+      return `<section class="word-run-paragraph" data-word-paragraph="${i}"><small>${escape(label)}</small>${p.structural ? `<div class="word-structure-controls"><button type="button" data-word-insert="${i}">后插段落</button><button type="button" data-word-delete="${i}">删除本段</button><button type="button" data-word-undo="${i}" hidden>撤销段落操作</button></div><textarea data-word-new="${i}" aria-label="${escape(label)} 后插段落文字" placeholder="输入新段落内容，保存后生效" hidden></textarea>` : ""}<p>${p.runs
         .map((r) => {
           const key = i + ":" + r.run;
           runs.set(key, {
@@ -59,9 +59,25 @@ export function mountWordRuns(root, editor) {
       focused.focus();
     });
   }
+  for (const b of root.querySelectorAll("[data-word-insert],[data-word-delete],[data-word-undo]")) {
+    b.addEventListener("click", () => {
+      const i = b.dataset.wordInsert ?? b.dataset.wordDelete ?? b.dataset.wordUndo;
+      const section = root.querySelector(`[data-word-paragraph="${i}"]`), p = editor.paragraphs[Number(i)];
+      const input = section.querySelector("textarea"), undo = section.querySelector("[data-word-undo]");
+      const action = b.hasAttribute("data-word-insert") ? "insertAfter" : b.hasAttribute("data-word-delete") ? "deleteParagraph" : null;
+      if (action) structures.set(i,{action,part:p.part,paragraph:p.paragraph,anchor:p.anchor});else structures.delete(i);
+      input.hidden = action !== "insertAfter";undo.hidden = !action;
+      section.classList.toggle("word-deleted",action === "deleteParagraph");
+      for (const node of section.querySelectorAll("[data-word-run]")) node.setAttribute("contenteditable",action === "deleteParagraph" ? "false" : "plaintext-only");
+      status.textContent = action === "deleteParagraph" ? "已标记删除本段；保存前可撤销" : action === "insertAfter" ? "填写新段落；保存后生效" : "已撤销段落操作";
+      if (!input.hidden) input.focus();
+    });
+  }
   return {
     patches() {
-      return [...runs.values()].flatMap(({ p, r, current }) => {
+      const paragraphPatches = [...structures.entries()].map(([i,x]) => x.action === "insertAfter" ? {...x,text:root.querySelector(`[data-word-new="${i}"]`).value} : x);
+      return [...paragraphPatches, ...[...runs.values()].flatMap(({ p, r, current }) => {
+        if (paragraphPatches.some(x => x.action === "deleteParagraph" && x.part === p.part && x.paragraph === p.paragraph)) return [];
         const patch = {
           part: p.part,
           paragraph: p.paragraph,
@@ -71,7 +87,7 @@ export function mountWordRuns(root, editor) {
         for (const k of ["text", "bold", "italic"])
           if (current[k] !== r[k]) patch[k] = current[k];
         return Object.keys(patch).length > 4 ? [patch] : [];
-      });
+      })];
     },
   };
 }
