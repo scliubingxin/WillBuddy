@@ -290,7 +290,7 @@ export function createDocumentService({
     richEditor(id) {
       const d = find(id);
       if (!d.richSource)
-        throw Error("该文件没有画布源，请使用内容编辑或GenOffice应用");
+        throw Error("该文件没有画布源，请使用Word分段编辑或内容编辑");
       return { id, name: d.name, revision: d.revision, html: d.richSource };
     },
     editor(id, mode) {
@@ -344,6 +344,15 @@ export function createDocumentService({
         ),
         signal,
       );
+    },
+    preview(id,revision) {
+      const current=find(id);
+      if(current.revision!==revision)throw Error("文档版本已变化，请重新预览");
+      if(!["docx","xlsx","pptx"].includes(current.format))throw Error("请使用文本预览");
+      const bytes=Buffer.from(current.base64,"base64");
+      if(sha256(bytes)!==current.sha256)throw Error("文档校验失败");
+      inspectDocument(current.format,bytes);
+      return {format:current.format,base64:current.base64,revision,sha256:current.sha256};
     },
     read(id) {
       return summary(find(id));
