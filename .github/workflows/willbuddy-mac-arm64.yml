@@ -23,6 +23,8 @@ jobs:
       - name: Independent Office parser test dependencies (build host only)
         run: python3 -m pip install -r ../scripts/requirements-office-tests.txt
       - run: npm test
+      - name: Native file-host Office preview (actual Electron, fixture documents)
+        run: npm run test:preview-native
       - name: Packaging boundary tests
         run: python3 -m unittest discover -s ../scripts/tests -v
       - name: Build arm64 DMG and ZIP
