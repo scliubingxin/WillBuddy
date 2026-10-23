@@ -101,6 +101,7 @@ test("real Chromium: Office create/edit/export and two concurrent model tasks wi
         const { operation, ...args } = p;
         return tools.execute(operation, args);
       }
+      if(n === "documentPreview")return tools.documents.preview(p.id,p.revision);
       if(n === "documentEditor")return tools.documents.editor(p.id,p.mode);
       if(n === "documentSaveEditor")return tools.documents.updateEditor(p.id,p.revision,p.patch,async()=>true);
       if (n === "documentExport") {
@@ -120,7 +121,7 @@ test("real Chromium: Office create/edit/export and two concurrent model tasks wi
           "cancelChat",
           "cancelRun",
           "documentOperation",
-          "documentExport", "documentEditor", "documentSaveEditor",
+          "documentPreview", "documentExport", "documentEditor", "documentSaveEditor",
         ].map((n) => [n, (p) => window.hostRun(n, p)]),
       );
       window.actwill.onRuntime = (fn) => {
@@ -163,10 +164,7 @@ test("real Chromium: Office create/edit/export and two concurrent model tasks wi
       /2026/,
     );
     await page.getByRole("button", { name: "预览", exact: true }).click();
-    await page
-      .getByRole("article", { name: "成果正文" })
-      .filter({ hasText: "2026" })
-      .waitFor();
+    await page.frameLocator('iframe.office-frame').getByText('2026 报告',{exact:true}).waitFor();
     await page.getByRole("button", { name: "关闭工作区", exact: true }).click();
     await page.getByRole("button", { name: /新建任务/ }).click();
     await page.locator("#prompt").fill("后台任务一");
@@ -247,7 +245,7 @@ test("real Chromium: Office create/edit/export and two concurrent model tasks wi
     await page.getByRole('button',{name:'保存Word新版本',exact:true}).click();
     await card.filter({hasText:'v2'}).waitFor();
     await page.getByRole('button',{name:'在工作区查看',exact:true}).click();
-    await page.getByRole('article',{name:'成果正文'}).filter({hasText:'在生产界面修改后的正文'}).waitFor();
+    await page.frameLocator('iframe.office-frame').getByText('在生产界面修改后的正文',{exact:true}).waitFor();
     exported=null;
     await page.getByRole('button',{name:'导出当前成果',exact:true}).click();
     for(let i=0;i<100&&!exported;i++)await new Promise(r=>setTimeout(r,10));
