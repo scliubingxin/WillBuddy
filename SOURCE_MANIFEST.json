@@ -1,14 +1,14 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.17.0",
+  "version": "0.18.0",
   "packaged_date": "2026-10-23",
   "provenance": "Complete validated source snapshot; Git commits and deployment are tracked separately",
   "base_source_commit_sha": "ecc5dd81061b5c28999120075d06884a2496114c",
   "release_status": {
     "schema_version": 2,
     "brand": "WillBuddy",
-    "version": "0.17.0",
+    "version": "0.18.0",
     "checked_date": "2026-10-23",
     "source_status": "desktop_source_delivery_not_deployed",
     "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -42,16 +42,17 @@
       "office_preview": "Bundled docx-preview 0.4.1, PPTX renderer1.4.0, bounded XML grid+SSF0.11.2; opaque sandbox; no external app or network; static compatibility limits",
       "external_genoffice_ui": false,
       "preview_transport": "fixed SHA-verified two-resource secure custom protocol; actual Linux Electron file-host and ASAR fixture passed; Mac pending",
-      "preview_timeout": "5s component boot / 15s render, phase-specific errors and manual fresh-token reload"
+      "preview_timeout": "5s component boot / 15s render, phase-specific errors and manual fresh-token reload",
+      "preview_lifecycle": "same scope/id/revision keeps connected frame; chrome-only reconciliation; close/switch/version disposes; no cross-document cache"
     },
     "validation": {
-      "desktop_tests_passed": 166,
+      "desktop_tests_passed": 177,
       "ui_paths_with_mock_bridge": 17,
       "real_cli_child_process_tested": true,
       "agent_http_fixture_to_real_cli_roundtrip_tested": true,
-      "browser_verification": "real_Chromium_headless_shell_CDP_trusted_inputs_and_isolated_world_passed; Electron_adapter_and_approval_model_are_fixtures; full_Chrome_socket_blocked",
+      "browser_verification": "real Chromium regressions passed; native Linux Electron production preload/IPC/ASAR preview passed; Mac target/approvals/model still pending",
       "workspace_browser_test_passed": true,
-      "packaging_tests_passed": 7,
+      "packaging_tests_passed": 9,
       "workspace_test_scope": "real Chromium layout, keyboard, Markdown, preview/export; deterministic native bridge and model content",
       "native_chat_lifecycle_integration": "real HTTP SSE/service/Chromium; new real CLI queue/service/Chromium lifecycle; native bridge and approvals are fixtures",
       "mac_native_runtime_verified": false,
@@ -61,7 +62,7 @@
       "theme_check": "Chinese font available for documentation screenshots; production forms and layout inspected; no Mac pixel/runtime validation",
       "offline_bundle": {
         "official_runtime_sha256": "passed",
-        "asar_content": "61 production files match exact bytes",
+        "asar_content": "69 production files exact bytes",
         "zip_integrity": "passed",
         "closed_inventory": "passed; 282 app entries + 5 extras; 14 symlinks; no residue",
         "unexpected_entry_negative": "passed even when every manifest file remains unchanged",
@@ -75,7 +76,7 @@
       },
       "service_boundary_tests_passed": 9,
       "streaming_http_to_chromium_passed": true,
-      "chromium_acceptance_tests_passed": 11,
+      "chromium_acceptance_tests_passed": 12,
       "streaming_to_real_node_cli_passed": true,
       "markdown_and_sandboxed_html_passed": true,
       "command_queue_tests_passed": 14,
@@ -101,7 +102,9 @@
       "spreadsheet_independent_recalculation": "openpyxl formula/cache inspection; LibreOfficeDev 26.8.0.0.alpha0 independent recalculation matches 8 formula cells; not full Excel parity",
       "original_python_executor_tests_this_iteration": "not rerun; protected original files unchanged",
       "word_paragraph_new_tests": 10,
-      "word_paragraph_real_chromium": "production insert/undo/savev2/export/python-docx/reload/delete/undov3/export/disk reload; native bridge/approval fixtures"
+      "word_paragraph_real_chromium": "production insert/undo/savev2/export/python-docx/reload/delete/undov3/export/disk reload; native bridge/approval fixtures",
+      "preview_lifecycle_tests": 4,
+      "preview_lifecycle_native": "Linux Electron actual preload/IPC source+ASAR; 3 formats x20 UI redraws, zero extra reads/same child frame; Mac pending"
     },
     "rea": {
       "version": "6.7.0",
@@ -162,13 +165,13 @@
     },
     {
       "path": "ITERATION_LOG.md",
-      "bytes": 146767,
-      "sha256": "946480176ded4b989e0806b44d2bac3496b3fb6f4bfaf963dc30b9e423aad242"
+      "bytes": 147409,
+      "sha256": "2184ce132ee007a102b81341afc68c02a7b4765b742d810d827281e0d5c1f9cd"
     },
     {
       "path": "ITERATION_PLAN.md",
-      "bytes": 37111,
-      "sha256": "00100d529a50aa723e2877c52f53f99411be55a125ef191e2e5344a17d1d72ea"
+      "bytes": 37753,
+      "sha256": "f4c097138c9f32547d606c7923791244e018dc9c0814d2f93170a523126623a3"
     },
     {
       "path": "OPENWORKBUDDY_REFERENCE.md",
@@ -182,13 +185,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 18957,
-      "sha256": "d926c40a8215b1fbc24823a6352c93a685e6e16328276fc85c3627677f3dce75"
+      "bytes": 19220,
+      "sha256": "0c483ad199e08f500108062cc1acd511eca271250ebf16acd516079fdd645843"
     },
     {
       "path": "RELEASE_STATUS.json",
-      "bytes": 8504,
-      "sha256": "ac18eec74705b7397c367a5e984a6a4ac6870d028ef20cc176bccbe1d415c8fd"
+      "bytes": 8833,
+      "sha256": "ae576225abcc4aec815aae6d72e975ed8cd55cd7983472c5a1b55c1e71ef63b7"
     },
     {
       "path": "SELF_TEST_MATRIX.md",
@@ -667,8 +670,8 @@
     },
     {
       "path": "desktop/README.md",
-      "bytes": 18887,
-      "sha256": "26f5cfacac82193228bb3ef9b15cc2b92c2c4add41bb698be8306fd7b53b583c"
+      "bytes": 19153,
+      "sha256": "1e4b6e3b13b2e1dc3ddc31794f442cbe6ae18fb53c46b9e35f4f80c0cebc77a2"
     },
     {
       "path": "desktop/assets/app.icns",
@@ -753,12 +756,12 @@
     {
       "path": "desktop/package-lock.json",
       "bytes": 279311,
-      "sha256": "a555fb4c33519d178279cdb80474af853fcb700acdc0f93f7531e0d55ab36202"
+      "sha256": "5e89d622525985eedd87a4f665e2d662820d6d160338a6beecb37e6a65682614"
     },
     {
       "path": "desktop/package.json",
       "bytes": 2931,
-      "sha256": "ec95c16e53d3f87382926efde37aaaaf7ed8e89838fa0f83f6afc116323b0637"
+      "sha256": "46ef6bd9ff27904d10967a8a4cb355050a55391314404cafcb02614c38d830fa"
     },
     {
       "path": "desktop/preload.cjs",
@@ -912,8 +915,8 @@
     },
     {
       "path": "desktop/src/app.js",
-      "bytes": 63726,
-      "sha256": "41a039bd3c2831981121e8b34eb48e4c5a227aff81bcbf11054e05f21d68429d"
+      "bytes": 63839,
+      "sha256": "aa60384ac9d1dd901479f6d703ddbe636242f435424cee1d2e0435cc5874f0a5"
     },
     {
       "path": "desktop/src/assets/logo.png",
@@ -979,6 +982,11 @@
       "path": "desktop/src/ui/office-preview.js",
       "bytes": 2860,
       "sha256": "ad763c861aca12e4bf920a287f852e7d6eca7d36e65aae1d17ca63f0676efc72"
+    },
+    {
+      "path": "desktop/src/ui/office-workspace.js",
+      "bytes": 2493,
+      "sha256": "67b76dce3895d8bef7b43f839c9959547857e5903b84333d5a812f8bcb5e48f2"
     },
     {
       "path": "desktop/src/ui/runs.js",
@@ -1057,8 +1065,8 @@
     },
     {
       "path": "desktop/tests/acceptance/office-preview-live.mjs",
-      "bytes": 5639,
-      "sha256": "12fd2793f092fe23ee333386e863d8caf8f91f0cb54e92f89a5a40aa2a46bd94"
+      "bytes": 7718,
+      "sha256": "0ab242a941c32526044e836c9a8f687ed20da6eb369d08676ffc30f8c0a26391"
     },
     {
       "path": "desktop/tests/acceptance/runs-live.mjs",
@@ -1137,8 +1145,8 @@
     },
     {
       "path": "desktop/tests/helpers/load-ui.mjs",
-      "bytes": 1210,
-      "sha256": "3ecd5bbbf724a1d523a4ad7af4af4ebcb28983b9f2afaf9bd8ea932c240cfc92"
+      "bytes": 1326,
+      "sha256": "3e0bb5668a8b648583f3a870b4135474b873436435af75437b51e171a950f985"
     },
     {
       "path": "desktop/tests/helpers/word-fixture.mjs",
@@ -1152,13 +1160,18 @@
     },
     {
       "path": "desktop/tests/native/production-preview.mjs",
-      "bytes": 5235,
-      "sha256": "5a3f139104b663d3f1ed7f23d90730bd2f59bc4f8317fca5501eb55f923692f1"
+      "bytes": 6311,
+      "sha256": "5ccb7f2a7c2c52b9312a059fcd89095d2884b403dfb9e69f671f071b7753cd8c"
     },
     {
       "path": "desktop/tests/office-preview.test.mjs",
       "bytes": 2039,
       "sha256": "332539cae799944d214775f0c6721c03e4034bbdc7484ab41f7df541863f61ef"
+    },
+    {
+      "path": "desktop/tests/office-workspace.test.mjs",
+      "bytes": 3575,
+      "sha256": "080de13c089bf7f69c4d35bdd2711ddad072d5ca742826a8bf0d4a24ad02d366"
     },
     {
       "path": "desktop/tests/preview-protocol.test.mjs",
@@ -1261,14 +1274,19 @@
       "sha256": "f3f47545c4f9fbc60054fe483798dcc7e0fa39520ea2a62d63a3159ea5b2e3b9"
     },
     {
+      "path": "docs/PREVIEW_LIFECYCLE.md",
+      "bytes": 3518,
+      "sha256": "026aefa9248e6d7462ddf0af02d6e437f30fe15442041f53237b4bdbc257995a"
+    },
+    {
       "path": "docs/PREVIEW_TIMEOUT_FIX.md",
       "bytes": 3937,
       "sha256": "eb2eb80e4dc0e4bb756d65f39356d2c1926298dd0a65272460d806d023050d7c"
     },
     {
       "path": "docs/QUICK_GAPS.md",
-      "bytes": 12753,
-      "sha256": "533666ab74e72947964a10ce6d9ac11d89580faaee3893c3de80e3125448dd2c"
+      "bytes": 13390,
+      "sha256": "b7b3430dbe7b35ddd7653265a06e41b502ccc644d6ef983d46994beb26335ed9"
     },
     {
       "path": "docs/REA_FINDINGS.md",
@@ -1404,6 +1422,11 @@
       "path": "docs/validation/v0.17.0.json",
       "bytes": 2864,
       "sha256": "1f9c4ca0bdd620358c9aea789a843c326dc86ceb8d3128ff0e0a0c73fd9cc100"
+    },
+    {
+      "path": "docs/validation/v0.18.0.json",
+      "bytes": 2185,
+      "sha256": "7b82853abce0b80c3c1e18ebf59ab92c29e71e1e48abcf53e4c452ccd4d2eb1e"
     },
     {
       "path": "docs/validation/v0.5.0.json",

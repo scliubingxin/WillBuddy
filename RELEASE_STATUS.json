@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.17.0",
+  "version": "0.18.0",
   "checked_date": "2026-10-23",
   "source_status": "desktop_source_delivery_not_deployed",
   "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -35,16 +35,17 @@
     "office_preview": "Bundled docx-preview 0.4.1, PPTX renderer1.4.0, bounded XML grid+SSF0.11.2; opaque sandbox; no external app or network; static compatibility limits",
     "external_genoffice_ui": false,
     "preview_transport": "fixed SHA-verified two-resource secure custom protocol; actual Linux Electron file-host and ASAR fixture passed; Mac pending",
-    "preview_timeout": "5s component boot / 15s render, phase-specific errors and manual fresh-token reload"
+    "preview_timeout": "5s component boot / 15s render, phase-specific errors and manual fresh-token reload",
+    "preview_lifecycle": "same scope/id/revision keeps connected frame; chrome-only reconciliation; close/switch/version disposes; no cross-document cache"
   },
   "validation": {
-    "desktop_tests_passed": 166,
+    "desktop_tests_passed": 177,
     "ui_paths_with_mock_bridge": 17,
     "real_cli_child_process_tested": true,
     "agent_http_fixture_to_real_cli_roundtrip_tested": true,
-    "browser_verification": "real_Chromium_headless_shell_CDP_trusted_inputs_and_isolated_world_passed; Electron_adapter_and_approval_model_are_fixtures; full_Chrome_socket_blocked",
+    "browser_verification": "real Chromium regressions passed; native Linux Electron production preload/IPC/ASAR preview passed; Mac target/approvals/model still pending",
     "workspace_browser_test_passed": true,
-    "packaging_tests_passed": 7,
+    "packaging_tests_passed": 9,
     "workspace_test_scope": "real Chromium layout, keyboard, Markdown, preview/export; deterministic native bridge and model content",
     "native_chat_lifecycle_integration": "real HTTP SSE/service/Chromium; new real CLI queue/service/Chromium lifecycle; native bridge and approvals are fixtures",
     "mac_native_runtime_verified": false,
@@ -54,7 +55,7 @@
     "theme_check": "Chinese font available for documentation screenshots; production forms and layout inspected; no Mac pixel/runtime validation",
     "offline_bundle": {
       "official_runtime_sha256": "passed",
-      "asar_content": "61 production files match exact bytes",
+      "asar_content": "69 production files exact bytes",
       "zip_integrity": "passed",
       "closed_inventory": "passed; 282 app entries + 5 extras; 14 symlinks; no residue",
       "unexpected_entry_negative": "passed even when every manifest file remains unchanged",
@@ -68,7 +69,7 @@
     },
     "service_boundary_tests_passed": 9,
     "streaming_http_to_chromium_passed": true,
-    "chromium_acceptance_tests_passed": 11,
+    "chromium_acceptance_tests_passed": 12,
     "streaming_to_real_node_cli_passed": true,
     "markdown_and_sandboxed_html_passed": true,
     "command_queue_tests_passed": 14,
@@ -94,7 +95,9 @@
     "spreadsheet_independent_recalculation": "openpyxl formula/cache inspection; LibreOfficeDev 26.8.0.0.alpha0 independent recalculation matches 8 formula cells; not full Excel parity",
     "original_python_executor_tests_this_iteration": "not rerun; protected original files unchanged",
     "word_paragraph_new_tests": 10,
-    "word_paragraph_real_chromium": "production insert/undo/savev2/export/python-docx/reload/delete/undov3/export/disk reload; native bridge/approval fixtures"
+    "word_paragraph_real_chromium": "production insert/undo/savev2/export/python-docx/reload/delete/undov3/export/disk reload; native bridge/approval fixtures",
+    "preview_lifecycle_tests": 4,
+    "preview_lifecycle_native": "Linux Electron actual preload/IPC source+ASAR; 3 formats x20 UI redraws, zero extra reads/same child frame; Mac pending"
   },
   "rea": {
     "version": "6.7.0",
