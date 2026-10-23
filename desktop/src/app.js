@@ -1,3 +1,4 @@
+import {mountOfficePreview} from './ui/office-preview.js';
 import {mountSpreadsheet} from './ui/spreadsheet.js';
 import {mountWordRuns} from './ui/word-runs.js';
 import {mountWordCanvas} from './ui/word-canvas.js';
@@ -58,6 +59,7 @@ function empty(title, desc, button = '') { return `<div class="empty">${icon('sp
 function heading(kicker, title, desc, button = '') { return `<div class="page-title"><div><div class="eyebrow">${kicker}</div><h1>${title}</h1><p>${desc}</p></div>${button}</div>`; }
 function date(t) { return new Date(t).toLocaleString('zh-CN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }); }
 const boundComposers=new WeakSet();
+let officeDispose;
 function render() {
     pending=pendingChats.has(chatId);
     const previousComposer=$('#prompt');
@@ -67,6 +69,7 @@ function render() {
     const name = state.settings.name || '我的工作空间';
     $('#app').className = sidebarCollapsed ? 'sidebar-collapsed' : '';
     $('#app').innerHTML = `<div class="titlebar"></div><aside class="sidebar"><div class="brand"><span class="brand-mark"><img src="assets/logo.png" alt="WillBuddy 工具 logo"></span><div>WillBuddy<small>你的桌面工作伙伴</small></div></div><button class="new" data-action="new">${icon('plus')}<span>新建任务</span><span>⌘ N</span></button><nav class="nav">${nav.filter(n => ['home', 'feed', 'library', 'files', 'agents'].includes(n[0])).map(([id, i, title]) => `<button class="${page === id ? 'active' : ''}" data-page="${id}">${icon(i)}<span>${title}</span></button>`).join('')}<details class="more-nav" ${['tools', 'tasks', 'context'].includes(page) ? 'open' : ''}><summary>${icon('grid')}<span>更多工具</span></summary>${nav.filter(n => ['tools', 'tasks', 'context'].includes(n[0])).map(([id, i, title]) => `<button class="${page === id ? 'active' : ''}" data-page="${id}">${icon(i)}<span>${title}</span></button>`).join('')}</details></nav><div class="recent"><div class="recent-header"><span>任务 <small>${state.chats.length}</small></span><button data-action="search" aria-label="搜索任务与成果">${icon('search')}</button></div><input id="recentQuery" aria-label="筛选历史任务" placeholder="筛选任务" value="${escape(recentQuery)}"><div id="recentList">${recentRows()}</div></div><button class="profile" data-action="settings"><div class="avatar">WB</div><div>${escape(name)}<small>${escape(state.settings.model)} · 本地工作空间</small></div>${icon('settings')}</button></aside><main class="main"><header class="topbar"><div><button class="icon-button" data-action="sidebarToggle" aria-label="${sidebarCollapsed ? '展开' : '收起'}侧栏">${icon('grid')}</button><span class="topbar-title">${escape(page === 'chat' ? state.chats.find(c => c.id === chatId)?.name || '新任务' : active?.[2] || '工作台')}</span></div><div><button class="topbar-action" data-page="tasks" aria-label="查看后台任务">后台 ${(state.runJobs||[]).filter(j=>['running','cancelling'].includes(j.status)).length} 执行 · ${(state.runJobs||[]).filter(j=>j.status==='queued').length} 排队</button>${page === 'chat' ? `<button class="topbar-action" data-action="panelTab" data-id="execution">${icon('activity')}执行过程</button>` : ''}<button class="topbar-action ${sidePanel ? 'chosen' : ''}" data-action="panelToggle">${icon('file')}工作区</button><button class="status" data-action="settings"><span class="dot ${state.settings.hasKey ? 'on' : ''}"></span>${state.settings.hasKey ? escape(state.settings.model) : '连接模型'}</button></div></header><div class="workbench ${sidePanel ? 'with-panel' : ''}"><div class="workspace ${page === 'chat' ? 'conversation-space' : ''}">${content()}</div>${sidePanel ? previewPanel() : ''}</div></main>`;
+    officeDispose?.();const officeHost=document.querySelector('.office-host');officeDispose=officeHost?mountOfficePreview(officeHost,invoke):undefined;
     if(previousComposer&&$('#prompt'))$('#prompt').replaceWith(previousComposer);
     const composer = $('#prompt');
     if(composer&&composer.value!==draft)composer.value=draft;
@@ -362,8 +365,7 @@ async function handle(actionId, id) {
     if (actionId?.startsWith('document')) {
         const d=(state.documents||[]).find(x=>x.id===id);if(!d)throw Error('文档不存在');
         if(actionId==='documentConvert'){toast('正在本机转换为Word…');const result=await invoke('documentOperation',{operation:'document_convert',id,expectedRevision:d.revision});if(result.status==='denied')return;if(result.status!=='succeeded')throw Error(result.error||'转换未完成');await update('state');const doc=result.document;openPreview({id:'document:'+doc.id,name:doc.name+'.docx',text:doc.text,kind:'document',documentId:doc.id});toast('真实Word文档已保存，可直接导出');return;}
-        if(actionId==='documentGenOffice'){const result=await invoke('genofficeOpen',{id,revision:d.revision});if(result.status==='denied')return;toast('已交给 GenOffice 编辑副本；保存后、退出WillBuddy前点击「收回编辑结果」');return;}
-        if(actionId==='documentGenOfficeImport'){const result=await invoke('genofficeImport',{id});if(result.status==='denied')return;await update('state');toast('已验证并保存编辑后的新版本');return;}
+        if(['documentGenOffice','documentGenOfficeImport'].includes(actionId)){openPreview({id:'document:'+d.id,name:d.name+'.'+d.format,text:d.text,kind:'document',documentId:d.id});return;}
         if(actionId==='documentWordEditor'){
             const editor=await invoke('documentEditor',{id,mode:'runs'});let word;
             modal('Word 分段编辑 · '+d.name,'<div id="wordRuns"></div>','保存Word新版本',async()=>{
@@ -380,7 +382,7 @@ async function handle(actionId, id) {
                 });sheet=mountSpreadsheet($('#spreadsheetEditor'),editor);return;
             }
             const fields=editor.kind==='source'?area('文档原文','source',editor.source):editor.kind==='blocks'?editor.blocks.map((b,i)=>area((d.format==='pptx'?'演示文本块 ':'段落 ')+(i+1),'block'+i,b.text)).join(''):editor.cells.map((c,i)=>input('工作表 '+c.sheetIndex+' · '+c.address,'cell'+i,c.value===null?'':String(c.value))).join('');
-            modal('编辑内容 · '+d.name, '<p>修改当前文档内容并保存新版本。Word/PPT 为段落内容编辑，整段修改采用首文字样式；保留其他文件部件。复杂排版/公式请使用 GenOffice。</p><div class="editor-fields">'+fields.replace(/ required/g,'')+'</div>','保存文档版本',async f=>{
+            modal('编辑内容 · '+d.name, '<p>修改当前文档内容并保存新版本。Word/PPT 为段落内容编辑，整段修改采用首文字样式；保留其他文件部件。复杂排版暂不支持在此编辑，请在工作区预览。</p><div class="editor-fields">'+fields.replace(/ required/g,'')+'</div>','保存文档版本',async f=>{
                 const patch=editor.kind==='source'?{source:f.get('source')}:editor.kind==='blocks'?{blocks:editor.blocks.flatMap((b,i)=>f.get('block'+i)!==b.text?[{...b,text:f.get('block'+i)}]:[])}:{cells:editor.cells.flatMap((c,i)=>{const v=f.get('cell'+i);if(v===(c.value===null?'':String(c.value)))return [];return [{...c,value:typeof c.value==='number'&&v.trim()!==''&&Number.isFinite(Number(v))?Number(v):typeof c.value==='boolean'&&['true','false'].includes(v)?v==='true':v}];})};
                 const result=await invoke('documentSaveEditor',{id,revision:editor.revision,patch});if(result.status!=='succeeded')throw Error(result.error||'未保存');await update('state');toast('编辑已保存，可下载新版本');
             });return;
