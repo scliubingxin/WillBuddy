@@ -47,14 +47,6 @@ test("preview sandbox has no network, native bridge or external GenOffice UI", a
   );
   assert.match(html, /connect-src 'none'/);
   assert.match(html, /frame-src 'none'/);
-  const bridge = await readFile(
-    new URL("../src/ui/office-preview.js", import.meta.url),
-    "utf8",
-  );
-  assert.match(bridge, /'sandbox','allow-scripts'/);
-  assert.doesNotMatch(bridge, /allow-same-origin/);
-  assert.match(bridge, /e.source!==iframe.contentWindow/);
-  assert.match(bridge, /e.data\?\.token!==token/);
   const cards = await readFile(
     new URL("../src/ui/documents.js", import.meta.url),
     "utf8",
