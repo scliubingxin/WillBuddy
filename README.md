@@ -10,7 +10,7 @@
 
 应用包内置 Electron、Chromium、Node 和基础 Office 文档编解码器，安装时无需再执行 `npm install`。**离线安装不等于所有 AI 功能都能断网运行**：使用云模型、访问网页需要联网；纯离线推理需要自行准备本地模型及运行环境。目前只制作 Apple 芯片（arm64）Mac 应用。
 
-> 本文介绍已交付的桌面 **0.14.0**，对应代码在 [`willbuddy-v0.14.0-spreadsheet-formulas`](https://github.com/scliubingxin/WillBuddy/tree/willbuddy-v0.14.0-spreadsheet-formulas) 分支；`main` 尚未合入该版本，开发时请先切换分支。处于持续开发阶段；已提供的离线包为 ad-hoc 签名候选版，尚未完成 Apple Developer ID 签名、公证及 Mac 原生完整验收。仓库已公开源码，许可证状态见[许可与项目定位](#许可与项目定位)。
+> 本文介绍已交付的桌面 **0.15.0**，对应代码在 [`willbuddy-v0.15.0-word-paragraphs`](https://github.com/scliubingxin/WillBuddy/tree/willbuddy-v0.15.0-word-paragraphs) 分支；`main` 尚未合入该版本，开发时请先切换分支。处于持续开发阶段；已提供的离线包为 ad-hoc 签名候选版，尚未完成 Apple Developer ID 签名、公证及 Mac 原生完整验收。仓库已公开源码，许可证状态见[许可与项目定位](#许可与项目定位)。
 
 ![WillBuddy 桌面 AI 工作流：目标、自选模型、受控工具、可编辑成果](docs/images/workflow.svg)
 
@@ -37,6 +37,12 @@
 ![WillBuddy 表格计算编辑器：公式、跨表引用和即时计算结果](docs/images/spreadsheet-formulas.png)
 
 *生产 Chromium 页面和真实 XLSX，合成预算数据、模拟原生桥与审批；8 个公式结果与容器 LibreOffice 重算一致，不是 Excel 全兼容或 Mac 真机验收。详见[公式范围与使用说明](docs/SPREADSHEET_FORMULAS.md)。*
+
+**0.15.0 新增导入 Word 的段落增删**：在简单正文段落后插入内容，或标记删除本段，保存前可以撤销。AI也可读取段落坐标后完成增删；保留原件、历史版本、未修改部件及既有Word/Excel能力。
+
+![WillBuddy 导入Word新增正文段落，保存为真实DOCX新版本](docs/images/word-paragraphs.png)
+
+*生产 Chromium 界面、真实DOCX与合成数据，原生桥和审批仍为测试适配器。表格/页眉页脚仅保留原片段编辑，复杂段落及带样式引用/编号/分节属性结构只读；不是分页保真编辑器。见[段落编辑说明](docs/WORD_PARAGRAPHS.md)。*
 
 ## 功能一览
 
@@ -81,7 +87,7 @@
 
 适用平台：**Apple 芯片 Mac / arm64，最低 macOS 12**。当前不提供 Intel Mac 安装包。
 
-1. 获取实际交付的 `WillBuddy-v0.14.0-mac-arm64-offline.zip`。公开安装包是否已发布，请以仓库 [Releases](https://github.com/scliubingxin/WillBuddy/releases) 的实际内容为准；源码分支本身不是安装包。
+1. 获取实际交付的 `WillBuddy-v0.15.0-mac-arm64-offline.zip`。公开安装包是否已发布，请以仓库 [Releases](https://github.com/scliubingxin/WillBuddy/releases) 的实际内容为准；源码分支本身不是安装包。
 2. 先把 ZIP 完整解压到“下载”等用户目录，保留 `.app` 内的符号链接；不要直接向 `/Applications` 解压。
 3. 将 `WillBuddy.app` 移入“应用程序”；也可使用包内安装脚本安装到个人 `Applications` 目录。脚本会执行原生签名检查。
 4. 打开应用，在左下角配置模型，然后新建一个任务。
@@ -174,7 +180,7 @@ WillBuddy 不内置付费模型账户，也不要求使用特定云厂商。
 git clone https://github.com/scliubingxin/WillBuddy.git
 cd WillBuddy
 # 本说明对应已交付的桌面修复分支；main 尚未合入该版本。
-git switch willbuddy-v0.14.0-spreadsheet-formulas
+git switch willbuddy-v0.15.0-word-paragraphs
 npm --prefix desktop ci
 npm --prefix desktop start
 ```
@@ -207,7 +213,7 @@ npm --prefix desktop test
 
 ## 项目状态与路线
 
-0.14.0 的代码验证包括 **156 项核心测试、10 项真实 Chromium 验收及 9 项打包测试**。原生审批、IPC 和部分模型响应使用测试适配器；这不代表已经完成 Mac 原生、真实付费模型或 Office/WPS 保真验收。
+0.15.0 的代码验证包括 **166 项核心测试、11 项真实 Chromium 验收及 9 项打包测试**。原生审批、IPC 和部分模型响应使用测试适配器；这不代表已经完成 Mac 原生、真实付费模型或 Office/WPS 保真验收。
 
 近期重点：
 
@@ -216,7 +222,7 @@ npm --prefix desktop test
 - Mac 原生安装、严格签名、公证、审批和真实模型验证。
 - 受控并行子任务、跨队列公平、桌面 MCP 和 Web/桌面共用核心。
 
-查看：[发布状态](RELEASE_STATUS.json) · [迭代计划](ITERATION_PLAN.md) · [迭代日志](ITERATION_LOG.md) · [Quick 能力差距](docs/QUICK_GAPS.md) · [0.14.0 验证记录](docs/validation/v0.14.0.json)。
+查看：[发布状态](RELEASE_STATUS.json) · [迭代计划](ITERATION_PLAN.md) · [迭代日志](ITERATION_LOG.md) · [Quick 能力差距](docs/QUICK_GAPS.md) · [0.15.0 验证记录](docs/validation/v0.15.0.json)。
 
 ## 许可与项目定位
 

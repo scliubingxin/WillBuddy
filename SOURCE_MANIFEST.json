@@ -1,14 +1,14 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "packaged_date": "2026-10-23",
   "provenance": "Complete validated source snapshot; Git commits and deployment are tracked separately",
   "base_source_commit_sha": "ecc5dd81061b5c28999120075d06884a2496114c",
   "release_status": {
     "schema_version": 2,
     "brand": "WillBuddy",
-    "version": "0.14.0",
+    "version": "0.15.0",
     "checked_date": "2026-10-23",
     "source_status": "desktop_source_delivery_not_deployed",
     "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -37,10 +37,11 @@
       "document_delivery": "trusted run-linked binary cards; reply/workspace export routes to actual Office bytes; chat export explicitly Markdown",
       "document_editor": "imported DOCX targeted run text/bold/italic editing; original parts retained, complex paragraphs read-only; existing GenOffice canvas retained",
       "genoffice": "bundled Apache-2.0 HTML→DOCX engine subset, pinned 342abce; local Word canvas and md/html conversion; full suite not embedded",
-      "spreadsheet_formulas": "pure JS bounded 7-function evaluator; A1/cross-sheet dependencies; live preview + independent main recalculation and real XLSX typed caches; unsupported formulas/derived objects fail closed"
+      "spreadsheet_formulas": "pure JS bounded 7-function evaluator; A1/cross-sheet dependencies; live preview + independent main recalculation and real XLSX typed caches; unsupported formulas/derived objects fail closed",
+      "word_paragraphs": "bounded top-level plain body paragraph insertAfter/deleteParagraph; pPr/first rPr retention; anchored revision approval, undo before save; complex/style/section/range protection"
     },
     "validation": {
-      "desktop_tests_passed": 156,
+      "desktop_tests_passed": 166,
       "ui_paths_with_mock_bridge": 17,
       "real_cli_child_process_tested": true,
       "agent_http_fixture_to_real_cli_roundtrip_tested": true,
@@ -70,7 +71,7 @@
       },
       "service_boundary_tests_passed": 9,
       "streaming_http_to_chromium_passed": true,
-      "chromium_acceptance_tests_passed": 10,
+      "chromium_acceptance_tests_passed": 11,
       "streaming_to_real_node_cli_passed": true,
       "markdown_and_sandboxed_html_passed": true,
       "command_queue_tests_passed": 14,
@@ -94,7 +95,9 @@
       "spreadsheet_formula_new_tests": 20,
       "spreadsheet_actual_chromium": "production create/edit/tab draft retention/preview/unsupported block/binary export/disk reload; native IPC/approval fixtures",
       "spreadsheet_independent_recalculation": "openpyxl formula/cache inspection; LibreOfficeDev 26.8.0.0.alpha0 independent recalculation matches 8 formula cells; not full Excel parity",
-      "original_python_executor_tests_this_iteration": "not rerun; protected original files unchanged"
+      "original_python_executor_tests_this_iteration": "not rerun; protected original files unchanged",
+      "word_paragraph_new_tests": 10,
+      "word_paragraph_real_chromium": "production insert/undo/savev2/export/python-docx/reload/delete/undov3/export/disk reload; native bridge/approval fixtures"
     },
     "rea": {
       "version": "6.7.0",
@@ -102,7 +105,7 @@
       "javascript_analysis": "partial_host_process_ownership_blocked",
       "report": "docs/REA_FINDINGS.md"
     },
-    "notes": "0.14 adds bounded actual XLSX formula calculation and editing, typed caches, stale calcChain removal, style preservation, explicit formula objects and independent host validation; retains 0.13 imported Word, GenOffice subset, browser scoped consent, parallel tasks, original Web/Python and identity. No Mac/paid-model/Excel-WPS/full formula compatibility claim. Source ZIP publishes atomically after verification; prior remote truncation root cause remains unknown.",
+    "notes": "0.15 adds actual Word body paragraph structure edits through existing approved/anchored/versioned candidate service. No whole-document rebuild; complex/style/section/range structures protected. Original Web/Python, identity, browser scoped consent, parallel tasks, formulas and GenOffice subset retained; no Mac/paid-model/Word-WPS native or full fidelity claim.",
     "architecture": {
       "guide": "docs/ARCHITECTURE.md",
       "layers": [
@@ -155,13 +158,13 @@
     },
     {
       "path": "ITERATION_LOG.md",
-      "bytes": 143436,
-      "sha256": "571bc6dba7d44b6cabb857ec164e586b77e11aadc6aea1cbee001006b9adcc7c"
+      "bytes": 145577,
+      "sha256": "b3c5648a87b35be965fcbeceee7f66ed29c7d56771122d8b2e76c83f50479429"
     },
     {
       "path": "ITERATION_PLAN.md",
-      "bytes": 34409,
-      "sha256": "05bd66a069b89e1996b1f8e1e66859b5dfa38980061224f8a58390465f71882c"
+      "bytes": 35921,
+      "sha256": "5518aa52e5b9f86556c71cd314fe5a8561c1c85e12b408fea1bb4dfb6837c357"
     },
     {
       "path": "OPENWORKBUDDY_REFERENCE.md",
@@ -175,13 +178,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 17810,
-      "sha256": "737ca8846435e304ba3549adf371ebf735349cc8c6eb0af77342d592394310aa"
+      "bytes": 18446,
+      "sha256": "fbd74316f33b724d79c13a4d48ec08c98eb4036ae2da4dcce457a628ffd614dd"
     },
     {
       "path": "RELEASE_STATUS.json",
-      "bytes": 7734,
-      "sha256": "ffb35d6b31159777fa2acdc9d0d62c6e070fc0462dc03dbe9628b3277a22e200"
+      "bytes": 8032,
+      "sha256": "a010a27dca7f6b90e211fd5bb488085a59f57b63002764073cec83b846058e7e"
     },
     {
       "path": "SELF_TEST_MATRIX.md",
@@ -660,8 +663,8 @@
     },
     {
       "path": "desktop/README.md",
-      "bytes": 18121,
-      "sha256": "1c03d18ac40cd65c3ce7a7aabceaed5e7c74069328689824ec53d220bcc29ff6"
+      "bytes": 18456,
+      "sha256": "582587a1afbf0e361bd9b416e02fabc2d8ea278c8dff9c618ffcf6415377c518"
     },
     {
       "path": "desktop/assets/app.icns",
@@ -741,12 +744,12 @@
     {
       "path": "desktop/package-lock.json",
       "bytes": 200281,
-      "sha256": "a3cef070da179ba345019f6fdec054d4bc29cd3190300505d24f037f2e613b88"
+      "sha256": "b8076df4486be4c6df8673ebd9ee5db9208c854d05a43a98acb16ba61e3ccdac"
     },
     {
       "path": "desktop/package.json",
       "bytes": 2600,
-      "sha256": "8f2f5181f3e20daa8682e4509fa8b6d332582b781ef9986646217a492dc5540c"
+      "sha256": "5b7b51e611b57d3dcfd80d55b26d31a59a154128ac0a92aab463960df95022db"
     },
     {
       "path": "desktop/preload.cjs",
@@ -755,8 +758,8 @@
     },
     {
       "path": "desktop/runtime/agent.mjs",
-      "bytes": 10454,
-      "sha256": "90c28eeaa4aede4ea58dd141848322f0666d9698a30ca60babb7ccadb23b934c"
+      "bytes": 10665,
+      "sha256": "336b86b43e45d9e02aed071289adba65bd9393e6c8f1952de82acbd42f71253e"
     },
     {
       "path": "desktop/runtime/browser-dom.mjs",
@@ -860,8 +863,8 @@
     },
     {
       "path": "desktop/runtime/word-structure.mjs",
-      "bytes": 7378,
-      "sha256": "fba925b86275a5076ab4df5b579ef171a10647b2e5ba3a0a4f6aa66f4183434f"
+      "bytes": 11778,
+      "sha256": "92b7200f1e03bb91375cc38bcf793052511dbde73f67485b0b0741823abd25eb"
     },
     {
       "path": "desktop/services/commands.mjs",
@@ -875,8 +878,8 @@
     },
     {
       "path": "desktop/services/documents.mjs",
-      "bytes": 14732,
-      "sha256": "f1762b675148d0ea2ded60230630c55734f38aedc92ef707388242844c67a0c9"
+      "bytes": 14739,
+      "sha256": "f7d3cfb2b68b5b55d8b1776cb654cf03c8a8b93dd43b770dcbb876fcb4d28cc4"
     },
     {
       "path": "desktop/services/recovery.mjs",
@@ -920,8 +923,8 @@
     },
     {
       "path": "desktop/src/styles.css",
-      "bytes": 17899,
-      "sha256": "12bb8d4742a5e8ec57770fca8fdf0a06d825834344b084250d5ef5c2b1977053"
+      "bytes": 18340,
+      "sha256": "d73e3672814a7ff21d159c9b2d6017bcb820b7b9df378cfd5c930d7f81ef1415"
     },
     {
       "path": "desktop/src/ui/commands.js",
@@ -955,8 +958,8 @@
     },
     {
       "path": "desktop/src/ui/word-runs.js",
-      "bytes": 3526,
-      "sha256": "5493f14564a056f53bca30bef4048316bd282ffa5ed9794af2391d68a6c0c475"
+      "bytes": 5666,
+      "sha256": "8e961698b1c5343845d22968e8a4fabc94b8515541598316d17c0e4fb1091396"
     },
     {
       "path": "desktop/src/ui/workspace.js",
@@ -1032,6 +1035,11 @@
       "path": "desktop/tests/acceptance/word-import-live.mjs",
       "bytes": 6946,
       "sha256": "6a821f7beb06db5520344f3e3fff0b540016f76961357bbaa71039d5620e53a2"
+    },
+    {
+      "path": "desktop/tests/acceptance/word-paragraphs-live.mjs",
+      "bytes": 8193,
+      "sha256": "382c4a1546116ed0dbbc74c846487f181865e2e1f8bbc3df0b36d67b5274411e"
     },
     {
       "path": "desktop/tests/acceptance/workspace-live.mjs",
@@ -1129,9 +1137,14 @@
       "sha256": "44cbbb95d07821a4722b66485b1113b1772cd809c37301ab5512fb174d104807"
     },
     {
+      "path": "desktop/tests/word-paragraphs.test.mjs",
+      "bytes": 7349,
+      "sha256": "a4e3fd72889bcffd05323c0023bf6ee5f857003eb73648d22760c19363516888"
+    },
+    {
       "path": "desktop/tests/word-structure.test.mjs",
-      "bytes": 13349,
-      "sha256": "1fbe8ea5bce3f5db9390b7cf70f028ccd07ff1eea391778a1868175ddd83d201"
+      "bytes": 15803,
+      "sha256": "927af8b6c58959c70996a090b64c4d6321109fd5f8732f65d4ce4eb7a944be7f"
     },
     {
       "path": "desktop/tests/workspace.test.mjs",
@@ -1180,8 +1193,8 @@
     },
     {
       "path": "docs/QUICK_GAPS.md",
-      "bytes": 11122,
-      "sha256": "a7e92d6487e0078b541f399f440ab584f24653ed43d8f073e58c43301b475354"
+      "bytes": 11563,
+      "sha256": "f0a04cabee6a630b240ebf6fba1b5116b8983a82f2930d27bc68f559bbfc4690"
     },
     {
       "path": "docs/REA_FINDINGS.md",
@@ -1219,6 +1232,11 @@
       "sha256": "ea861ee556ad29a046d49655b490321c5374b843dd0a06505bcd06b4f473c895"
     },
     {
+      "path": "docs/WORD_PARAGRAPHS.md",
+      "bytes": 3201,
+      "sha256": "9c1235a6a26832e10426f3af1bc4c42b2cc3e3ed96048be6679c58ce3278fb73"
+    },
+    {
       "path": "docs/images/documents.png",
       "bytes": 207438,
       "sha256": "6c42cd9c65b359a49e85e4d23f8e946e3ff87e0519bd4163761b8cb4fa7eb754"
@@ -1242,6 +1260,11 @@
       "path": "docs/images/word-canvas.png",
       "bytes": 169103,
       "sha256": "c3b3b297813a2852c00623e5ec3804df7d3e4be04397d98e7c0fa656e03974d5"
+    },
+    {
+      "path": "docs/images/word-paragraphs.png",
+      "bytes": 195977,
+      "sha256": "cc2715201d24481d988916dbdadb04f3b5cd3dfb7716111eb3e378a2f9897fec"
     },
     {
       "path": "docs/images/workflow.svg",
@@ -1292,6 +1315,11 @@
       "path": "docs/validation/v0.14.0.json",
       "bytes": 3672,
       "sha256": "c75e6e3c9eaefb21429e93027be2959992ae0aafd869846aba1788c9a203e3dc"
+    },
+    {
+      "path": "docs/validation/v0.15.0.json",
+      "bytes": 2353,
+      "sha256": "b5826bdb7ef5406d339994fa2f360717e7e6beb6bb3707582afb4dec774feb6d"
     },
     {
       "path": "docs/validation/v0.5.0.json",

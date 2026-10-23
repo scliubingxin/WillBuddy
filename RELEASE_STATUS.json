@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "checked_date": "2026-10-23",
   "source_status": "desktop_source_delivery_not_deployed",
   "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -30,10 +30,11 @@
     "document_delivery": "trusted run-linked binary cards; reply/workspace export routes to actual Office bytes; chat export explicitly Markdown",
     "document_editor": "imported DOCX targeted run text/bold/italic editing; original parts retained, complex paragraphs read-only; existing GenOffice canvas retained",
     "genoffice": "bundled Apache-2.0 HTML→DOCX engine subset, pinned 342abce; local Word canvas and md/html conversion; full suite not embedded",
-    "spreadsheet_formulas": "pure JS bounded 7-function evaluator; A1/cross-sheet dependencies; live preview + independent main recalculation and real XLSX typed caches; unsupported formulas/derived objects fail closed"
+    "spreadsheet_formulas": "pure JS bounded 7-function evaluator; A1/cross-sheet dependencies; live preview + independent main recalculation and real XLSX typed caches; unsupported formulas/derived objects fail closed",
+    "word_paragraphs": "bounded top-level plain body paragraph insertAfter/deleteParagraph; pPr/first rPr retention; anchored revision approval, undo before save; complex/style/section/range protection"
   },
   "validation": {
-    "desktop_tests_passed": 156,
+    "desktop_tests_passed": 166,
     "ui_paths_with_mock_bridge": 17,
     "real_cli_child_process_tested": true,
     "agent_http_fixture_to_real_cli_roundtrip_tested": true,
@@ -63,7 +64,7 @@
     },
     "service_boundary_tests_passed": 9,
     "streaming_http_to_chromium_passed": true,
-    "chromium_acceptance_tests_passed": 10,
+    "chromium_acceptance_tests_passed": 11,
     "streaming_to_real_node_cli_passed": true,
     "markdown_and_sandboxed_html_passed": true,
     "command_queue_tests_passed": 14,
@@ -87,7 +88,9 @@
     "spreadsheet_formula_new_tests": 20,
     "spreadsheet_actual_chromium": "production create/edit/tab draft retention/preview/unsupported block/binary export/disk reload; native IPC/approval fixtures",
     "spreadsheet_independent_recalculation": "openpyxl formula/cache inspection; LibreOfficeDev 26.8.0.0.alpha0 independent recalculation matches 8 formula cells; not full Excel parity",
-    "original_python_executor_tests_this_iteration": "not rerun; protected original files unchanged"
+    "original_python_executor_tests_this_iteration": "not rerun; protected original files unchanged",
+    "word_paragraph_new_tests": 10,
+    "word_paragraph_real_chromium": "production insert/undo/savev2/export/python-docx/reload/delete/undov3/export/disk reload; native bridge/approval fixtures"
   },
   "rea": {
     "version": "6.7.0",
@@ -95,7 +98,7 @@
     "javascript_analysis": "partial_host_process_ownership_blocked",
     "report": "docs/REA_FINDINGS.md"
   },
-  "notes": "0.14 adds bounded actual XLSX formula calculation and editing, typed caches, stale calcChain removal, style preservation, explicit formula objects and independent host validation; retains 0.13 imported Word, GenOffice subset, browser scoped consent, parallel tasks, original Web/Python and identity. No Mac/paid-model/Excel-WPS/full formula compatibility claim. Source ZIP publishes atomically after verification; prior remote truncation root cause remains unknown.",
+  "notes": "0.15 adds actual Word body paragraph structure edits through existing approved/anchored/versioned candidate service. No whole-document rebuild; complex/style/section/range structures protected. Original Web/Python, identity, browser scoped consent, parallel tasks, formulas and GenOffice subset retained; no Mac/paid-model/Word-WPS native or full fidelity claim.",
   "architecture": {
     "guide": "docs/ARCHITECTURE.md",
     "layers": [
