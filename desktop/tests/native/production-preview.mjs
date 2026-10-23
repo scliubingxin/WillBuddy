@@ -42,6 +42,7 @@ app.whenReady().then(async () => {
               ["本机直接预览", 7],
             ],
           },
+          { name: "保留选择", rows: [["选择保持"]] },
         ],
       },
       docx: {
@@ -111,6 +112,17 @@ app.whenReady().then(async () => {
       const expected={xlsx:'本机直接预览',docx:'完整末段',pptx:'最后一张'}[d.format];
       if(rendered.ready!=='true'||rendered.error||!rendered.text.includes(expected)||rendered.bridge!=='undefined'||rendered.node!=='undefined')throw Error('预览内容或隔离校验失败 '+JSON.stringify(rendered));
       console.log(JSON.stringify({nativeContentVerified:true,format:d.format,ready:rendered.ready,noBridge:true,noNode:true}));
+      if(d.format==='xlsx') await child.executeJavaScript(`document.querySelectorAll('nav button')[1].click();`);
+      const beforeReads=reads;
+      await win.webContents.executeJavaScript(`window.__retainedPreview=document.querySelector('iframe.office-frame');for(let i=0;i<20;i++)document.querySelector('[data-action="sidebarToggle"]').click();`);
+      const same=await win.webContents.executeJavaScript(`window.__retainedPreview===document.querySelector('iframe.office-frame')`);
+      if(!same||reads!==beforeReads||!win.webContents.mainFrame.frames.includes(child))throw Error('Preview restarted during workspace updates');
+      if(d.format==='xlsx') {
+        const visible=await child.executeJavaScript(`document.querySelector('section:not([hidden])').textContent`);
+        if(!visible.includes('选择保持'))throw Error('Sheet selection reset');
+      }
+      console.log(JSON.stringify({lifecycleVerified:true,format:d.format,updates:20,extraBinaryReads:reads-beforeReads,sameNativeFrame:true}));
+
     }
     if (reads !== 3) throw Error("Unexpected binary reads " + reads);
     console.log(
