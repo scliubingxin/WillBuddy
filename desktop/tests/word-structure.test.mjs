@@ -370,3 +370,77 @@ test("oversized Word structure is not partially returned to models, and canvas W
     /画布/,
   );
 });
+
+test("actual HTTP model fixture reads paragraph anchors and inserts a real Word paragraph through standard tools", async () => {
+  const { store, d } = await service(),
+    runtime = new ToolRuntime({ store, approve: async () => true });
+  let step = 0;
+  const server = createServer(async (req, res) => {
+    let raw = "";
+    for await (const b of req) raw += b;
+    const body = JSON.parse(raw);
+    assert.ok(body.tools.some((t) => t.function.name === "document_patch"));
+    const last = body.messages.at(-1);
+    let call;
+    if (step === 0)
+      call = { name: "document_read", arguments: JSON.stringify({ id: d.id }) };
+    else if (step === 1) {
+      const read = JSON.parse(last.content).document;
+      call = {
+        name: "document_patch",
+        arguments: JSON.stringify({
+          id: d.id,
+          expectedRevision: read.revision,
+          patches: [(() => { const p=read.wordEditing.paragraphs.find(p=>p.structural);return {part:p.part,paragraph:p.paragraph,anchor:p.anchor,action:"insertAfter",text:"模型结构新增"}; })()],
+        }),
+      };
+    } else {
+      const out = JSON.parse(last.content);
+      assert.equal(out.document.revision, 2);
+      assert.equal(out.verified, true);
+    }
+    step++;
+    res.setHeader("content-type", "application/json");
+    res.end(
+      JSON.stringify({
+        choices: [
+          {
+            message: call
+              ? {
+                  role: "assistant",
+                  content: null,
+                  tool_calls: [
+                    { id: "word" + step, type: "function", function: call },
+                  ],
+                }
+              : { role: "assistant", content: "已保存并校验新版本" },
+          },
+        ],
+      }),
+    );
+  });
+  await new Promise((r) => server.listen(0, "127.0.0.1", r));
+  try {
+    const out = await runAgent({
+      messages: [{ role: "user", content: "修改导入Word" }],
+      request: (m, t) =>
+        complete(
+          {
+            baseUrl: "http://127.0.0.1:" + server.address().port,
+            model: "fixture",
+          },
+          "",
+          m,
+          undefined,
+          t,
+        ),
+      execute: (...a) => runtime.execute(...a),
+    });
+    assert.equal(step, 3);
+    assert.match(out.text, /保存/);
+    assert.match(runtime.documents.read(d.id).text, /模型结构新增/);
+  } finally {
+    server.closeAllConnections();
+    await new Promise((r) => server.close(r));
+  }
+});
