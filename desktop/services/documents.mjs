@@ -190,7 +190,7 @@ export function createDocumentService({
           args.patches,
         );
         candidate = record(prior.name, "docx", result, prior);
-        detail = `修改Word片段：${prior.name}.docx\n第 ${prior.revision} → ${candidate.revision} 版；${result.changes}个片段。保留前版与原件。\n${JSON.stringify(args.patches)}\n新 SHA-256 ${result.sha256}`;
+        detail = `修改Word内容/结构：${prior.name}.docx\n第 ${prior.revision} → ${candidate.revision} 版；${result.changes}处修改。保留前版与原件。\n${JSON.stringify(args.patches)}\n新 SHA-256 ${result.sha256}`;
       } else if (operation === "document_edit") {
         const prior = structuredClone(find(args.id));
         if (prior.richSource)
