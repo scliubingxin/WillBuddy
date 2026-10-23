@@ -1,7 +1,7 @@
 {
   "name": "actwill-desktop",
   "productName": "WillBuddy",
-  "version": "0.15.0",
+  "version": "0.16.0",
   "private": true,
   "description": "WillBuddy desktop AI workspace",
   "author": "Actwill",
@@ -23,21 +23,26 @@
     "test:runs": "node --test tests/acceptance/runs-live.mjs",
     "vendor:office": "node ../scripts/vendor-desktop-office.mjs",
     "test:documents": "node --test tests/acceptance/documents-live.mjs",
-    "vendor:genoffice": "node ../scripts/vendor-genoffice.mjs"
+    "vendor:genoffice": "node ../scripts/vendor-genoffice.mjs",
+    "vendor:preview": "node ../scripts/vendor-office-preview.mjs"
   },
   "devDependencies": {
+    "@aiden0z/pptx-renderer": "1.4.0",
     "@xmldom/xmldom": "0.9.12",
     "docx": "9.13.0",
+    "docx-preview": "0.4.1",
     "dompurify": "3.4.17",
     "electron": "42.0.0",
     "electron-builder": "26.0.12",
     "esbuild": "0.28.2",
+    "exceljs": "4.4.0",
     "fflate": "0.8.3",
     "jsdom": "^30.1.3",
     "marked": "18.1.1",
     "playwright-core": "1.56.1",
     "pptxgenjs": "4.0.1",
-    "prettier": "3.6.2"
+    "prettier": "3.6.2",
+    "ssf": "0.11.2"
   },
   "build": {
     "appId": "com.actwill.desktop",

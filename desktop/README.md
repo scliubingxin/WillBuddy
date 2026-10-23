@@ -1,3 +1,5 @@
+0.16.0：Office「预览」内置离线页面/表格/幻灯片渲染，移除外部GenOffice按钮，不用另装软件。复杂排版/图表兼容范围见[预览说明](../docs/OFFICE_PREVIEW.md)。
+
 0.15.0：新增导入Word简单正文段落后插入/删除/保存前撤销；AI document_patch使用批准read返回的段落anchor与版本。仅正文顶层简单段落，表格/页眉页脚结构、编号/分节/带样式引用/复杂结构保护。原件/前5版保留。见[段落编辑与验证](../docs/WORD_PARAGRAPHS.md)。
 
 0.14.0：新增受限 Excel 公式引擎、跨表 A1 引用、即时预览和独立保存重算；支持七个基础函数，拒绝未知/共享/数组公式、循环引用及图表/透视表/结构化表格工作簿编辑。原件和前5版保留。最终用户无需 Office、Python、npm 或 LibreOffice；开发浏览器验收需要 soffice 独立比对。见[公式说明](../docs/SPREADSHEET_FORMULAS.md)。

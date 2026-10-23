@@ -172,6 +172,7 @@ else {
         register('genofficeOpen', p => genoffice.open(p.id,p.revision));
         register('genofficeImport', p => genoffice.importEdited(p.id));
         register('documentRichEditor', p => toolRuntime.documents.richEditor(p.id));
+        register('documentPreview', p => toolRuntime.documents.preview(p.id,p.revision));
         register('documentEditor', p => toolRuntime.documents.editor(p.id,p.mode));
         register('documentSaveEditor', p => toolRuntime.documents.updateEditor(p.id,p.revision,p.patch,approve));
         register('documentRead', p => toolRuntime.documents.read(p.id));
