@@ -5,10 +5,17 @@ import {
 } from "@aiden0z/pptx-renderer/browser";
 import { unzipSync, strFromU8 } from "fflate";
 import SSF from "ssf";
+import { sheetImages, imageBox } from "./spreadsheet-images.js";
 const token = location.hash.slice(1),
   content = document.querySelector("#content"),
   status = document.querySelector("#status");
 let used = false;
+const imageURLs = [];
+const releaseImages = () => {
+  for (const url of imageURLs) URL.revokeObjectURL(url);
+  imageURLs.length = 0;
+};
+window.addEventListener("pagehide", releaseImages);
 const NS = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
 const nodes = (e, n) => [...e.getElementsByTagNameNS(NS, n)];
 const text = (e, n) => nodes(e, n)[0]?.textContent || "";
@@ -30,6 +37,7 @@ async function spreadsheet(bytes) {
         "application/xml",
       );
     };
+  const imageBudget = { count: 0, pixels: 0 };
   const book = parse("xl/workbook.xml"),
     rels = parse("xl/_rels/workbook.xml.rels");
   const targets = new Map(
@@ -96,13 +104,25 @@ async function spreadsheet(bytes) {
       rows = Math.max(rows, m[1].r);
       columns = Math.max(columns, m[1].c);
     }
+    const drawing = sheetImages(files, part, doc, parse, imageBudget);
+    for (const image of drawing.images)
+      for (const marker of [image.from, image.to])
+        if (marker) {
+          rows = Math.max(rows, marker.row + 1);
+          columns = Math.max(columns, marker.col + 1);
+        }
+    if (drawing.images.length) {
+      rows = Math.max(rows, 1);
+      columns = Math.max(columns, 1);
+    }
     if (rows > 5000 || columns > 128 || rows * columns > 30000)
       throw Error("超过完整预览范围（5000行/128列/30000网格），请拆分文件");
     const button = document.createElement("button");
     button.textContent = sheet.getAttribute("name");
     tabs.append(button);
     const section = document.createElement("section");
-    section.hidden = index !== 0;
+    section.className = "spreadsheet-sheet";
+    section.style.position = "relative";
     content.append(section);
     button.onclick = () => {
       for (const s of content.querySelectorAll("section"))
@@ -126,7 +146,8 @@ async function spreadsheet(bytes) {
           1000,
           Math.max(20, Number(spec?.getAttribute("width") || 10) * 7),
         ) + "px";
-      if (spec?.getAttribute("hidden") === "1") el.style.display = "none";
+      if (spec?.getAttribute("hidden") === "1")
+        el.style.visibility = "collapse";
       group.append(el);
     }
     for (let r = 1; r <= rows; r++) {
@@ -225,20 +246,49 @@ async function spreadsheet(bytes) {
       }
     }
     section.append(table);
-  }
-  for (const [name, data] of Object.entries(files)) {
-    if (!/^xl\/media\/[^/]+\.(png|jpe?g|gif)$/i.test(name)) continue;
-    const img = document.createElement("img");
-    img.alt = "工作簿图片（位置示意）";
-    img.src = URL.createObjectURL(
-      new Blob([data], {
-        type:
-          "image/" +
-          (/png$/i.test(name) ? "png" : /gif$/i.test(name) ? "gif" : "jpeg"),
-      }),
-    );
-    img.style.maxWidth = "100%";
-    content.append(img);
+    if (drawing.unsupported) {
+      const warning = document.createElement("p");
+      warning.textContent =
+        drawing.unsupported + "个非图片绘图/复杂对象暂未渲染";
+      section.append(warning);
+    }
+    const x = [0],
+      y = [0];
+    for (const c of group.children)
+      x.push(x.at(-1) + c.getBoundingClientRect().width);
+    for (const r of table.rows)
+      y.push(y.at(-1) + r.getBoundingClientRect().height);
+    for (const image of drawing.images) {
+      const box = imageBox(image, x, y),
+        img = document.createElement("img");
+      img.alt = "工作表图片";
+      img.className = "spreadsheet-image";
+      img.dataset.anchor = image.kind;
+      img.dataset.part = image.part;
+      const url = URL.createObjectURL(
+        new Blob([image.data], { type: image.mime }),
+      );
+      imageURLs.push(url);
+      img.src = url;
+      Object.assign(img.style, {
+        position: "absolute",
+        left: box.left + "px",
+        top: box.top + "px",
+        width: box.width + "px",
+        height: box.height + "px",
+        maxWidth: "none",
+        pointerEvents: "none",
+      });
+      section.append(img);
+      await img.decode();
+      section.style.minWidth =
+        Math.max(table.getBoundingClientRect().width, box.left + box.width) +
+        "px";
+      section.style.minHeight =
+        Math.max(table.getBoundingClientRect().height, box.top + box.height) +
+        "px";
+    }
+    section.hidden = index !== 0;
   }
 }
 document.addEventListener(
@@ -287,6 +337,7 @@ window.addEventListener("message", async (e) => {
     document.body.dataset.ready = "true";
   } catch (err) {
     status.textContent = "无法完整预览：" + err.message;
+    releaseImages();
     content.replaceChildren();
     document.body.dataset.error = "true";
   } finally {
