@@ -1,3 +1,7 @@
+## 2026-10-23 · 0.16.0 内置 Office 预览
+
+完成：真实二进制预览服务、隔离帧、Word页面/多表Excel/PPT静态渲染、离线依赖与许可证、移除外部GenOffice UI。详见docs/OFFICE_PREVIEW.md与validation/v0.16.0.json。保留原Web/Python/身份/logo/并发/审批。下一步：Mac原生安装/预览/审批验收，复杂图表/图片定位/字体/分页质量，预览独立生命周期。未实现全Office保真或完整GenOffice嵌入。
+
 # 0.15.0 · 2026-10-23
 
 新增有界Word简单正文段落增删，主进程保留其他部件，审批/指纹/版本与回滚完整。Quick官方段落/节/表格管理方向仍有差距：本次不能重排章节或增删表格行列，复杂结构与继承样式段落保护，无分页保真/修订协作。现有双任务与Excel基础七函数保留。无新增Amazon二进制运行证据，见WORD_PARAGRAPHS.md与REA_FINDINGS.md。
