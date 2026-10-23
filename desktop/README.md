@@ -1,3 +1,5 @@
+0.17.0：修复安装包内Office预览组件无法加载/超时，新增本地文件和ASAR原生Electron验收、阶段错误与重新加载。无需安装额外软件。见[修复与范围](../docs/PREVIEW_TIMEOUT_FIX.md)。
+
 0.16.0：Office「预览」内置离线页面/表格/幻灯片渲染，移除外部GenOffice按钮，不用另装软件。复杂排版/图表兼容范围见[预览说明](../docs/OFFICE_PREVIEW.md)。
 
 0.15.0：新增导入Word简单正文段落后插入/删除/保存前撤销；AI document_patch使用批准read返回的段落anchor与版本。仅正文顶层简单段落，表格/页眉页脚结构、编号/分节/带样式引用/复杂结构保护。原件/前5版保留。见[段落编辑与验证](../docs/WORD_PARAGRAPHS.md)。
@@ -22,13 +24,13 @@
 
 项目结构与修改入口见 ../docs/ARCHITECTURE.md（0.6.1 分层整理）。
 
-# WillBuddy 桌面版 0.15.0
+# WillBuddy 桌面版 0.17.0
 
 在原 Web 系统与 0.3.0 桌面基础上新增浏览器、CLI 及模型工具调用闭环。原 Web 代码、数据库迁移和 Python Office 执行器保留；桌面无需先运行 Web 服务或 Cloudflare。
 
 ## 免依赖安装（Apple 芯片）
 
-日常使用请下载独立的 `WillBuddy-v0.15.0-mac-arm64-offline.zip`，完整解压后把 `WillBuddy.app` 拖入应用程序，或双击 `Install-WillBuddy.command` 安装到个人 Applications 文件夹。应用已内置 Electron/Chromium/Node 运行时，安装不执行 npm，也不要求开发工具。下方 npm 命令仅供源码开发。
+日常使用请下载独立的 `WillBuddy-v0.17.0-mac-arm64-offline.zip`，完整解压后把 `WillBuddy.app` 拖入应用程序，或双击 `Install-WillBuddy.command` 安装到个人 Applications 文件夹。应用已内置 Electron/Chromium/Node 运行时，安装不执行 npm，也不要求开发工具。下方 npm 命令仅供源码开发。
 
 只制作 Apple 芯片版，最低 macOS 12。包采用 ad-hoc 签名，尚无 Developer ID 或公证，未完成真机启动；系统首次运行可能需要在隐私与安全性中确认。安装脚本不会关闭 Gatekeeper 或移除隔离标记。Git/Codex/Python/Ollama 等外部工具及原 Python Office 工具链不包含在桌面主程序依赖中，使用这些外部能力仍需对应本机程序。
 

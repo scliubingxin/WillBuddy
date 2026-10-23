@@ -1,3 +1,4 @@
+import {previewScheme,preparePreviewProtocol} from './main/preview-protocol.mjs';
 import {createConversionBrowser} from './main/conversion-browser.mjs';
 import {createDocumentConverter} from './runtime/document-converter.mjs';
 import {createGenOfficeBridge} from './main/genoffice.mjs';
@@ -12,7 +13,7 @@ import { createConversationService } from './services/conversation.mjs';
 import { createTaskService } from './services/tasks.mjs';
 import { recoverInterruptedWork } from './services/recovery.mjs';
 import { requiredText as text } from './services/validation.mjs';
-import { app, BrowserWindow, ipcMain, dialog, globalShortcut, Menu, safeStorage, shell, Notification, session } from 'electron';
+import { app, BrowserWindow, ipcMain, dialog, globalShortcut, Menu, safeStorage, shell, Notification, session, protocol } from 'electron';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { readFile, writeFile, stat } from 'node:fs/promises';
@@ -21,6 +22,7 @@ import { ToolRuntime } from './runtime/tools.mjs';
 import { chooseUserDataDirectory } from './runtime/identity.mjs';
 import { BrowserService } from './runtime/browser.mjs';
 import { Store, uid, listGranted, readGranted, modelEndpoint } from './core.mjs';
+protocol.registerSchemesAsPrivileged([previewScheme]);
 const here = path.dirname(fileURLToPath(import.meta.url));
 let win, store, sessionKey = '', runner, closing = false, tick, shortcutReady = false;
 const active = new Map();
@@ -63,12 +65,13 @@ const runTask = (id, options) => tasks.run(id, options);
 app.setPath('userData', await chooseUserDataDirectory(app.getPath('appData')));
 // Preserve the pre-rename OS cryptographic/application identity for existing keys.
 app.setName('Actwill AI');
-app.setAboutPanelOptions({ applicationName: 'WillBuddy', applicationVersion: '0.10.1' });
+app.setAboutPanelOptions({ applicationName: 'WillBuddy', applicationVersion: app.getVersion() });
 if (!app.requestSingleInstanceLock())
     app.quit();
 else {
     app.on('second-instance', focus);
     app.whenReady().then(async () => {
+        protocol.handle(previewScheme.scheme,await preparePreviewProtocol(path.join(here,"src/preview")));
         if (process.platform === 'darwin')
             app.dock.setIcon(path.join(here, 'assets/icon-1024.png'));
         store = new Store(app.getPath('userData'));
