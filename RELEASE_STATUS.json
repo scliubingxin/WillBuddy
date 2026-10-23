@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.15.0",
+  "version": "0.16.0",
   "checked_date": "2026-10-23",
   "source_status": "desktop_source_delivery_not_deployed",
   "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -31,7 +31,9 @@
     "document_editor": "imported DOCX targeted run text/bold/italic editing; original parts retained, complex paragraphs read-only; existing GenOffice canvas retained",
     "genoffice": "bundled Apache-2.0 HTML→DOCX engine subset, pinned 342abce; local Word canvas and md/html conversion; full suite not embedded",
     "spreadsheet_formulas": "pure JS bounded 7-function evaluator; A1/cross-sheet dependencies; live preview + independent main recalculation and real XLSX typed caches; unsupported formulas/derived objects fail closed",
-    "word_paragraphs": "bounded top-level plain body paragraph insertAfter/deleteParagraph; pPr/first rPr retention; anchored revision approval, undo before save; complex/style/section/range protection"
+    "word_paragraphs": "bounded top-level plain body paragraph insertAfter/deleteParagraph; pPr/first rPr retention; anchored revision approval, undo before save; complex/style/section/range protection",
+    "office_preview": "Bundled docx-preview 0.4.1, PPTX renderer1.4.0, bounded XML grid+SSF0.11.2; opaque sandbox; no external app or network; static compatibility limits",
+    "external_genoffice_ui": false
   },
   "validation": {
     "desktop_tests_passed": 166,

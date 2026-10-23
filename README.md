@@ -1,3 +1,5 @@
+0.16.0：Office「预览」内置离线页面/表格/幻灯片渲染，移除外部GenOffice按钮，不用另装软件。复杂排版/图表兼容范围见[预览说明](docs/OFFICE_PREVIEW.md)。
+
 <div align="center">
   <img src="desktop/assets/icon-512.png" alt="WillBuddy 蓝红品牌标志" width="88">
   <h1>WillBuddy · 离线桌面 AI 工作台</h1>
@@ -30,7 +32,7 @@
 
 ![WillBuddy Office 文档工作台：DOCX、XLSX、PPTX、Markdown、HTML 成果与编辑导出入口](docs/images/documents.png)
 
-*截图中的示例文档由项目实际编解码器生成；界面与数据用于功能展示。Office 当前预览为提取文本，尚非 Word / PowerPoint 保真页面渲染。*
+*截图中的示例文档由项目实际编解码器生成；界面与数据用于功能展示。旧截图展示0.11界面；0.16已新增内置静态渲染，复杂Office排版仍可能有兼容差异。*
 
 **0.14.0 新增本地 Excel 公式编辑与重算**：修改数量后，合计与跨工作表引用会重新计算；支持 SUM、AVERAGE、MIN、MAX、COUNT、IF、ROUND，以及基础运算和 A1 引用。可以切换工作表、只看公式、增加单元格，并导出包含公式及新缓存值的真实 XLSX。
 
