@@ -1,3 +1,5 @@
+0.17.0：修复安装包内Office预览组件无法加载/超时，新增本地文件和ASAR原生Electron验收、阶段错误与重新加载。无需安装额外软件。见[修复与范围](docs/PREVIEW_TIMEOUT_FIX.md)。
+
 0.16.0：Office「预览」内置离线页面/表格/幻灯片渲染，移除外部GenOffice按钮，不用另装软件。复杂排版/图表兼容范围见[预览说明](docs/OFFICE_PREVIEW.md)。
 
 <div align="center">
@@ -12,7 +14,7 @@
 
 应用包内置 Electron、Chromium、Node 和基础 Office 文档编解码器，安装时无需再执行 `npm install`。**离线安装不等于所有 AI 功能都能断网运行**：使用云模型、访问网页需要联网；纯离线推理需要自行准备本地模型及运行环境。目前只制作 Apple 芯片（arm64）Mac 应用。
 
-> 本文介绍已交付的桌面 **0.15.0**，对应代码在 [`willbuddy-v0.15.0-word-paragraphs`](https://github.com/scliubingxin/WillBuddy/tree/willbuddy-v0.15.0-word-paragraphs) 分支；`main` 尚未合入该版本，开发时请先切换分支。处于持续开发阶段；已提供的离线包为 ad-hoc 签名候选版，尚未完成 Apple Developer ID 签名、公证及 Mac 原生完整验收。仓库已公开源码，许可证状态见[许可与项目定位](#许可与项目定位)。
+> 本文介绍已交付的桌面 **0.17.0**，对应代码在 [`willbuddy-v0.17.0-preview-transport`](https://github.com/scliubingxin/WillBuddy/tree/willbuddy-v0.17.0-preview-transport) 分支；`main` 尚未合入该版本，开发时请先切换分支。处于持续开发阶段；已提供的离线包为 ad-hoc 签名候选版，尚未完成 Apple Developer ID 签名、公证及 Mac 原生完整验收。仓库已公开源码，许可证状态见[许可与项目定位](#许可与项目定位)。
 
 ![WillBuddy 桌面 AI 工作流：目标、自选模型、受控工具、可编辑成果](docs/images/workflow.svg)
 
@@ -89,7 +91,7 @@
 
 适用平台：**Apple 芯片 Mac / arm64，最低 macOS 12**。当前不提供 Intel Mac 安装包。
 
-1. 获取实际交付的 `WillBuddy-v0.15.0-mac-arm64-offline.zip`。公开安装包是否已发布，请以仓库 [Releases](https://github.com/scliubingxin/WillBuddy/releases) 的实际内容为准；源码分支本身不是安装包。
+1. 获取实际交付的 `WillBuddy-v0.17.0-mac-arm64-offline.zip`。公开安装包是否已发布，请以仓库 [Releases](https://github.com/scliubingxin/WillBuddy/releases) 的实际内容为准；源码分支本身不是安装包。
 2. 先把 ZIP 完整解压到“下载”等用户目录，保留 `.app` 内的符号链接；不要直接向 `/Applications` 解压。
 3. 将 `WillBuddy.app` 移入“应用程序”；也可使用包内安装脚本安装到个人 `Applications` 目录。脚本会执行原生签名检查。
 4. 打开应用，在左下角配置模型，然后新建一个任务。
@@ -182,7 +184,7 @@ WillBuddy 不内置付费模型账户，也不要求使用特定云厂商。
 git clone https://github.com/scliubingxin/WillBuddy.git
 cd WillBuddy
 # 本说明对应已交付的桌面修复分支；main 尚未合入该版本。
-git switch willbuddy-v0.15.0-word-paragraphs
+git switch willbuddy-v0.17.0-preview-transport
 npm --prefix desktop ci
 npm --prefix desktop start
 ```
@@ -215,7 +217,7 @@ npm --prefix desktop test
 
 ## 项目状态与路线
 
-0.15.0 的代码验证包括 **166 项核心测试、11 项真实 Chromium 验收及 9 项打包测试**。原生审批、IPC 和部分模型响应使用测试适配器；这不代表已经完成 Mac 原生、真实付费模型或 Office/WPS 保真验收。
+0.17.0 的代码验证包括 **173 项核心测试、12 项真实 Chromium 验收及 9 项打包测试**，并新增真实 Linux Electron file/ASAR 预览验收。原生审批、IPC 和部分模型响应使用测试适配器；这不代表已经完成 Mac 原生、真实付费模型或 Office/WPS 保真验收。
 
 近期重点：
 

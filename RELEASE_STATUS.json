@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.16.0",
+  "version": "0.17.0",
   "checked_date": "2026-10-23",
   "source_status": "desktop_source_delivery_not_deployed",
   "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -33,7 +33,9 @@
     "spreadsheet_formulas": "pure JS bounded 7-function evaluator; A1/cross-sheet dependencies; live preview + independent main recalculation and real XLSX typed caches; unsupported formulas/derived objects fail closed",
     "word_paragraphs": "bounded top-level plain body paragraph insertAfter/deleteParagraph; pPr/first rPr retention; anchored revision approval, undo before save; complex/style/section/range protection",
     "office_preview": "Bundled docx-preview 0.4.1, PPTX renderer1.4.0, bounded XML grid+SSF0.11.2; opaque sandbox; no external app or network; static compatibility limits",
-    "external_genoffice_ui": false
+    "external_genoffice_ui": false,
+    "preview_transport": "fixed SHA-verified two-resource secure custom protocol; actual Linux Electron file-host and ASAR fixture passed; Mac pending",
+    "preview_timeout": "5s component boot / 15s render, phase-specific errors and manual fresh-token reload"
   },
   "validation": {
     "desktop_tests_passed": 166,

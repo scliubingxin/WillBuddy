@@ -1,14 +1,14 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.16.0",
+  "version": "0.17.0",
   "packaged_date": "2026-10-23",
   "provenance": "Complete validated source snapshot; Git commits and deployment are tracked separately",
   "base_source_commit_sha": "ecc5dd81061b5c28999120075d06884a2496114c",
   "release_status": {
     "schema_version": 2,
     "brand": "WillBuddy",
-    "version": "0.16.0",
+    "version": "0.17.0",
     "checked_date": "2026-10-23",
     "source_status": "desktop_source_delivery_not_deployed",
     "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -40,7 +40,9 @@
       "spreadsheet_formulas": "pure JS bounded 7-function evaluator; A1/cross-sheet dependencies; live preview + independent main recalculation and real XLSX typed caches; unsupported formulas/derived objects fail closed",
       "word_paragraphs": "bounded top-level plain body paragraph insertAfter/deleteParagraph; pPr/first rPr retention; anchored revision approval, undo before save; complex/style/section/range protection",
       "office_preview": "Bundled docx-preview 0.4.1, PPTX renderer1.4.0, bounded XML grid+SSF0.11.2; opaque sandbox; no external app or network; static compatibility limits",
-      "external_genoffice_ui": false
+      "external_genoffice_ui": false,
+      "preview_transport": "fixed SHA-verified two-resource secure custom protocol; actual Linux Electron file-host and ASAR fixture passed; Mac pending",
+      "preview_timeout": "5s component boot / 15s render, phase-specific errors and manual fresh-token reload"
     },
     "validation": {
       "desktop_tests_passed": 166,
@@ -125,8 +127,8 @@
   "files": [
     {
       "path": ".github/workflows/willbuddy-mac-arm64.yml",
-      "bytes": 1956,
-      "sha256": "b031a813022b0398aee3edfd824815fe8e879cce4d8432225443b865fbd4321e"
+      "bytes": 2080,
+      "sha256": "ddf83b76a1b52fff9ba373f9edb0ffc7e8ede6eb74226d2a3278cabbbe03ab92"
     },
     {
       "path": ".gitignore",
@@ -160,13 +162,13 @@
     },
     {
       "path": "ITERATION_LOG.md",
-      "bytes": 146052,
-      "sha256": "545d67f9813b8b24dba889cb3b224d34a5a709480c182d87f6450114f8c753ae"
+      "bytes": 146767,
+      "sha256": "946480176ded4b989e0806b44d2bac3496b3fb6f4bfaf963dc30b9e423aad242"
     },
     {
       "path": "ITERATION_PLAN.md",
-      "bytes": 36396,
-      "sha256": "0c64c904f875dc837aa31b0df71ab4dfd73d802fefa6538729dc85b52c47094b"
+      "bytes": 37111,
+      "sha256": "00100d529a50aa723e2877c52f53f99411be55a125ef191e2e5344a17d1d72ea"
     },
     {
       "path": "OPENWORKBUDDY_REFERENCE.md",
@@ -180,13 +182,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 18669,
-      "sha256": "f01d2aaa4203e7e6ee0b50ebef7c71b173bc1d25763da8df24670b9ba9c50b10"
+      "bytes": 18957,
+      "sha256": "d926c40a8215b1fbc24823a6352c93a685e6e16328276fc85c3627677f3dce75"
     },
     {
       "path": "RELEASE_STATUS.json",
-      "bytes": 8241,
-      "sha256": "a7d61805cfa897062d3f0c751bd663e4b6e334022751576c12359657d9e8b2d1"
+      "bytes": 8504,
+      "sha256": "ac18eec74705b7397c367a5e984a6a4ac6870d028ef20cc176bccbe1d415c8fd"
     },
     {
       "path": "SELF_TEST_MATRIX.md",
@@ -665,8 +667,8 @@
     },
     {
       "path": "desktop/README.md",
-      "bytes": 18658,
-      "sha256": "cb2944b37f4bb476d72b9991a25fd751e75604420c4dc11905b66a363ca9cd52"
+      "bytes": 18887,
+      "sha256": "26f5cfacac82193228bb3ef9b15cc2b92c2c4add41bb698be8306fd7b53b583c"
     },
     {
       "path": "desktop/assets/app.icns",
@@ -739,19 +741,24 @@
       "sha256": "23f28d82415c14a0efbb41fb4bf266c99ad421240b608e553361c82a229b89fe"
     },
     {
+      "path": "desktop/main/preview-protocol.mjs",
+      "bytes": 2335,
+      "sha256": "01697e553645633296f6c5906c112c49ebd3b19acbc302a24d02d17cd786e744"
+    },
+    {
       "path": "desktop/main.mjs",
-      "bytes": 16229,
-      "sha256": "acc6f82bf5c06949cd52fddfc89f1cde8e75c113cbc50922a0b1fa002cf6c0f3"
+      "bytes": 16491,
+      "sha256": "6cbab5c97e559c60bc158d446b4d15a828eb8a4b4ac40af70347d8efa3e35c1a"
     },
     {
       "path": "desktop/package-lock.json",
       "bytes": 279311,
-      "sha256": "45118cf9bf308632a5b2c032e699fd4271ba2d5a1e2469d7c4d1e7f27ce1560d"
+      "sha256": "a555fb4c33519d178279cdb80474af853fcb700acdc0f93f7531e0d55ab36202"
     },
     {
       "path": "desktop/package.json",
-      "bytes": 2780,
-      "sha256": "d4c9e1ca76462e3965b5163b222d53b2ebf6fd1de4d8302583beb6a209c83bb6"
+      "bytes": 2931,
+      "sha256": "ec95c16e53d3f87382926efde37aaaaf7ed8e89838fa0f83f6afc116323b0637"
     },
     {
       "path": "desktop/preload.cjs",
@@ -915,8 +922,8 @@
     },
     {
       "path": "desktop/src/index.html",
-      "bytes": 657,
-      "sha256": "e7de7fd38b9840231bd73a0d8e4b7bc88a34238dfa6dd2e3210d98a4f08b1a7f"
+      "bytes": 683,
+      "sha256": "7f71f0295284a39d3472d30a7a7a8e8cfa10ca572bae395d469f4ae4b5727f7b"
     },
     {
       "path": "desktop/src/preview/PREVIEW-LICENSES.txt",
@@ -970,8 +977,8 @@
     },
     {
       "path": "desktop/src/ui/office-preview.js",
-      "bytes": 1732,
-      "sha256": "da452ad218e8f6ef952615c42bac76608585ca1d8391f09feb77f6f792768b5e"
+      "bytes": 2860,
+      "sha256": "ad763c861aca12e4bf920a287f852e7d6eca7d36e65aae1d17ca63f0676efc72"
     },
     {
       "path": "desktop/src/ui/runs.js",
@@ -1139,9 +1146,24 @@
       "sha256": "bc692f85d64d2cdde0e75c7ccbc830b31c0fbe34253afafd60a51c24e12f1f75"
     },
     {
+      "path": "desktop/tests/native/preview-electron.mjs",
+      "bytes": 3527,
+      "sha256": "f51342956e4f886c3a765c2bc4d6b49c108915ced81ea64d3e68904c7741328b"
+    },
+    {
+      "path": "desktop/tests/native/production-preview.mjs",
+      "bytes": 5235,
+      "sha256": "5a3f139104b663d3f1ed7f23d90730bd2f59bc4f8317fca5501eb55f923692f1"
+    },
+    {
       "path": "desktop/tests/office-preview.test.mjs",
-      "bytes": 2365,
-      "sha256": "75233198cecbeea430eb5e42bba7d5f31a9a40562f9de1504a935bd6ad0ef93d"
+      "bytes": 2039,
+      "sha256": "332539cae799944d214775f0c6721c03e4034bbdc7484ab41f7df541863f61ef"
+    },
+    {
+      "path": "desktop/tests/preview-protocol.test.mjs",
+      "bytes": 4666,
+      "sha256": "9b0207e9a48ecc21071f2f166eda283e046a4422cb1857383576df4a3f443c6a"
     },
     {
       "path": "desktop/tests/rendering.test.mjs",
@@ -1239,9 +1261,14 @@
       "sha256": "f3f47545c4f9fbc60054fe483798dcc7e0fa39520ea2a62d63a3159ea5b2e3b9"
     },
     {
+      "path": "docs/PREVIEW_TIMEOUT_FIX.md",
+      "bytes": 3937,
+      "sha256": "eb2eb80e4dc0e4bb756d65f39356d2c1926298dd0a65272460d806d023050d7c"
+    },
+    {
       "path": "docs/QUICK_GAPS.md",
-      "bytes": 12038,
-      "sha256": "f2b796c3709d48c340e05803cfb61b99a7901648134f92ed861286eaf2b11e7a"
+      "bytes": 12753,
+      "sha256": "533666ab74e72947964a10ce6d9ac11d89580faaee3893c3de80e3125448dd2c"
     },
     {
       "path": "docs/REA_FINDINGS.md",
@@ -1372,6 +1399,11 @@
       "path": "docs/validation/v0.16.0.json",
       "bytes": 2544,
       "sha256": "7527f636b914c28ace00ef206f35abae1dafb118af28f6bfe512bbb8f54fb8b7"
+    },
+    {
+      "path": "docs/validation/v0.17.0.json",
+      "bytes": 2864,
+      "sha256": "1f9c4ca0bdd620358c9aea789a843c326dc86ceb8d3128ff0e0a0c73fd9cc100"
     },
     {
       "path": "docs/validation/v0.5.0.json",
