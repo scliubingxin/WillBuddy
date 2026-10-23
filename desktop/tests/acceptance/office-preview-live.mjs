@@ -18,7 +18,7 @@ test("production UI click Preview renders actual Word, styled multi-sheet Excel 
     store = new Store(dir);
   await store.load();
   const service = createDocumentService({ store });
-  let nativeCalls = 0,
+  let nativeCalls = 0, previewReads = 0,
     browser;
   const server = createServer(async (req, res) => {
     try {
@@ -65,13 +65,13 @@ test("production UI click Preview renders actual Word, styled multi-sheet Excel 
           ...structuredClone(store.data),
           documents: documentViews(store.data),
         };
-      if (name === "documentPreview") return service.preview(p.id, p.revision);
+      if (name === "documentPreview") { previewReads++; return service.preview(p.id, p.revision); }
       nativeCalls++;
       throw Error("Unexpected " + name);
     });
     await page.addInitScript(() => {
       window.actwill = {
-        state: () => window.hostRun("state"),
+        state: async () => { const value=await window.hostRun("state");window.__stateCalls=(window.__stateCalls||0)+1;return value; },
         documentPreview: (p) => window.hostRun("documentPreview", p),
         onRuntime: (fn) => (window.__runtime = fn),
       };
@@ -157,6 +157,34 @@ test("production UI click Preview renders actual Word, styled multi-sheet Excel 
           .getByRole("button", { name: "第二张表", exact: true })
           .click();
         await frame.getByText("末表内容", { exact: true }).waitFor();
+        const initialReads = previewReads;
+        await page.evaluate(()=>{window.__previewFrame=document.querySelector('iframe.office-frame');document.querySelector('.preview-scroll').scrollTop=73;});
+        for(let i=0;i<12;i++) {
+          const calls=await page.evaluate(()=>window.__stateCalls);
+          await page.evaluate(()=>window.__runtime());
+          await page.waitForFunction(n=>window.__stateCalls>n,calls);
+          await page.locator('[data-action=sidebarToggle]').click();
+        }
+        assert.equal(previewReads,initialReads,'runtime updates must not re-read binary');
+        assert.equal(await page.evaluate(()=>window.__previewFrame===document.querySelector('iframe.office-frame')),true);
+        await frame.getByText("末表内容", { exact: true }).waitFor();
+        assert.equal(await frame.locator('section:not([hidden])').count(),1);
+        await page.locator('[data-action=sidebarToggle]').click();
+        assert.equal(previewReads,initialReads);
+        assert.equal(await page.evaluate(()=>window.__previewFrame===document.querySelector('iframe.office-frame')),true);
+        // New revision must never reuse the old rendered document.
+        const prepared=await service.prepare('document_edit',{id:d.id,expectedRevision:d.revision,cells:[{sheetIndex:1,address:'B3',value:9}]});
+        await service.perform(prepared);
+        const calls=await page.evaluate(()=>window.__stateCalls);
+        await page.evaluate(()=>window.__runtime());
+        await page.waitForFunction(n=>window.__stateCalls>n,calls);
+        await page.locator('[data-action=sidebarToggle]').click();
+        await page.waitForFunction(()=>window.__previewFrame!==document.querySelector('iframe.office-frame'));
+        await frame.locator('body[data-ready=true]').waitFor();
+        assert.equal(previewReads,initialReads+1);
+        await frame.locator('section:not([hidden]) [data-address=B3]').filter({hasText:'9'}).waitFor();
+
+
       }
       if (format === "pptx")
         await frame.getByText("第二张幻灯片", { exact: true }).waitFor();
