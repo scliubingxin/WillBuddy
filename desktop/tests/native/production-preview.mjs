@@ -1,3 +1,5 @@
+import { normalizeImageFixture } from "../helpers/image-workbook.mjs";
+import ExcelJS from "exceljs";
 import { app, BrowserWindow, protocol, ipcMain } from "electron";
 import { mkdtemp, rm } from "node:fs/promises";
 import path from "node:path";
@@ -58,6 +60,41 @@ app.whenReady().then(async () => {
     };
     const documents = [];
     for (const [format, content] of Object.entries(fixtures)) {
+      if (format === "xlsx") {
+        const wb = new ExcelJS.Workbook(),
+          sheet = wb.addWorksheet("验收表");
+        sheet.addRows(content.sheets[0].rows);
+        wb.addWorksheet("保留选择").addRow(["选择保持"]);
+        const image = wb.addImage({
+          buffer: Buffer.from(
+            "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLbtAAAAABJRU5ErkJggg==",
+            "base64",
+          ),
+          extension: "png",
+        });
+        sheet.getColumn(4).width = 8;
+        sheet.getColumn(4).hidden = true;
+        sheet.getCell("A5").value = "隐藏行";
+        sheet.getRow(5).hidden = true;
+        sheet.addImage(image, {
+          tl: { col: 1, row: 1 },
+          ext: { width: 48, height: 32 },
+        });
+        sheet.addImage(image, {
+          tl: { col: 4, row: 3 },
+          br: { col: 6, row: 6 },
+        });
+        documents.push(
+          (
+            await docs.importFile(
+              "图片验收",
+              "xlsx",
+              normalizeImageFixture(Buffer.from(await wb.xlsx.writeBuffer())),
+            )
+          ).document,
+        );
+        continue;
+      }
       const prepared = await docs.prepare("document_create", {
         name: "本机-" + format,
         format,
@@ -107,22 +144,79 @@ app.whenReady().then(async () => {
         }),
       );
       if (!result.completed) throw Error("生产预览失败 " + d.format);
-      const child=win.webContents.mainFrame.frames.find(f=>f.url.startsWith('willbuddy-preview://local/index.html'));
-      const rendered=await child.executeJavaScript('({ready:document.body.dataset.ready,error:document.body.dataset.error,text:document.querySelector("#content").textContent,bridge:typeof window.actwill,node:typeof require})');
-      const expected={xlsx:'本机直接预览',docx:'完整末段',pptx:'最后一张'}[d.format];
-      if(rendered.ready!=='true'||rendered.error||!rendered.text.includes(expected)||rendered.bridge!=='undefined'||rendered.node!=='undefined')throw Error('预览内容或隔离校验失败 '+JSON.stringify(rendered));
-      console.log(JSON.stringify({nativeContentVerified:true,format:d.format,ready:rendered.ready,noBridge:true,noNode:true}));
-      if(d.format==='xlsx') await child.executeJavaScript(`document.querySelectorAll('nav button')[1].click();`);
-      const beforeReads=reads;
-      await win.webContents.executeJavaScript(`window.__retainedPreview=document.querySelector('iframe.office-frame');for(let i=0;i<20;i++)document.querySelector('[data-action="sidebarToggle"]').click();`);
-      const same=await win.webContents.executeJavaScript(`window.__retainedPreview===document.querySelector('iframe.office-frame')`);
-      if(!same||reads!==beforeReads||!win.webContents.mainFrame.frames.includes(child))throw Error('Preview restarted during workspace updates');
-      if(d.format==='xlsx') {
-        const visible=await child.executeJavaScript(`document.querySelector('section:not([hidden])').textContent`);
-        if(!visible.includes('选择保持'))throw Error('Sheet selection reset');
+      const child = win.webContents.mainFrame.frames.find((f) =>
+        f.url.startsWith("willbuddy-preview://local/index.html"),
+      );
+      const rendered = await child.executeJavaScript(
+        '({ready:document.body.dataset.ready,error:document.body.dataset.error,status:document.querySelector("#status").textContent,text:document.querySelector("#content").textContent,bridge:typeof window.actwill,node:typeof require})',
+      );
+      const expected = {
+        xlsx: "本机直接预览",
+        docx: "完整末段",
+        pptx: "最后一张",
+      }[d.format];
+      if (
+        rendered.ready !== "true" ||
+        rendered.error ||
+        !rendered.text.includes(expected) ||
+        rendered.bridge !== "undefined" ||
+        rendered.node !== "undefined"
+      )
+        throw Error("预览内容或隔离校验失败 " + JSON.stringify(rendered));
+      console.log(
+        JSON.stringify({
+          nativeContentVerified: true,
+          format: d.format,
+          ready: rendered.ready,
+          noBridge: true,
+          noNode: true,
+        }),
+      );
+      if (d.format === "xlsx") {
+        const images = await child.executeJavaScript(
+          `(()=>{const section=document.querySelector('section:not([hidden])'),imgs=[...section.querySelectorAll('img.spreadsheet-image')],cell=section.querySelector('[data-address=B2]').getBoundingClientRect(),first=imgs[0].getBoundingClientRect();return {count:imgs.length,decoded:imgs.every(i=>i.complete&&i.naturalWidth===1),aligned:Math.abs(first.left-cell.left)<2&&Math.abs(first.top-cell.top)<2,width:first.width,height:first.height};})()`,
+        );
+        if (
+          images.count !== 2 ||
+          !images.decoded ||
+          !images.aligned ||
+          images.width !== 48 ||
+          images.height !== 32
+        )
+          throw Error("图片原生预览失败 " + JSON.stringify(images));
+        console.log(JSON.stringify({ nativeImagesVerified: true, ...images }));
+        await child.executeJavaScript(
+          `document.querySelectorAll('nav button')[1].click();`,
+        );
       }
-      console.log(JSON.stringify({lifecycleVerified:true,format:d.format,updates:20,extraBinaryReads:reads-beforeReads,sameNativeFrame:true}));
-
+      const beforeReads = reads;
+      await win.webContents.executeJavaScript(
+        `window.__retainedPreview=document.querySelector('iframe.office-frame');for(let i=0;i<20;i++)document.querySelector('[data-action="sidebarToggle"]').click();`,
+      );
+      const same = await win.webContents.executeJavaScript(
+        `window.__retainedPreview===document.querySelector('iframe.office-frame')`,
+      );
+      if (
+        !same ||
+        reads !== beforeReads ||
+        !win.webContents.mainFrame.frames.includes(child)
+      )
+        throw Error("Preview restarted during workspace updates");
+      if (d.format === "xlsx") {
+        const visible = await child.executeJavaScript(
+          `document.querySelector('section:not([hidden])').textContent`,
+        );
+        if (!visible.includes("选择保持")) throw Error("Sheet selection reset");
+      }
+      console.log(
+        JSON.stringify({
+          lifecycleVerified: true,
+          format: d.format,
+          updates: 20,
+          extraBinaryReads: reads - beforeReads,
+          sameNativeFrame: true,
+        }),
+      );
     }
     if (reads !== 3) throw Error("Unexpected binary reads " + reads);
     console.log(
