@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.18.0",
-  "checked_date": "2026-10-23",
+  "version": "0.19.0",
+  "checked_date": "2026-10-24",
   "source_status": "desktop_source_delivery_not_deployed",
   "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
   "desktop": {
@@ -36,10 +36,11 @@
     "external_genoffice_ui": false,
     "preview_transport": "fixed SHA-verified two-resource secure custom protocol; actual Linux Electron file-host and ASAR fixture passed; Mac pending",
     "preview_timeout": "5s component boot / 15s render, phase-specific errors and manual fresh-token reload",
-    "preview_lifecycle": "same scope/id/revision keeps connected frame; chrome-only reconciliation; close/switch/version disposes; no cross-document cache"
+    "preview_lifecycle": "same scope/id/revision keeps connected frame; chrome-only reconciliation; close/switch/version disposes; no cross-document cache",
+    "spreadsheet_preview_images": "worksheet relationship-bound one/two/absolute cell anchor positioning; bounded raster decode; no gallery/orphan media; crop/rotation unsupported"
   },
   "validation": {
-    "desktop_tests_passed": 177,
+    "desktop_tests_passed": 184,
     "ui_paths_with_mock_bridge": 17,
     "real_cli_child_process_tested": true,
     "agent_http_fixture_to_real_cli_roundtrip_tested": true,
@@ -55,7 +56,7 @@
     "theme_check": "Chinese font available for documentation screenshots; production forms and layout inspected; no Mac pixel/runtime validation",
     "offline_bundle": {
       "official_runtime_sha256": "passed",
-      "asar_content": "69 production files exact bytes",
+      "asar_content": "70 production files exact bytes",
       "zip_integrity": "passed",
       "closed_inventory": "passed; 282 app entries + 5 extras; 14 symlinks; no residue",
       "unexpected_entry_negative": "passed even when every manifest file remains unchanged",
@@ -97,7 +98,9 @@
     "word_paragraph_new_tests": 10,
     "word_paragraph_real_chromium": "production insert/undo/savev2/export/python-docx/reload/delete/undov3/export/disk reload; native bridge/approval fixtures",
     "preview_lifecycle_tests": 4,
-    "preview_lifecycle_native": "Linux Electron actual preload/IPC source+ASAR; 3 formats x20 UI redraws, zero extra reads/same child frame; Mac pending"
+    "preview_lifecycle_native": "Linux Electron actual preload/IPC source+ASAR; 3 formats x20 UI redraws, zero extra reads/same child frame; Mac pending",
+    "spreadsheet_image_new_tests": 7,
+    "spreadsheet_image_scope": "real Chromium file+openpyxl and Linux Electron source/ASAR; one/two anchors real, absolute geometry unit; no Mac/ExcelWPS fidelity"
   },
   "rea": {
     "version": "6.7.0",

@@ -1,3 +1,5 @@
+0.19.0：Excel预览图片按单格/双格/绝对锚点定位，跟随对应工作表与可见网格；不再把整个工作簿图片堆在表尾。保持离线内置，无需另装软件。见[范围与验收](docs/SPREADSHEET_IMAGES.md)。
+
 0.18.0：同一Office文档版本的预览在后台刷新/侧栏调整时保持连接，不重新读文件/解析，保留Excel工作表选择和滚动；关闭、换文档或版本后释放重载。无需新增软件。见[说明](docs/PREVIEW_LIFECYCLE.md)。
 
 0.17.0：修复安装包内Office预览组件无法加载/超时，新增本地文件和ASAR原生Electron验收、阶段错误与重新加载。无需安装额外软件。见[修复与范围](docs/PREVIEW_TIMEOUT_FIX.md)。
@@ -16,7 +18,7 @@
 
 应用包内置 Electron、Chromium、Node 和基础 Office 文档编解码器，安装时无需再执行 `npm install`。**离线安装不等于所有 AI 功能都能断网运行**：使用云模型、访问网页需要联网；纯离线推理需要自行准备本地模型及运行环境。目前只制作 Apple 芯片（arm64）Mac 应用。
 
-> 本文介绍已交付的桌面 **0.18.0**，对应代码在 [`willbuddy-v0.18.0-preview-lifecycle`](https://github.com/scliubingxin/WillBuddy/tree/willbuddy-v0.18.0-preview-lifecycle) 分支；`main` 尚未合入该版本，开发时请先切换分支。处于持续开发阶段；已提供的离线包为 ad-hoc 签名候选版，尚未完成 Apple Developer ID 签名、公证及 Mac 原生完整验收。仓库已公开源码，许可证状态见[许可与项目定位](#许可与项目定位)。
+> 本文介绍已交付的桌面 **0.19.0**，对应代码在 [`willbuddy-v0.19.0-spreadsheet-images`](https://github.com/scliubingxin/WillBuddy/tree/willbuddy-v0.19.0-spreadsheet-images) 分支；`main` 尚未合入该版本，开发时请先切换分支。处于持续开发阶段；已提供的离线包为 ad-hoc 签名候选版，尚未完成 Apple Developer ID 签名、公证及 Mac 原生完整验收。仓库已公开源码，许可证状态见[许可与项目定位](#许可与项目定位)。
 
 ![WillBuddy 桌面 AI 工作流：目标、自选模型、受控工具、可编辑成果](docs/images/workflow.svg)
 
@@ -32,7 +34,7 @@
 
 ### 文档工作台：生成之后，还能继续改
 
-在成果中心管理 Word、Excel、PowerPoint、Markdown 和 HTML。支持导入、AI 修改、直接编辑内容、GenOffice 副本接续、历史版本和真实文件导出；导入原件保持不变。
+在成果中心管理 Word、Excel、PowerPoint、Markdown 和 HTML。支持导入、AI 修改、直接编辑内容、历史版本和真实文件导出；导入原件保持不变。
 
 ![WillBuddy Office 文档工作台：DOCX、XLSX、PPTX、Markdown、HTML 成果与编辑导出入口](docs/images/documents.png)
 
@@ -55,7 +57,7 @@
 | 能力 | 你可以做什么 | 当前范围 |
 | --- | --- | --- |
 | AI 对话 | 连接自选模型，流式接收回答，查看 Markdown 与静态 HTML | Chat Completions 兼容接口；工具能力取决于模型支持 |
-| Word 文档 | 内部富文本画布、标题/粗体/列表/表格，Markdown/HTML转Word | 真实GenOffice子引擎；导入DOCX可按片段改字/粗体/斜体；复杂段落只读，未分页渲染 |
+| Word 文档 | 内部富文本画布、标题/粗体/列表/表格，Markdown/HTML转Word | 真实GenOffice子引擎；导入DOCX可按片段改字/粗体/斜体；复杂段落只读，分页显示有兼容差异 |
 | Excel 表格 | 创建多工作表，编辑预算、常量与显式公式 | XLSX；七个基础函数、跨表 A1 引用、即时预览与保存重算；复杂公式/图表工作簿拒绝修改 |
 | PowerPoint | 生成标题、项目符号和演讲备注，修改幻灯片文字 | PPTX；基础排版，非完整模板编辑器 |
 | Markdown / HTML | 创建、整篇原文编辑、预览和导出原文 | HTML 预览隔离运行，禁止脚本与远程资源 |
@@ -83,7 +85,7 @@
 
 *生产页面与真实DOCX，合成资料及模拟原生审批；不是分页预览或Mac运行证明。详见[导入Word编辑与边界](docs/IMPORTED_WORD_EDITING.md)。*
 
-完整 GenOffice 套件尚未内嵌；任意导入 DOCX 的保真编辑仍未完成，复杂文件可继续使用可选外部应用接续。详见 [内置引擎与边界](docs/GENOFFICE_ENGINE.md)及[外部接续](docs/GENOFFICE_DESKTOP.md)。
+完整 GenOffice 套件尚未内嵌；预览已随应用提供，无需外部应用。复杂文件会显示兼容性提示，任意导入 DOCX 的保真编辑仍未完成。详见[内置预览](docs/OFFICE_PREVIEW.md)与[引擎边界](docs/GENOFFICE_ENGINE.md)。
 
 详细操作：[文档工作台](docs/OFFICE_WORKSPACE.md) · [浏览器授权与弹窗](docs/APPROVAL_FIX.md) · [CLI 持久队列](docs/DURABLE_COMMANDS.md) · [共享任务调度](docs/SHARED_RUNS.md)。
 
@@ -93,7 +95,7 @@
 
 适用平台：**Apple 芯片 Mac / arm64，最低 macOS 12**。当前不提供 Intel Mac 安装包。
 
-1. 获取实际交付的 `WillBuddy-v0.18.0-mac-arm64-offline.zip`。公开安装包是否已发布，请以仓库 [Releases](https://github.com/scliubingxin/WillBuddy/releases) 的实际内容为准；源码分支本身不是安装包。
+1. 获取实际交付的 `WillBuddy-v0.19.0-mac-arm64-offline.zip`。公开安装包是否已发布，请以仓库 [Releases](https://github.com/scliubingxin/WillBuddy/releases) 的实际内容为准；源码分支本身不是安装包。
 2. 先把 ZIP 完整解压到“下载”等用户目录，保留 `.app` 内的符号链接；不要直接向 `/Applications` 解压。
 3. 将 `WillBuddy.app` 移入“应用程序”；也可使用包内安装脚本安装到个人 `Applications` 目录。脚本会执行原生签名检查。
 4. 打开应用，在左下角配置模型，然后新建一个任务。
@@ -186,7 +188,7 @@ WillBuddy 不内置付费模型账户，也不要求使用特定云厂商。
 git clone https://github.com/scliubingxin/WillBuddy.git
 cd WillBuddy
 # 本说明对应已交付的桌面修复分支；main 尚未合入该版本。
-git switch willbuddy-v0.18.0-preview-lifecycle
+git switch willbuddy-v0.19.0-spreadsheet-images
 npm --prefix desktop ci
 npm --prefix desktop start
 ```
@@ -219,7 +221,7 @@ npm --prefix desktop test
 
 ## 项目状态与路线
 
-0.17.0 的代码验证包括 **173 项核心测试、12 项真实 Chromium 验收及 9 项打包测试**，并新增真实 Linux Electron file/ASAR 预览验收。原生审批、IPC 和部分模型响应使用测试适配器；这不代表已经完成 Mac 原生、真实付费模型或 Office/WPS 保真验收。
+0.19.0 的代码验证包括 **184 项核心测试、12 项真实 Chromium 验收及 9 项打包测试**，并新增真实 Linux Electron file/ASAR 预览验收。原生审批、IPC 和部分模型响应使用测试适配器；这不代表已经完成 Mac 原生、真实付费模型或 Office/WPS 保真验收。
 
 近期重点：
 
@@ -228,7 +230,7 @@ npm --prefix desktop test
 - Mac 原生安装、严格签名、公证、审批和真实模型验证。
 - 受控并行子任务、跨队列公平、桌面 MCP 和 Web/桌面共用核心。
 
-查看：[发布状态](RELEASE_STATUS.json) · [迭代计划](ITERATION_PLAN.md) · [迭代日志](ITERATION_LOG.md) · [Quick 能力差距](docs/QUICK_GAPS.md) · [0.15.0 验证记录](docs/validation/v0.15.0.json)。
+查看：[发布状态](RELEASE_STATUS.json) · [迭代计划](ITERATION_PLAN.md) · [迭代日志](ITERATION_LOG.md) · [Quick 能力差距](docs/QUICK_GAPS.md) · [0.19.0 验证记录](docs/validation/v0.19.0.json)。
 
 ## 许可与项目定位
 

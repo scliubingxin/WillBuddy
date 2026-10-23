@@ -1,15 +1,15 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.18.0",
-  "packaged_date": "2026-10-23",
+  "version": "0.19.0",
+  "packaged_date": "2026-10-24",
   "provenance": "Complete validated source snapshot; Git commits and deployment are tracked separately",
   "base_source_commit_sha": "ecc5dd81061b5c28999120075d06884a2496114c",
   "release_status": {
     "schema_version": 2,
     "brand": "WillBuddy",
-    "version": "0.18.0",
-    "checked_date": "2026-10-23",
+    "version": "0.19.0",
+    "checked_date": "2026-10-24",
     "source_status": "desktop_source_delivery_not_deployed",
     "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
     "desktop": {
@@ -43,10 +43,11 @@
       "external_genoffice_ui": false,
       "preview_transport": "fixed SHA-verified two-resource secure custom protocol; actual Linux Electron file-host and ASAR fixture passed; Mac pending",
       "preview_timeout": "5s component boot / 15s render, phase-specific errors and manual fresh-token reload",
-      "preview_lifecycle": "same scope/id/revision keeps connected frame; chrome-only reconciliation; close/switch/version disposes; no cross-document cache"
+      "preview_lifecycle": "same scope/id/revision keeps connected frame; chrome-only reconciliation; close/switch/version disposes; no cross-document cache",
+      "spreadsheet_preview_images": "worksheet relationship-bound one/two/absolute cell anchor positioning; bounded raster decode; no gallery/orphan media; crop/rotation unsupported"
     },
     "validation": {
-      "desktop_tests_passed": 177,
+      "desktop_tests_passed": 184,
       "ui_paths_with_mock_bridge": 17,
       "real_cli_child_process_tested": true,
       "agent_http_fixture_to_real_cli_roundtrip_tested": true,
@@ -62,7 +63,7 @@
       "theme_check": "Chinese font available for documentation screenshots; production forms and layout inspected; no Mac pixel/runtime validation",
       "offline_bundle": {
         "official_runtime_sha256": "passed",
-        "asar_content": "69 production files exact bytes",
+        "asar_content": "70 production files exact bytes",
         "zip_integrity": "passed",
         "closed_inventory": "passed; 282 app entries + 5 extras; 14 symlinks; no residue",
         "unexpected_entry_negative": "passed even when every manifest file remains unchanged",
@@ -104,7 +105,9 @@
       "word_paragraph_new_tests": 10,
       "word_paragraph_real_chromium": "production insert/undo/savev2/export/python-docx/reload/delete/undov3/export/disk reload; native bridge/approval fixtures",
       "preview_lifecycle_tests": 4,
-      "preview_lifecycle_native": "Linux Electron actual preload/IPC source+ASAR; 3 formats x20 UI redraws, zero extra reads/same child frame; Mac pending"
+      "preview_lifecycle_native": "Linux Electron actual preload/IPC source+ASAR; 3 formats x20 UI redraws, zero extra reads/same child frame; Mac pending",
+      "spreadsheet_image_new_tests": 7,
+      "spreadsheet_image_scope": "real Chromium file+openpyxl and Linux Electron source/ASAR; one/two anchors real, absolute geometry unit; no Mac/ExcelWPS fidelity"
     },
     "rea": {
       "version": "6.7.0",
@@ -165,13 +168,13 @@
     },
     {
       "path": "ITERATION_LOG.md",
-      "bytes": 147409,
-      "sha256": "2184ce132ee007a102b81341afc68c02a7b4765b742d810d827281e0d5c1f9cd"
+      "bytes": 148027,
+      "sha256": "1d6edb97f5d4f40c05edfb6d3b36a8d611448c8f1d6afff661ffd52feb98275e"
     },
     {
       "path": "ITERATION_PLAN.md",
-      "bytes": 37753,
-      "sha256": "f4c097138c9f32547d606c7923791244e018dc9c0814d2f93170a523126623a3"
+      "bytes": 38371,
+      "sha256": "66a800f0391d6b8c97b24dc4f47035ebc6524f01b9be929402c31a7a98eedb04"
     },
     {
       "path": "OPENWORKBUDDY_REFERENCE.md",
@@ -185,13 +188,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 19220,
-      "sha256": "0c483ad199e08f500108062cc1acd511eca271250ebf16acd516079fdd645843"
+      "bytes": 19473,
+      "sha256": "2bed1f2519039f8e455a58d4955188460c03614f105d7139a249c01a5228e4ea"
     },
     {
       "path": "RELEASE_STATUS.json",
-      "bytes": 8833,
-      "sha256": "ae576225abcc4aec815aae6d72e975ed8cd55cd7983472c5a1b55c1e71ef63b7"
+      "bytes": 9218,
+      "sha256": "036a22744869824eead40fafc752ab204de0abfdefd724476b6fe443eb1b7e76"
     },
     {
       "path": "SELF_TEST_MATRIX.md",
@@ -670,8 +673,8 @@
     },
     {
       "path": "desktop/README.md",
-      "bytes": 19153,
-      "sha256": "1e4b6e3b13b2e1dc3ddc31794f442cbe6ae18fb53c46b9e35f4f80c0cebc77a2"
+      "bytes": 19399,
+      "sha256": "a466350c330471d741fafc5779f9b5f3d0c2d55b582da91950b40eae65221459"
     },
     {
       "path": "desktop/assets/app.icns",
@@ -756,12 +759,12 @@
     {
       "path": "desktop/package-lock.json",
       "bytes": 279311,
-      "sha256": "5e89d622525985eedd87a4f665e2d662820d6d160338a6beecb37e6a65682614"
+      "sha256": "e36d9d81c09cded7b38e040f3552f926a9df6e446d856e060cad5f040f67f0fc"
     },
     {
       "path": "desktop/package.json",
       "bytes": 2931,
-      "sha256": "46ef6bd9ff27904d10967a8a4cb355050a55391314404cafcb02614c38d830fa"
+      "sha256": "83d7893116663783c52e93eac974481a88fa50bb7d0bf389b0f840838f6892d1"
     },
     {
       "path": "desktop/preload.cjs",
@@ -936,12 +939,12 @@
     {
       "path": "desktop/src/preview/PREVIEW-MANIFEST.json",
       "bytes": 584,
-      "sha256": "8bbf0628505b00b52bcbdc1c4dde2b75148efe3e7ae74b185e669f9ea0999ca2"
+      "sha256": "1c77247c99f081bae490c3f3c96ef937233286b77144a09fafcca1462308725b"
     },
     {
       "path": "desktop/src/preview/engine.js",
-      "bytes": 1656406,
-      "sha256": "47100356d1223b65a9db8ca6c0e7358a60adf29d035e994aef80aee1c350d803"
+      "bytes": 1663199,
+      "sha256": "5b8efaeb59e6573e5a056f090ac552c7d395cd5a7e354cce62b6cc97aadc27ce"
     },
     {
       "path": "desktop/src/preview/index.html",
@@ -950,8 +953,13 @@
     },
     {
       "path": "desktop/src/preview/renderer.js",
-      "bytes": 10489,
-      "sha256": "c552ce7fe16173f7df228ad0b70463c629356344f293fadf89ec2efb50cf2666"
+      "bytes": 12284,
+      "sha256": "dab8eab2ae23f550d90cefa6c68f9a8598488c167174141fd4c5a6394767dbe1"
+    },
+    {
+      "path": "desktop/src/preview/spreadsheet-images.js",
+      "bytes": 8332,
+      "sha256": "1fa794915ed539d601438c26a16dc40208ec5921282fd064e2e9336d0dffe56d"
     },
     {
       "path": "desktop/src/shared/formula-core.js",
@@ -1065,8 +1073,8 @@
     },
     {
       "path": "desktop/tests/acceptance/office-preview-live.mjs",
-      "bytes": 7718,
-      "sha256": "0ab242a941c32526044e836c9a8f687ed20da6eb369d08676ffc30f8c0a26391"
+      "bytes": 12076,
+      "sha256": "11d770ee4987c41b37d35442fc2be19dc6272eeb31e979d18af89e57d3ee7fc9"
     },
     {
       "path": "desktop/tests/acceptance/runs-live.mjs",
@@ -1144,6 +1152,11 @@
       "sha256": "37607934ccd7d9e4c88876b5682fe85794d143f87d9f43b5f02ebdc848d2756f"
     },
     {
+      "path": "desktop/tests/helpers/image-workbook.mjs",
+      "bytes": 673,
+      "sha256": "793c2a1372f1a3ba43e8d9330584fb41b7dacae37c8581ac7c906e3e83cab79e"
+    },
+    {
       "path": "desktop/tests/helpers/load-ui.mjs",
       "bytes": 1326,
       "sha256": "3e0bb5668a8b648583f3a870b4135474b873436435af75437b51e171a950f985"
@@ -1160,8 +1173,8 @@
     },
     {
       "path": "desktop/tests/native/production-preview.mjs",
-      "bytes": 6311,
-      "sha256": "5ccb7f2a7c2c52b9312a059fcd89095d2884b403dfb9e69f671f071b7753cd8c"
+      "bytes": 8963,
+      "sha256": "453de2300165b3c99113172e87a8bf093d51b54d7183511aea09a6ba14bcdea0"
     },
     {
       "path": "desktop/tests/office-preview.test.mjs",
@@ -1202,6 +1215,11 @@
       "path": "desktop/tests/spreadsheet-formula.test.mjs",
       "bytes": 19856,
       "sha256": "18279a4ba88de35897532a2f8ffc7f084d2d706299edbc21c5f516bb80a05dd8"
+    },
+    {
+      "path": "desktop/tests/spreadsheet-images.test.mjs",
+      "bytes": 6282,
+      "sha256": "05ccccdb528554c3f2139ab858b363d42e2bd40f877ba56b3ef7f2266c8a5695"
     },
     {
       "path": "desktop/tests/streaming.test.mjs",
@@ -1285,8 +1303,8 @@
     },
     {
       "path": "docs/QUICK_GAPS.md",
-      "bytes": 13390,
-      "sha256": "b7b3430dbe7b35ddd7653265a06e41b502ccc644d6ef983d46994beb26335ed9"
+      "bytes": 14003,
+      "sha256": "59441ce3c497df4c477e1375269d7fea362ca7bfe038407a5100b368e16451f6"
     },
     {
       "path": "docs/REA_FINDINGS.md",
@@ -1307,6 +1325,11 @@
       "path": "docs/SPREADSHEET_FORMULAS.md",
       "bytes": 4664,
       "sha256": "e522421b5ed1814a84ac85dc12065a236e228dac544267171c1adf5d058b18c5"
+    },
+    {
+      "path": "docs/SPREADSHEET_IMAGES.md",
+      "bytes": 4285,
+      "sha256": "985ac095da4044e718cc376ef05b58716392200c903697e02d3ae269d2873782"
     },
     {
       "path": "docs/STREAMING_AND_RENDERING.md",
@@ -1427,6 +1450,11 @@
       "path": "docs/validation/v0.18.0.json",
       "bytes": 2185,
       "sha256": "7b82853abce0b80c3c1e18ebf59ab92c29e71e1e48abcf53e4c452ccd4d2eb1e"
+    },
+    {
+      "path": "docs/validation/v0.19.0.json",
+      "bytes": 2649,
+      "sha256": "7e629c4d09a7dd63755be7e3b0a738c1f8ef3054bf4ad0ab7ed7e131f7e0bcf6"
     },
     {
       "path": "docs/validation/v0.5.0.json",
