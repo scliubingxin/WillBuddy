@@ -1,3 +1,5 @@
+0.15.0：新增导入Word简单正文段落后插入/删除/保存前撤销；AI document_patch使用批准read返回的段落anchor与版本。仅正文顶层简单段落，表格/页眉页脚结构、编号/分节/带样式引用/复杂结构保护。原件/前5版保留。见[段落编辑与验证](../docs/WORD_PARAGRAPHS.md)。
+
 0.14.0：新增受限 Excel 公式引擎、跨表 A1 引用、即时预览和独立保存重算；支持七个基础函数，拒绝未知/共享/数组公式、循环引用及图表/透视表/结构化表格工作簿编辑。原件和前5版保留。最终用户无需 Office、Python、npm 或 LibreOffice；开发浏览器验收需要 soffice 独立比对。见[公式说明](../docs/SPREADSHEET_FORMULAS.md)。
 
 0.13.0：新增导入Word片段编辑、保留其他部件与样式、AI document_patch和版本/片段指纹门禁。支持正文、表格文字和页眉页脚的简单段落；复杂段落只读，不是分页保真编辑器。见[说明](../docs/IMPORTED_WORD_EDITING.md)。
@@ -18,13 +20,13 @@
 
 项目结构与修改入口见 ../docs/ARCHITECTURE.md（0.6.1 分层整理）。
 
-# WillBuddy 桌面版 0.14.0
+# WillBuddy 桌面版 0.15.0
 
 在原 Web 系统与 0.3.0 桌面基础上新增浏览器、CLI 及模型工具调用闭环。原 Web 代码、数据库迁移和 Python Office 执行器保留；桌面无需先运行 Web 服务或 Cloudflare。
 
 ## 免依赖安装（Apple 芯片）
 
-日常使用请下载独立的 `WillBuddy-v0.14.0-mac-arm64-offline.zip`，完整解压后把 `WillBuddy.app` 拖入应用程序，或双击 `Install-WillBuddy.command` 安装到个人 Applications 文件夹。应用已内置 Electron/Chromium/Node 运行时，安装不执行 npm，也不要求开发工具。下方 npm 命令仅供源码开发。
+日常使用请下载独立的 `WillBuddy-v0.15.0-mac-arm64-offline.zip`，完整解压后把 `WillBuddy.app` 拖入应用程序，或双击 `Install-WillBuddy.command` 安装到个人 Applications 文件夹。应用已内置 Electron/Chromium/Node 运行时，安装不执行 npm，也不要求开发工具。下方 npm 命令仅供源码开发。
 
 只制作 Apple 芯片版，最低 macOS 12。包采用 ad-hoc 签名，尚无 Developer ID 或公证，未完成真机启动；系统首次运行可能需要在隐私与安全性中确认。安装脚本不会关闭 Gatekeeper 或移除隔离标记。Git/Codex/Python/Ollama 等外部工具及原 Python Office 工具链不包含在桌面主程序依赖中，使用这些外部能力仍需对应本机程序。
 
