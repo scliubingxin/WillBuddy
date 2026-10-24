@@ -17,7 +17,7 @@ w.actwill={state:async()=>structuredClone(s),pickFolder:async()=>structuredClone
 Object.assign(w.actwill,{
  openBrowser:async p=>{calls.push({type:'browser',...p});s.browsers.push({id:'b',title:'网页夹具',url:p.url});return {status:'opened'};},
  readBrowser:async()=>({status:'read',url:'https://example.com',text:'正文夹具'}),
- executeCommand:async p=>{calls.push({type:'cli',...p});s.executions.unshift({id:'exec',tool:'cli_execute',args:p,time:Date.now(),status:'succeeded',result:{status:'succeeded',stdout:'CLI fixture output',stderr:'',exitCode:0}});return {status:'succeeded'};},
+ enqueueCommand:async p=>{calls.push({type:'cli',...p});s.executions.unshift({id:'exec',tool:'cli_execute',args:p,time:Date.now(),status:'succeeded',result:{status:'succeeded',stdout:'CLI fixture output',stderr:'',exitCode:0}});return {status:'succeeded'};},
  inspectBrowser:async()=>({status:'inspected',id:'b',snapshotId:'snapshot',url:'https://example.com',elements:[{ref:'e1',kind:'input',label:'关键词',tag:'INPUT'},{ref:'e2',kind:'click',label:'搜索',tag:'BUTTON'}]}),
  browserAction:async p=>{calls.push({type:'browserAction',...p});return {status:p.operation==='browser_fill'?'filled':'clicked'};},
  cancelCommand:async()=>true

@@ -1,0 +1,111 @@
+{
+  "version": "0.14.0",
+  "date": "2026-10-23",
+  "baseline": {
+    "canonical_version_read": 14,
+    "version": "0.13.0",
+    "source_files_sha256_checked": 403
+  },
+  "tests": {
+    "core": 156,
+    "new_core": 20,
+    "real_chromium": 10,
+    "new_browser": 1,
+    "packaging_python": 9,
+    "new_packaging": 2
+  },
+  "commands": [
+    "npm --prefix desktop test",
+    "CHROME_PATH=<141 Headless Shell> CHROME_TEST_NO_SANDBOX=1 node --test --test-concurrency=1 desktop/tests/acceptance/*.mjs",
+    "python3 -m unittest discover -s scripts/tests -v"
+  ],
+  "actual_acceptance": [
+    "real production Chromium create XLSX -> edit quantity -> live calculated1600 -> tabs retain drafts -> new ROUND cell -> unsupported function blocks save -> v2 export -> disk reload",
+    "openpyxl independently inspects formulas, typed caches and preserved styles",
+    "LibreOfficeDev26.8.0.0.alpha0 independent recalculation matches 8 formula cells",
+    "HTTP model fixture -> approved read/edit -> actual XLSX",
+    "negative malformed coordinates/shared/array/unknown/external/cycle/bounds/derived objects/signed packages",
+    "denial/cancel/stale revision/disk rollback/audit redaction",
+    "atomic source ZIP success visibility and disk failure retain prior artifact"
+  ],
+  "fixture_boundaries": [
+    "native IPC",
+    "native approval",
+    "model content",
+    "Electron conversion adapter"
+  ],
+  "not_tested": [
+    "native Mac install/codesign resources/Gatekeeper/launch",
+    "paid model provider",
+    "Excel/WPS native visual compatibility",
+    "full Excel formula parity",
+    "Codex CLI",
+    "original Web build; Python executor unmodified, old35 tests not rerun"
+  ],
+  "limits": {
+    "functions": [
+      "SUM",
+      "AVERAGE",
+      "MIN",
+      "MAX",
+      "COUNT",
+      "IF",
+      "ROUND"
+    ],
+    "sheets": 10,
+    "host_cells": 5000,
+    "ui_cells": 500,
+    "formulas": 1000,
+    "operation_budget": 100000,
+    "formula_chars": 1000,
+    "dependency_depth": 200
+  },
+  "protected_original_files_sha256_unchanged": 122,
+  "offline_bundle": {
+    "bytes": 119188044,
+    "sha256": "5adfbc54b3ea3e596b6760e6d0ac6b0f87227b733b86ab3ba800b43e7db8a5f4",
+    "asar_sha256": "7c51ab8ddfcb1f2946a62019139bc9beab9c62ebeb9d21afd2cdfad25645b13f",
+    "production_files_exact": 61,
+    "app_entries": 282,
+    "extras": 5,
+    "symlinks": 14,
+    "residue": 0,
+    "macho": 15,
+    "code_pages": 51216,
+    "negative_tamper_rejected": true,
+    "signature": "ad-hoc",
+    "notarized": false
+  },
+  "modified_files": [
+    "ITERATION_LOG.md",
+    "ITERATION_PLAN.md",
+    "README.md",
+    "RELEASE_STATUS.json",
+    "SOURCE_MANIFEST.json",
+    "desktop/README.md",
+    "desktop/package-lock.json",
+    "desktop/package.json",
+    "desktop/runtime/agent.mjs",
+    "desktop/runtime/documents.mjs",
+    "desktop/runtime/spreadsheet.mjs",
+    "desktop/runtime/tools.mjs",
+    "desktop/services/documents.mjs",
+    "desktop/src/app.js",
+    "desktop/src/shared/formula-core.js",
+    "desktop/src/styles.css",
+    "desktop/src/ui/documents.js",
+    "desktop/src/ui/spreadsheet.js",
+    "desktop/tests/acceptance/spreadsheet-live.mjs",
+    "desktop/tests/documents.test.mjs",
+    "desktop/tests/helpers/load-ui.mjs",
+    "desktop/tests/spreadsheet-formula.test.mjs",
+    "docs/ARCHITECTURE.md",
+    "docs/QUICK_GAPS.md",
+    "docs/SPREADSHEET_FORMULAS.md",
+    "docs/images/spreadsheet-formulas.png",
+    "docs/validation/v0.14.0.json",
+    "scripts/package-desktop-source.py",
+    "scripts/tests/test_source_archive.py"
+  ],
+  "next": "native Mac Office/model acceptance; controlled Word structural edits or formula/template expansion; no PR/merge authorization"
+}

@@ -1,3 +1,9 @@
+0.9.0 接续（2026-10-22）：复查官方system-tools-desktop公开任务管理/进度及权限描述；复用原REA证据，不重跑不完整静态分析、不新增Amazon队列内部结论。WillBuddy共享模型调度是独立实现，见 SHARED_RUNS.md。
+
+0.8.0 接续（2026-10-21）：复查官方桌面界面/系统工具文档，用于功能差距映射；继续复用已有REA根哈希与部分静态证据，本轮未重新下载/运行Amazon包，不推断其队列或内部架构。WillBuddy独立实现CLI持久队列，见 DURABLE_COMMANDS.md。
+
+0.7.0 接续（2026-10-21）：本轮修复 WillBuddy 自身流式与内容渲染，复用已有 Quick/REA 静态证据；没有对 Amazon 二进制做新增运行推断。
+
 # Amazon Quick 参考分析与本次实现
 
 0.6.0 接续（2026-10-21）：本轮依据用户静态截图观察任务/执行过程/Session tabs 的内容组织，映射见 SCREENSHOT_ALIGNMENT.md；复用下述 REA 证据，没有新增对官方二进制运行的结论。WillBuddy 自身已通过 Chromium Headless Shell/CDP 的 DOM 和可信输入测试，但它不证明 Amazon Quick 的实现，也不等于 WillBuddy 的 Mac 原生验收。

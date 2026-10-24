@@ -1,0 +1,45 @@
+{
+  "version": "0.11.0",
+  "date": "2026-10-22",
+  "tests": {
+    "node_jsdom": 113,
+    "real_chromium": 6,
+    "packaging_python": 7,
+    "original_python_executor": "unchanged; prior 35 passing, not rerun"
+  },
+  "new_cases": 8,
+  "office_flow": "real HTTP fixture tool call -> trusted artifact -> actual DOCX bytes -> production editor -> revision 2 -> binary export -> reload",
+  "genoffice": {
+    "reviewed_commit": "285540a4f178a840485bcc09b0cdb9bb0caa2ff2",
+    "integration": "optional installed macOS app handoff and checked import",
+    "embedded": false,
+    "native_tested": false,
+    "fixture_boundaries": [
+      "launcher",
+      "native approvals",
+      "native IPC",
+      "model content"
+    ]
+  },
+  "bundle": {
+    "bytes": 119051628,
+    "sha256": "576234481dc420d73270fec008b36d2a5268b8b51c1f43ecd0bfe925f3e08de8",
+    "asar_exact_files": 47,
+    "app_entries": 282,
+    "extras": 5,
+    "symlinks": 14,
+    "residue": 0,
+    "macho_binaries": 15,
+    "code_pages": 51216,
+    "tamper_negative": true,
+    "signature": "ad-hoc",
+    "mac_native_verified": false,
+    "notarized": false
+  },
+  "limitations": [
+    "not a full WYSIWYG Office editor",
+    "no formula recalculation",
+    "GenOffice not bundled",
+    "no real paid model or native Mac acceptance"
+  ]
+}

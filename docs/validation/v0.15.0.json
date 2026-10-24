@@ -1,0 +1,74 @@
+{
+  "version": "0.15.0",
+  "date": "2026-10-23",
+  "baseline": {
+    "canonical_version_read": 15,
+    "version": "0.14.0",
+    "source_hashes": 412
+  },
+  "tests": {
+    "core": 166,
+    "new_core": 10,
+    "real_chromium": 11,
+    "new_browser": 1,
+    "packaging_python": 9
+  },
+  "actual": [
+    "HTTP model fixture read->insertAfter->real DOCX",
+    "production Chromium import->insert/undo->v2 save/export->independent python-docx text/style/table/image/header/footer->reload->delete/undo->v3 export/disk reload",
+    "anchor/duplicate/unknown/XML-shaped text/Unicode/bounds/last paragraph/section/numbering/style/cross-range protection",
+    "denied/cancel/stale revision/disk rollback/history retained"
+  ],
+  "fixture_boundaries": [
+    "native IPC",
+    "native approval",
+    "model content",
+    "Electron conversion adapter"
+  ],
+  "not_tested": [
+    "Mac native install/strict resource signing/Gatekeeper/launch",
+    "paid model",
+    "Word/WPS native display",
+    "full Office fidelity",
+    "original Python35 not rerun"
+  ],
+  "protected_original_files_unchanged": 122,
+  "offline": {
+    "bytes": 119190146,
+    "sha256": "6d8c24ab40d26ab28a1501071489f0afa6ae8ca509e1ab627b11138d578babcb",
+    "asar_sha256": "154d2b372a63850b5db2cb09ad8773fa1ce18aaf9a8243daec1712cc748d5a60",
+    "exact_production_files": 61,
+    "app_entries": 282,
+    "extras": 5,
+    "symlinks": 14,
+    "residue": 0,
+    "macho": 15,
+    "pages": 51216,
+    "tamper_rejected": true,
+    "signature": "ad-hoc",
+    "notarized": false
+  },
+  "modified_files": [
+    "ITERATION_LOG.md",
+    "ITERATION_PLAN.md",
+    "README.md",
+    "RELEASE_STATUS.json",
+    "SOURCE_MANIFEST.json",
+    "desktop/README.md",
+    "desktop/package-lock.json",
+    "desktop/package.json",
+    "desktop/runtime/agent.mjs",
+    "desktop/runtime/word-structure.mjs",
+    "desktop/services/documents.mjs",
+    "desktop/src/styles.css",
+    "desktop/src/ui/word-runs.js",
+    "desktop/tests/acceptance/word-paragraphs-live.mjs",
+    "desktop/tests/word-paragraphs.test.mjs",
+    "desktop/tests/word-structure.test.mjs",
+    "docs/QUICK_GAPS.md",
+    "docs/WORD_PARAGRAPHS.md",
+    "docs/images/word-paragraphs.png",
+    "docs/validation/v0.15.0.json"
+  ],
+  "next": "Mac native Office/model acceptance; controlled table structure/preview/templates; no PR or main merge authorization"
+}

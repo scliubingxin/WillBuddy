@@ -1,0 +1,85 @@
+/** Build-time only: lockfile-pinned Office codecs, with all transitive licenses. */
+import { build } from "../desktop/node_modules/esbuild/lib/main.js";
+import { readFile, writeFile, mkdir, readdir, stat } from "node:fs/promises";
+import path from "node:path";
+import { createHash } from "node:crypto";
+const root = path.resolve(import.meta.dirname, "../desktop"),
+  out = path.join(root, "src/preview");
+await mkdir(out, { recursive: true });
+const result = await build({
+  entryPoints: [path.join(root, "src/preview/renderer.js")],
+  bundle: true,
+  platform: "browser",
+  format: "iife",
+  target: "chrome120",
+  minify: true,
+  legalComments: "eof",
+  outfile: path.join(out, "engine.js"),
+  metafile: true,
+});
+// Resolve package directories from esbuild's cwd-relative inputs, including nested dependencies.
+const dirs = new Set();
+for (const file of Object.keys(result.metafile.inputs)) {
+  const absolute = path.resolve(file),
+    parts = absolute.split(path.sep);
+  let i = parts.lastIndexOf("node_modules");
+  if (i < 0) continue;
+  dirs.add(
+    parts.slice(0, i + (parts[i + 1].startsWith("@") ? 3 : 2)).join(path.sep),
+  );
+}
+const licenses = [];
+for (const dir of [...dirs].sort()) {
+  const meta = JSON.parse(
+    await readFile(path.join(dir, "package.json"), "utf8"),
+  );
+  let found = false;
+  for (const name of await readdir(dir)) {
+    if (
+      /^(licen[cs]e|copying|notice)/i.test(name) &&
+      (await stat(path.join(dir, name))).isFile()
+    ) {
+      licenses.push(
+        `\n===== ${meta.name}@${meta.version}: ${name} =====\n` +
+          (await readFile(path.join(dir, name), "utf8")),
+      );
+      found = true;
+    }
+  }
+  if (!found) throw Error("Missing bundled license " + meta.name);
+}
+await writeFile(path.join(out, "PREVIEW-LICENSES.txt"), licenses.join("\n"));
+const ppt = path.join(root, "node_modules/@aiden0z/pptx-renderer");
+licenses.push(await readFile(path.join(ppt, "THIRD_PARTY_NOTICES.md"), "utf8"));
+async function collect(dir) {
+  for (const n of await readdir(dir)) {
+    const f = path.join(dir, n);
+    if ((await stat(f)).isDirectory()) await collect(f);
+    else
+      licenses.push("\n===== " + n + " =====\n" + (await readFile(f, "utf8")));
+  }
+}
+await collect(path.join(ppt, "licenses"));
+await writeFile(path.join(out, "PREVIEW-LICENSES.txt"), licenses.join("\n"));
+const bytes = await readFile(path.join(out, "engine.js"));
+await writeFile(
+  path.join(out, "PREVIEW-MANIFEST.json"),
+  JSON.stringify(
+    {
+      sha256: createHash("sha256").update(bytes).digest("hex"),
+      bytes: bytes.length,
+      packages: dirs.size,
+      entryDependencies: JSON.parse(
+        await readFile(path.join(root, "package.json"), "utf8"),
+      ).devDependencies,
+    },
+    null,
+    2,
+  ) + "\n",
+);
+console.log(
+  "Offline Office codec bytes",
+  bytes.length,
+  "licensed packages",
+  dirs.size,
+);

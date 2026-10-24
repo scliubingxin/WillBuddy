@@ -1,3 +1,389 @@
+## 2026-10-24 · 0.22.0 技能上传库与MCP连接器配置
+
+按用户六张截图落实三个管理页签：智能体、Skills技能库、MCP连接器。原生选择器上传SKILL.md/ZIP→真实有界解析/持久文件资源；元数据列表、正文目录查看、启用停用/引用保护删除。构建智能体绑定skillIds/mcpIds，可当场上传/保存连接并自动选中，保留提示词/草稿，迟到上传不能写入另一个表单；旧内嵌配置保留。MCP保存不联网，原生批准后实际发现，支持取消/修订失效/退出清理；只标上次真实发现，不假在线。运行解析绑定能力，skill_read/resource按需返回完整入口和受限文本参考；真实模型HTTP夹具四轮Skill→资源→MCP→验收通过。allowed-tools不提权，包内脚本不自动执行。
+
+从权威0.21/v22读取479内容并SHA核验后开发。新增schema1字段skillPackages/mcpConnections/agent skillIds+mcpIds，无新生产依赖。12新增核心（共232）/17真实Chromium全回归及4最终相关重跑/9打包Python通过。真实ZIP/服务/磁盘/HTTP协议与生产页面；原生选择器/IPC/审批/模型内容仍夹具。无Mac/付费模型/企业MCP/完整Office保真；认证头/OAuth/stdio未实现。原122Web/Python保护文件SHA不变，旧35Python未改未重跑。原logo白蓝/加密身份/双任务/浏览器站点许可/HTML与Office/图片保留。
+
+见docs/SKILLS_AND_CONNECTORS.md与validation/v0.22.0.json。技能格式为有界子集：4MiB输入/2MiB展开/64文件/CRC与路径及符号链接门禁、name64/description1024/主源12000字符，库40项/16MiB；binary保留不执行，资源仅UTF8有界读取。不是完整技能运行环境、市场、API密钥连接器或自主子Agent。下一轮先实际Mac/模型/MCP联调，再认证连接器/技能完整资源使用/知识索引与Office兼容。未GitHub上传/未公开release/未PR/合并main，保留此前公开发布自动审批边界；交付独立完整源码与arm64离线候选并保护替换权威。
+
+## 2026-10-24 · 0.21.0 智能体能力组合、HTML原型预览与图片附件
+
+从权威0.20/v21获取456内容文件并核验后开发。用户新反馈优先：原260561字节HTML由尾部JS绘制，旧50k摘要/静态脚本过滤造成空白；新增独立完整有界预览与双opaque隔离，原样本实际欢迎界面/供应商表单/三次绘制只读一次/无外网通过，不把localhost业务接口当已接通。新增本机PNG/JPEG→nativeImage适配器→规范PNG持久附件，默认不送模型，显式勾选本轮image_url实际HTTP协议，模型变化拒绝。原文件/原模型附件限制保持。
+
+智能体新增知识文档绑定、按需skill_read、一般工具白名单、MCP配置与1–12轮ReAct；knowledge_search调用原审批文档读取并返回有来源行片段。真实MCP初始化/目录/JSON或SSE调用/会话清理，不是占位字段；每次网络操作审批/取消/超限/配置撤销/磁盘故障门禁和审计正文隐藏。真实HTTP模型夹具四轮：技能→真实文档预算→MCP报价→验收；未运行真实付费模型/企业MCP或Mac。旧schema1增量，无新生产依赖。原Web/Python122哈希未变。
+
+220核心（新增24：图片7/HTML6/智能体11）、16个真实Chromium用例在完整回归和修正后的相关重跑中通过，另用户原HTML实际用例通过；9打包Python通过。完整浏览器首轮15/16，图片用例重载后误点搜索按钮，修正测试定位后该用例及5项相关最终回归通过；没有更改生产路径规避失败。原生选择器/PNG规范化/IPC/审批/模型响应仍夹具。原Python35未改未重跑；未新Linux Electron/Mac/字体像素/真实视觉/WordWPS验收。90生产文件与ASAR完全一致，15MachO/51216页、篡改负例、282应用+5配套/14链接/零残留和ZIP门禁通过，仍ad-hoc未公证。
+
+说明：docs/AGENT_CAPABILITIES.md、HTML_INTERACTIVE_PREVIEW.md、LOCAL_IMAGE_ATTACHMENTS.md及validation/v0.21.0.json。MCP目前无认证HTTP子集，无OAuth/stdio/自动重试；知识为有界词法行检索，不是向量库；技能为保存Markdown步骤，不是完整技能包/脚本执行；跨Web核心/自主并行组/完整Office保真未完成。保留旧身份/蓝红logo/白蓝主题、双任务/站点授权/GenOffice子引擎。下一轮先用户Mac/实际模型和MCP链路验收，再技能包导入/知识索引/认证连接器与Office兼容；不退回仅提示词壳。
+
+未GitHub上传、未公开release、未PR/合并main；保留先前公开发布自动审批拒绝边界，不另换途径绕过。源码与arm64包独立保存并保护替换权威源码。
+
+## 2026-10-24 · 0.20.0 对话富媒体展示
+
+实际新增 HTTPS图片点击加载/展开、视频控制播放、网页链接卡片和本地数据驱动柱/线/饼图；模型指令接入语法，原始Markdown/导出不改。外部媒体单独opaque frame、无Node/桥、CORS anonymous/no-referrer、启动/加载超时与关闭重试；每消息12媒体/6图、同时3媒体。固定媒体双资源+SHA校验，经典IIFE避免模块脚本opaque跨域启动失败；后台消息未变的绘制保留媒体frame。不是本地附件上传、视觉理解、转码或完整Office图表套件。196核心（新增12）/4相关真实Chromium/9打包通过；真实PNG/WebM解码/播放、链接路由、三图原值、5次重绘无额外请求及Office/流式/工作区回归。HTTPS响应/模型/原生桥夹具，未新Linux原生/Mac/远端服务验收；原Web/Python122文件未变，旧35未重跑。77生产文件ASAR精确一致；15MachO/51216页/篡改负例，包ad-hoc未公证。见docs/CHAT_RICH_MEDIA.md和validation/v0.20.0.json。
+
+下一轮：先Mac实际图片/视频/链接/流式图表验收，再本地媒体授权导入/持久附件与更完整图表/Office预览。保留旧身份/logo白蓝/双任务/站点许可。不建PR/不合并main；用户未批准0.19公开发布，禁止重试该发布或将0.20擅自公开。完整源码和arm64候选包照常保存交付。
+
+## 2026-10-24 · 0.19.0 Excel图片按锚点预览
+
+0.19.0：Excel预览图片按单格/双格/绝对锚点定位，跟随对应工作表与可见网格；不再把整个工作簿图片堆在表尾。保持离线内置，无需另装软件。184核心/12真实Chromium/9打包；真实XLSX图片坐标+decode+独立openpyxl，Linux原生Electron源码/ASAR验证与旧生命周期回归。Mac/付费模型/完整Office保真未验收。见docs/SPREADSHEET_IMAGES.md及validation/v0.19.0.json。下一轮Mac反馈与图表/主题/模板质量；MCP/跨Web核心/自主子任务组仍有差距；不建PR/合并main。
+
+## 2026-10-23 · 0.18.0 预览不随状态刷新重建
+
+0.18.0：同一Office文档版本的预览在后台刷新/侧栏调整时保持连接，不重新读文件/解析，保留Excel工作表选择和滚动；关闭、换文档或版本后释放重载。无需新增软件。177核心/12真实Chromium/9打包测试；Linux真实Electron源码与ASAR各三种文件20次绘制额外读取=0。Mac/付费模型/Office全保真未验收。详见docs/PREVIEW_LIFECYCLE.md及validation/v0.18.0.json。下一轮Mac链路与图片锚点/表格分页质量；保留旧系统/身份/logo/双任务/授权，不增加依赖，不建PR/合并main。
+
+## 2026-10-23 · 0.17.0 修复本地Office预览超时
+
+真实Electron42/Linux复现旧file路径未握手，修复为固定两资源应用内协议，保持CSP/Node/IPC边界；新增阶段超时/手动重载，About版本跟随应用。生产HTML+preload+真实IPC+真实Office文件在源码与ASAR通过，子帧正文/ready/无原生桥验证。173核心/12 Chromium/9打包通过；Mac/付费模型/Office显示/公证未验收。详见docs/PREVIEW_TIMEOUT_FIX.md及validation/v0.17.0.json。缓存/图片定位因最新超时反馈优先处理未交付，不列完成项。下一步用户Mac验收、独立预览生命周期与图表图片质量，保留原Web/Python、身份、白蓝logo/并发/审批。
+
+## 2026-10-23 · 0.16.0 内置 Office 预览
+
+完成：真实二进制预览服务、隔离帧、Word页面/多表Excel/PPT静态渲染、离线依赖与许可证、移除外部GenOffice UI。详见docs/OFFICE_PREVIEW.md与validation/v0.16.0.json。保留原Web/Python/身份/logo/并发/审批。下一步：Mac原生安装/预览/审批验收，复杂图表/图片定位/字体/分页质量，预览独立生命周期。未实现全Office保真或完整GenOffice嵌入。
+
+# 0.15.0 Word正文段落增删 · 2026-10-23
+
+从权威0.14.0/v15重新读取、412内容文件SHA核对后开发。实际新增简单正文后插入/删除、保存前撤销；模型与页面统一patchWord候选，原段落anchor和revision保护，原件与前5版保留。新段继承参考pPr/首rPr，不重建整份Word；未改部件SHA核对。仅正文顶层简单段，表格/页眉页脚结构、编号/分节/样式引用/复杂及跨段域书签批注保护；至少保留一原正文段，超限/冲突/拒绝/取消/磁盘失败不发布。详见docs/WORD_PARAGRAPHS.md和validation/v0.15.0.json。
+
+166核心（新增10）/11真实Chromium（新增1）/9打包测试通过；真实HTTP模型夹具read→结构新增，生产UI新增/撤销→v2导出与独立python-docx→重载→删除/撤销→v3导出/磁盘重载。Mac原生/真实付费模型/WordWPS保真未验收。61生产文件ASAR精确匹配，15MachO/51216页、篡改负例、282应用+5配套/14链接/零残留通过；ad-hoc未公证。原Web/Python122保护文件未变，旧Python35未重跑；白蓝logo、兼容身份、Excel七函数、双任务、浏览器许可和GenOffice子引擎保留。
+
+下一轮有Mac优先严格签名安装/启动/原生审批/真实模型Office；缺目标机继续受限表格结构或文档预览/模板质量，不停留介绍/队列。无完整GenOffice编辑器/任意Word保真/自主子任务组/MCP/跨Web核心结论。不创建PR/合并main，不用GitHub插件/聊天密码。
+
+实际修改文件：
+
+- `ITERATION_LOG.md`
+- `ITERATION_PLAN.md`
+- `README.md`
+- `RELEASE_STATUS.json`
+- `SOURCE_MANIFEST.json`
+- `desktop/README.md`
+- `desktop/package-lock.json`
+- `desktop/package.json`
+- `desktop/runtime/agent.mjs`
+- `desktop/runtime/word-structure.mjs`
+- `desktop/services/documents.mjs`
+- `desktop/src/styles.css`
+- `desktop/src/ui/word-runs.js`
+- `desktop/tests/acceptance/word-paragraphs-live.mjs`
+- `desktop/tests/word-paragraphs.test.mjs`
+- `desktop/tests/word-structure.test.mjs`
+- `docs/QUICK_GAPS.md`
+- `docs/WORD_PARAGRAPHS.md`
+- `docs/images/word-paragraphs.png`
+- `docs/validation/v0.15.0.json`
+
+# 0.14.0 表格计算增量 · 2026-10-23
+
+实际新增七函数公式引擎（SUM/AVERAGE/MIN/MAX/COUNT/IF/ROUND）、跨表A1与依赖计算、页面即时预览、单元格显式类型/公式编辑、新增坐标、切表草稿与只看公式。模型read/edit接既有审批与版本服务，主进程独立重算真实XLSX公式缓存、清除旧calcChain，保留样式和原件/前5版。未知/共享/数组公式、循环、外链、图表/透视表/结构化表格/签名工作簿编辑失败关闭。不是完整Excel/GenOffice电子表格套件。见docs/SPREADSHEET_FORMULAS.md和validation/v0.14.0.json。
+
+156核心（新增20）/10真实Chromium（新增1）/9打包（新增2）通过；生产页面生成→修改→即时计算→切表保留→保存v2→导出→磁盘重载。openpyxl核对公式/缓存，容器LibreOffice独立重算8个公式一致；HTTP模型内容/原生IPC/审批仍夹具，无Mac/付费模型/Excel-WPS保真验收。61生产文件与ASAR精确匹配，282应用+5配套/14链接/零残留，15MachO/51216页和篡改负例通过；仍ad-hoc未公证。源码发布新增临时ZIP完整验证后原子替换和失败保留测试，不把它当上一轮截断已知根因修复。
+
+下一轮有Mac先严格签名安装/启动、原生审批和实际模型Office链路；缺目标机优先Word段落/表格结构增删或受控扩展公式/模板质量、图表与预览。不要只加队列/说明；保留原Web/Python、兼容身份、白蓝logo、双任务/浏览器站点许可。不PR/不合并main、不用GitHub插件或聊天密码。
+
+实际修改文件：
+
+- `ITERATION_LOG.md`
+- `ITERATION_PLAN.md`
+- `README.md`
+- `RELEASE_STATUS.json`
+- `SOURCE_MANIFEST.json`
+- `desktop/README.md`
+- `desktop/package-lock.json`
+- `desktop/package.json`
+- `desktop/runtime/agent.mjs`
+- `desktop/runtime/documents.mjs`
+- `desktop/runtime/spreadsheet.mjs`
+- `desktop/runtime/tools.mjs`
+- `desktop/services/documents.mjs`
+- `desktop/src/app.js`
+- `desktop/src/shared/formula-core.js`
+- `desktop/src/styles.css`
+- `desktop/src/ui/documents.js`
+- `desktop/src/ui/spreadsheet.js`
+- `desktop/tests/acceptance/spreadsheet-live.mjs`
+- `desktop/tests/documents.test.mjs`
+- `desktop/tests/helpers/load-ui.mjs`
+- `desktop/tests/spreadsheet-formula.test.mjs`
+- `docs/ARCHITECTURE.md`
+- `docs/QUICK_GAPS.md`
+- `docs/SPREADSHEET_FORMULAS.md`
+- `docs/images/spreadsheet-formulas.png`
+- `docs/validation/v0.14.0.json`
+- `scripts/package-desktop-source.py`
+- `scripts/tests/test_source_archive.py`
+
+# 0.13.0 导入Word增量 · 2026-10-22
+
+实际新增导入DOCX片段文字/粗体/斜体编辑，正文、表格文字、页眉页脚的简单段落支持；其他格式和未改ZIP部件保留并核对SHA。复杂段落只读、版本/片段指纹门禁、模型read→document_patch、原件保留与新版本真实导出。见docs/IMPORTED_WORD_EDITING.md和validation/v0.13.0.json。新模块为WillBuddy自己的受限OOXML补丁，既有GenOffice子引擎继续保留；不是完整上游编辑器或任意Word保真往返。136核心/9真实Chromium/7打包测试通过；原生IPC/审批/模型内容夹具，无Mac或付费模型/Office显示验收。
+
+下一轮有Mac先安装严格签名/启动/审批/实际模型Word链路；缺目标机则推进受限段落/表格结构增删及电子表格公式引擎。不要持续只加队列或说明。原Web/Python、白蓝logo、加密身份、双任务/浏览器授权保持，不PR/不合并main。
+
+实际修改文件：
+
+- `ITERATION_LOG.md`
+- `ITERATION_PLAN.md`
+- `README.md`
+- `RELEASE_STATUS.json`
+- `desktop/README.md`
+- `desktop/main.mjs`
+- `desktop/package-lock.json`
+- `desktop/package.json`
+- `desktop/runtime/agent.mjs`
+- `desktop/runtime/tools.mjs`
+- `desktop/services/conversation.mjs`
+- `desktop/services/documents.mjs`
+- `desktop/src/app.js`
+- `desktop/src/styles.css`
+- `desktop/src/ui/documents.js`
+- `desktop/tests/acceptance/documents-live.mjs`
+- `desktop/tests/helpers/load-ui.mjs`
+- `docs/QUICK_GAPS.md`
+- `desktop/runtime/word-structure.mjs`
+- `desktop/src/ui/word-runs.js`
+- `desktop/tests/helpers/word-fixture.mjs`
+- `desktop/tests/word-structure.test.mjs`
+- `desktop/tests/acceptance/word-import-live.mjs`
+- `docs/images/imported-word.png`
+- `docs/IMPORTED_WORD_EDITING.md`
+- `docs/validation/v0.13.0.json`
+
+打包证据：58生产文件与ASAR逐字节一致；282应用条目+5配套、14符号链接、零残留；15 Mach-O/51216代码页、篡改负例、ZIP CRC通过。仍ad-hoc，未原生验签/公证。源码清单由脚本打包时更新。原Web/Python指定目录122文件本轮逐一哈希未变，Python执行器未改也未重跑旧35项。
+
+# WillBuddy 0.12.0 · 内置GenOffice Word引擎与内部写作画布 · 2026-10-22
+
+从权威0.11.0/v11重新下载并校验346源码文件。实际接入GenOffice固定提交342abce的HTML→DOCX子引擎，29上游源码字节未改，保留Apache2 LICENSE/NOTICE；无ee、字体、原生sidecar或Amazon资产。复用已有锁定docx，最终用户不装npm/GenOffice/Python。新增内部Word富文本画布（标题/粗体/斜体/列表/表格/撤销重做）、Markdown/HTML离线转Word、模型document_write/convert，可信卡片/原生审批/版本历史与导出复用已有服务。不是完整上游编辑器/导入Word保真往返。
+
+转换独立无持久session、隐藏sandbox/contextIsolation浏览器，无Node/preload/共享授权，拒绝网络/file/弹窗/权限；HTML/样式白名单净化、输入/元素/布局/输出限制、2容量和15秒取消超时。源/目标revision冲突及保存失败不发布，工具审计隐藏HTML；大画布源不完整发给模型。
+
+123核心（新增10）/8真实Chromium（新增2）/7打包Python通过。实际GenOffice引擎与生产UI写作、再编辑、下载、重载，并用python-docx独立核对标题/粗体/表格。Electron/原生审批/IPC为夹具，无Mac/真实付费模型/Word-WPS保真验收。56生产文件ASAR精确匹配；arm64离线119173332字节，282应用+5配套/14链接/零残留、15MachO/51216页及篡改负例通过，仍ad-hoc未公证。原Web/Python受保护188文件哈希不变。
+
+下一步：优先Mac原生转换链路/用户模型；继续DOCX结构与保真往返、图片/页眉/修订和Excel真实公式引擎，避免把此子集称为全面取代Office。完整边界见docs/GENOFFICE_ENGINE.md与validation/v0.12.0.json。
+
+本轮实际文件：
+
+- ITERATION_LOG.md
+- ITERATION_PLAN.md
+- README.md
+- RELEASE_STATUS.json
+- SOURCE_MANIFEST.json
+- desktop/README.md
+- desktop/main.mjs
+- desktop/main/conversion-browser.mjs
+- desktop/package-lock.json
+- desktop/package.json
+- desktop/preload.cjs
+- desktop/runtime/agent.mjs
+- desktop/runtime/conversion-sanitizer.js
+- desktop/runtime/document-converter.mjs
+- desktop/runtime/tools.mjs
+- desktop/runtime/vendor/GENOFFICE-MANIFEST.json
+- desktop/runtime/vendor/GenOffice-LICENSE.txt
+- desktop/runtime/vendor/GenOffice-NOTICE.txt
+- desktop/runtime/vendor/conversion-sanitizer.js
+- desktop/runtime/vendor/genoffice.cjs
+- desktop/services/conversation.mjs
+- desktop/services/documents.mjs
+- desktop/src/app.js
+- desktop/src/styles.css
+- desktop/src/ui/documents.js
+- desktop/src/ui/word-canvas.js
+- desktop/src/ui/workspace.js
+- desktop/tests/acceptance/conversion-live.mjs
+- desktop/tests/document-converter.test.mjs
+- desktop/tests/helpers/conversion-driver.mjs
+- desktop/tests/helpers/load-ui.mjs
+- docs/GENOFFICE_DESKTOP.md
+- docs/GENOFFICE_ENGINE.md
+- docs/QUICK_GAPS.md
+- docs/images/word-canvas.png
+- docs/validation/v0.12.0.json
+- scripts/vendor-genoffice.mjs
+- vendor/genoffice-html2docx/ARCHITECTURE.md
+- vendor/genoffice-html2docx/LICENSE
+- vendor/genoffice-html2docx/NOTICE
+- vendor/genoffice-html2docx/package.json
+- vendor/genoffice-html2docx/src/browser/core/classifier.js
+- vendor/genoffice-html2docx/src/browser/core/decorators.js
+- vendor/genoffice-html2docx/src/browser/core/layouts-controls.js
+- vendor/genoffice-html2docx/src/browser/core/paragraphs-document.js
+- vendor/genoffice-html2docx/src/browser/core/runs-screenshots.js
+- vendor/genoffice-html2docx/src/browser/core/styles.js
+- vendor/genoffice-html2docx/src/browser/core/tables-lists.js
+- vendor/genoffice-html2docx/src/browser/forms-media.js
+- vendor/genoffice-html2docx/src/browser/pages.js
+- vendor/genoffice-html2docx/src/browser/table.js
+- vendor/genoffice-html2docx/src/browser/visual-effects.js
+- vendor/genoffice-html2docx/src/convert.ts
+- vendor/genoffice-html2docx/src/driver.ts
+- vendor/genoffice-html2docx/src/drivers/electron.ts
+- vendor/genoffice-html2docx/src/drivers/playwright.ts
+- vendor/genoffice-html2docx/src/extract.ts
+- vendor/genoffice-html2docx/src/generate.ts
+- vendor/genoffice-html2docx/src/generate/bookmarks.ts
+- vendor/genoffice-html2docx/src/generate/content-controls.ts
+- vendor/genoffice-html2docx/src/generate/document-meta.ts
+- vendor/genoffice-html2docx/src/generate/fonts.ts
+- vendor/genoffice-html2docx/src/generate/numbering.ts
+- vendor/genoffice-html2docx/src/generate/page-settings.ts
+- vendor/genoffice-html2docx/src/generate/render-context.ts
+- vendor/genoffice-html2docx/src/generate/renderer.ts
+- vendor/genoffice-html2docx/src/generate/table-renderers.ts
+- vendor/genoffice-html2docx/src/generate/word-utils.ts
+- vendor/genoffice-html2docx/src/index.ts
+- vendor/genoffice-html2docx/src/raw.d.ts
+
+# WillBuddy 0.11.0 · Office真实交付、内容编辑与GenOffice接续 · 2026-10-22
+
+修复用户截图的关键缺陷：生成的Office文档没有关联回复/工作区，导致“导出”保存文本收据.md。现在从真实成功工具结果持久化run文档引用，卡片和工作区导出原文件；旧审计可找回同run文件，绝不从模型文本猜ID。新增直接段落/常量单元格/Markdown和HTML原文编辑、乐观版本检查和审批。GenOffice已增加可选Mac应用副本接续/核验收回；不是内嵌完整编辑器，没有捆绑GenOffice，也没有执行其真实Mac GUI。
+
+README已重写产品介绍、功能/边界/安装/模型/常见问题/开发/English关键词；3张明确标记的生产界面演示截图及自制工作流SVG，原Web介绍保留。未改变UNLICENSED或第三方许可。
+
+验证：113项核心、6项真实Chromium、7项打包Python。新增8项编辑/GenOffice夹具/权限/故障边界，真实HTTP模型夹具到生产Chromium与真实DOCX下载/修改/刷新链路通过。初次JSDOM回归失败因测试加载器未注入新增UI模块，更新加载器后通过。Mac原生GenOffice/付费模型/签名公证仍未验收。详情与下一步见docs/GENOFFICE_DESKTOP.md及validation/v0.11.0.json。
+
+实际变更文件：
+
+- ITERATION_LOG.md
+- ITERATION_PLAN.md
+- README.md
+- RELEASE_STATUS.json
+- desktop/README.md
+- desktop/main.mjs
+- desktop/main/document-files.mjs
+- desktop/main/genoffice.mjs
+- desktop/package-lock.json
+- desktop/package.json
+- desktop/preload.cjs
+- desktop/runtime/documents.mjs
+- desktop/services/conversation.mjs
+- desktop/services/documents.mjs
+- desktop/src/app.js
+- desktop/src/styles.css
+- desktop/src/ui/documents.js
+- desktop/src/ui/workspace.js
+- desktop/tests/acceptance/documents-live.mjs
+- desktop/tests/document-editor.test.mjs
+- desktop/tests/helpers/load-ui.mjs
+- docs/GENOFFICE_DESKTOP.md
+- docs/QUICK_GAPS.md
+- docs/WEB_README_ORIGINAL.md
+- docs/images/documents.png
+- docs/images/editor.png
+- docs/images/workflow.svg
+- docs/images/workspace.png
+- docs/validation/v0.11.0.json
+- scripts/capture-readme.mjs
+
+arm64离线候选：119051628字节；47生产文件ASAR逐字节一致，282应用条目+5配套、14符号链接、零残留，15Mach-O/51216代码页及篡改负例通过。仍未公证，未做Mac原生严格资源密封/Gatekeeper/启动验收。
+
+本次实际修改文件：
+
+- ITERATION_LOG.md
+- ITERATION_PLAN.md
+- README.md
+- RELEASE_STATUS.json
+- desktop/README.md
+- desktop/main/approval.mjs
+- desktop/main.mjs
+- desktop/package-lock.json
+- desktop/package.json
+- desktop/preload.cjs
+- desktop/runtime/browser-permissions.mjs
+- desktop/runtime/browser.mjs
+- desktop/runtime/tools.mjs
+- desktop/services/conversation.mjs
+- desktop/services/documents.mjs
+- desktop/src/app.js
+- desktop/tests/approval-lifecycle.test.mjs
+- docs/APPROVAL_FIX.md
+- docs/QUICK_GAPS.md
+- docs/validation/v0.10.1.json
+
+# 0.10.1 修复记录 · 2026-10-22
+
+按用户截图修复document_create长JSON原生sheet超出屏幕、取消信号未传入dialog导致队列等待的问题。文档确认用摘要；浏览器可显式选择本任务/本站点授权，不逐步弹窗，新站点/新任务重新确认；撤销、任务结束和退出清理许可。增加60秒超时、菜单⌘⇧Esc紧急取消、拒绝无父窗口/过长消息及迟到允许，导航前后校验防止站点授权泄漏。完整边界见docs/APPROVAL_FIX.md（从docs阅读为APPROVAL_FIX.md）。
+
+105项核心、6项真实Chromium回归；原生弹窗为适配器夹具，Mac真机/严格签名/启动仍未验收。继续保留0.10.0文档、双任务能力及原Web/Python/白蓝logo/加密身份。下一步优先用户Mac弹窗/浏览器/文档链路验证，继而Office保真预览和结构编辑；不回退纯壳、不创建PR/合并main。
+
+# WillBuddy 0.10.0 · 2026-10-22
+
+用户最新主线：AI编辑/生成Office、Markdown、HTML及多任务并发。已实际实现真实文档编解码、导入不写回原件、create/read/edit模型工具、原生逐次审批、乐观版本检查、五份历史字节、历史导出、原生保存暂存/回读校验。Office基础排版和定向修改，不宣称全面替代Office。修复前端全局pending禁止并发任务的真实问题，改为逐会话状态/草稿/工作区；最多两项模型请求并发，更多排队、独立停止。
+
+96项Node/JSDOM（新增15文档/权限/故障/文件/HTTP）、6项真实Chromium、7项打包Python、35项原Python执行器通过。生成编辑的真实DOCX/XLSX/PPTX经独立Python Office解析器校验。浏览器实际生成/编辑/导出Word并并行两项HTTP请求，取消一项不影响另一项；原生桥/审批/模型内容仍夹具。修正旧混合CLI测试的状态观察竞态：等待worker idle后断言名额释放，未改生产调度。
+
+arm64离线包包含全部运行时和已预打包Office纯JS编解码器/16个模块许可。45个生产文件与ASAR逐字节一致；282应用条目+5配套、14链接、零残留；15 Mach-O/51216代码页及篡改负例通过。仍ad-hoc、未公证，无Mac原生严格资源封印/Gatekeeper/启动、真实模型、Microsoft Office/WPS保真排版或CodexCLI结论。源码包使用闭合清单和逐文件SHA256，排除依赖、真实密钥、用户数据与缓存。
+
+Office未完成：保真渲染、复杂结构/样式/模板/图表图片、公式引擎、修订批注/PDF；并行未完成：模型自主拆解子任务组、跨队列公平和跨重启进程续跑。下一轮从 docs/OFFICE_WORKSPACE.md、docs/validation/v0.10.0.json 接续，有Mac先原生验收；原Web/Python保留，未部署、未创建PR/合并main。
+
+实际修改文件：
+
+- .github/workflows/willbuddy-mac-arm64.yml
+- ITERATION_PLAN.md
+- README.md
+- RELEASE_STATUS.json
+- desktop/README.md
+- desktop/main/document-files.mjs
+- desktop/main.mjs
+- desktop/package-lock.json
+- desktop/package.json
+- desktop/preload.cjs
+- desktop/runtime/agent.mjs
+- desktop/runtime/documents.mjs
+- desktop/runtime/tools.mjs
+- desktop/runtime/vendor/OFFICE-LICENSES.txt
+- desktop/runtime/vendor/OFFICE-MANIFEST.json
+- desktop/runtime/vendor/office.cjs
+- desktop/services/conversation.mjs
+- desktop/services/documents.mjs
+- desktop/src/app.js
+- desktop/src/ui/documents.js
+- desktop/tests/acceptance/documents-live.mjs
+- desktop/tests/documents.test.mjs
+- desktop/tests/run-queue.test.mjs
+- docs/ARCHITECTURE.md
+- docs/OFFICE_WORKSPACE.md
+- docs/QUICK_GAPS.md
+- docs/validation/v0.10.0.json
+- scripts/native-isarray.cjs
+- scripts/package-offline-mac.py
+- scripts/requirements-office-tests.txt
+- scripts/vendor-desktop-office.mjs
+- ITERATION_LOG.md
+
+# 桌面迭代 0.9.0 · 2026-10-22 · 共用模型调度与取消边界
+
+重新读取权威0.8.0/版本6并核对312文件哈希，从公开GitHub已核对的b8ecf63接续，不从旧main回退。新增runtime/run-queue.mjs，对话与每日模型任务共用持久受理/FIFO/取消/状态事件；同一逻辑ID与定时发生去重、过期请求冲突拒绝。CLI仍保留原队列，共享两个执行名额，不声称三者统一FIFO或跨Web核心完成。自动化页显示真实队列，刷新后可停止排队对话及运行中的每日任务，迟到回复不生成成果/通知。重启只暂停/标记中断，不重放模型worker、工具或审批。schema1新增runJobs，原Web/Python、加密身份和白蓝logo保留。
+
+81项Node/JSDOM（新增16项调度/故障/混合CLI/权限及1项UI版本回归）、5项真实Chromium、7项打包Python、35项原Python执行器通过。新增真实浏览器→服务→HTTP模型夹具，核实排队对话刷新停止、每日任务实际HTTP中止；原生桥/审批/供应商回复仍夹具。附加两项竞态：预读附件期间取消、实际读取等待期间撤销授权，均不会发给模型。旧CLI浏览器测试曾在新记录出现前读到旧输出，改为等待新执行ID后通过；新增队列测试选择器与初始视图刷新已纠正，最终检查全部通过。
+
+离线arm64包118699794字节，sha256 4f216635421e671704526851fee317acc23b9a7c00ab54f55e06739a20812b96，38个生产文件与ASAR逐字节一致；282应用条目+5配套、14链接、零残留、15Mach-O/51216页及篡改负例通过。仅ad-hoc，未公证、无Mac严格资源密封/启动/Gatekeeper或真实付费模型/CodexCLI验收。构建主机为Linux；没有移除隔离标记或关闭安全功能。
+
+实际改动文件见docs/validation/v0.9.0.json与SOURCE_MANIFEST。复查Quick官方系统工具公开文档，复用既有REA证据，不推断Amazon调度内部实现。源码打包时GitHub独立0.9分支上传待最终核对，实际结果在交付简报记录；未创建PR/合并。
+
+下一轮：具备Apple芯片环境时先做严格签名/安装/原生审批、模型与CLI验收；其余可独立工作优先桌面MCP或授权文件写入/Office成果，继续推进跨队列公平/统一事件，而不是仅增加调度页面。旧工具审批绝不自动重放。
+
+# 桌面迭代 0.8.0 · 2026-10-21 · CLI持久队列与中断恢复入口
+
+从权威0.7.0/版本5重新取包并核对306文件哈希。拆出services/commands.mjs，实现手动CLI持久受理/FIFO/共享容量、稳定ID去重、版本化状态事件、刷新后取消、重启暂停/中断与新审批重试。重试关联保留，双击/过期版本/同ID改参数拒绝；不重放旧审批。审计关联jobId/executionId，运行partial检查点保存，保存失败阻止或停止子进程。清理结束队列项保留独立审计；旧数据/钥匙串身份、Web/Python、0.7流式及Markdown/HTML均保留。src/ui/commands.js独立纯视图，main只组装注册。
+
+64项Node/JSDOM（新增14项队列权限/故障/并发）、7项Python打包边界、35项原Python执行器、4项真实Chromium验收通过。新UI链路实际启动Node子进程，刷新后按原持久ID停止并重新审批重试；原生桥/审批是夹具。初次真实UI测试暴露选择器歧义，改为唯一可见工具台入口后通过；不是产品运行失败。开发时的命令工作目录/根路径错误已纠正，最终完整回归通过。宿主缺中文字体，未把截图当作中文像素验收。无真实用户模型/Codex CLI/Mac验收。
+
+arm64离线包118696596字节，SHA256 bd04a10bc037cca838c330033137ba7c687abbe7a9e17a823ce63cf42ed410e9；36个生产文件与ASAR逐字节一致。282应用条目+5配套、14链接、零残留、15Mach-O/51216页及代码篡改负例通过。仍ad-hoc未公证，未执行Mac codesign严格资源密封或Gatekeeper/原生启动检查。未关闭安全机制。
+
+实际修改文件清单见docs/validation/v0.8.0.json与完整SOURCE_MANIFEST。复查Quick官方桌面界面/系统工具文档，复用既有REA证据，不推断Amazon队列内部实现。GitHub从e0b3ef0的0.7分支续接独立0.8分支，源码打包时上传待完成核验；最终同步结果在交付简报说明。未创建PR或合并main，沿用上轮授权边界。
+
+下一轮：有Apple芯片环境先做严格签名、安装启动、真实模型/CLI/审批与取消恢复；其余独立工作优先统一Agent/每日任务/命令队列和事件，再推进MCP与真实文件/Office成果。当前不是全部Agent持久化、进程续跑或跨端统一完成。
+
+# 桌面迭代 0.7.0 · 2026-10-21 · 流式输出、Markdown 与 HTML
+
+用户实测反馈输出不流式、格式混乱。本轮从权威 0.6.1 源码版本4接续，核对294个文件哈希，公开 GitHub main 8e8743a 与基线逐文件一致。修复了 stream:false 写死和简化渲染器：新增 SSE 解码与完整工具分片，服务持久化增量和单调事件，界面局部更新、输入框复用及防过期覆盖。取消/截断保留已收到的内容，无自动重试或工具重放。Markdown 改为固定版本解析/净化依赖，离线包含源码许可证；HTML 语义排版与带 CSS 的 sandbox 静态预览已实现，仍禁止脚本/表单/远程资源和跳转，原文导出不改变。
+
+50项 Node/JSDOM、7项 Python、3项真实 Chromium 验收通过。新增 HTTP SSE→服务→模拟原生桥→真实浏览器验收，服务端未放行结束前确认首段可见；并发验收曾暴露光标选区回退，已通过复用真实输入框修复，最终同元素/草稿/焦点/选区均通过。新增 SSE 工具闭环实际执行 Node 子进程；模型、原生桥和审批仍夹具，不冒充付费模型或 Mac 原生验收。官方 Playwright 镜像下载503后改用 Google 官方同版本 Chrome for Testing Headless Shell 141.0.7390.37 完成测试，未修改产品 sandbox。
+
+实际修改：desktop/core.mjs、main.mjs、preload.cjs、package.json/lock；runtime/agent.mjs、新 model-stream.mjs；services/conversation.mjs/recovery.mjs；src/app.js/index.html/workbench.css、ui/markdown.js/workspace.js、新 vendor 模块/许可证/清单；tests/workspace.test.mjs、新 streaming.test.mjs/rendering.test.mjs、tests/helpers/load-ui.mjs、acceptance/workspace-live.mjs 与新 streaming-live.mjs；新 scripts/vendor-desktop-renderer.mjs；README、desktop/README、架构/Quick差距/REA接续、计划/日志/发布状态/验证清单。完整文件与哈希以 SOURCE_MANIFEST 为准。
+
+arm64 离线包已生成，内置渲染依赖和 Electron/Chromium/Node；34个实际应用源码文件与 ASAR 逐字节一致。闭合 ZIP 为282应用条目+5配套、14符号链接、零残留，15个 Mach-O/51216代码页校验通过。ad-hoc、未公证，Mac严格资源密封与启动仍未验收。公开仓库通过独立修复分支上传并核对完整源码后再整合，结果在交付时报告；不部署原 Web 站点。
+
+下一轮首先用 Apple 芯片与用户实际模型验证增量、停止和 HTML 预览，再继续统一事件协议、持久任务队列与跨端核心。仅 JSON 接口仍一次性显示；数学公式、语法高亮、脚本式 HTML 应用和远程图片不在本轮范围。
+
 # 文档命名修正 · 2026-10-21
 
 按用户要求，将根 README 历史 Web 说明标题“幕云AI 工作台”改为“WillBuddy 工作台”。仅修改说明标题，保留历史版本号及运行代码；重新生成完整源码清单和 ZIP。文档改动不重复运行功能测试，源码包逐文件 SHA-256 校验由打包脚本完成。

@@ -1,0 +1,80 @@
+{
+  "version": "0.16.0",
+  "date": "2026-10-23",
+  "baseline": {
+    "version": "0.15.0",
+    "canonical_version_read": 16,
+    "source_hashes": 417
+  },
+  "tests": {
+    "core": 169,
+    "new_core": 3,
+    "real_chromium": 12,
+    "new_browser": 1,
+    "packaging_python": 9
+  },
+  "actual": [
+    "production UI click Preview -> actual binary bytes -> opaque bundled DOCX page/table/final paragraph, XLSX styles/merged cells/second sheet, PPTX final slide; zero external requests or external-app calls",
+    "original 11 browser paths regression, test selectors/preview mock updated to visual iframe",
+    "SHA/revision/missing-ID/corrupt/text-format boundaries and no base64 in general state"
+  ],
+  "fixture_boundaries": [
+    "native IPC",
+    "native approval",
+    "model content"
+  ],
+  "not_tested": [
+    "Mac native install/strict resource seal/Gatekeeper/launch",
+    "paid model",
+    "Word/Excel/WPS native fidelity",
+    "full GenOffice suite",
+    "complex charts and conditional formatting",
+    "original Python35 unchanged not rerun"
+  ],
+  "protected_original_files_unchanged": 122,
+  "production_asar_exact_files": 67,
+  "offline": {
+    "bytes": 119678330,
+    "sha256": "6547ed78b0f0def7726f24c3f00ee6ecfd144e77a3dd5e5510ef89697ce958ff",
+    "macho": 15,
+    "pages": 51216,
+    "signature": "ad-hoc; not notarized",
+    "app_entries": 282,
+    "extra_files": 5,
+    "symlinks": 14,
+    "residue": 0
+  },
+  "changed_files": [
+    "ITERATION_LOG.md",
+    "ITERATION_PLAN.md",
+    "README.md",
+    "RELEASE_STATUS.json",
+    "desktop/README.md",
+    "desktop/main.mjs",
+    "desktop/package-lock.json",
+    "desktop/package.json",
+    "desktop/preload.cjs",
+    "desktop/services/documents.mjs",
+    "desktop/src/app.js",
+    "desktop/src/preview/PREVIEW-LICENSES.txt",
+    "desktop/src/preview/PREVIEW-MANIFEST.json",
+    "desktop/src/preview/engine.js",
+    "desktop/src/preview/index.html",
+    "desktop/src/preview/renderer.js",
+    "desktop/src/styles.css",
+    "desktop/src/ui/documents.js",
+    "desktop/src/ui/office-preview.js",
+    "desktop/src/ui/workspace.js",
+    "desktop/tests/acceptance/documents-live.mjs",
+    "desktop/tests/acceptance/office-preview-live.mjs",
+    "desktop/tests/helpers/load-ui.mjs",
+    "desktop/tests/office-preview.test.mjs",
+    "docs/OFFICE_PREVIEW.md",
+    "docs/QUICK_GAPS.md",
+    "docs/images/imported-word.png",
+    "docs/images/spreadsheet-formulas.png",
+    "docs/images/word-canvas.png",
+    "docs/images/word-paragraphs.png",
+    "scripts/vendor-office-preview.mjs"
+  ]
+}

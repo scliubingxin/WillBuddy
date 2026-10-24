@@ -1,3 +1,17 @@
+import {createCapabilityLibrary,skillViews} from './services/capability-library.mjs';
+import {createSkillImporter} from './main/skill-files.mjs';
+import {readFilePreview} from './services/file-preview.mjs';
+import {protectPreviewNavigation} from './main/preview-navigation.mjs';
+import {createImageService,imageViews} from './services/images.mjs';
+import {createImageImporter,normalizeNativeImage} from './main/image-files.mjs';
+import {previewScheme,preparePreviewProtocol} from './main/preview-protocol.mjs';
+import {createConversionBrowser} from './main/conversion-browser.mjs';
+import {createDocumentConverter} from './runtime/document-converter.mjs';
+import {createGenOfficeBridge} from './main/genoffice.mjs';
+import {readDocumentSource,writeDocumentDestination} from './main/document-files.mjs';
+import {documentViews} from './services/documents.mjs';
+import { sharedRunQueue } from './runtime/run-queue.mjs';
+import { createCommandService } from './services/commands.mjs';
 import { createWorkspaceService } from './services/workspace.mjs';
 import { createApprover } from './main/approval.mjs';
 import { createRegistrar } from './main/ipc.mjs';
@@ -5,7 +19,7 @@ import { createConversationService } from './services/conversation.mjs';
 import { createTaskService } from './services/tasks.mjs';
 import { recoverInterruptedWork } from './services/recovery.mjs';
 import { requiredText as text } from './services/validation.mjs';
-import { app, BrowserWindow, ipcMain, dialog, globalShortcut, Menu, safeStorage, shell, Notification } from 'electron';
+import { app, BrowserWindow, ipcMain, dialog, globalShortcut, Menu, safeStorage, shell, Notification, session, protocol, nativeImage } from 'electron';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { readFile, writeFile, stat } from 'node:fs/promises';
@@ -14,6 +28,7 @@ import { ToolRuntime } from './runtime/tools.mjs';
 import { chooseUserDataDirectory } from './runtime/identity.mjs';
 import { BrowserService } from './runtime/browser.mjs';
 import { Store, uid, listGranted, readGranted, modelEndpoint } from './core.mjs';
+protocol.registerSchemesAsPrivileged([previewScheme]);
 const here = path.dirname(fileURLToPath(import.meta.url));
 let win, store, sessionKey = '', runner, closing = false, tick, shortcutReady = false;
 const active = new Map();
@@ -23,9 +38,9 @@ const notifyRuntime = () => {
         win.webContents.send('actwill:runtime');
 };
 const approve = createApprover({ dialog, getWindow: () => win, focus });
-let toolRuntime;
+let toolRuntime, genoffice;
 const executeTool = (...args) => toolRuntime.execute(...args);
-const view = () => { const { encryptedKey, ...settings } = store.data.settings; return { ...store.data, settings: { ...settings, hasKey: !!sessionKey || !!encryptedKey, keySaved: !!encryptedKey, secureStorage: safeStorage.isEncryptionAvailable() && safeStorage.getSelectedStorageBackend?.() !== 'basic_text' }, browsers: browser.list(), desktop: { platform: process.platform, shortcutReady } }; };
+const view = () => { const { encryptedKey, ...settings } = store.data.settings; return { ...store.data, documents:documentViews(store.data), skillPackages:skillViews(store.data), imageAttachments:imageViews(store.data), settings: { ...settings, hasKey: !!sessionKey || !!encryptedKey, keySaved: !!encryptedKey, secureStorage: safeStorage.isEncryptionAvailable() && safeStorage.getSelectedStorageBackend?.() !== 'basic_text' }, browsers: browser.list(), desktop: { platform: process.platform, shortcutReady } }; };
 function key() {
     if (sessionKey)
         return sessionKey;
@@ -37,6 +52,7 @@ async function launch() {
     win = new BrowserWindow({ width: 1380, height: 920, minWidth: 860, minHeight: 640, title: 'WillBuddy', icon: path.join(here, 'assets/icon-512.png'), backgroundColor: '#ffffff', titleBarStyle: 'hiddenInset', ...(process.platform === 'darwin' ? { trafficLightPosition: { x: 20, y: 20 } } : {}), webPreferences: { preload: path.join(here, 'preload.cjs'), contextIsolation: true, nodeIntegration: false, sandbox: true, webSecurity: true } });
     win.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
     win.webContents.on('will-navigate', e => e.preventDefault());
+    protectPreviewNavigation(win.webContents);
     win.on('close', e => {
         if (!closing && process.platform === 'darwin') {
             e.preventDefault();
@@ -51,17 +67,18 @@ function focus() {
         win.focus();
     }
 }
-let conversations, tasks;
-const runTask = id => tasks.run(id);
+let conversations, tasks, commands, runs;
+const runTask = (id, options) => tasks.run(id, options);
 app.setPath('userData', await chooseUserDataDirectory(app.getPath('appData')));
 // Preserve the pre-rename OS cryptographic/application identity for existing keys.
 app.setName('Actwill AI');
-app.setAboutPanelOptions({ applicationName: 'WillBuddy', applicationVersion: '0.6.1' });
+app.setAboutPanelOptions({ applicationName: 'WillBuddy', applicationVersion: app.getVersion() });
 if (!app.requestSingleInstanceLock())
     app.quit();
 else {
     app.on('second-instance', focus);
     app.whenReady().then(async () => {
+        protocol.handle(previewScheme.scheme,await preparePreviewProtocol(path.join(here,"src/preview")));
         if (process.platform === 'darwin')
             app.dock.setIcon(path.join(here, 'assets/icon-1024.png'));
         store = new Store(app.getPath('userData'));
@@ -72,21 +89,38 @@ else {
         if (defaultAgent?.prompt === '你是 Actwill 工作助手。用中文清晰地帮助用户完成工作。区分事实和假设，不编造来源。')
             defaultAgent.prompt = '你是 WillBuddy 工作助手。用中文清晰地帮助用户完成工作。区分事实和假设，不编造来源。';
         store.data.executions ??= [];
-        toolRuntime = new ToolRuntime({ store, browser, approve, notify: notifyRuntime });
+        const convertDocument=createDocumentConverter({createDriver:signal=>createConversionBrowser({BrowserWindow,session,signal})});
+        toolRuntime = new ToolRuntime({ store, browser, approve, notify: notifyRuntime, convertDocument });
+        genoffice=createGenOfficeBridge({documents:toolRuntime.documents,approve});
         recoverInterruptedWork(store.data);
-        conversations = createConversationService({ store, active, key, view, executeTool, notify: notifyRuntime });
-        tasks = createTaskService({ store, active, key, view, notifyCompleted: task => {
+        commands = createCommandService({ store, active, executeTool, notify: notifyRuntime });
+        runs = sharedRunQueue({store, active, notify:notifyRuntime});
+        const images=createImageService({store,decode:bytes=>normalizeNativeImage(nativeImage,bytes)});
+        register('imageImport',createImageImporter({dialog,getWindow:()=>win,nativeImage,images}));
+        register('imagePreview',p=>images.preview(p.id));
+        register('imageRemove',async p=>{await images.remove(p.id);return view();});
+        conversations = createConversationService({ approve, images, queue:runs, store, active, key, view, executeTool, releaseToolGrants:id=>toolRuntime.browserPermissions.release(id), notify: notifyRuntime,notifyStream:event=>{if(win&&!win.isDestroyed())win.webContents.send('actwill:stream',event);} });
+        tasks = createTaskService({ queue:runs, notify:notifyRuntime, store, active, key, view, notifyCompleted: task => {
                 if (Notification.isSupported())
                     new Notification({ title: 'WillBuddy · 任务完成', body: task.name }).show();
             } });
         await store.save();
-        Menu.setApplicationMenu(Menu.buildFromTemplate([{ label: 'WillBuddy', submenu: [{ label: '显示工作台', click: focus }, { role: 'about' }, { type: 'separator' }, { role: 'quit' }] }, { label: '编辑', submenu: [{ role: 'undo' }, { role: 'redo' }, { type: 'separator' }, { role: 'cut' }, { role: 'copy' }, { role: 'paste' }, { role: 'selectAll' }] }, { label: '视图', submenu: [{ role: 'reload' }, { role: 'togglefullscreen' }, { role: 'zoomIn' }, { role: 'zoomOut' }, { role: 'resetZoom' }] }]));
+        Menu.setApplicationMenu(Menu.buildFromTemplate([{ label: 'WillBuddy', submenu: [{ label: '显示工作台', click: focus }, { label: '取消所有操作确认', accelerator: 'CommandOrControl+Shift+Escape', click: () => approve.cancelAll() }, { label: '撤销浏览器任务授权', click: () => { toolRuntime.browserPermissions.revoke(); approve.cancelAll(); } }, { role: 'about' }, { type: 'separator' }, { role: 'quit' }] }, { label: '编辑', submenu: [{ role: 'undo' }, { role: 'redo' }, { type: 'separator' }, { role: 'cut' }, { role: 'copy' }, { role: 'paste' }, { role: 'selectAll' }] }, { label: '视图', submenu: [{ role: 'reload' }, { role: 'togglefullscreen' }, { role: 'zoomIn' }, { role: 'zoomOut' }, { role: 'resetZoom' }] }]));
         const workspace = createWorkspaceService({ store, active, view });
         for (const [name, handler] of Object.entries(workspace))
             register(name, handler);
+        const capabilityLibrary=createCapabilityLibrary({store,approve,notify:notifyRuntime});
+        const importSkill=createSkillImporter({dialog,getWindow:()=>win,library:capabilityLibrary});
+        app.on('before-quit',()=>capabilityLibrary.close());
+        register('skillImport',async()=>{const imported=await importSkill();return {imported,state:view()};});
+        register('skillRead',p=>capabilityLibrary.readSkill(p.id));
+        register('skillUpdate',async p=>{await capabilityLibrary.skill(p);return view();});
+        register('mcpConnection',async p=>{const saved=await capabilityLibrary.connection(p);return {saved,state:view()};});
+        register('mcpTest',async p=>{const result=await capabilityLibrary.probe(p.id);return {result,state:view()};});
+        register('mcpCancelTest',p=>{capabilityLibrary.cancelProbe(p.id);return true;});
         register('state', () => view());
         register('settings', async (p) => {
-            if (active.size)
+            if (active.size || runs.hasPending())
                 throw new Error('请等待当前请求结束再修改模型');
             if (p.baseUrl)
                 modelEndpoint(p.baseUrl);
@@ -132,8 +166,11 @@ else {
         });
         register('removeFolder', async (p) => { store.data.folders = store.data.folders.filter(f => f.id !== p.id); store.log('已撤销文件夹授权'); await store.save(); return view(); });
         register('listFiles', p => listGranted(store.data.folders, p.id, String(p.query || '').slice(0, 200)));
+        register('previewFile',p=>readFilePreview(store,p));
         register('readFile', p => readGranted(store.data.folders, p.folderId, p.relative));
         register('chat', p => conversations.run(p));
+        register('revokeBrowserApprovals', () => { toolRuntime.browserPermissions.revoke(); approve.cancelAll(); return true; });
+        register('cancelApprovals', () => { approve.cancelAll(); return true; });
         register('openBrowser', p => executeTool('browser_open', p, undefined, { manual: true }));
         register('readBrowser', p => executeTool('browser_read', p));
         register('inspectBrowser', p => executeTool('browser_snapshot', p));
@@ -143,22 +180,43 @@ else {
                 throw new Error('未知浏览器操作');
             return executeTool(operation, args);
         });
-        register('executeCommand', async (p) => {
-            const id = p.id || uid();
-            if (active.size >= 2 || active.has('cli:' + id))
-                throw new Error('当前执行已满，请稍后重试');
-            const c = new AbortController();
-            active.set('cli:' + id, c);
-            try {
-                return await executeTool('cli_execute', p, c.signal);
-            }
-            finally {
-                active.delete('cli:' + id);
-            }
-        });
-        register('cancelCommand', p => { active.get('cli:' + p.id)?.abort(); return true; });
+        register('enqueueCommand', p => commands.enqueue(p));
+        register('retryCommand', p => commands.retry(p));
+        register('forgetCommand', p => commands.forget(p.id));
+        register('cancelCommand', p => commands.cancel(p.id));
         register('cancelChat', p => conversations.cancel(p.id));
-        register('runTask', p => runTask(p.id));
+        register('runTask', p => runTask(p.id, {requestId:p.requestId}));
+        register('cancelTask', p => tasks.cancel(p.id));
+        register('cancelRun', p => runs.cancel(p.id));
+        register('documentOperation', p => {
+            const {operation,...args}=p;
+            if (!['document_create','document_read','document_edit','document_convert','document_write','document_patch'].includes(operation)) throw Error('未知文档操作');
+            return executeTool(operation,args);
+        });
+        register('genofficeOpen', p => genoffice.open(p.id,p.revision));
+        register('genofficeImport', p => genoffice.importEdited(p.id));
+        register('documentRichEditor', p => toolRuntime.documents.richEditor(p.id));
+        register('documentPreview', p => toolRuntime.documents.preview(p.id,p.revision));
+        register('documentEditor', p => toolRuntime.documents.editor(p.id,p.mode));
+        register('documentSaveEditor', p => toolRuntime.documents.updateEditor(p.id,p.revision,p.patch,approve));
+        register('documentRead', p => toolRuntime.documents.read(p.id));
+        register('documentDelete', p => toolRuntime.documents.remove(p.id));
+        register('documentImport', async () => {
+            const result=await dialog.showOpenDialog(win,{title:'导入可编辑文档（原文件不变）',properties:['openFile'],filters:[{name:'文档',extensions:['docx','xlsx','pptx','md','html']}]});
+            if(result.canceled)return false;
+            const source=result.filePaths[0],bytes=await readDocumentSource(source);
+            return toolRuntime.documents.importFile(path.basename(source,path.extname(source)),path.extname(source).slice(1).toLowerCase(),bytes);
+        });
+        register('documentExport', async p => {
+            const selected=toolRuntime.documents.bytes(p.id,p.revision);
+            const result=await dialog.showSaveDialog(win,{title:'导出文档',defaultPath:selected.name.replace(/[\\/:*?"<>|]/g,'_')+'.'+selected.format,filters:[{name:selected.format.toUpperCase(),extensions:[selected.format]}]});
+            if(result.canceled)return false;
+            // Dialog explicitly authorizes the destination; recheck version after user interaction.
+            toolRuntime.documents.bytes(p.id,p.revision);
+            const written=await writeDocumentDestination(result.filePath,selected.bytes);
+            store.log('已导出文档',path.basename(result.filePath));await store.save();
+            return {saved:true,sha256:selected.sha256,bytes:written};
+        });
         register('exportText', async (p) => {
             const content = text(p.text, 500000);
             const result = await dialog.showSaveDialog(win, { title: '保存成果', defaultPath: (p.name || 'WillBuddy 成果').replace(/[\\/:*?"<>|]/g, '_') + '.md', filters: [{ name: 'Markdown', extensions: ['md'] }] });
@@ -196,15 +254,22 @@ else {
         await launch();
         shortcutReady = globalShortcut.register('CommandOrControl+Shift+Space', focus);
         tick = setInterval(() => {
+            void commands.pump();
+            void runs.pump();
             for (const t of store.data.tasks) {
-                if (t.enabled && t.nextRun && t.nextRun <= Date.now() && t.status !== 'running' && active.size < 2)
-                    runTask(t.id).catch(() => { });
+                if (t.enabled && t.nextRun && t.nextRun <= Date.now() && !['queued','running','cancelling'].includes(t.status))
+                    runTask(t.id, {scheduledFor:t.nextRun}).catch(() => { });
             }
-        }, 15000);
+        }, 1000);
     }).catch(e => { dialog.showErrorBox('WillBuddy 启动失败', e.message); app.quit(); });
     app.on('activate', focus);
     app.on('before-quit', () => {
+        genoffice?.close().catch(()=>{});
         closing = true;
+        approve.cancelAll();
+        toolRuntime?.browserPermissions.revoke();
+        commands?.stop();
+        runs?.stop();
         clearInterval(tick);
         globalShortcut.unregisterAll();
         for (const c of active.values())

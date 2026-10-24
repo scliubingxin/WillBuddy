@@ -1,0 +1,71 @@
+{
+  "version": "0.18.0",
+  "date": "2026-10-23",
+  "baseline": {
+    "version": "0.17.0",
+    "canonical_version_read": 18,
+    "content_hashes": 434
+  },
+  "tests": {
+    "core": 177,
+    "new_core": 4,
+    "real_chromium": 12,
+    "packaging_python": 9
+  },
+  "lifecycle": {
+    "unit_redraws": 30,
+    "real_chromium_runtime_refreshes": 12,
+    "native_redraws_per_format": 20,
+    "formats": [
+      "xlsx",
+      "docx",
+      "pptx"
+    ],
+    "extra_binary_reads_during_redraw": 0,
+    "revision_change": "new frame + one fresh binary read + actual B3=9"
+  },
+  "native_scope": "Linux Electron42 production HTML/preload/IPC/Service + synthetic bytes, source and final ASAR; no Mac/model conclusion",
+  "not_tested": [
+    "Mac arm64 strict resource seal/Gatekeeper/install/launch",
+    "paid model",
+    "Office/WPS full layout fidelity",
+    "original unchanged Python35 not rerun"
+  ],
+  "protected_original_files_unchanged": 122,
+  "production_asar_exact_files": 69,
+  "offline": {
+    "bytes": 119680416,
+    "sha256": "72bd9a5da6828363a6e396fd686474083de1adfa323e2ec6dd76a1da95dbbcf2",
+    "signature": "ad-hoc; not notarized",
+    "app_entries": 282,
+    "extra_files": 5,
+    "symlinks": 14,
+    "residue": 0,
+    "macho": 15,
+    "code_pages": 51216
+  },
+  "changed_files": [
+    "ITERATION_LOG.md",
+    "ITERATION_PLAN.md",
+    "README.md",
+    "RELEASE_STATUS.json",
+    "SOURCE_MANIFEST.json",
+    "desktop/README.md",
+    "desktop/package-lock.json",
+    "desktop/package.json",
+    "desktop/src/app.js",
+    "desktop/src/ui/office-workspace.js",
+    "desktop/tests/acceptance/office-preview-live.mjs",
+    "desktop/tests/helpers/load-ui.mjs",
+    "desktop/tests/native/production-preview.mjs",
+    "desktop/tests/office-workspace.test.mjs",
+    "docs/PREVIEW_LIFECYCLE.md",
+    "docs/QUICK_GAPS.md",
+    "docs/validation/v0.18.0.json",
+    "scripts/__pycache__/offline_bundle.cpython-312.pyc",
+    "scripts/__pycache__/package-desktop-source.cpython-312.pyc",
+    "scripts/__pycache__/verify-macho-pages.cpython-312.pyc",
+    "scripts/tests/__pycache__/test_offline_bundle.cpython-312.pyc",
+    "scripts/tests/__pycache__/test_source_archive.cpython-312.pyc"
+  ]
+}

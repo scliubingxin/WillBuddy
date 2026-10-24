@@ -13,14 +13,14 @@ async function fixture(){
  const dom=new JSDOM(await readFile(new URL('../src/index.html',import.meta.url),'utf8'),{url:'file:///desktop/src/index.html',runScripts:'outside-only'}),w=dom.window;
  w.HTMLDialogElement.prototype.showModal=function(){this.open=true;};w.HTMLDialogElement.prototype.close=function(){this.open=false;};
  const s=initialState(),calls=[];s.settings.hasKey=true;s.folders=[{id:'f',name:'项目资料',path:'/fixture'}];
- let runtimeListener;
- const bridge={state:async()=>structuredClone(s),onRuntime:fn=>{runtimeListener=fn;},listFiles:async p=>{calls.push(['list',p]);return {files:[{folderId:'f',relative:'report.md',name:'report.md'}]};},readFile:async p=>{calls.push(['read',p]);return {...p,name:'report.md',text:'# 授权资料\n正文'};},exportText:async p=>{calls.push(['export',p]);},cancelChat:async p=>{calls.push(['cancel',p]);return true;},chat:async()=>structuredClone(s)};
+ let runtimeListener,streamListener;
+ const bridge={state:async()=>structuredClone(s),onRuntime:fn=>{runtimeListener=fn;},onStream:fn=>{streamListener=fn;},listFiles:async p=>{calls.push(['list',p]);return {files:[{folderId:'f',relative:'report.md',name:'report.md'}]};},readFile:async p=>{calls.push(['read',p]);return {...p,name:'report.md',text:'# 授权资料\n正文'};},exportText:async p=>{calls.push(['export',p]);},cancelChat:async p=>{calls.push(['cancel',p]);return true;},chat:async()=>structuredClone(s)};
  w.actwill=bridge;await loadUI(w);
  const settle=ms=>new Promise(r=>setTimeout(r,ms||25));await settle();
  const click=async selector=>{const el=w.document.querySelector(selector);assert.ok(el,selector);el.click();await settle();};
  const fill=(selector,value)=>{const el=w.document.querySelector(selector);el.value=value;el.setSelectionRange?.(value.length,value.length);el.dispatchEvent(new w.Event('input',{bubbles:true}));};
  const key=async value=>{w.document.querySelector('#prompt').dispatchEvent(new w.KeyboardEvent('keydown',{key:value,bubbles:true,cancelable:true}));await settle();};
- return {dom,w,s,calls,bridge,settle,click,fill,key,notify:()=>runtimeListener?.()};
+ return {dom,w,s,calls,bridge,settle,click,fill,key,notify:()=>runtimeListener?.(),stream:e=>streamListener?.(e)};
 }
 
 test('split workspace safely renders Markdown, switches tabs, exports exact text and continues with a draft',async()=>{
@@ -59,4 +59,27 @@ test('live execution keeps focus, draft and disclosure state; run records do not
 
 test('execution run ID survives denial, persistence and reload without executing a command',async()=>{
  const dir=await mkdtemp(path.join(tmpdir(),'willbuddy-run-'));try{const store=new Store(dir);await store.load();const runtime=new ToolRuntime({store,browser:{},approve:async()=>false});await runtime.execute('browser_open',{url:'https://example.com'},undefined,{chatId:'chat',runId:'request-2'});const reloaded=new Store(dir);await reloaded.load();assert.equal(reloaded.data.executions[0].runId,'request-2');assert.equal(reloaded.data.executions[0].chatId,'chat');assert.equal(reloaded.data.executions[0].status,'denied');}finally{await rm(dir,{recursive:true,force:true});}
+});
+
+
+test('stream events keep draft/focus, ignore stale chunks and cannot resurrect a completed run',async()=>{
+ const f=await fixture();try{const {w,s,click,fill,settle,stream,notify}=f;const startedAt=Date.now();s.chats=[{id:'c',name:'流式任务',time:startedAt,run:{id:'r',status:'running',startedAt},messages:[{role:'user',content:'测试',runId:'r'}]}];await w.eval("update('state')");await click('[data-action="openChat"][data-id="c"]');
+ const event={version:1,type:'text',chatId:'c',runId:'r',messageId:'m',sequence:2,content:'# 已接收\n\n第二段',startedAt,time:startedAt};stream(event);await settle(60);assert.match(w.document.querySelector('.message-content h1').textContent,/已接收/);fill('#prompt','未发送草稿');const input=w.document.querySelector('#prompt');input.focus();input.setSelectionRange(1,3);
+ stream({...event,sequence:1,content:'STALE'});stream({...event,sequence:3,content:event.content+'\n\n**实时更新**'});await settle(60);assert.equal(w.document.querySelector('#prompt'),input);assert.equal(input.selectionStart,1);assert.equal(input.value,'未发送草稿');assert.match(w.document.querySelector('.message.assistant').textContent,/实时更新/);assert.ok(!w.document.body.textContent.includes('STALE'));
+ // An older in-flight state snapshot must not replace the newer stream text.
+ notify();await settle(180);assert.match(w.document.querySelector('.message.assistant').textContent,/实时更新/);
+ s.chats[0].run.status='completed';s.chats[0].messages.push({id:'m',role:'assistant',content:'最终结果',sequence:3,runId:'r',streaming:false});notify();await settle(180);stream({...event,sequence:99,content:'LATE'});await settle(60);assert.match(w.document.querySelector('.message.assistant').textContent,/最终结果/);assert.ok(!w.document.body.textContent.includes('LATE'));assert.equal(w.document.querySelector('[data-streaming="true"]'),null);
+ }finally{f.dom.window.close();}
+});
+
+test('reloaded queued chat keeps a stop action and stale run/task snapshots cannot revive cancelled work',async()=>{
+ const f=await fixture();try{
+  const {s,w,bridge,notify,settle,click}=f;
+  s.chats=[{id:'queued-chat',name:'排队任务',time:100,run:{id:'turn',status:'queued',revision:1,startedAt:100},messages:[{role:'user',content:'提示',runId:'turn'}]}];
+  s.runJobs=[{id:'turn',kind:'conversation',ownerId:'queued-chat',label:'排队任务',createdAt:100,status:'queued',revision:1}];
+  notify();await settle(150);await click('[data-page="home"]');await click('.recent [data-id="queued-chat"]');assert.ok(w.document.querySelector('[aria-label="停止生成"]'));assert.match(w.document.querySelector('.run-wait').textContent,/正在排队/);
+  bridge.cancelChat=async()=>{s.chats[0].run.status='cancelled';s.chats[0].run.revision=2;s.runJobs[0].status='cancelled';s.runJobs[0].revision=2;notify();};
+  await click('[data-action="stop"]');await settle(150);assert.equal(w.document.querySelector('[aria-label="停止生成"]'),null);
+  s.chats[0].run.status='queued';s.chats[0].run.revision=1;s.runJobs[0].status='queued';s.runJobs[0].revision=1;notify();await settle(150);assert.equal(w.document.querySelector('[aria-label="停止生成"]'),null);assert.match(w.document.querySelector('.conversation-status').textContent,/已取消/);
+ }finally{f.dom.window.close();}
 });

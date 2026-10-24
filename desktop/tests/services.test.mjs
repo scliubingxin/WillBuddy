@@ -47,7 +47,10 @@ test('attachment rejection and shared concurrency limits cannot leak a running s
   await assert.rejects(service.run({id:'bad',prompt:'读取文件',files:[{folderId:'revoked',relative:'x'}]}),/授权已撤销/);
   assert.equal(f.active.size,0);assert.equal(f.store.data.chats.length,0);assert.equal(requested,0);
   f.active.set('task:one',new AbortController());f.active.set('cli:two',new AbortController());
-  await assert.rejects(service.run({prompt:'测试'}),/正在执行/);assert.equal(requested,0);
+  const queued=service.run({id:'queued',prompt:'测试'});
+  for(let i=0;i<20&&!f.store.data.chats.some(c=>c.id==='queued');i++)await new Promise(r=>setImmediate(r));
+  assert.equal(f.store.data.chats.find(c=>c.id==='queued').run.status,'queued');assert.equal(requested,0);
+  await service.cancel('queued');await queued;assert.equal(requested,0);
 });
 
 test('conversation cancellation and provider failure persist distinct final states and release slots',async()=>{
@@ -60,13 +63,13 @@ test('conversation cancellation and provider failure persist distinct final stat
   await createConversationService(f).run({id:'fail',prompt:'测试'});assert.equal(f.store.data.chats[0].run.status,'failed');assert.match(f.store.data.chats[0].messages.at(-1).content,/provider unavailable/);assert.equal(f.active.size,0);
 });
 
-test('task service reserves capacity before async persistence and releases it on storage failure',async()=>{
-  const f=fixture();f.store.data.tasks=['a','b','c'].map(id=>({id,name:id,prompt:id,status:'ready'}));const writes=[];
-  f.store.save=()=>new Promise(r=>{writes.push(r);});const service=createTaskService({...f,request:async()=>({text:'done'})});
-  const first=service.run('a'),second=service.run('b');
-  assert.equal(f.active.size,2);await assert.rejects(service.run('c'),/两个任务/);
-  for(const c of f.active.values())c.abort();f.store.save=async()=>{};
-  for(const release of writes)release();await Promise.all([first,second]);assert.equal(f.active.size,0);
+test('task service shares two persisted claims, queues overflow and fails closed on storage error',async()=>{
+  const f=fixture();f.store.data.tasks=['a','b','c'].map(id=>({id,name:id,prompt:id,status:'ready'}));let started=0;
+  const service=createTaskService({...f,request:async(_s,_k,_m,signal)=>{started++;return new Promise((_,reject)=>signal.addEventListener('abort',()=>reject(signal.reason),{once:true}));}});
+  const requests=['a','b','c'].map(id=>service.run(id));
+  for(let i=0;i<50&&started<2;i++)await new Promise(r=>setImmediate(r));
+  assert.equal(f.active.size,2);assert.equal(started,2);assert.equal(f.store.data.tasks[2].status,'queued');
+  await Promise.all(['a','b','c'].map(id=>service.cancel(id)));await Promise.all(requests);assert.equal(f.active.size,0);assert.equal(started,2);
   const g=fixture();g.store.data.tasks=[{id:'x',name:'x',prompt:'x',status:'ready'}];let count=0,models=0;
   g.store.save=async()=>{if(++count===1)throw new Error('disk full');};
   await createTaskService({...g,request:async()=>{models++;}}).run('x');assert.equal(g.active.size,0);assert.equal(g.store.data.tasks[0].status,'failed');assert.equal(models,0);
@@ -74,7 +77,7 @@ test('task service reserves capacity before async persistence and releases it on
 
 test('restart recovery marks running work without executing or replaying approvals',()=>{
   const data={executions:[{status:'pending_approval'},{status:'running'},{status:'succeeded'}],tasks:[{status:'running'}],chats:[{run:{status:'running'}},{run:{status:'completed'}}]};
-  recoverInterruptedWork(data,123);assert.deepEqual(data.executions.map(x=>x.status),['interrupted','interrupted','succeeded']);assert.equal(data.chats[0].run.finishedAt,123);assert.equal(data.tasks[0].status,'failed');assert.equal(data.chats[1].run.status,'completed');
+  recoverInterruptedWork(data,123);assert.deepEqual(data.executions.map(x=>x.status),['interrupted','interrupted','succeeded']);assert.equal(data.chats[0].run.finishedAt,123);assert.equal(data.tasks[0].status,'interrupted');assert.equal(data.chats[1].run.status,'completed');
 });
 
 test('workspace mutations preserve records and reject deletion of active work or default agent',async()=>{

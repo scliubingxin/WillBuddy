@@ -1,12 +1,48 @@
+0.22.0：新增「Skills 技能库 / MCP 连接器」独立入口，支持上传 SKILL.md/ZIP、资源查看、连接配置/真实工具发现测试；构建智能体时勾选绑定，也能当场上传或新建连接并保留草稿。说明见docs/SKILLS_AND_CONNECTORS.md（桌面目录使用../docs/）。MCP认证/OAuth/stdio暂不支持，Mac真机未验收。
+
+0.21.0：智能体接入知识文档、按需Skills、工具白名单、真实MCP Streamable HTTP客户端与ReAct循环；修复动态HTML附件空白，新增本机图片持久附件和显式视觉发送。无需另装GenOffice/Office/npm/Python。原生Mac与真实模型待验收。当前源码和arm64候选ZIP交付，未公开发布GitHub。
+
+## 0.20.0 对话富媒体
+
+图片/视频直链点击加载、网页链接卡片、数据图表随应用内置；无需另装软件。用法、语法、匿名跨域、超时和验收范围见[CHAT_RICH_MEDIA](../docs/CHAT_RICH_MEDIA.md)。当前安装包为 WillBuddy-v0.20.0-mac-arm64-offline.zip，仍ad-hoc、未公证/Mac验收。
+
+0.19.0：Excel预览图片按单格/双格/绝对锚点定位，跟随对应工作表与可见网格；不再把整个工作簿图片堆在表尾。保持离线内置，无需另装软件。见[范围与验收](../docs/SPREADSHEET_IMAGES.md)。
+
+0.18.0：同一Office文档版本的预览在后台刷新/侧栏调整时保持连接，不重新读文件/解析，保留Excel工作表选择和滚动；关闭、换文档或版本后释放重载。无需新增软件。见[说明](../docs/PREVIEW_LIFECYCLE.md)。
+
+0.17.0：修复安装包内Office预览组件无法加载/超时，新增本地文件和ASAR原生Electron验收、阶段错误与重新加载。无需安装额外软件。见[修复与范围](../docs/PREVIEW_TIMEOUT_FIX.md)。
+
+0.16.0：Office「预览」内置离线页面/表格/幻灯片渲染，移除外部GenOffice按钮，不用另装软件。复杂排版/图表兼容范围见[预览说明](../docs/OFFICE_PREVIEW.md)。
+
+0.15.0：新增导入Word简单正文段落后插入/删除/保存前撤销；AI document_patch使用批准read返回的段落anchor与版本。仅正文顶层简单段落，表格/页眉页脚结构、编号/分节/带样式引用/复杂结构保护。原件/前5版保留。见[段落编辑与验证](../docs/WORD_PARAGRAPHS.md)。
+
+0.14.0：新增受限 Excel 公式引擎、跨表 A1 引用、即时预览和独立保存重算；支持七个基础函数，拒绝未知/共享/数组公式、循环引用及图表/透视表/结构化表格工作簿编辑。原件和前5版保留。最终用户无需 Office、Python、npm 或 LibreOffice；开发浏览器验收需要 soffice 独立比对。见[公式说明](../docs/SPREADSHEET_FORMULAS.md)。
+
+0.13.0：新增导入Word片段编辑、保留其他部件与样式、AI document_patch和版本/片段指纹门禁。支持正文、表格文字和页眉页脚的简单段落；复杂段落只读，不是分页保真编辑器。见[说明](../docs/IMPORTED_WORD_EDITING.md)。
+
+0.12.0：内置真实GenOffice HTML→DOCX子引擎、Word写作画布、Markdown/HTML离线转Word与模型document_write/convert工具，无需额外安装GenOffice。仅新建/本机转换Word可在画布往返；不是完整套件或任意导入Word保真编辑。详见[引擎与验收](../docs/GENOFFICE_ENGINE.md)。
+
+0.11.0：修复回复/工作区误导出 Markdown 的Office交付问题，新增可信文件卡片、直接段落/单元格/原文编辑、可选GenOffice副本接续。GenOffice未内嵌，需用户自行安装；当前接续仅适配macOS，原生启动待验收。操作见[桌面GenOffice说明](../docs/GENOFFICE_DESKTOP.md)。
+
+0.10.1 修复：文档确认改为短摘要，防止按钮超出屏幕；确认框支持取消、60秒超时和菜单 ⌘⇧Esc 紧急取消。浏览器可选“本任务本站点允许”，后续同任务同站不重复弹窗，工具页可撤销。
+
+0.10.0：新增真实 Word/Excel/PowerPoint、Markdown/HTML 文档创建、导入、修改、版本与导出；修复全局生成状态阻塞，支持两项模型任务并发、独立草稿与停止。操作与边界见 [文档工作台](../docs/OFFICE_WORKSPACE.md)。
+
+0.9.0：对话与每日任务共用持久调度，排队/刷新后停止、定时发生去重、迟到结果拦截与重启暂停。详见 [共享执行说明](../docs/SHARED_RUNS.md)。
+
+0.8.0：手动 CLI 持久队列、刷新后停止、去重、重启暂停和重新审批重试；输出检查点与磁盘故障门禁。详见 [命令队列说明](../docs/DURABLE_COMMANDS.md)。
+
+0.7.0 修复：真实 SSE 流式输出，完整 Markdown 排版、带样式的隔离 HTML 预览、停止后保留内容，以及草稿/选区稳定。详见 [说明](../docs/STREAMING_AND_RENDERING.md)。
+
 项目结构与修改入口见 ../docs/ARCHITECTURE.md（0.6.1 分层整理）。
 
-# WillBuddy 桌面版 0.6.1
+# WillBuddy 桌面版 0.19.0
 
 在原 Web 系统与 0.3.0 桌面基础上新增浏览器、CLI 及模型工具调用闭环。原 Web 代码、数据库迁移和 Python Office 执行器保留；桌面无需先运行 Web 服务或 Cloudflare。
 
 ## 免依赖安装（Apple 芯片）
 
-日常使用请下载独立的 `WillBuddy-v0.6.0-mac-arm64-offline.zip`，完整解压后把 `WillBuddy.app` 拖入应用程序，或双击 `Install-WillBuddy.command` 安装到个人 Applications 文件夹。应用已内置 Electron/Chromium/Node 运行时，安装不执行 npm，也不要求开发工具。下方 npm 命令仅供源码开发。
+日常使用请下载独立的 `WillBuddy-v0.19.0-mac-arm64-offline.zip`，完整解压后把 `WillBuddy.app` 拖入应用程序，或双击 `Install-WillBuddy.command` 安装到个人 Applications 文件夹。应用已内置 Electron/Chromium/Node 运行时，安装不执行 npm，也不要求开发工具。下方 npm 命令仅供源码开发。
 
 只制作 Apple 芯片版，最低 macOS 12。包采用 ad-hoc 签名，尚无 Developer ID 或公证，未完成真机启动；系统首次运行可能需要在隐私与安全性中确认。安装脚本不会关闭 Gatekeeper 或移除隔离标记。Git/Codex/Python/Ollama 等外部工具及原 Python Office 工具链不包含在桌面主程序依赖中，使用这些外部能力仍需对应本机程序。
 
@@ -22,7 +58,7 @@
 
 每轮请求显示独立执行过程，可展开真实参数、stdout/stderr、退出码或浏览器回执。审批仍在原生系统确认窗口，页面不会替代原生授权。已拒绝、失败和中断会如实显示；旧数据没有 runId 的历史记录可在右侧执行记录查看，不伪造归属。
 
-回复下的「在工作区查看」、成果中心的「查看」、本地文件的「预览」会打开右侧页签，支持 Markdown 标题、表格、列表、代码和安全转义。原始 HTML/脚本只作为文字显示。可导出原文或「继续修改」到草稿，保留已有输入；用户发送后才调用模型。只读文件预览不意味着已实现本地写入。页签按任务隔离，只在当前窗口保留。
+回复下的「在工作区查看」、成果中心的「查看」、本地文件的「预览」会打开右侧页签，支持 Markdown 标题、表格、列表、代码和安全转义。HTML 正文净化排版，文档可在隔离工作区静态预览；脚本不会执行（0.7.0 起）。可导出原文或「继续修改」到草稿，保留已有输入；用户发送后才调用模型。只读文件预览不意味着已实现本地写入。页签按任务隔离，只在当前窗口保留。
 
 `npm test` 为 28 项回归；`npm run test:workspace` 使用真实 Chromium 和模拟原生桥检查布局/键盘/预览/导出。构建端先安装 Playwright Chromium；产品安装端无需 Playwright。`test:browser` 可将 CHROME_PATH 指向 Chromium Headless Shell；容器测试使用 CHROME_TEST_NO_SANDBOX=1 仅影响测试浏览器，桌面产品的 sandbox:true 不变。Mac 原生、真实模型、Office/图片编辑仍未验收或实现。
 
@@ -57,7 +93,7 @@ Mac 快捷唤起 `Command+Shift+Space`，Windows/Linux `Ctrl+Shift+Space`；应�
 
 内置浏览器使用独立的内存会话，不读取系统 Chrome/Safari 已有登录状态；退出后不保留此会话。最多 5 个窗口，网页加载最多等待 30 秒。仅支持 HTTP/HTTPS，拒绝任意自定义协议和内嵌账号密码。页面下载、设备和系统权限请求暂不支持。某些依赖弹窗、设备权限或特殊认证的站点可能需要外部浏览器。
 
-当前可打开网页并读取正文；尚未实现 DOM 元素定位、自动点击、表单填写或复用 Chrome 登录会话。网页内容是外部资料，不是新的用户指令。
+已支持受限顶层 DOM 快照引用、点击与普通文本填写；尚未复用系统 Chrome 登录会话。网页内容是外部资料，不是新的用户指令。
 
 ## CLI：执行真实命令
 
@@ -65,7 +101,7 @@ Mac 快捷唤起 `Command+Shift+Space`，Windows/Linux `Ctrl+Shift+Space`；应�
 2. 在「浏览器与 CLI」选择工作目录。
 3. 程序填 `node`，参数填 `["--version"]`，点击「审阅并执行」。
 4. 在原生弹窗中核对**解析后的程序绝对路径、参数、工作目录和超时**，点击「允许这一次」。
-5. 执行记录显示 stdout、stderr、退出码、耗时和真实状态；运行时可取消。
+5. 持久命令队列显示 stdout、stderr、退出码、耗时和真实状态；刷新后仍可取消。重启暂停旧命令，手动重试需重新审批。
 
 常见示例：
 
@@ -146,3 +182,7 @@ Web 与桌面核心统一、持久化队列、MCP、可操作浏览器、跨设�
 `npm test`：24 项 Node 测试通过，包含真实 CLI 子进程与 HTTP 模型夹具；浏览器 DOM 为 JSDOM + 注入 Electron 适配器，界面为模拟原生桥（17 条路径）。没有用夹具结果冒充 Mac 集成测试。
 
 可复现真实 Chromium 输入测试：安装开发依赖后设置 `CHROME_PATH` 为受支持 Chrome 可执行文件，执行 `npm run test:browser`；也可使用已启动且可信本机的 `CHROME_CDP_URL`。测试使用本机 HTTP 表单与确定性模型/审批夹具，不访问真实账户。当前构建主机启动 Chrome 因 socket() Operation not permitted 失败，未通过该真实浏览器检查。Mac 原生 Electron、系统确认框、真实第三方模型/Codex CLI 仍待独立验收。
+
+## 0.10.0 开发验证补充
+
+文档工具不依赖最终用户安装Python或Office。开发/CI中的独立Office解析验收需先在开发虚拟环境中 `python3 -m pip install -r scripts/requirements-office-tests.txt`（从项目根目录），再执行 `npm --prefix desktop test`。构建依赖固定在package-lock.json，编解码器重建用 `npm --prefix desktop run vendor:office`，最终产物使用已预打包且带许可/哈希的JS。

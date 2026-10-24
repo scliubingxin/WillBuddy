@@ -1,3 +1,109 @@
+## 2026-10-24 · 0.22.0 技能上传库与MCP连接器配置
+
+按用户六张截图落实三个管理页签：智能体、Skills技能库、MCP连接器。原生选择器上传SKILL.md/ZIP→真实有界解析/持久文件资源；元数据列表、正文目录查看、启用停用/引用保护删除。构建智能体绑定skillIds/mcpIds，可当场上传/保存连接并自动选中，保留提示词/草稿，迟到上传不能写入另一个表单；旧内嵌配置保留。MCP保存不联网，原生批准后实际发现，支持取消/修订失效/退出清理；只标上次真实发现，不假在线。运行解析绑定能力，skill_read/resource按需返回完整入口和受限文本参考；真实模型HTTP夹具四轮Skill→资源→MCP→验收通过。allowed-tools不提权，包内脚本不自动执行。
+
+从权威0.21/v22读取479内容并SHA核验后开发。新增schema1字段skillPackages/mcpConnections/agent skillIds+mcpIds，无新生产依赖。12新增核心（共232）/17真实Chromium全回归及4最终相关重跑/9打包Python通过。真实ZIP/服务/磁盘/HTTP协议与生产页面；原生选择器/IPC/审批/模型内容仍夹具。无Mac/付费模型/企业MCP/完整Office保真；认证头/OAuth/stdio未实现。原122Web/Python保护文件SHA不变，旧35Python未改未重跑。原logo白蓝/加密身份/双任务/浏览器站点许可/HTML与Office/图片保留。
+
+见docs/SKILLS_AND_CONNECTORS.md与validation/v0.22.0.json。技能格式为有界子集：4MiB输入/2MiB展开/64文件/CRC与路径及符号链接门禁、name64/description1024/主源12000字符，库40项/16MiB；binary保留不执行，资源仅UTF8有界读取。不是完整技能运行环境、市场、API密钥连接器或自主子Agent。下一轮先实际Mac/模型/MCP联调，再认证连接器/技能完整资源使用/知识索引与Office兼容。未GitHub上传/未公开release/未PR/合并main，保留此前公开发布自动审批边界；交付独立完整源码与arm64离线候选并保护替换权威。
+
+## 2026-10-24 · 0.21.0 智能体能力组合、HTML原型预览与图片附件
+
+从权威0.20/v21获取456内容文件并核验后开发。用户新反馈优先：原260561字节HTML由尾部JS绘制，旧50k摘要/静态脚本过滤造成空白；新增独立完整有界预览与双opaque隔离，原样本实际欢迎界面/供应商表单/三次绘制只读一次/无外网通过，不把localhost业务接口当已接通。新增本机PNG/JPEG→nativeImage适配器→规范PNG持久附件，默认不送模型，显式勾选本轮image_url实际HTTP协议，模型变化拒绝。原文件/原模型附件限制保持。
+
+智能体新增知识文档绑定、按需skill_read、一般工具白名单、MCP配置与1–12轮ReAct；knowledge_search调用原审批文档读取并返回有来源行片段。真实MCP初始化/目录/JSON或SSE调用/会话清理，不是占位字段；每次网络操作审批/取消/超限/配置撤销/磁盘故障门禁和审计正文隐藏。真实HTTP模型夹具四轮：技能→真实文档预算→MCP报价→验收；未运行真实付费模型/企业MCP或Mac。旧schema1增量，无新生产依赖。原Web/Python122哈希未变。
+
+220核心（新增24：图片7/HTML6/智能体11）、16个真实Chromium用例在完整回归和修正后的相关重跑中通过，另用户原HTML实际用例通过；9打包Python通过。完整浏览器首轮15/16，图片用例重载后误点搜索按钮，修正测试定位后该用例及5项相关最终回归通过；没有更改生产路径规避失败。原生选择器/PNG规范化/IPC/审批/模型响应仍夹具。原Python35未改未重跑；未新Linux Electron/Mac/字体像素/真实视觉/WordWPS验收。90生产文件与ASAR完全一致，15MachO/51216页、篡改负例、282应用+5配套/14链接/零残留和ZIP门禁通过，仍ad-hoc未公证。
+
+说明：docs/AGENT_CAPABILITIES.md、HTML_INTERACTIVE_PREVIEW.md、LOCAL_IMAGE_ATTACHMENTS.md及validation/v0.21.0.json。MCP目前无认证HTTP子集，无OAuth/stdio/自动重试；知识为有界词法行检索，不是向量库；技能为保存Markdown步骤，不是完整技能包/脚本执行；跨Web核心/自主并行组/完整Office保真未完成。保留旧身份/蓝红logo/白蓝主题、双任务/站点授权/GenOffice子引擎。下一轮先用户Mac/实际模型和MCP链路验收，再技能包导入/知识索引/认证连接器与Office兼容；不退回仅提示词壳。
+
+未GitHub上传、未公开release、未PR/合并main；保留先前公开发布自动审批拒绝边界，不另换途径绕过。源码与arm64包独立保存并保护替换权威源码。
+
+## 2026-10-24 · 0.20.0 对话富媒体展示
+
+实际新增 HTTPS图片点击加载/展开、视频控制播放、网页链接卡片和本地数据驱动柱/线/饼图；模型指令接入语法，原始Markdown/导出不改。外部媒体单独opaque frame、无Node/桥、CORS anonymous/no-referrer、启动/加载超时与关闭重试；每消息12媒体/6图、同时3媒体。固定媒体双资源+SHA校验，经典IIFE避免模块脚本opaque跨域启动失败；后台消息未变的绘制保留媒体frame。不是本地附件上传、视觉理解、转码或完整Office图表套件。196核心（新增12）/4相关真实Chromium/9打包通过；真实PNG/WebM解码/播放、链接路由、三图原值、5次重绘无额外请求及Office/流式/工作区回归。HTTPS响应/模型/原生桥夹具，未新Linux原生/Mac/远端服务验收；原Web/Python122文件未变，旧35未重跑。77生产文件ASAR精确一致；15MachO/51216页/篡改负例，包ad-hoc未公证。见docs/CHAT_RICH_MEDIA.md和validation/v0.20.0.json。
+
+下一轮：先Mac实际图片/视频/链接/流式图表验收，再本地媒体授权导入/持久附件与更完整图表/Office预览。保留旧身份/logo白蓝/双任务/站点许可。不建PR/不合并main；用户未批准0.19公开发布，禁止重试该发布或将0.20擅自公开。完整源码和arm64候选包照常保存交付。
+
+## 2026-10-24 · 0.19.0 Excel图片按锚点预览
+
+0.19.0：Excel预览图片按单格/双格/绝对锚点定位，跟随对应工作表与可见网格；不再把整个工作簿图片堆在表尾。保持离线内置，无需另装软件。184核心/12真实Chromium/9打包；真实XLSX图片坐标+decode+独立openpyxl，Linux原生Electron源码/ASAR验证与旧生命周期回归。Mac/付费模型/完整Office保真未验收。见docs/SPREADSHEET_IMAGES.md及validation/v0.19.0.json。下一轮Mac反馈与图表/主题/模板质量；MCP/跨Web核心/自主子任务组仍有差距；不建PR/合并main。
+
+## 2026-10-23 · 0.18.0 预览不随状态刷新重建
+
+0.18.0：同一Office文档版本的预览在后台刷新/侧栏调整时保持连接，不重新读文件/解析，保留Excel工作表选择和滚动；关闭、换文档或版本后释放重载。无需新增软件。177核心/12真实Chromium/9打包测试；Linux真实Electron源码与ASAR各三种文件20次绘制额外读取=0。Mac/付费模型/Office全保真未验收。详见docs/PREVIEW_LIFECYCLE.md及validation/v0.18.0.json。下一轮Mac链路与图片锚点/表格分页质量；保留旧系统/身份/logo/双任务/授权，不增加依赖，不建PR/合并main。
+
+## 2026-10-23 · 0.17.0 修复本地Office预览超时
+
+真实Electron42/Linux复现旧file路径未握手，修复为固定两资源应用内协议，保持CSP/Node/IPC边界；新增阶段超时/手动重载，About版本跟随应用。生产HTML+preload+真实IPC+真实Office文件在源码与ASAR通过，子帧正文/ready/无原生桥验证。173核心/12 Chromium/9打包通过；Mac/付费模型/Office显示/公证未验收。详见docs/PREVIEW_TIMEOUT_FIX.md及validation/v0.17.0.json。缓存/图片定位因最新超时反馈优先处理未交付，不列完成项。下一步用户Mac验收、独立预览生命周期与图表图片质量，保留原Web/Python、身份、白蓝logo/并发/审批。
+
+## 2026-10-23 · 0.16.0 内置 Office 预览
+
+完成：真实二进制预览服务、隔离帧、Word页面/多表Excel/PPT静态渲染、离线依赖与许可证、移除外部GenOffice UI。详见docs/OFFICE_PREVIEW.md与validation/v0.16.0.json。保留原Web/Python/身份/logo/并发/审批。下一步：Mac原生安装/预览/审批验收，复杂图表/图片定位/字体/分页质量，预览独立生命周期。未实现全Office保真或完整GenOffice嵌入。
+
+# 0.15.0 Word正文段落增删 · 2026-10-23
+
+从权威0.14.0/v15重新读取、412内容文件SHA核对后开发。实际新增简单正文后插入/删除、保存前撤销；模型与页面统一patchWord候选，原段落anchor和revision保护，原件与前5版保留。新段继承参考pPr/首rPr，不重建整份Word；未改部件SHA核对。仅正文顶层简单段，表格/页眉页脚结构、编号/分节/样式引用/复杂及跨段域书签批注保护；至少保留一原正文段，超限/冲突/拒绝/取消/磁盘失败不发布。详见docs/WORD_PARAGRAPHS.md和validation/v0.15.0.json。
+
+166核心（新增10）/11真实Chromium（新增1）/9打包测试通过；真实HTTP模型夹具read→结构新增，生产UI新增/撤销→v2导出与独立python-docx→重载→删除/撤销→v3导出/磁盘重载。Mac原生/真实付费模型/WordWPS保真未验收。61生产文件ASAR精确匹配，15MachO/51216页、篡改负例、282应用+5配套/14链接/零残留通过；ad-hoc未公证。原Web/Python122保护文件未变，旧Python35未重跑；白蓝logo、兼容身份、Excel七函数、双任务、浏览器许可和GenOffice子引擎保留。
+
+下一轮有Mac优先严格签名安装/启动/原生审批/真实模型Office；缺目标机继续受限表格结构或文档预览/模板质量，不停留介绍/队列。无完整GenOffice编辑器/任意Word保真/自主子任务组/MCP/跨Web核心结论。不创建PR/合并main，不用GitHub插件/聊天密码。
+
+# 0.14.0 表格计算增量 · 2026-10-23
+
+实际新增七函数公式引擎（SUM/AVERAGE/MIN/MAX/COUNT/IF/ROUND）、跨表A1与依赖计算、页面即时预览、单元格显式类型/公式编辑、新增坐标、切表草稿与只看公式。模型read/edit接既有审批与版本服务，主进程独立重算真实XLSX公式缓存、清除旧calcChain，保留样式和原件/前5版。未知/共享/数组公式、循环、外链、图表/透视表/结构化表格/签名工作簿编辑失败关闭。不是完整Excel/GenOffice电子表格套件。见docs/SPREADSHEET_FORMULAS.md和validation/v0.14.0.json。
+
+156核心（新增20）/10真实Chromium（新增1）/9打包（新增2）通过；生产页面生成→修改→即时计算→切表保留→保存v2→导出→磁盘重载。openpyxl核对公式/缓存，容器LibreOffice独立重算8个公式一致；HTTP模型内容/原生IPC/审批仍夹具，无Mac/付费模型/Excel-WPS保真验收。61生产文件与ASAR精确匹配，282应用+5配套/14链接/零残留，15MachO/51216页和篡改负例通过；仍ad-hoc未公证。源码发布新增临时ZIP完整验证后原子替换和失败保留测试，不把它当上一轮截断已知根因修复。
+
+下一轮有Mac先严格签名安装/启动、原生审批和实际模型Office链路；缺目标机优先Word段落/表格结构增删或受控扩展公式/模板质量、图表与预览。不要只加队列/说明；保留原Web/Python、兼容身份、白蓝logo、双任务/浏览器站点许可。不PR/不合并main、不用GitHub插件或聊天密码。
+
+# 0.13.0 导入Word增量 · 2026-10-22
+
+实际新增导入DOCX片段文字/粗体/斜体编辑，正文、表格文字、页眉页脚的简单段落支持；其他格式和未改ZIP部件保留并核对SHA。复杂段落只读、版本/片段指纹门禁、模型read→document_patch、原件保留与新版本真实导出。见docs/IMPORTED_WORD_EDITING.md和validation/v0.13.0.json。新模块为WillBuddy自己的受限OOXML补丁，既有GenOffice子引擎继续保留；不是完整上游编辑器或任意Word保真往返。136核心/9真实Chromium/7打包测试通过；原生IPC/审批/模型内容夹具，无Mac或付费模型/Office显示验收。
+
+下一轮有Mac先安装严格签名/启动/审批/实际模型Word链路；缺目标机则推进受限段落/表格结构增删及电子表格公式引擎。不要持续只加队列或说明。原Web/Python、白蓝logo、加密身份、双任务/浏览器授权保持，不PR/不合并main。
+
+# 0.12.0 当前入口 · 2026-10-22
+
+先读docs/GENOFFICE_ENGINE.md、validation/v0.12.0.json、vendor/genoffice-html2docx及runtime/vendor/GENOFFICE-MANIFEST.json。已内置真实GenOffice HTML→DOCX子引擎和新建Word写作画布，非仅外部打开；完整套件/导入Word保真往返仍未完成。
+
+下一轮有Mac先原生隔离转换窗口/签名/安装启动/审批及真实模型tool_calls验收；没有目标机则推进DOCX结构解析与画布往返，不丢失模板/图片/页眉/批注，随后引入真实电子表格公式引擎。禁止把内容重建称为无损保真，保持旧Web/Python、白蓝logo/加密身份/双任务。严格原生审批、队列与源版本门禁，别自动重放；不开PR、不合并功能main，用户拒绝GitHub插件。
+
+# 0.11.0 当前入口 · 2026-10-22
+
+先读docs/GENOFFICE_DESKTOP.md和docs/validation/v0.11.0.json。已修复Office误导出Markdown，补可信文件卡片/直接内容编辑/可选Mac GenOffice副本接续。完整GenOffice编辑器没有内嵌，不能声称已取代Office或已通过Mac原生启动。
+
+下一轮：优先用户Mac真实模型生成→DOCX卡片→下载→编辑→再下载，以及GenOffice原生打开/保存/收回；缺目标机时提取可独立构建的GenOffice编辑器/引擎，许可/字体/arm64 sidecar先核验，推进内嵌保真编辑和公式计算，避免持续只改介绍和队列。保留双任务并发、原Web/Python、白蓝logo、兼容身份；不自动重放已审批工具，不建PR/合并main。
+
+# 0.10.1 当前优先入口 · 2026-10-22
+
+按用户截图修复document_create长JSON原生sheet超出屏幕、取消信号未传入dialog导致队列等待的问题。文档确认用摘要；浏览器可显式选择本任务/本站点授权，不逐步弹窗，新站点/新任务重新确认；撤销、任务结束和退出清理许可。增加60秒超时、菜单⌘⇧Esc紧急取消、拒绝无父窗口/过长消息及迟到允许，导航前后校验防止站点授权泄漏。完整边界见docs/APPROVAL_FIX.md（从docs阅读为APPROVAL_FIX.md）。
+
+105项核心、6项真实Chromium回归；原生弹窗为适配器夹具，Mac真机/严格签名/启动仍未验收。继续保留0.10.0文档、双任务能力及原Web/Python/白蓝logo/加密身份。下一步优先用户Mac弹窗/浏览器/文档链路验证，继而Office保真预览和结构编辑；不回退纯壳、不创建PR/合并main。
+
+# 当前入口 · WillBuddy 0.10.0 · 2026-10-22
+
+用户当前主线：让AI真实生成、导入、修改Office/Markdown/HTML文档，逐步替代重复的Office操作，并支持多任务并发。本轮已接通文档工作台、模型文档工具、版本/校验与双会话独立执行，详见 docs/OFFICE_WORKSPACE.md、docs/validation/v0.10.0.json。
+
+下一轮：1）Mac arm64 原生签名/安装启动、审批、真实模型与Office文件链路验收；2）文档结构增删/精确选区修改和真实页面渲染；3）Excel公式与缓存的明确计算引擎、图表和基础样式；4）模型自动拆解的受控并行子任务组/跨队列公平。Web/Python已有文档核心应逐步复用，但不以要求安装外部依赖回退离线主程序。没有Mac/账户时继续可独立验证的核心增量。
+
+保留白蓝主题/logo/旧加密身份/原Web/Python。不要自动重放审批，不创建PR或合并main（尚无授权），不部署外部站点。读取当前权威文件版本并校验清单，不固定本次版本。
+
+# 当前入口 · 0.9.0
+
+先读 docs/SHARED_RUNS.md 与 docs/validation/v0.9.0.json。模型对话/每日任务已有共用持久调度与事件，CLI保留原队列并共享容量；不得误称三者已统一FIFO或跨Web核心已完成。旧worker/审批不自动重放。保持流式、安全Markdown/HTML、原Web/Python/身份/白蓝主题。
+
+下一轮：有Apple芯片Mac先验收严格codesign/安装启动、原生审批/钥匙串/模型/CLI；无目标机时，优先桌面MCP工具发现与受控调用，或授权文件写入与成果验收，继续合并队列/事件协议并测公平调度。不要持续只增加队列UI。保留全源码与arm64离线候选，每轮检查包内残留/符号链接/执行位/ASAR和签名边界。GitHub使用最新版独立分支，仍无PR/合并授权，不从旧main倒退。
+
+# 当前入口 · 0.8.0
+
+先读 docs/DURABLE_COMMANDS.md 和 docs/validation/v0.8.0.json。手动CLI已有持久队列/去重/取消/重新审批重试，重启不自动重放。保留0.7的流式与安全Markdown/HTML。
+
+下一轮：优先Apple芯片Mac严格codesign/安装启动、真实审批/模型/CLI验收；没有目标机时将conversation/tasks逐步接入共用执行队列与事件契约（当前仅手动CLI接入），覆盖取消竞争、过期事件、失败恢复，不把重试当成恢复同一个外部进程。再推进桌面MCP/授权文件写入/真实Office成果。不要从旧main回退基线，不创建PR或合并（尚待用户另行明确授权）。
+
+# 当前入口 · 0.7.0
+
+先读 docs/STREAMING_AND_RENDERING.md 和 validation/v0.7.0.json。流式/Markdown/HTML 已实际修复，保留安全边界与停止后的内容。下一轮先在 Apple 芯片用用户真实模型验收，之后推进持久队列、统一事件协议与跨端核心；不自动重放已审批动作。
+
 # 当前整理入口 · 0.6.1
 
 项目分层见 docs/ARCHITECTURE.md。main/services/runtime/ui 已拆分，原 Web/Python 保留。下一轮优先完善统一事件协议与持久队列，继续拆分 core 与界面其他页面，并在 Apple 芯片真机验证浏览器/CLI 与严格签名。不要重放已审批动作。

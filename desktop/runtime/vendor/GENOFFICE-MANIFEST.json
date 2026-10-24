@@ -1,0 +1,185 @@
+{
+  "project": "GenOffice HTML to DOCX",
+  "upstream": "https://github.com/genspark-ai/genoffice",
+  "commit": "342abce4280ea92bf7e59580f1ecaf9b562d0f72",
+  "license": "Apache-2.0; LICENSE and NOTICE in vendor/genoffice-html2docx; no ee, fonts or native sidecars",
+  "modifications": "Upstream src copied unmodified; build-time raw imports and docx namespace shim reuse WillBuddy office.cjs",
+  "docx": "9.13.0; existing OFFICE-LICENSES.txt/office.cjs; no extra install at runtime",
+  "files": [
+    {
+      "path": "vendor/genoffice-html2docx/src/extract.ts",
+      "sha256": "1d5ea6fec6089153f3afa879aaee491ab952ce74082d05f79f02e2b0b1ef06e6"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/fonts.ts",
+      "sha256": "bda24df9ce0890f766b5b626e58f24561c9ee5c54a25f004d98bf4a3b5080066"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/bookmarks.ts",
+      "sha256": "8168e55c60a18dd901746ee2b18d7f85e1c9c0e1194c4c6c145f7bedf610070e"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/word-utils.ts",
+      "sha256": "d81fa78c0a4735e3fb6a5481d35487c65adf94b7ff12009c5a123faa81fce3de"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/document-meta.ts",
+      "sha256": "f1c8cdd69cdebce18e56fdf84c241653d211e03c566aace36cdbd6a384e20601"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/numbering.ts",
+      "sha256": "27ba0fabfc07d895c8ea43f2106d98a08db1a195cf10eeaa65c6ebe7634b2f93"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/page-settings.ts",
+      "sha256": "3a58a3941c9bedd7930c989a5a29772db70a4abb84028f4581a539a40a02511c"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/render-context.ts",
+      "sha256": "3944d6dfa92add63510a7ec06f8b28c2dee7f2b62e60f122def6b4116fa43d84"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/content-controls.ts",
+      "sha256": "3158d921703ff5e02e969bd586e8a4e746cc46ca80f319463a4c391b232d2b16"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/table-renderers.ts",
+      "sha256": "c148a24dfea8ef8349b9b0578729256fa80b839ff603d306d4e66d3efa89135f"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/renderer.ts",
+      "sha256": "29cd81031070212585bc644a11786248e396703d9cf000130aa9f3213df8f1b7"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate.ts",
+      "sha256": "7d380be876299f7e30fe4327f828e4968ef069123e1401c2ef412bf956e9563d"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/convert.ts",
+      "sha256": "ec001d9fe4788f556e65340e6913097ed137a0118b19e57059079aacfbd02678"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/index.ts",
+      "sha256": "bd4bd0b6d9d713cea778930d1ed5172bd33930c5cde3c586fc5eecf98c278699"
+    }
+  ],
+  "upstreamSources": [
+    {
+      "path": "vendor/genoffice-html2docx/src/browser/core/classifier.js",
+      "sha256": "8a3b9becdc89254f47e975abca182fc5b5f93404257d997b8704ab637b1e2c77"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/browser/core/decorators.js",
+      "sha256": "cbfa3befbe3863b14a6bee87b7fca7be14edc3005ae9076b909a1568a877e5f4"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/browser/core/layouts-controls.js",
+      "sha256": "d4d5f62a05c0c66c4c8fce7c39a6174d16db5d54a24c295a5106eab635209f5e"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/browser/core/paragraphs-document.js",
+      "sha256": "a2bb671cf82452c7021c716a9e9ffc854867c02300c99b6ee7b30be9308f2df6"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/browser/core/runs-screenshots.js",
+      "sha256": "dbea469df92b61d75fca8ddae0174dfde5b8541e1686605290f100ad664e5c23"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/browser/core/styles.js",
+      "sha256": "b41184817a98f0487ecd0c977faecb98b070f6a1487cdfb5031a2df361c793e7"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/browser/core/tables-lists.js",
+      "sha256": "8f7f7fd46fb05c9dd7da2de8fdbd13bdd2f6a008ca19d698f6639747f5ae920e"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/browser/forms-media.js",
+      "sha256": "5bea5d87bd0ab9a8f3354ca1acca2a3cb21b738fc26fc6362b186428c8768f61"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/browser/pages.js",
+      "sha256": "aed25ff470dc45456e5690c604c9cde10cb8d4aa557a17ee1146668a6d2bd243"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/browser/table.js",
+      "sha256": "88b17ee126eb97edf9deb21f9cd901a80ea463ef4ea3affe6ec6caa38b05516b"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/browser/visual-effects.js",
+      "sha256": "f61b7f5425b78d9bcb9bc3b014a6cadf5a14c1600e0ce17154aa7633b42251c7"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/convert.ts",
+      "sha256": "ec001d9fe4788f556e65340e6913097ed137a0118b19e57059079aacfbd02678"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/driver.ts",
+      "sha256": "f5852a78199a37141947967e4513226d77dc63235db6e49b0e37ee7104841320"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/drivers/electron.ts",
+      "sha256": "c6fa60d60e7b1e944fbd0dc3e8a56e44f7361dc179af5ff9cd3e7bd7890e9faa"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/drivers/playwright.ts",
+      "sha256": "10977f30d3913f7470033f71279b28f94d15da3dcf4dad14dfb1e99a4f5907a3"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/extract.ts",
+      "sha256": "1d5ea6fec6089153f3afa879aaee491ab952ce74082d05f79f02e2b0b1ef06e6"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/bookmarks.ts",
+      "sha256": "8168e55c60a18dd901746ee2b18d7f85e1c9c0e1194c4c6c145f7bedf610070e"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/content-controls.ts",
+      "sha256": "3158d921703ff5e02e969bd586e8a4e746cc46ca80f319463a4c391b232d2b16"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/document-meta.ts",
+      "sha256": "f1c8cdd69cdebce18e56fdf84c241653d211e03c566aace36cdbd6a384e20601"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/fonts.ts",
+      "sha256": "bda24df9ce0890f766b5b626e58f24561c9ee5c54a25f004d98bf4a3b5080066"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/numbering.ts",
+      "sha256": "27ba0fabfc07d895c8ea43f2106d98a08db1a195cf10eeaa65c6ebe7634b2f93"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/page-settings.ts",
+      "sha256": "3a58a3941c9bedd7930c989a5a29772db70a4abb84028f4581a539a40a02511c"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/render-context.ts",
+      "sha256": "3944d6dfa92add63510a7ec06f8b28c2dee7f2b62e60f122def6b4116fa43d84"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/renderer.ts",
+      "sha256": "29cd81031070212585bc644a11786248e396703d9cf000130aa9f3213df8f1b7"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/table-renderers.ts",
+      "sha256": "c148a24dfea8ef8349b9b0578729256fa80b839ff603d306d4e66d3efa89135f"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate/word-utils.ts",
+      "sha256": "d81fa78c0a4735e3fb6a5481d35487c65adf94b7ff12009c5a123faa81fce3de"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/generate.ts",
+      "sha256": "7d380be876299f7e30fe4327f828e4968ef069123e1401c2ef412bf956e9563d"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/index.ts",
+      "sha256": "bd4bd0b6d9d713cea778930d1ed5172bd33930c5cde3c586fc5eecf98c278699"
+    },
+    {
+      "path": "vendor/genoffice-html2docx/src/raw.d.ts",
+      "sha256": "862263317a4ed2b8dda203a834ef18e32df49a676fc5dd58f6de98befcedf6be"
+    }
+  ],
+  "runtimeOfficeSha256": "fac43f0bdd8e3ca34cc97ef22856a0e161047ba47b585731cce9b7e6981369a6"
+}

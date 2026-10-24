@@ -1,0 +1,107 @@
+{
+  "version": "0.8.0",
+  "date": "2026-10-21",
+  "base": {
+    "version": "0.7.0",
+    "canonical_version_observed": 5,
+    "files_verified": 306,
+    "source_zip_sha256": "625a65fbdcec72743b7ddb993f1e0f76659266615c68eacb96fefc1b466f047b",
+    "public_branch_parent": "e0b3ef0c5454d611b825672e9f633b2a46cbe421"
+  },
+  "tests": {
+    "node_jsdom": {
+      "passed": 64,
+      "new_queue_cases": 14,
+      "command": "npm --prefix desktop test"
+    },
+    "real_chromium": {
+      "passed": 4,
+      "scopes": [
+        "durable queue → actual Node → refresh/cancel/retry",
+        "HTTP SSE → conversation → production UI",
+        "workspace layout/Markdown/HTML/export",
+        "browser DOM/CDP trusted input and failure boundaries"
+      ],
+      "executable": "Google Chrome for Testing Headless Shell 141.0.7390.37",
+      "fixture_boundaries": [
+        "Electron bridge",
+        "native approval",
+        "HTTP model fixture"
+      ],
+      "pixel_qa": "host lacks Chinese fonts; layout assertions passed, not full visual/font parity"
+    },
+    "python_packaging": {
+      "passed": 7
+    },
+    "original_python_executor": {
+      "passed": 35
+    },
+    "asar": {
+      "production_files_exact": 36,
+      "version": "0.8.0"
+    },
+    "macho_negative": "tampered code byte rejected; not a native resource-seal test",
+    "shell_syntax": "installer bash -n passed"
+  },
+  "offline_bundle": {
+    "file": "/workspace/scratch/0d433941ca14/v080-deliverables/WillBuddy-v0.8.0-mac-arm64-offline.zip",
+    "version": "0.8.0",
+    "bytes": 118696596,
+    "sha256": "bd04a10bc037cca838c330033137ba7c687abbe7a9e17a823ce63cf42ed410e9",
+    "app_asar_sha256": "754dd2f89518cb4f8a64419579efc04fc8fc9d3bf68d910a5b3f886d5a31b16a",
+    "architecture": "arm64",
+    "signature": "ad-hoc",
+    "verified": true,
+    "archive_check": {
+      "app_entries": 282,
+      "extra_files": 5,
+      "closed_inventory": true,
+      "residual_entries": 0
+    }
+  },
+  "macho": {
+    "binaries": 15,
+    "code_pages": 51216,
+    "symlinks": 14
+  },
+  "modified_files": [
+    "desktop/services/commands.mjs",
+    "desktop/services/recovery.mjs",
+    "desktop/runtime/tools.mjs",
+    "desktop/core.mjs",
+    "desktop/main.mjs",
+    "desktop/preload.cjs",
+    "desktop/src/app.js",
+    "desktop/src/ui/commands.js",
+    "desktop/src/ui/workspace.js",
+    "desktop/src/workbench.css",
+    "desktop/package.json",
+    "desktop/package-lock.json",
+    "desktop/tests/commands.test.mjs",
+    "desktop/tests/acceptance/commands-live.mjs",
+    "desktop/tests/ui.test.mjs",
+    "docs/DURABLE_COMMANDS.md",
+    "README.md",
+    "desktop/README.md",
+    "docs/ARCHITECTURE.md",
+    "docs/QUICK_GAPS.md",
+    "docs/REA_FINDINGS.md",
+    "ITERATION_PLAN.md",
+    "ITERATION_LOG.md",
+    "RELEASE_STATUS.json",
+    "docs/validation/v0.8.0.json",
+    "SOURCE_MANIFEST.json"
+  ],
+  "limits": [
+    "manual CLI queue only; Agent/daily task queue unification pending",
+    "restart marks interrupted/paused, no process checkpoint resume or external exactly-once guarantee",
+    "record-scoped idempotency until explicit history cleanup",
+    "no Mac strict codesign/resource seal/Gatekeeper/native launch",
+    "no Developer ID/notarization",
+    "no paid-model/Codex CLI/OAuth/cloud-sync validation"
+  ],
+  "github": {
+    "target_branch": "willbuddy-v0.8.0-command-queue",
+    "state_at_packaging": "upload to independent branch pending verification; main not merged; no PR authorization"
+  }
+}

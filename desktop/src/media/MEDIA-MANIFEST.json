@@ -1,0 +1,14 @@
+{
+  "files": [
+    {
+      "name": "index.html",
+      "bytes": 1072,
+      "sha256": "ffc86e6dd375aff87d746a023bf05aff3f44972abd1e5eaa38723f142310e5b1"
+    },
+    {
+      "name": "frame.js",
+      "bytes": 6112,
+      "sha256": "76cfbc771cadd556d99d3a5bbfd7a1af7781e05e4d9b5f73ae61ad4045b9337a"
+    }
+  ]
+}

@@ -1,3 +1,15 @@
+# 0.10.0 文档服务扩展
+
+`runtime/documents.mjs` 负责有界OOXML/UTF-8生成、导入检查和定向修改；`runtime/vendor/` 是构建时预打包的纯JS编解码器与许可。`services/documents.mjs` 管理文档版本、单次候选凭证、串行乐观提交和持久化回滚，不依赖Electron。`main/document-files.mjs` 只处理原生对话框授权路径的有界导入与暂存导出，渲染进程和模型不能指定任意路径。`ToolRuntime` 将document工具接入既有逐次原生审批/审计；`src/ui/documents.js` 是纯视图。普通state不暴露二进制，正文读取模型另行审批。documents是schema1增量字段，旧Web/Python/密钥身份不变。
+
+前端pending和草稿按chatId保存，移除全局阻止新建/切换的门禁，后台仍采用现有两名额shared run queue；CLI独立FIFO未改变。不是自动子任务树或全局exactly-once。详见OFFICE_WORKSPACE.md。
+
+0.9.0：runtime/run-queue.mjs负责对话与每日任务持久受理/并发/去重/取消/事件；services/conversation与tasks仅保留业务流程，main组装注入。src/ui/runs.js纯队列视图，重启迁移与状态版本拒绝过期覆盖。CLI仍是独立队列，共享active容量。见 SHARED_RUNS.md。
+
+0.8.0：新增无Electron的 services/commands.mjs 管理手动CLI持久队列与版本化状态事件；runtime/tools.mjs增加审计关联、输出检查点和持久化门禁；src/ui/commands.js为独立纯队列视图。详情见 DURABLE_COMMANDS.md。原Web/Agent/每日任务尚未共用此队列。
+
+0.7.0 新入口：runtime/model-stream.mjs 为 SSE 传输模块；services/conversation.mjs 保存增量检查点并向主进程发出 stream 事件；src/ui/markdown.js 统一安全 Markdown/HTML。离线第三方渲染模块在 src/vendor，更新脚本 scripts/vendor-desktop-renderer.mjs。详见 STREAMING_AND_RENDERING.md。
+
 # WillBuddy 项目导航与模块边界
 
 本次整理版本：0.6.1。先拆职责与建立可测试接口，不搬动仍被 Web 构建、迁移和历史数据使用的目录。
@@ -46,3 +58,7 @@ python3 scripts/package-desktop-source.py /absolute/output/WillBuddy-source.zip
 ## 仍待推进
 
 Web 与桌面尚未共用完整业务核心；本轮提供无 Electron 的服务边界，但没有声称已经完成跨端统一。core 的存储/授权/模型接口仍可继续拆分，界面控制器的其他页面与事件也可逐步模块化。持久任务队列、MCP、文件写入、Office 成果、原生 Mac 启动与公证属于后续能力，不在本次目录整理中伪实现。
+
+## 0.14.0 表格计算核心
+
+页面与主进程复用 src/shared/formula-core.js 的有界解析/依赖/求值；runtime/spreadsheet.mjs 做OOXML适配，services/documents保留审批候选/版本/持久化边界。页面预览不构成保存授权，主进程重新验证与计算，审计不写公式正文。尚未迁移原Web/Python核心。见SPREADSHEET_FORMULAS.md。

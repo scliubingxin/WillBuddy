@@ -1,0 +1,72 @@
+{
+  "version": "0.19.0",
+  "date": "2026-10-24",
+  "baseline": {
+    "version": "0.18.0",
+    "canonical_version_read": 19,
+    "content_hashes": 438
+  },
+  "tests": {
+    "core": 184,
+    "new_core": 7,
+    "real_chromium": 12,
+    "packaging_python": 9
+  },
+  "images": {
+    "anchors": [
+      "oneCellAnchor",
+      "twoCellAnchor",
+      "absoluteAnchor"
+    ],
+    "actual_file_browser": "one/two anchors, per-sheet images, B2 and E4:G7 cell positions <2px, 48x32 dimensions, hidden row/col, native decode",
+    "independent": "openpyxl anchors/image count/hidden dimensions; synthetic ExcelJS fixture normalized only",
+    "native": "Linux actual preload/IPC/service source+ASAR; 2 decoded images at expected location; no Node/bridge; retained frame20x no extra reads",
+    "absolute_anchor_scope": "unit geometry; not independently tested in native Office",
+    "bounds": "32 image references/32Mi pixels per workbook, 4096x4096 per image; header sniff before decode; fixed inherited archive/grid limits"
+  },
+  "not_tested": [
+    "Mac strict resource seal/Gatekeeper/install/launch",
+    "real paid model",
+    "full Office/WPS display",
+    "crop/rotation/flips/charts/theme/print pagination",
+    "original unchanged Python35 not rerun"
+  ],
+  "protected_original_files_unchanged": 122,
+  "production_asar_exact_files": 70,
+  "offline": {
+    "bytes": 119685899,
+    "sha256": "57ada5e9f73d685d86ab7852b58a22e05d7823b0212ab71d9ee7347fd20e97c0",
+    "signature": "ad-hoc; not notarized",
+    "app_entries": 282,
+    "extra_files": 5,
+    "symlinks": 14,
+    "residue": 0,
+    "macho": 15,
+    "code_pages": 51216
+  },
+  "changed_files": [
+    "ITERATION_LOG.md",
+    "ITERATION_PLAN.md",
+    "README.md",
+    "RELEASE_STATUS.json",
+    "SOURCE_MANIFEST.json",
+    "desktop/README.md",
+    "desktop/package-lock.json",
+    "desktop/package.json",
+    "desktop/src/preview/PREVIEW-MANIFEST.json",
+    "desktop/src/preview/engine.js",
+    "desktop/src/preview/renderer.js",
+    "desktop/src/preview/spreadsheet-images.js",
+    "desktop/tests/acceptance/office-preview-live.mjs",
+    "desktop/tests/helpers/image-workbook.mjs",
+    "desktop/tests/native/production-preview.mjs",
+    "desktop/tests/spreadsheet-images.test.mjs",
+    "docs/QUICK_GAPS.md",
+    "docs/SPREADSHEET_IMAGES.md",
+    "docs/validation/v0.19.0.json"
+  ],
+  "attempt_notes": [
+    "early native error lacked status detail; diagnostic reruns source/ASAR passed; root cause unconfirmed",
+    "independent reader first exposed synthetic ExcelJS editAs/empty-hidden-row and column range test assumptions; fixture corrected; production source archives never rewritten"
+  ]
+}

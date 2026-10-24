@@ -1,0 +1,66 @@
+{
+  "version": "0.10.1",
+  "date": "2026-10-22",
+  "base": {
+    "version": "0.10.0",
+    "canonical_version_observed": 8,
+    "source_sha256": "efed1c0efb55d17770026203fac7742da1fedd2aea923b02c709032760dca234"
+  },
+  "tests": {
+    "core": 105,
+    "new_approval_cases": 9,
+    "chromium": 6,
+    "packaging_python": 7,
+    "original_python_executor": "unchanged; prior 35-pass evidence retained, not rerun this hotfix"
+  },
+  "observed_issue": "User screenshot shows document_create native sheet filled with full JSON and confirmation buttons below screen; source also lacked active dialog AbortSignal",
+  "fixed": [
+    "short human summary for document create/read",
+    "1000 character/20 line native detail ceiling, textWidth500",
+    "active/queued cancellation, 60s timeout, no late Allow",
+    "native menu emergency cancellation Cmd/Ctrl+Shift+Escape",
+    "exact-run exact-origin opt-in browser consent, explicit revocation, release on completion",
+    "known cross-site targets need confirmation; navigation race blocks cross-origin body return"
+  ],
+  "asar": {
+    "count": 46,
+    "different": []
+  },
+  "offline": {
+    "file": "WillBuddy-v0.10.1-mac-arm64-offline.zip",
+    "version": "0.10.1",
+    "bytes": 119046410,
+    "sha256": "1518ef91a5834f295aad4f7964efdbb983e3bd22184c75ebab13aa5052ea5b03",
+    "app_asar_sha256": "9e1e98326938b39bd0256bb4add56e4bcdd3c3fd30ce3d870584bcb32dd9a9f3",
+    "architecture": "arm64",
+    "signature": "ad-hoc",
+    "verified": true,
+    "archive_check": {
+      "app_entries": 282,
+      "extra_files": 5,
+      "closed_inventory": true,
+      "residual_entries": 0
+    }
+  },
+  "macho": {
+    "binaries": 15,
+    "pages": 51216,
+    "tamper_negative": "passed"
+  },
+  "closed_zip": {
+    "app_entries": 282,
+    "extra_files": 5,
+    "symlinks": 14,
+    "residues": 0,
+    "crc": "passed",
+    "identity_version": "WillBuddy0.10.1 checked"
+  },
+  "intermediate_packaging": "A staging Info.plist changed after inventory; strict hash gate rejected that intermediate archive. A clean private staging rebuild passed all file and identity checks. Cause of intermediate mutation not established. Rejected bytes not delivered.",
+  "not_verified": [
+    "native macOS sheet height/keyboard/cancel",
+    "Mac codesign strict resource seal/Gatekeeper/launch",
+    "Developer ID/notarization",
+    "paid model acceptance"
+  ],
+  "next": "Mac native approval/Office/browser regression first, then Office structure and visual preview"
+}
