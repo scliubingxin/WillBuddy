@@ -1,0 +1,71 @@
+# WillBuddy 下载与版本说明
+
+[返回产品介绍](../README.md) · [打开 GitHub 安装包下载页面](https://github.com/scliubingxin/WillBuddy/releases)
+
+这里集中提供安装入口、系统条件、版本变化和验收边界。产品介绍与使用步骤见首页，逐轮开发记录另见 [ITERATION_LOG](../ITERATION_LOG.md)。
+
+## 下载安装
+
+| 文件 | 用途 |
+| --- | --- |
+| [Apple 芯片 Mac 离线应用 ZIP](https://github.com/scliubingxin/WillBuddy/releases/download/v0.22.0-preview/WillBuddy-v0.22.0-mac-arm64-offline.zip) | 直接使用；包含 Electron、Chromium、Node 与内置文档组件，安装端不执行 npm install |
+| [完整源码 ZIP](https://github.com/scliubingxin/WillBuddy/releases/download/v0.22.0-preview/WillBuddy-v0.22.0-source-20261024-103620.zip) | 开发与研究；包含锁文件、测试、构建说明和逐文件 SHA-256 清单 |
+| [全部公开版本](https://github.com/scliubingxin/WillBuddy/releases) | 查看各版本附件、更新说明与已知限制 |
+
+适用 Apple Silicon / arm64 Mac，最低 macOS 12。不提供 Intel Mac 安装包。将 ZIP 完整解压到用户目录，再将 `WillBuddy.app` 放入“应用程序”；保留包内符号链接，按包内说明操作。
+
+**当前公开包为 Preview：ad-hoc 签名，未完成 Developer ID 签名和 Apple 公证，也未完成 Mac Gatekeeper、严格资源封印与安装启动验收。** 若系统签名检查失败，请停止安装并反馈，不关闭 Gatekeeper、不移除隔离标记。
+
+云端模型和网页访问需要联网；本地模型与 Git、Python、Codex CLI 等可选程序没有随应用捆绑。安装问题详见[桌面说明](../desktop/README.md)和[打包问题记录](PACKAGING_INCIDENT.md)。
+
+## 公开版本：0.22.0 Preview
+
+[Release 与附件](https://github.com/scliubingxin/WillBuddy/releases/tag/v0.22.0-preview) · [对应代码](https://github.com/scliubingxin/WillBuddy/tree/v0.22.0-preview) · [已合并 PR #1](https://github.com/scliubingxin/WillBuddy/pull/1)
+
+此版本已合入 main。后续单独的文档提交可能更新产品介绍，安装包功能以该标签及其附件为准。
+
+- **Skills 技能库**：上传 SKILL.md / ZIP、查看资源、启停与引用保护删除。
+- **MCP 连接器**：独立配置、审批后实际工具发现、取消和状态记录；构建智能体时绑定已有能力，或当场上传 Skill、创建连接。
+- **智能体执行**：知识文档、按需技能、工具白名单与 MCP 接入 ReAct 循环。
+- **内容与成果**：包含 HTML 附件交互预览、本机图片附件、对话图片/视频/链接/图表和已有 Office 生成编辑预览。
+
+验证记录：232 项核心测试、17 项真实 Chromium 完整回归、4 项最终相关回归及 9 项打包测试。真实本机 HTTP 协议与生产页面经过测试；原生 IPC、选择器、审批和模型语义仍有夹具，不能视为 Mac 或真实付费模型/企业服务验收。详见 [0.22 验证记录](validation/v0.22.0.json)。
+
+SHA-256：
+
+```text
+6547338704a2c6cdd07b1721fbff805e7c751640a2db22fd1c91c72d9b1ea232  WillBuddy-v0.22.0-mac-arm64-offline.zip
+f5fedb20d7d5d7e40b6604e54cf77b46f94b137b2a07876e99bae39b7751e12f  WillBuddy-v0.22.0-source-20261024-103620.zip
+```
+
+## 已包含的迭代变化
+
+下表为开发历史，不代表每一行都有独立公开安装包；公开附件只以 Releases 中实际存在的文件为准。
+
+| 版本 | 主要变化 | 详细范围 |
+| --- | --- | --- |
+| 0.22.0 | Skills 上传库、MCP 配置管理和智能体绑定 | [Skills / MCP](SKILLS_AND_CONNECTORS.md) |
+| 0.21.0 | 知识、技能、MCP 与 ReAct 能力组合；HTML 交互预览和本机图片附件 | [智能体](AGENT_CAPABILITIES.md) · [HTML](HTML_INTERACTIVE_PREVIEW.md) · [图片附件](LOCAL_IMAGE_ATTACHMENTS.md) |
+| 0.20.0 | 对话内图片、视频、网页链接与柱/线/饼图 | [富媒体](CHAT_RICH_MEDIA.md) |
+| 0.19.0 | Excel 图片按工作表及真实锚点定位 | [图片锚点](SPREADSHEET_IMAGES.md) |
+| 0.18.0 | 保留当前 Office 预览帧、工作表选择和滚动 | [预览生命周期](PREVIEW_LIFECYCLE.md) |
+| 0.17.0 | 修复本地 Office 预览组件加载与超时 | [加载修复](PREVIEW_TIMEOUT_FIX.md) |
+| 0.16.0 | 内置离线 Word / Excel / PPT 预览 | [Office 预览](OFFICE_PREVIEW.md) |
+| 0.15.0 | 导入 Word 简单正文段落增删与撤销 | [段落编辑](WORD_PARAGRAPHS.md) |
+| 0.14.0 | 有界 Excel 公式、跨表引用与保存重算 | [公式范围](SPREADSHEET_FORMULAS.md) |
+| 0.13.0 | 导入 Word 片段文字与直接格式修改 | [片段编辑](IMPORTED_WORD_EDITING.md) |
+| 0.12.0 | 内部 Word 写作画布、HTML / Markdown 转 DOCX | [GenOffice 子引擎](GENOFFICE_ENGINE.md) |
+| 0.11.0 | 可信 Office 文件卡片、内容编辑与原格式导出 | [文档编辑](GENOFFICE_DESKTOP.md) |
+| 0.10.1 | 有界确认框、取消超时和任务内本站点授权 | [审批修复](APPROVAL_FIX.md) |
+| 0.10.0 | Office 创建导入修改、版本管理与双任务并发 | [文档工作台](OFFICE_WORKSPACE.md) |
+| 0.9.0 / 0.8.0 | 模型任务与 CLI 持久受理、取消及重启暂停 | [共享执行](SHARED_RUNS.md) · [CLI 队列](DURABLE_COMMANDS.md) |
+| 0.7.0 | 真实流式输出、Markdown 与隔离 HTML 展示 | [流式与渲染](STREAMING_AND_RENDERING.md) |
+
+更早开发、失败边界与下一步计划保留在 [迭代日志](../ITERATION_LOG.md)、[迭代计划](../ITERATION_PLAN.md)及[能力差距](QUICK_GAPS.md)。
+
+## 已知范围
+
+- MCP 支持无需认证的 Streamable HTTP；OAuth、认证头与 stdio 尚未支持。Skill 包内脚本不自动执行。
+- Office 为有界生成、修改与预览能力，复杂排版、图表、完整公式兼容和任意文件保真往返仍有限。
+- 当前没有完整向量语义索引、自主并行子 Agent、跨端云同步或 Web/桌面完整共享核心。
+- Mac 真机、真实付费模型和企业 MCP 联调仍待验收。不要将夹具测试、部分静态分析或能打开网页等同于全部系统集成完成。
