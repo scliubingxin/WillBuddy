@@ -1,3 +1,15 @@
+## 0.22.0 · 2026-10-24
+
+真实技能上传/资源库、MCP全局连接管理与工具发现测试、智能体ID绑定和ReAct已接通；没有复制第三方市场目录或虚构在线状态。仍缺认证/OAuth/stdio、技能脚本受控执行/完整资源编辑与导出、语义知识索引、跨Web共享业务核心和自主子任务组；Mac/真实账户模型/公证/全Office保真待验收。参见SKILLS_AND_CONNECTORS.md。REA复用合法公开包既有静态证据，无新增Amazon原生运行或内部实现结论。
+
+## 0.21.0 · 2026-10-24
+
+智能体能力组合现有真实执行：提示词 + 绑定知识 + 按需Markdown技能 + 内置工具白名单 + Streamable HTTP MCP + 标准tool_calls ReAct循环；真实HTTP夹具验证四轮执行和验收。仍缺向量索引/OCR/认证MCP/stdio/完整技能包、跨Web业务核心与自主并行任务组。HTML交互预览与本机图片附件补真实用户链路，不代表所有HTML后台或所有视觉模型已工作。Mac/原生审批/公证与全Office保真待验收。AgentScope参考与边界见AGENT_CAPABILITIES.md；REA复用已有合法公开包静态证据，本轮无新Amazon原生运行结论。
+
+## 0.20.0 接续 · 对话富媒体
+
+已实现图片/视频直链点击加载、网页链接卡片、有限数据图表，内置离线渲染器；不是视觉模型、本地附件上传或全Office图表。真实Chromium/夹具媒体通过，Mac/真实模型/远端服务待验收。跨Web核心、MCP、自主并行组仍未完成。详见CHAT_RICH_MEDIA.md。
+
 ## 2026-10-24 · 0.19.0 Excel图片按锚点预览
 
 0.19.0：Excel预览图片按单格/双格/绝对锚点定位，跟随对应工作表与可见网格；不再把整个工作簿图片堆在表尾。保持离线内置，无需另装软件。184核心/12真实Chromium/9打包；真实XLSX图片坐标+decode+独立openpyxl，Linux原生Electron源码/ASAR验证与旧生命周期回归。Mac/付费模型/完整Office保真未验收。见SPREADSHEET_IMAGES.md及validation/v0.19.0.json。下一轮Mac反馈与图表/主题/模板质量；MCP/跨Web核心/自主子任务组仍有差距；不建PR/合并main。
