@@ -1,0 +1,81 @@
+{
+  "version": "0.22.0",
+  "date": "2026-10-24",
+  "baseline": {
+    "version": "0.21.0",
+    "canonical_version_read": 22,
+    "verified_content_files": 479
+  },
+  "tests": {
+    "core": 232,
+    "new_core": 12,
+    "real_chromium_full_suite": 17,
+    "final_related_chromium": 4,
+    "packaging_python": 9
+  },
+  "scope": {
+    "skill_import": "real MD/ZIP in-memory parser, bounded resources/SHA/CRC/path/expansion/symlink protections, persisted metadata-only views",
+    "registry": "agent binds persistent skillIds/mcpIds; disable/delete/changes fail closed; legacy inline configs retained",
+    "mcp": "actual HTTP initialize/tools/list probe; cancel/revision check; zero business calls during probe",
+    "end_to_end": "production Chromium → real ZIP/library/store → global config/probe → inline upload/new connection retaining prompt → bind/reload → four HTTP model fixture rounds skill/resource/MCP/final",
+    "native": "native picker/IPC/approval are fixtures; no new Linux Electron or Mac runtime test",
+    "privacy": "private screenshots not packaged; screenshot credentials not used; state hides Skill source/base64; no automatic script execution"
+  },
+  "protected_original_files_unchanged": 122,
+  "production_asar_exact_files": 94,
+  "offline": {
+    "bytes": 119718549,
+    "sha256": "6547338704a2c6cdd07b1721fbff805e7c751640a2db22fd1c91c72d9b1ea232",
+    "app_asar_sha256": "5cd8ba911bb2618d179426399e87d4daa6bd3e6c723ff3c2d04377de1163fb9d",
+    "app_entries": 282,
+    "extra_files": 5,
+    "symlinks": 14,
+    "residues": 0,
+    "macho": 15,
+    "code_pages": 51216,
+    "tamper_negative": true,
+    "signature": "ad-hoc; not notarized"
+  },
+  "not_tested": [
+    "Mac install/strict resource seals/Gatekeeper/launch/native picker/dialogs",
+    "actual paid model or enterprise authenticated MCP",
+    "API Key/headers/OAuth/stdio/legacy SSE endpoint",
+    "full YAML semantics/all Agent Skills features/script execution/binary asset editing",
+    "vector RAG/autonomous parallel agents/cross-Web business core/full Office fidelity",
+    "old unchanged Python35 not rerun"
+  ],
+  "changed_files": [
+    "ITERATION_LOG.md",
+    "ITERATION_PLAN.md",
+    "README.md",
+    "RELEASE_STATUS.json",
+    "desktop/README.md",
+    "desktop/main.mjs",
+    "desktop/main/skill-files.mjs",
+    "desktop/package-lock.json",
+    "desktop/package.json",
+    "desktop/preload.cjs",
+    "desktop/runtime/mcp.mjs",
+    "desktop/runtime/skill-package.mjs",
+    "desktop/services/agent-profile.mjs",
+    "desktop/services/agent-session.mjs",
+    "desktop/services/capability-library.mjs",
+    "desktop/services/workspace.mjs",
+    "desktop/src/app.js",
+    "desktop/src/ui/agent-editor.js",
+    "desktop/src/ui/capability-library.js",
+    "desktop/src/workbench.css",
+    "desktop/tests/acceptance/agents-live.mjs",
+    "desktop/tests/acceptance/capabilities-live.mjs",
+    "desktop/tests/capability-library.test.mjs",
+    "desktop/tests/helpers/load-ui.mjs",
+    "docs/QUICK_GAPS.md",
+    "docs/SKILLS_AND_CONNECTORS.md",
+    "docs/validation/v0.22.0.json"
+  ],
+  "publication": {
+    "github_uploaded": false,
+    "public_release_created": false,
+    "prior_publish_rejection_preserved": true
+  }
+}

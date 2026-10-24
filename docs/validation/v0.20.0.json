@@ -1,0 +1,49 @@
+{
+  "version": "0.20.0",
+  "date": "2026-10-24",
+  "baseline": {
+    "version": "0.19.0",
+    "canonical_version_read": 20,
+    "content_hashes": 443
+  },
+  "tests": {
+    "core": 196,
+    "new_core": 12,
+    "real_chromium_related": 4,
+    "packaging_python": 9
+  },
+  "scope": {
+    "image": "real PNG decoded; anonymous HTTPS route fixture",
+    "video": "real ffmpeg synthetic WebM/VP8 metadata and playback advances; no autoplay",
+    "charts": "bounded local SVG bar/line/pie and exact data tables",
+    "lifecycle": "5 production redraws keep frame and no extra network; reload does not auto load",
+    "transport": "fixed hashed 2 media resources, opaque sandbox; protocol unit tests only this iteration"
+  },
+  "not_tested": [
+    "Mac native install/launch/strict resource seals/Gatekeeper",
+    "new Linux native Electron media frame",
+    "paid model or real third-party media host",
+    "local media import/vision/transcoding",
+    "Chinese pixel rendering: container fonts absent",
+    "old unchanged Python35 not rerun"
+  ],
+  "protected_original_files_unchanged": 122,
+  "production_asar_exact_files": 77,
+  "offline": {
+    "bytes": 119694195,
+    "sha256": "7ccec4ef229f5b0ef6edcfe95e82152c6bf0ab17eecf5431890b29093d96a3a6",
+    "app_asar_sha256": "eab8ef4c414592eed1e6a8c3b641aaddef0537ef0f0acd6c7f61d985e8baf816",
+    "signature": "ad-hoc; not notarized",
+    "app_entries": 282,
+    "extra_files": 5,
+    "symlinks": 14,
+    "residual": 0,
+    "macho": 15,
+    "code_pages": 51216,
+    "tamper_negative": true
+  },
+  "publication": {
+    "github_uploaded": false,
+    "prior_0_19_publish_rejection_preserved": true
+  }
+}
