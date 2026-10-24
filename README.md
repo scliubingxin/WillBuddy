@@ -1,260 +1,145 @@
-0.22.0：新增「Skills 技能库 / MCP 连接器」独立入口，支持上传 SKILL.md/ZIP、资源查看、连接配置/真实工具发现测试；构建智能体时勾选绑定，也能当场上传或新建连接并保留草稿。说明见docs/SKILLS_AND_CONNECTORS.md（桌面目录使用../docs/）。MCP认证/OAuth/stdio暂不支持，Mac真机未验收。
-
-0.21.0：智能体接入知识文档、按需Skills、工具白名单、真实MCP Streamable HTTP客户端与ReAct循环；修复动态HTML附件空白，新增本机图片持久附件和显式视觉发送。无需另装GenOffice/Office/npm/Python。原生Mac与真实模型待验收。当前源码和arm64候选ZIP交付，未公开发布GitHub。
-
-0.20.0：对话内置图片、视频、网页链接卡片及柱/线/饼图展示；媒体点击后才加载，无需另装软件。见[用法与验收](docs/CHAT_RICH_MEDIA.md)。
-
-0.19.0：Excel预览图片按单格/双格/绝对锚点定位，跟随对应工作表与可见网格；不再把整个工作簿图片堆在表尾。保持离线内置，无需另装软件。见[范围与验收](docs/SPREADSHEET_IMAGES.md)。
-
-0.18.0：同一Office文档版本的预览在后台刷新/侧栏调整时保持连接，不重新读文件/解析，保留Excel工作表选择和滚动；关闭、换文档或版本后释放重载。无需新增软件。见[说明](docs/PREVIEW_LIFECYCLE.md)。
-
-0.17.0：修复安装包内Office预览组件无法加载/超时，新增本地文件和ASAR原生Electron验收、阶段错误与重新加载。无需安装额外软件。见[修复与范围](docs/PREVIEW_TIMEOUT_FIX.md)。
-
-0.16.0：Office「预览」内置离线页面/表格/幻灯片渲染，移除外部GenOffice按钮，不用另装软件。复杂排版/图表兼容范围见[预览说明](docs/OFFICE_PREVIEW.md)。
-
 <div align="center">
   <img src="desktop/assets/icon-512.png" alt="WillBuddy 蓝红品牌标志" width="88">
-  <h1>WillBuddy · 离线桌面 AI 工作台</h1>
-  <p><strong>让 AI 帮你处理文档、操作浏览器、执行命令，并交付可以继续修改的成果。</strong></p>
-  <p>公开源码 · Apple Silicon · 本地工作空间 · 自选模型 · Office 文档 · 多任务</p>
-  <p><a href="#功能一览">功能介绍</a> · <a href="#安装与开始使用">安装</a> · <a href="#配置你的模型">模型配置</a> · <a href="#常见问题">常见问题</a> · <a href="#开发与源码构建">开发</a> · <a href="#english-overview">English</a></p>
+  <h1>WillBuddy</h1>
+  <p><strong>让 AI 从回答问题，走向完成工作。</strong></p>
+  <p>文档创作 · 专属智能体 · 浏览器与本地工具 · 多任务协作</p>
+  <p><a href="https://github.com/scliubingxin/WillBuddy/releases">下载安装</a> · <a href="#为什么使用-willbuddy">产品优势</a> · <a href="#快速开始">快速开始</a> · <a href="#构建你的专属智能体">构建智能体</a> · <a href="#使用文档">使用文档</a></p>
 </div>
 
-**WillBuddy 是一款源码公开、支持离线安装的桌面 AI 工具。** 它把模型对话、Word / Excel / PowerPoint 文档、Markdown / HTML、浏览器自动化和 CLI 命令放在同一个工作台中，适合个人办公、资料整理、报告撰写和开发辅助。
+**WillBuddy 是面向 Apple 芯片 Mac 的桌面 AI 工作台。** 把你的模型、知识文档、Skills、MCP 和本地工具放在同一工作空间，让 AI 围绕目标调用工具、观察结果并继续处理，最终交付可以查看、下载和继续修改的成果。
 
-应用包内置 Electron、Chromium、Node 和基础 Office 文档编解码器，安装时无需再执行 `npm install`。**离线安装不等于所有 AI 功能都能断网运行**：使用云模型、访问网页需要联网；纯离线推理需要自行准备本地模型及运行环境。目前只制作 Apple 芯片（arm64）Mac 应用。
+从一份资料整理，到一份 Word 方案、一张预算表，再到网页操作和本机命令执行，工作过程与成果都在同一个任务里。
 
-> 当前候选为桌面 **0.20.0**，完整源码以本轮 ZIP 为准，尚未上传 GitHub；`main` 也未合入本轮功能。离线包为 ad-hoc 签名，尚未完成 Apple Developer ID、公证及 Mac 原生完整验收。历史公开源码与许可状态见下方说明。
+![WillBuddy 桌面工作台：对话、执行记录与成果预览](docs/images/workspace.png)
 
-![WillBuddy 桌面 AI 工作流：目标、自选模型、受控工具、可编辑成果](docs/images/workflow.svg)
+*产品界面示例，使用演示数据。*
 
-## 界面预览
+## 为什么使用 WillBuddy
 
-### 对话、执行与成果，在同一工作空间
+### 从对话到可交付成果
 
-流式输出、Markdown 表格与列表、右侧成果预览、原文查看和继续修改，让对话能够逐步形成实际交付。
+AI 回复之外，还能创建真实的 Word、Excel、PowerPoint、Markdown 和 HTML 文件。生成后在成果中心预览、定向修改、保存新版本并导出，减少反复复制粘贴与整理格式的工作。
 
-![WillBuddy 桌面 AI 工作台：项目对话、Markdown 表格和右侧成果预览](docs/images/workspace.png)
+### 把你的工作方法变成专属智能体
 
-*当前生产界面截图，使用明确标注的演示数据与模拟原生桥；不是一次真实模型任务的运行证明。*
+为不同岗位组合提示词、知识文档、Skills、工具范围和 MCP 连接器。Skills 描述工作步骤，知识文档提供依据，工具负责执行；智能体按需调用这些能力，结合真实返回继续处理。
 
-### 文档工作台：生成之后，还能继续改
+### 模型由你选，工作空间留在本机
 
-在成果中心管理 Word、Excel、PowerPoint、Markdown 和 HTML。支持导入、AI 修改、直接编辑内容、历史版本和真实文件导出；导入原件保持不变。
+连接你自己的兼容云模型，或已准备好的本地模型服务。对话、文档和任务记录在本机管理；资料发送到哪个模型，由当前模型配置和使用操作决定。
 
-![WillBuddy Office 文档工作台：DOCX、XLSX、PPTX、Markdown、HTML 成果与编辑导出入口](docs/images/documents.png)
+### 安装后即可开始，多项工作并行推进
 
-*截图中的示例文档由项目实际编解码器生成；界面与数据用于功能展示。旧截图展示0.11界面；0.16已新增内置静态渲染，复杂Office排版仍可能有兼容差异。*
+Apple 芯片离线应用包内置 Electron、Chromium、Node 和文档处理组件，无需安装 npm 或下载开发依赖。支持两项任务并发、独立草稿和停止操作，其他任务排队处理。
 
-**0.14.0 新增本地 Excel 公式编辑与重算**：修改数量后，合计与跨工作表引用会重新计算；支持 SUM、AVERAGE、MIN、MAX、COUNT、IF、ROUND，以及基础运算和 A1 引用。可以切换工作表、只看公式、增加单元格，并导出包含公式及新缓存值的真实 XLSX。
+> 离线安装与离线推理不同：云模型和网页访问需要联网；使用本地模型需要自行准备对应服务和模型。
 
-![WillBuddy 表格计算编辑器：公式、跨表引用和即时计算结果](docs/images/spreadsheet-formulas.png)
+## 一个工作台，覆盖这些日常工作
 
-*生产 Chromium 页面和真实 XLSX，合成预算数据、模拟原生桥与审批；8 个公式结果与容器 LibreOffice 重算一致，不是 Excel 全兼容或 Mac 真机验收。详见[公式范围与使用说明](docs/SPREADSHEET_FORMULAS.md)。*
+| 你想完成的工作 | 在 WillBuddy 中如何处理 |
+| --- | --- |
+| 写方案、报告和说明书 | 生成 Word，在内部画布或内容编辑器中继续修改，保留版本并导出 DOCX |
+| 做预算、清单和数据表 | 创建多工作表，编辑数据与支持范围内的公式，预览计算结果并导出 XLSX |
+| 准备演示内容 | 生成基础 PowerPoint 内容、幻灯片文字及演讲备注，预览并导出 PPTX |
+| 阅读和展示内容 | 查看 Markdown、HTML 与内置 Office 预览；在对话中展示图片、视频链接和柱状图、折线图、饼图 |
+| 按固定方法处理资料 | 构建有知识文档、Skills、MCP 和工具范围的智能体，复用工作步骤 |
+| 处理网页和本机工作 | 经授权打开网页、读取内容、定位点击与填写，或运行本机非交互 CLI 程序 |
 
-**0.15.0 新增导入 Word 的段落增删**：在简单正文段落后插入内容，或标记删除本段，保存前可以撤销。AI也可读取段落坐标后完成增删；保留原件、历史版本、未修改部件及既有Word/Excel能力。
+![WillBuddy 成果中心：文档、预览、修改与导出](docs/images/documents.png)
 
-![WillBuddy 导入Word新增正文段落，保存为真实DOCX新版本](docs/images/word-paragraphs.png)
+*界面与文档使用演示数据；具体支持范围见对应使用文档。*
 
-*生产 Chromium 界面、真实DOCX与合成数据，原生桥和审批仍为测试适配器。表格/页眉页脚仅保留原片段编辑，复杂段落及带样式引用/编号/分节属性结构只读；不是分页保真编辑器。见[段落编辑说明](docs/WORD_PARAGRAPHS.md)。*
+## 快速开始
 
-## 功能一览
+### 1. 下载并安装
 
-| 能力 | 你可以做什么 | 当前范围 |
-| --- | --- | --- |
-| AI 对话 | 连接自选模型，流式接收回答，查看 Markdown 与静态 HTML | Chat Completions 兼容接口；工具能力取决于模型支持 |
-| Word 文档 | 内部富文本画布、标题/粗体/列表/表格，Markdown/HTML转Word | 真实GenOffice子引擎；导入DOCX可按片段改字/粗体/斜体；复杂段落只读，分页显示有兼容差异 |
-| Excel 表格 | 创建多工作表，编辑预算、常量与显式公式 | XLSX；七个基础函数、跨表 A1 引用、即时预览与保存重算；复杂公式/图表工作簿拒绝修改 |
-| PowerPoint | 生成标题、项目符号和演讲备注，修改幻灯片文字 | PPTX；基础排版，非完整模板编辑器 |
-| Markdown / HTML | 创建、整篇原文编辑、预览和导出原文 | HTML 预览隔离运行，禁止脚本与远程资源 |
-| 浏览器工具 | 打开网页、读取正文、检查元素、点击和填写 | 内置浏览器 DOM 操作；快照失效后重新检查 |
-| CLI 命令 | 调用本机程序，查看实际输出、退出码和执行记录 | 非交互进程；需要对应程序已安装 |
-| 多任务 | 同时处理两项模型任务，切换草稿，独立停止，更多任务排队 | 与 CLI 共享两个名额；尚无模型自主并行子任务组 |
-| 本地文件与记忆 | 授权文件夹、查找文本文件、附加资料、自定义偏好与智能体 | 本地授权与存储；尚无完整语义索引或云同步 |
-| 版本与恢复 | 保留文档前五版，查看任务状态；重启后暂停旧请求 | 不自动重放已审批的外部操作，不续跑旧进程 |
+前往 **[安装包下载与版本说明](https://github.com/scliubingxin/WillBuddy/releases)**，选择 Apple 芯片 Mac 的离线应用 ZIP。完整解压后，将 `WillBuddy.app` 移入“应用程序”，按包内说明打开。
 
-回复下的文件卡片提供 **下载 DOCX / XLSX / PPTX**。工作区导出也跟随真实文件；“导出对话 Markdown”只保存聊天记录，不会冒充 Office 文件。
+仅提供 arm64 Mac 应用包。系统要求、签名状态、安装注意事项和各版本变化集中在[下载指南](docs/DOWNLOADS.md)，安装前请先阅读。
 
-![WillBuddy 内置文档内容编辑器：按段落修改后保存新版本](docs/images/editor.png)
+### 2. 配置你自己的模型
 
-*真实生产编辑表单，演示数据；这是内容编辑器，不是 Word 保真页面编辑器。*
+在应用左下角打开模型设置，填写：
 
-**0.12.0 已内置 GenOffice HTML→DOCX 子引擎**：点击“写 Word 文档”，在内部画布设置标题、粗体、列表、基础表格并保存真实 Word；Markdown/HTML 可离线转换为 Word，无需另装 GenOffice 或 npm。
+| 配置项 | 填写内容 |
+| --- | --- |
+| Base URL | 服务商提供的 Chat Completions 兼容接口地址 |
+| 模型 ID | 你的服务商支持的模型名称 |
+| API Key | 你自己的服务凭据；本地服务是否需要密钥以其配置为准 |
 
-![WillBuddy 内部 Word 写作画布：标题、粗体、列表、表格与保存DOCX](docs/images/word-canvas.png)
+需要文档、浏览器或 CLI 执行时，开启工具模式，并选择支持标准工具调用的模型。本地兼容服务也可使用，例如已运行的 Ollama；WillBuddy 不捆绑模型权重或付费账户。
 
-*生产界面与真实 GenOffice 引擎验收截图，使用合成数据和模拟原生审批；不是 Mac 真机或付费模型运行证明。*
+### 3. 给它一个明确目标
 
-**0.13.0 新增导入 Word 的片段编辑**：直接修改正文、表格内文字及页眉页脚，设置片段粗体/斜体，保留既有其他格式和未修改文件部件。复杂段落只读保护，原件不覆盖，保存真实新版本。
+在新任务中描述目标、资料和交付格式，例如：
 
-![导入Word的实际片段编辑页面](docs/images/imported-word.png)
+> 根据我提供的资料，制作一份 Word 项目方案，包含目标、执行步骤、风险和验收表。生成后保留可编辑文件。
 
-*生产页面与真实DOCX，合成资料及模拟原生审批；不是分页预览或Mac运行证明。详见[导入Word编辑与边界](docs/IMPORTED_WORD_EDITING.md)。*
+需要处理本机资料时，先授权文件夹，或在成果中心导入文档。图片附件默认仅在本机查看；需要模型分析时，显式选择发送。
 
-完整 GenOffice 套件尚未内嵌；预览已随应用提供，无需外部应用。复杂文件会显示兼容性提示，任意导入 DOCX 的保真编辑仍未完成。详见[内置预览](docs/OFFICE_PREVIEW.md)与[引擎边界](docs/GENOFFICE_ENGINE.md)。
+### 4. 查看执行过程与成果
 
-详细操作：[文档工作台](docs/OFFICE_WORKSPACE.md) · [浏览器授权与弹窗](docs/APPROVAL_FIX.md) · [CLI 持久队列](docs/DURABLE_COMMANDS.md) · [共享任务调度](docs/SHARED_RUNS.md)。
+在任务中查看工具执行记录，在右侧工作区或成果中心预览文件。通过真实文件卡片下载 DOCX、XLSX 或 PPTX；导出对话 Markdown 则用于保存聊天记录。
 
-## 安装与开始使用
+文件生成后，可继续提出修改要求，也可使用应用提供的内容编辑器。导入原件不直接覆盖，修改保存为新版本。
 
-### Apple Silicon Mac 离线应用
+### 5. 同时处理另一项工作
 
-适用平台：**Apple 芯片 Mac / arm64，最低 macOS 12**。当前不提供 Intel Mac 安装包。
+第一项任务执行时，可以新建第二项任务。每项任务保留自己的草稿、状态和停止入口；需要暂停时，停止对应任务即可。
 
-1. 获取实际交付的 `WillBuddy-v0.20.0-mac-arm64-offline.zip`。公开安装包是否已发布，请以仓库 [Releases](https://github.com/scliubingxin/WillBuddy/releases) 的实际内容为准；源码分支本身不是安装包。
-2. 先把 ZIP 完整解压到“下载”等用户目录，保留 `.app` 内的符号链接；不要直接向 `/Applications` 解压。
-3. 将 `WillBuddy.app` 移入“应用程序”；也可使用包内安装脚本安装到个人 `Applications` 目录。脚本会执行原生签名检查。
-4. 打开应用，在左下角配置模型，然后新建一个任务。
+## 构建你的专属智能体
 
-离线应用已包含运行时，**最终用户无需安装 npm 或开发工具**。当前候选包未公证；遇到系统阻拦时按 macOS 正常安全流程处理，不关闭 Gatekeeper、不移除隔离标记。若原生签名检查失败，应停止安装并报告问题。
+进入“智能体”，为一个具体工作场景配置能力：
 
-安装细节与故障说明：[桌面开发与安装](desktop/README.md) · [离线包签名与残留问题](docs/PACKAGING_INCIDENT.md)。
+1. **定义目标与提示词**：明确岗位、工作标准、输出格式和验收条件。
+2. **绑定知识文档**：先在成果中心导入资料，再选择供该智能体使用的文档。
+3. **上传或绑定 Skills**：在 Skills 技能库导入 `SKILL.md` 或支持的 ZIP 技能包，也可在构建过程中上传。
+4. **配置 MCP 与工具范围**：在 MCP 连接器中保存服务地址，经批准测试工具发现，再绑定到智能体；勾选允许使用的内置工具。
+5. **开始任务并检查结果**：开启工具模式，智能体按“模型选择工具 → 执行 → 观察结果 → 验收或继续”的循环处理任务。
 
-## 配置你的模型
+例如，采购助手可以结合采购规则文档、报价核对 Skill 和 MCP 报价工具，先查规则，再取报价，最后说明是否符合要求。能力是否可用取决于所选模型、已绑定资料和实际服务，不能以计划文字代替执行结果。
 
-WillBuddy 不内置付费模型账户，也不要求使用特定云厂商。
+详见[智能体能力](docs/AGENT_CAPABILITIES.md)与[Skills / MCP 使用指南](docs/SKILLS_AND_CONNECTORS.md)。
 
-| 使用方式 | 配置内容 | 网络与依赖 |
-| --- | --- | --- |
-| 云端兼容 API | Base URL、模型 ID、自己的 API Key | 需要联网；费用与配额由服务商决定 |
-| 本地 Ollama 等兼容服务 | 例如 `http://127.0.0.1:11434/v1`，以及已安装的模型 ID | 需提前自行安装运行环境、下载模型并启动服务 |
+## 权限与数据，由你掌握
 
-- 远程模型接口使用 HTTPS；本机回环地址可使用 HTTP。
-- 要让 AI 调用文档、浏览器或 CLI，需开启工具模式，且所选模型支持标准 `tools` / `tool_calls`。
-- 只有本地模型、资料和所需工具都已就绪，且任务不依赖网页或远程服务时，才可能完整离线执行；当前未完成各本地模型的真实离线验收。
-- API Key 可在系统加密存储可用时加密保存；也可只在本次运行中使用。
-- Git、Codex CLI、Python、Ollama 和外部 Office 工具链是可选程序，不包含在主程序离线包中。
-
-## 从这几个任务开始
-
-**生成 Word 方案**
-
-> 创建一份 Word 项目方案，包含目标、执行步骤、风险与验收表。生成文件后，说明文档名称和版本。
-
-**修改现有文档**
-
-> 在成果中心导入 DOCX 后，点击“AI 修改”：将标题中的“草案”改为“正式版”，保留原件并保存新版本。
-
-**创建 Excel 任务表**
-
-> 创建一个 Excel 工作簿，包含任务名称、负责人、预算和完成状态，分成“计划”和“预算”两张工作表。
-
-**整理网页资料**
-
-> 打开指定网站，读取页面内容并整理摘要。只根据实际读取结果回答，区分原文与推断。
-
-**并行处理工作**
-
-> 第一个任务开始后，点击“新建任务”处理第二项工作。两项独立显示状态、保留草稿和停止；不需要等待第一个任务完成。
-
-**带公式的预算表**
-
-> 创建 Excel 预算，单价和数量用数字，金额使用显式公式对象，合计用 SUM；修改数量后重算并保存新版本。支持范围内的公式才允许修改，不要返回过期缓存。
-
-这些是使用示例，不是固定回复或已经完成的业务结果。实际文件应出现在成果中心，浏览器与 CLI 操作应有执行记录。
-
-## 本地、权限与数据
-
-- **本地工作空间**：对话、文档、任务和审计保存在本机；当前没有云同步。文档与对话并非整体加密保险箱。
-- **模型数据流**：请求内容发送到你配置的模型服务；本地存储不代表资料从不离开设备。
-- **文件授权**：按用户选择授权目录。CLI 以当前系统账号权限运行，工作目录不是操作系统沙箱。
-- **浏览器确认**：首次可选择“本任务本站点允许”，后续同任务、同站点不反复弹窗；跨站、新任务重新确认，工具页可撤销。
-- **可取消确认框**：Esc 取消；菜单提供 `⌘⇧Esc` / `Ctrl+Shift+Esc` 紧急取消入口，60 秒未确认自动取消。Mac 原生行为仍待实机验收。
-- **文档版本**：导入原件不写回，保留前五版；修改冲突时要求重新读取和审批。
-
-为兼容历史配置和系统密钥，内部可能保留 `Actwill AI`、`actwill-desktop` 等身份。不要仅为改名删除旧数据目录。详见[架构说明](docs/ARCHITECTURE.md)。
+- 文件夹由你选择授权；需要发送资料或执行操作时，沿用相应的审批流程。
+- 浏览器可显式允许当前任务、当前站点的后续操作，跨站或新任务重新确认。
+- 对话、文档、历史版本和任务记录在本机保存；发送给模型的内容会到达你配置的服务，当前没有云同步。
+- 任务可取消，重启后不会自动重放旧审批和外部动作。CLI 使用当前系统账号权限运行，需要对应外部程序已安装。
 
 ## 常见问题
 
-### 不联网也能用 AI 吗？
+**需要另外安装 Office、GenOffice 或 npm 吗？**  
+应用内置文档处理与预览组件，使用这些内置能力无需另装上述软件。Git、Python、Codex CLI、Ollama 等可选外部工具需要按使用场景自行准备。
 
-应用可以离线安装，本地成果可以离线查看和处理。AI 推理需要模型：配置云模型就需要联网；配置并准备好本地兼容模型后，可处理不依赖外网的任务。WillBuddy 不随包分发模型权重或 Ollama。
+**可以全面替代 Office 吗？**  
+目前适合基础文档生成、定向修改和重复操作；复杂排版、完整公式兼容、图表编辑和任意文件的保真往返仍有限。详见各项文档支持范围。
 
-### 能替代 Microsoft Office 吗？
+**网页和工具能完全自动执行吗？**  
+需要支持工具调用的模型、可用的工具服务及对应授权。浏览器支持 DOM 读取、点击与填写；CLI 为非交互执行。Skills 不会自动获得额外权限，上传脚本不会自动执行。
 
-目标是减少重复的 Office 操作，目前已能交付真实可编辑的 DOCX、XLSX、PPTX，并继续做定向修改。复杂版式、图表、完整 Excel 公式兼容、修订批注和保真页面预览仍在完善，当前不能宣称全面替代 Office。
+## 使用文档
 
-### 为什么有些操作仍需要确认？
-
-浏览器可选择当前任务、当前站点的临时授权；CLI 和文档仍逐次确认。权限不会自动扩展到其他任务或网站，旧审批也不会在重启后自动重放。
-
-### 确认框把按钮挤到屏幕外怎么办？
-
-旧版可先按 Esc 取消，并完整退出后升级。0.13.0 已将文档确认改为短摘要，限制确认信息大小，加入取消和超时；详见[弹窗修复](docs/APPROVAL_FIX.md)。
-
-### 是否支持 MCP、连接器和原 Web 系统？
-
-仓库保留原 Web 系统、MCP/REST 相关实现及 Python 执行器。桌面与 Web 尚未共用完整业务核心，不能据此宣称桌面已完整支持原 Web 的全部连接器。桌面 MCP 与统一核心仍在迭代。
-
-## 开发与源码构建
-
-只使用离线应用包的用户无需执行本节命令。
-
-```bash
-# 完整解压当前交付的0.20.0源码ZIP后
-cd muyun-ai
-npm --prefix desktop ci
-npm --prefix desktop start
-```
-
-在具备对应构建条件的 Mac 开发环境生成 Apple Silicon 包：
-
-```bash
-npm --prefix desktop run dist:mac
-```
-
-完整浏览器验收另外需要开发机提供 `soffice`（LibreOffice，仅作独立重算比对，不随应用分发）；原生 Mac 与真实模型仍待验收。
-
-运行开发测试前，Office 独立解析验收需要开发用 Python 依赖（最终用户不需要）：
-
-```bash
-python3 -m pip install -r scripts/requirements-office-tests.txt
-npm --prefix desktop test
-```
-
-离线包组装、运行时校验、签名边界和 CI 见 [desktop/README.md](desktop/README.md)。完整源码打包使用 `scripts/package-desktop-source.py`，包内包含逐文件 SHA-256 清单。
-
-| 路径 | 用途 |
+| 入口 | 内容 |
 | --- | --- |
-| [`desktop/`](desktop/) | Electron 桌面入口、原生桥和界面 |
-| [`desktop/runtime/`](desktop/runtime/) | 模型流、Agent 工具、浏览器、CLI、队列与文档编解码 |
-| [`desktop/services/`](desktop/services/) | 对话、文档、任务和工作空间业务服务 |
-| [`local-runner/`](local-runner/) | 保留的 Python 本地执行器 |
-| [`app/`](app/) / [`lib/`](lib/) | 保留的原 Web 界面与业务实现 |
-| [`docs/`](docs/) | 架构、使用说明、验证证据与能力差距 |
+| [下载安装与版本说明](docs/DOWNLOADS.md) | 应用下载、安装条件、版本变化和验收范围 |
+| [文档工作台](docs/OFFICE_WORKSPACE.md) | 导入、生成、内容编辑、历史版本与导出 |
+| [内置 Office 预览](docs/OFFICE_PREVIEW.md) | 页面、表格、幻灯片与兼容范围 |
+| [Skills 与 MCP](docs/SKILLS_AND_CONNECTORS.md) | 技能上传、资源查看、连接器配置和智能体绑定 |
+| [对话富媒体](docs/CHAT_RICH_MEDIA.md) | 图片、视频、网页链接与数据图表 |
+| [桌面开发指南](desktop/README.md) | 源码启动、测试与 Apple 芯片打包 |
 
-## 项目状态与路线
+## 开发与许可
 
-0.20.0 本轮验证包括 **196 项核心测试、4 项相关真实 Chromium 验收及 9 项打包测试**。历史 Linux Electron file/ASAR 预览验收未作为本轮新原生媒体验收。原生审批、IPC 和部分模型响应使用测试适配器；这不代表已经完成 Mac 原生、真实付费模型或 Office/WPS 保真验收。
+源码开发入口为 `desktop/`，原 Web 系统与 `local-runner/` Python 执行器一并保留。开发命令见[桌面开发指南](desktop/README.md)，原 Web 说明见[原系统文档](docs/WEB_README_ORIGINAL.md)。
 
-近期重点：
+本项目源码公开，尚未选定独立开源许可证，包元数据为 `UNLICENSED`；公开仓库不自动授予任意再分发许可。第三方组件遵循各自许可证。
 
-- 文档结构编辑、精确选区、Office 保真预览与真实成果质量。
-- Excel 公式与样式、图表、品牌模板、修订批注和 PDF。
-- Mac 原生安装、严格签名、公证、审批和真实模型验证。
-- 受控并行子任务、跨队列公平、桌面 MCP 和 Web/桌面共用核心。
-
-查看：[发布状态](RELEASE_STATUS.json) · [迭代计划](ITERATION_PLAN.md) · [迭代日志](ITERATION_LOG.md) · [Quick 能力差距](docs/QUICK_GAPS.md) · [0.19.0 验证记录](docs/validation/v0.19.0.json)。
-
-## 许可与项目定位
-
-本仓库已公开源码，欢迎阅读、讨论和反馈。目前项目尚未选定独立的开源许可证，包元数据仍标记 `UNLICENSED`；公开仓库本身不自动授予任意复制、修改或再分发许可。正式许可范围以项目后续明确发布的许可证为准。第三方依赖和资产继续遵循各自许可，离线编解码器和运行时附有相应许可文件。
-
-WillBuddy 是独立项目，以 Amazon Quick 等产品的公开能力为参考；不是 Amazon 官方产品，不分发 Amazon 的代码或资产，也不需要 Amazon 账户。
-
-原 Web 系统的历史使用说明已移至 [docs/WEB_README_ORIGINAL.md](docs/WEB_README_ORIGINAL.md)，避免与当前桌面能力混淆。
+WillBuddy 为独立产品，不是 Amazon 官方产品。
 
 ## English overview
 
-**WillBuddy is a source-available, offline-installable desktop AI workspace for Apple Silicon Macs.** Bring your own Chat Completions-compatible cloud or local model, create and edit basic Word/Excel/PowerPoint documents, work with Markdown and HTML, automate a controlled browser, and run approved non-interactive CLI commands.
+WillBuddy is a desktop AI workspace for Apple Silicon Macs. Bring your own compatible model, combine knowledge documents, Skills, MCP connectors and approved tools, and turn conversations into editable deliverables. The offline application bundles its desktop runtime and document components; model services and optional external tools are configured separately.
 
-The application bundles Electron, Chromium, Node and document codecs. It does **not** bundle model weights, Ollama or every optional external tool. Cloud models and websites require connectivity. Local inference requires a separately configured compatible local model; full offline acceptance remains pending.
-
-The current desktop supports two shared execution slots, individual task cancellation, document revisions and per-task/per-origin browser consent. Office layout fidelity, full Excel formula compatibility, autonomous parallel subtask groups and native Mac acceptance are ongoing work. Source is public; an explicit open-source license has not yet been selected.
-
----
-
-**检索关键词 / Search terms**：WillBuddy、桌面 AI 工具、离线 AI 助手、源码公开、开源许可证、Apple Silicon、macOS arm64、AI Office、Word DOCX、Excel XLSX、PowerPoint PPTX、Markdown 编辑、HTML 预览、浏览器自动化、CLI Agent、多任务并发、本地模型、Ollama、BYOK、desktop AI workspace、offline installation、document generation、document editing、browser automation。
-
-
-当前0.20.0候选尚未上传GitHub：上述分支是0.19公开源码入口，不包含本轮新功能；当前完整源码以交付ZIP和docs/CHAT_RICH_MEDIA.md为准。196核心/4相关Chromium/9打包通过；远端媒体CORS/桥/模型为夹具，Mac/新原生/中文像素未验收。
+[Download and release notes](https://github.com/scliubingxin/WillBuddy/releases) · [Developer guide](desktop/README.md)
