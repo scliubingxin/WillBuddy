@@ -13,12 +13,12 @@ export const toolDefinitions = [
     { type: 'function', function: { name: 'browser_fill', description: '在最近检查到的普通文本框替换输入文本，需要用户批准，不支持密码/验证码/卡号/文件字段。完成后快照失效，应重新检查，不会自动提交。', parameters: { type: 'object', properties: { id: { type: 'string' }, snapshotId: { type: 'string' }, ref: { type: 'string' }, text: { type: 'string', maxLength: 2000 } }, required: ['id', 'snapshotId', 'ref', 'text'], additionalProperties: false } } },
     { type: 'function', function: { name: 'cli_execute', description: '在授权文件夹执行非交互 CLI，返回真实 stdout/stderr、退出码和状态。逐次需用户批准。executable 是程序名或绝对路径；args 是独立参数数组，不会自动作为 shell 解析。', parameters: { type: 'object', properties: { executable: { type: 'string' }, args: { type: 'array', items: { type: 'string' } }, folderId: { type: 'string' }, relative: { type: 'string' }, timeoutMs: { type: 'integer', minimum: 100, maximum: 300000 } }, required: ['executable', 'args', 'folderId'], additionalProperties: false } } }
 ];
-export async function runAgent({ messages, request, execute, signal, onEvent = async () => { }, onDelta = async () => { }, maxSteps = 8, enabled = true }) {
+export async function runAgent({ messages, request, execute, signal, onEvent = async () => { }, onDelta = async () => { }, maxSteps = 8, enabled = true, definitions = toolDefinitions }) {
     const history = structuredClone(messages), events = [];
     let calls = 0, total = 0, hasUsage = false;
     for (let step = 0; step < maxSteps; step++) {
         signal?.throwIfAborted();
-        const result = await request(history, enabled ? toolDefinitions : undefined, { onDelta: text => onDelta({ step, text }) });
+        const result = await request(history, enabled ? definitions : undefined, { onDelta: text => onDelta({ step, text }) });
         signal?.throwIfAborted();
         if (result.usage) {
             hasUsage = true;
@@ -46,7 +46,7 @@ export async function runAgent({ messages, request, execute, signal, onEvent = a
                 throw new Error('工具调用缺少有效 ID');
             const event = { tool: name, time: Date.now(), status: 'running' };
             try {
-                if (!toolDefinitions.some(t => t.function.name === name))
+                if (!definitions.some(t => t.function.name === name))
                     throw new Error('未知工具');
                 const args = JSON.parse(call.function.arguments || '{}');
                 if (!args || typeof args !== 'object' || Array.isArray(args))
