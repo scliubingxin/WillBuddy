@@ -1,3 +1,5 @@
+import {resolveCapabilities} from './capability-library.mjs';
+import {agentCapabilities} from './agent-profile.mjs';
 import { liveRunStates } from '../runtime/run-queue.mjs';
 import { uid, nextDaily } from '../core.mjs';
 import { requiredText as text } from './validation.mjs';
@@ -24,13 +26,18 @@ export function createWorkspaceService({ store, active, view }) {
             return view();
         },
         agent: async (p) => {
+            const previous=structuredClone(store.data.agents);
+            try {
             if (p.remove) {
                 if (p.id === 'assistant')
                     throw new Error('不能删除默认助手');
                 store.data.agents = store.data.agents.filter(a => a.id !== p.id);
             }
             else {
-                const value = { id: p.id || uid(), name: text(p.name, 80), description: text(p.description || '自定义工作助手', 200), prompt: text(p.prompt, 10000) };
+                const value = { id: p.id || uid(), name: text(p.name, 80), description: text(p.description || '自定义工作助手', 200), prompt: text(p.prompt, 10000), ...agentCapabilities(p) };
+                for(const id of value.knowledge)if(!(store.data.documents||[]).some(d=>d.id===id))throw Error('知识文档不存在');
+                if(!p.id&&store.data.agents.length>=30)throw Error('最多30个智能体');
+                resolveCapabilities(store.data,value);
                 const i = store.data.agents.findIndex(a => a.id === value.id);
                 if (i < 0)
                     store.data.agents.push(value);
@@ -39,6 +46,7 @@ export function createWorkspaceService({ store, active, view }) {
             }
             await store.save();
             return view();
+            }catch(e){store.data.agents=previous;throw e;}
         },
         task: async (p) => {
             if (p.remove) {
