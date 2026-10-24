@@ -15,7 +15,7 @@ export const previewScheme = {
 };
 const CSP =
   "default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; img-src data: blob:; font-src data: blob:; connect-src 'none'; worker-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'";
-/** A two-file immutable application resource route, never a filesystem proxy. */
+/** Fixed immutable Office/media resources, never a filesystem proxy or data URL route. */
 export async function preparePreviewProtocol(directory) {
   const [html, engine, manifest] = await Promise.all([
     readFile(path.join(directory, "index.html")),
@@ -28,10 +28,41 @@ export async function preparePreviewProtocol(directory) {
     createHash("sha256").update(engine).digest("hex") !== expected.sha256
   )
     throw Error("预览引擎完整性校验失败");
+  const mediaRoot = path.join(directory, "../media");
+  const mediaManifest = JSON.parse(
+    await readFile(path.join(mediaRoot, "MEDIA-MANIFEST.json"), "utf8"),
+  );
+  const mediaCsp =
+    "default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; img-src https: blob:; media-src https:; connect-src 'none'; worker-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'";
   const resources = new Map([
     ["/index.html", { bytes: html, type: "text/html; charset=utf-8" }],
     ["/engine.js", { bytes: engine, type: "text/javascript; charset=utf-8" }],
   ]);
+  for (const [url, file, type] of [
+    [
+      "/media/index.html",
+      path.join(mediaRoot, "index.html"),
+      "text/html; charset=utf-8",
+    ],
+    [
+      "/media/frame.js",
+      path.join(mediaRoot, "frame.js"),
+      "text/javascript; charset=utf-8",
+    ],
+  ]) {
+    const bytes = await readFile(file),
+      entry = mediaManifest.files.find((e) => e.name === path.basename(file));
+    if (
+      !entry ||
+      bytes.length !== entry.bytes ||
+      createHash("sha256").update(bytes).digest("hex") !== entry.sha256
+    )
+      throw Error("媒体组件完整性校验失败");
+    resources.set(url, { bytes, type, csp: mediaCsp });
+  }
+  const htmlRoot=path.join(directory,'../html');
+  const htmlCsp="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; media-src data: blob:; font-src data:; frame-src about:; connect-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'";
+  for(const name of ['index.html','frame.js'])resources.set('/html/'+name,{bytes:await readFile(path.join(htmlRoot,name)),type:name.endsWith('.js')?'text/javascript; charset=utf-8':'text/html; charset=utf-8',csp:htmlCsp});
   return (request) => {
     let url;
     try {
@@ -56,7 +87,7 @@ export async function preparePreviewProtocol(directory) {
       status: 200,
       headers: {
         "Content-Type": resource.type,
-        "Content-Security-Policy": CSP,
+        "Content-Security-Policy": resource.csp || CSP,
         "X-Content-Type-Options": "nosniff",
         "Cross-Origin-Resource-Policy": "cross-origin",
         "Cache-Control": "no-store",
