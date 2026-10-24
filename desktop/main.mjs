@@ -1,3 +1,9 @@
+import {createCapabilityLibrary,skillViews} from './services/capability-library.mjs';
+import {createSkillImporter} from './main/skill-files.mjs';
+import {readFilePreview} from './services/file-preview.mjs';
+import {protectPreviewNavigation} from './main/preview-navigation.mjs';
+import {createImageService,imageViews} from './services/images.mjs';
+import {createImageImporter,normalizeNativeImage} from './main/image-files.mjs';
 import {previewScheme,preparePreviewProtocol} from './main/preview-protocol.mjs';
 import {createConversionBrowser} from './main/conversion-browser.mjs';
 import {createDocumentConverter} from './runtime/document-converter.mjs';
@@ -13,7 +19,7 @@ import { createConversationService } from './services/conversation.mjs';
 import { createTaskService } from './services/tasks.mjs';
 import { recoverInterruptedWork } from './services/recovery.mjs';
 import { requiredText as text } from './services/validation.mjs';
-import { app, BrowserWindow, ipcMain, dialog, globalShortcut, Menu, safeStorage, shell, Notification, session, protocol } from 'electron';
+import { app, BrowserWindow, ipcMain, dialog, globalShortcut, Menu, safeStorage, shell, Notification, session, protocol, nativeImage } from 'electron';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { readFile, writeFile, stat } from 'node:fs/promises';
@@ -34,7 +40,7 @@ const notifyRuntime = () => {
 const approve = createApprover({ dialog, getWindow: () => win, focus });
 let toolRuntime, genoffice;
 const executeTool = (...args) => toolRuntime.execute(...args);
-const view = () => { const { encryptedKey, ...settings } = store.data.settings; return { ...store.data, documents:documentViews(store.data), settings: { ...settings, hasKey: !!sessionKey || !!encryptedKey, keySaved: !!encryptedKey, secureStorage: safeStorage.isEncryptionAvailable() && safeStorage.getSelectedStorageBackend?.() !== 'basic_text' }, browsers: browser.list(), desktop: { platform: process.platform, shortcutReady } }; };
+const view = () => { const { encryptedKey, ...settings } = store.data.settings; return { ...store.data, documents:documentViews(store.data), skillPackages:skillViews(store.data), imageAttachments:imageViews(store.data), settings: { ...settings, hasKey: !!sessionKey || !!encryptedKey, keySaved: !!encryptedKey, secureStorage: safeStorage.isEncryptionAvailable() && safeStorage.getSelectedStorageBackend?.() !== 'basic_text' }, browsers: browser.list(), desktop: { platform: process.platform, shortcutReady } }; };
 function key() {
     if (sessionKey)
         return sessionKey;
@@ -46,6 +52,7 @@ async function launch() {
     win = new BrowserWindow({ width: 1380, height: 920, minWidth: 860, minHeight: 640, title: 'WillBuddy', icon: path.join(here, 'assets/icon-512.png'), backgroundColor: '#ffffff', titleBarStyle: 'hiddenInset', ...(process.platform === 'darwin' ? { trafficLightPosition: { x: 20, y: 20 } } : {}), webPreferences: { preload: path.join(here, 'preload.cjs'), contextIsolation: true, nodeIntegration: false, sandbox: true, webSecurity: true } });
     win.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
     win.webContents.on('will-navigate', e => e.preventDefault());
+    protectPreviewNavigation(win.webContents);
     win.on('close', e => {
         if (!closing && process.platform === 'darwin') {
             e.preventDefault();
@@ -88,7 +95,11 @@ else {
         recoverInterruptedWork(store.data);
         commands = createCommandService({ store, active, executeTool, notify: notifyRuntime });
         runs = sharedRunQueue({store, active, notify:notifyRuntime});
-        conversations = createConversationService({ queue:runs, store, active, key, view, executeTool, releaseToolGrants:id=>toolRuntime.browserPermissions.release(id), notify: notifyRuntime,notifyStream:event=>{if(win&&!win.isDestroyed())win.webContents.send('actwill:stream',event);} });
+        const images=createImageService({store,decode:bytes=>normalizeNativeImage(nativeImage,bytes)});
+        register('imageImport',createImageImporter({dialog,getWindow:()=>win,nativeImage,images}));
+        register('imagePreview',p=>images.preview(p.id));
+        register('imageRemove',async p=>{await images.remove(p.id);return view();});
+        conversations = createConversationService({ approve, images, queue:runs, store, active, key, view, executeTool, releaseToolGrants:id=>toolRuntime.browserPermissions.release(id), notify: notifyRuntime,notifyStream:event=>{if(win&&!win.isDestroyed())win.webContents.send('actwill:stream',event);} });
         tasks = createTaskService({ queue:runs, notify:notifyRuntime, store, active, key, view, notifyCompleted: task => {
                 if (Notification.isSupported())
                     new Notification({ title: 'WillBuddy · 任务完成', body: task.name }).show();
@@ -98,6 +109,15 @@ else {
         const workspace = createWorkspaceService({ store, active, view });
         for (const [name, handler] of Object.entries(workspace))
             register(name, handler);
+        const capabilityLibrary=createCapabilityLibrary({store,approve,notify:notifyRuntime});
+        const importSkill=createSkillImporter({dialog,getWindow:()=>win,library:capabilityLibrary});
+        app.on('before-quit',()=>capabilityLibrary.close());
+        register('skillImport',async()=>{const imported=await importSkill();return {imported,state:view()};});
+        register('skillRead',p=>capabilityLibrary.readSkill(p.id));
+        register('skillUpdate',async p=>{await capabilityLibrary.skill(p);return view();});
+        register('mcpConnection',async p=>{const saved=await capabilityLibrary.connection(p);return {saved,state:view()};});
+        register('mcpTest',async p=>{const result=await capabilityLibrary.probe(p.id);return {result,state:view()};});
+        register('mcpCancelTest',p=>{capabilityLibrary.cancelProbe(p.id);return true;});
         register('state', () => view());
         register('settings', async (p) => {
             if (active.size || runs.hasPending())
@@ -146,6 +166,7 @@ else {
         });
         register('removeFolder', async (p) => { store.data.folders = store.data.folders.filter(f => f.id !== p.id); store.log('已撤销文件夹授权'); await store.save(); return view(); });
         register('listFiles', p => listGranted(store.data.folders, p.id, String(p.query || '').slice(0, 200)));
+        register('previewFile',p=>readFilePreview(store,p));
         register('readFile', p => readGranted(store.data.folders, p.folderId, p.relative));
         register('chat', p => conversations.run(p));
         register('revokeBrowserApprovals', () => { toolRuntime.browserPermissions.revoke(); approve.cancelAll(); return true; });

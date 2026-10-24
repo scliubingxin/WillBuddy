@@ -1,7 +1,7 @@
 {
   "name": "actwill-desktop",
   "productName": "WillBuddy",
-  "version": "0.19.0",
+  "version": "0.22.0",
   "private": true,
   "description": "WillBuddy desktop AI workspace",
   "author": "Actwill",
@@ -26,7 +26,13 @@
     "vendor:genoffice": "node ../scripts/vendor-genoffice.mjs",
     "vendor:preview": "node ../scripts/vendor-office-preview.mjs",
     "test:preview-native": "electron tests/native/production-preview.mjs",
-    "test:preview-transport": "electron tests/native/preview-electron.mjs"
+    "test:preview-transport": "electron tests/native/preview-electron.mjs",
+    "test:agents": "node --test tests/agent-capabilities.test.mjs",
+    "test:agents-ui": "node --test tests/acceptance/agents-live.mjs",
+    "test:html": "node --test tests/acceptance/html-live.mjs",
+    "test:images": "node --test tests/acceptance/images-live.mjs",
+    "test:capabilities": "node --test tests/capability-library.test.mjs",
+    "test:capabilities-ui": "node --test tests/acceptance/capabilities-live.mjs"
   },
   "devDependencies": {
     "@aiden0z/pptx-renderer": "1.4.0",

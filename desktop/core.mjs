@@ -1,5 +1,6 @@
+import {constants} from 'node:fs';
 import { readCompletion } from './runtime/model-stream.mjs';
-import { readFile, writeFile, mkdir, rename, realpath, readdir, stat, lstat } from 'node:fs/promises';
+import { open, readFile, writeFile, mkdir, rename, realpath, readdir, stat, lstat } from 'node:fs/promises';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 export const uid = () => randomUUID();
@@ -46,14 +47,19 @@ export async function resolveGranted(folders, folderId, relative) {
     }
     return target;
 }
-export async function readGranted(folders, id, relative) {
+export async function readGranted(folders, id, relative, {preview=false}={}) {
     const target = await resolveGranted(folders, id, relative), info = await stat(target);
     if (!info.isFile() || info.size > 1024 * 1024 || !extensions.has(path.extname(target).toLowerCase()))
         throw new Error('只支持 1 MB 以内的文本、代码、Markdown、CSV 和 JSON 文件');
-    const text = await readFile(target, 'utf8');
+    let text;
+    if(preview){
+        const handle=await open(target,constants.O_RDONLY|constants.O_NOFOLLOW);
+        try{const before=await handle.stat();if(!before.isFile()||before.size>1048576)throw Error('预览文件超过1 MiB');const bytes=Buffer.alloc(1048577);let n=0;while(n<bytes.length){const r=await handle.read(bytes,n,bytes.length-n,n);if(!r.bytesRead)break;n+=r.bytesRead;}const after=await handle.stat();if(n>1048576||n!==before.size||before.size!==after.size||before.mtimeMs!==after.mtimeMs)throw Error('预览文件变化或体积超限');text=bytes.subarray(0,n).toString('utf8');}finally{await handle.close();}
+    }else text = await readFile(target, 'utf8');
     if (text.includes('\0'))
         throw new Error('不支持二进制文件');
-    return { folderId: id, relative, name: path.basename(target), text: text.slice(0, 50000), truncated: text.length > 50000 };
+    const full=preview && path.extname(target).toLowerCase()==='.html';
+    return { folderId: id, relative, name: path.basename(target), text: full?text:text.slice(0,50000), truncated: !full&&text.length>50000 };
 }
 export async function listGranted(folders, id, query = '') {
     const folder = folders.find(f => f.id === id);

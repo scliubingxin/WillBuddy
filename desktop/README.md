@@ -1,3 +1,11 @@
+0.22.0：新增「Skills 技能库 / MCP 连接器」独立入口，支持上传 SKILL.md/ZIP、资源查看、连接配置/真实工具发现测试；构建智能体时勾选绑定，也能当场上传或新建连接并保留草稿。说明见docs/SKILLS_AND_CONNECTORS.md（桌面目录使用../docs/）。MCP认证/OAuth/stdio暂不支持，Mac真机未验收。
+
+0.21.0：智能体接入知识文档、按需Skills、工具白名单、真实MCP Streamable HTTP客户端与ReAct循环；修复动态HTML附件空白，新增本机图片持久附件和显式视觉发送。无需另装GenOffice/Office/npm/Python。原生Mac与真实模型待验收。当前源码和arm64候选ZIP交付，未公开发布GitHub。
+
+## 0.20.0 对话富媒体
+
+图片/视频直链点击加载、网页链接卡片、数据图表随应用内置；无需另装软件。用法、语法、匿名跨域、超时和验收范围见[CHAT_RICH_MEDIA](../docs/CHAT_RICH_MEDIA.md)。当前安装包为 WillBuddy-v0.20.0-mac-arm64-offline.zip，仍ad-hoc、未公证/Mac验收。
+
 0.19.0：Excel预览图片按单格/双格/绝对锚点定位，跟随对应工作表与可见网格；不再把整个工作簿图片堆在表尾。保持离线内置，无需另装软件。见[范围与验收](../docs/SPREADSHEET_IMAGES.md)。
 
 0.18.0：同一Office文档版本的预览在后台刷新/侧栏调整时保持连接，不重新读文件/解析，保留Excel工作表选择和滚动；关闭、换文档或版本后释放重载。无需新增软件。见[说明](../docs/PREVIEW_LIFECYCLE.md)。
