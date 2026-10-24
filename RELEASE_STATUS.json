@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.19.0",
+  "version": "0.22.0",
   "checked_date": "2026-10-24",
   "source_status": "desktop_source_delivery_not_deployed",
   "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -20,7 +20,7 @@
     "signature": "ad-hoc",
     "notarized": false,
     "streaming": "SSE text/tool deltas with JSON response compatibility; no hidden retries",
-    "content_rendering": "Marked 18.1.1 + DOMPurify 3.4.17; sandboxed static HTML/CSS, no scripts/network",
+    "content_rendering": "Marked18 + DOMPurify3; bounded data-only bar/line/pie; click-to-load isolated HTTPS image/video; links use existing approved browser",
     "persistent_commands": "manual CLI FIFO; stable ID deduplication; persisted v1 status events; restart pauses; fresh approval on retry",
     "persistent_model_runs": "shared conversation/task FIFO; versioned journal; cancellation; scheduled-occurrence deduplication; restart pause; CLI shares capacity but retains separate queue",
     "documents": "real DOCX/XLSX/PPTX generation/import/targeted edits; md/html text edits; 5 previous revisions; native export with readback",
@@ -34,17 +34,22 @@
     "word_paragraphs": "bounded top-level plain body paragraph insertAfter/deleteParagraph; pPr/first rPr retention; anchored revision approval, undo before save; complex/style/section/range protection",
     "office_preview": "Bundled docx-preview 0.4.1, PPTX renderer1.4.0, bounded XML grid+SSF0.11.2; opaque sandbox; no external app or network; static compatibility limits",
     "external_genoffice_ui": false,
-    "preview_transport": "fixed SHA-verified two-resource secure custom protocol; actual Linux Electron file-host and ASAR fixture passed; Mac pending",
+    "preview_transport": "fixed immutable Office/media/HTML custom-protocol resources; Office engine/media SHA validation; opaque frames; new HTML native adapter not runtime-verified this iteration",
     "preview_timeout": "5s component boot / 15s render, phase-specific errors and manual fresh-token reload",
     "preview_lifecycle": "same scope/id/revision keeps connected frame; chrome-only reconciliation; close/switch/version disposes; no cross-document cache",
-    "spreadsheet_preview_images": "worksheet relationship-bound one/two/absolute cell anchor positioning; bounded raster decode; no gallery/orphan media; crop/rotation unsupported"
+    "spreadsheet_preview_images": "worksheet relationship-bound one/two/absolute cell anchor positioning; bounded raster decode; no gallery/orphan media; crop/rotation unsupported",
+    "chat_rich_media": "bundled opaque iframe classic script + SHA manifest; per-frame one-shot token/source; 5s/15s timeouts; anonymous CORS/no-referrer; no autoplay; unchanged-message redraw retains current media",
+    "agent_capabilities": "agent-scoped knowledge IDs + lazy skill_read + builtin tool allowlist + bounded Streamable HTTP MCP + configurable ReAct; conversation runtime only",
+    "html_interactive_preview": "full bounded authorized source; two opaque sandboxes; inline JS + ephemeral storage, no network/backend; actual private user sample Chromium passed",
+    "local_images": "native picker/PNG normalization adapter; bounded persisted bytes hidden from state; local offline cards; explicit current-target multimodal image_url only",
+    "capability_library": "persistent Skill MD/ZIP import/resources and MCP global connector config/discovery; agent skillIds/mcpIds resolved in actual ReAct; no auto script execution/auth/OAuth/stdio"
   },
   "validation": {
-    "desktop_tests_passed": 184,
+    "desktop_tests_passed": 232,
     "ui_paths_with_mock_bridge": 17,
     "real_cli_child_process_tested": true,
     "agent_http_fixture_to_real_cli_roundtrip_tested": true,
-    "browser_verification": "real Chromium regressions passed; native Linux Electron production preload/IPC/ASAR preview passed; Mac target/approvals/model still pending",
+    "browser_verification": "17 real Chromium full suite passed; final4 related cases passed. Production upload/config/probe/bind/inline-add/reload → actual HTTP ReAct; native picker/IPC/approvals/model semantics fixtures",
     "workspace_browser_test_passed": true,
     "packaging_tests_passed": 9,
     "workspace_test_scope": "real Chromium layout, keyboard, Markdown, preview/export; deterministic native bridge and model content",
@@ -53,10 +58,10 @@
     "real_model_provider_tested": false,
     "third_party_cli_codex_tested": false,
     "web_build_tested_this_iteration": false,
-    "theme_check": "Chinese font available for documentation screenshots; production forms and layout inspected; no Mac pixel/runtime validation",
+    "theme_check": "White/blue retained; current container lacks CJK fonts; no Chinese pixel or Mac validation",
     "offline_bundle": {
       "official_runtime_sha256": "passed",
-      "asar_content": "70 production files exact bytes",
+      "asar_content": "94 production files exact bytes",
       "zip_integrity": "passed",
       "closed_inventory": "passed; 282 app entries + 5 extras; 14 symlinks; no residue",
       "unexpected_entry_negative": "passed even when every manifest file remains unchanged",
@@ -70,7 +75,7 @@
     },
     "service_boundary_tests_passed": 9,
     "streaming_http_to_chromium_passed": true,
-    "chromium_acceptance_tests_passed": 12,
+    "chromium_acceptance_tests_passed": 17,
     "streaming_to_real_node_cli_passed": true,
     "markdown_and_sandboxed_html_passed": true,
     "command_queue_tests_passed": 14,
@@ -100,7 +105,15 @@
     "preview_lifecycle_tests": 4,
     "preview_lifecycle_native": "Linux Electron actual preload/IPC source+ASAR; 3 formats x20 UI redraws, zero extra reads/same child frame; Mac pending",
     "spreadsheet_image_new_tests": 7,
-    "spreadsheet_image_scope": "real Chromium file+openpyxl and Linux Electron source/ASAR; one/two anchors real, absolute geometry unit; no Mac/ExcelWPS fidelity"
+    "spreadsheet_image_scope": "real Chromium file+openpyxl and Linux Electron source/ASAR; one/two anchors real, absolute geometry unit; no Mac/ExcelWPS fidelity",
+    "real_chromium_tests_this_iteration": 17,
+    "legacy_evidence_scope": "Historical named checks retained; docs/validation/v0.22.0.json contains current evidence.",
+    "agent_capabilities_new_tests": 11,
+    "agent_real_http_fixture": "four model requests → lazy skill → approved real Markdown source → real MCP SSE response → final result; no real external model/MCP",
+    "html_original_sample": "260561 bytes /242435 characters; welcome UI and supplier form, 0 outside network, 1 read across redraws; private sample excluded from source",
+    "local_image_new_tests": 7,
+    "html_preview_new_tests": 6,
+    "capability_library_new_tests": 12
   },
   "rea": {
     "version": "6.7.0",
@@ -108,7 +121,7 @@
     "javascript_analysis": "partial_host_process_ownership_blocked",
     "report": "docs/REA_FINDINGS.md"
   },
-  "notes": "0.15 adds actual Word body paragraph structure edits through existing approved/anchored/versioned candidate service. No whole-document rebuild; complex/style/section/range structures protected. Original Web/Python, identity, browser scoped consent, parallel tasks, formulas and GenOffice subset retained; no Mac/paid-model/Word-WPS native or full fidelity claim.",
+  "notes": "0.22 adds reusable Skill upload library and MCP connector management with real discovery, in-builder upload/configuration, persisted ID binding and actual ReAct execution. No auth/OAuth/stdio/auto-scripts/real Mac or provider validation.",
   "architecture": {
     "guide": "docs/ARCHITECTURE.md",
     "layers": [
@@ -121,5 +134,13 @@
       "pure views"
     ],
     "web_desktop_shared_core": false
+  },
+  "current_iteration": {
+    "version": "0.22.0",
+    "evidence": "docs/validation/v0.22.0.json",
+    "guide": "docs/SKILLS_AND_CONNECTORS.md",
+    "mac_native_tested": false,
+    "public_github_release": false,
+    "public_release_note": "Source/offline ZIP delivery; previous public release approval rejection preserved, no retry or alternate disclosure."
   }
 }

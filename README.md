@@ -1,3 +1,9 @@
+0.22.0：新增「Skills 技能库 / MCP 连接器」独立入口，支持上传 SKILL.md/ZIP、资源查看、连接配置/真实工具发现测试；构建智能体时勾选绑定，也能当场上传或新建连接并保留草稿。说明见docs/SKILLS_AND_CONNECTORS.md（桌面目录使用../docs/）。MCP认证/OAuth/stdio暂不支持，Mac真机未验收。
+
+0.21.0：智能体接入知识文档、按需Skills、工具白名单、真实MCP Streamable HTTP客户端与ReAct循环；修复动态HTML附件空白，新增本机图片持久附件和显式视觉发送。无需另装GenOffice/Office/npm/Python。原生Mac与真实模型待验收。当前源码和arm64候选ZIP交付，未公开发布GitHub。
+
+0.20.0：对话内置图片、视频、网页链接卡片及柱/线/饼图展示；媒体点击后才加载，无需另装软件。见[用法与验收](docs/CHAT_RICH_MEDIA.md)。
+
 0.19.0：Excel预览图片按单格/双格/绝对锚点定位，跟随对应工作表与可见网格；不再把整个工作簿图片堆在表尾。保持离线内置，无需另装软件。见[范围与验收](docs/SPREADSHEET_IMAGES.md)。
 
 0.18.0：同一Office文档版本的预览在后台刷新/侧栏调整时保持连接，不重新读文件/解析，保留Excel工作表选择和滚动；关闭、换文档或版本后释放重载。无需新增软件。见[说明](docs/PREVIEW_LIFECYCLE.md)。
@@ -18,7 +24,7 @@
 
 应用包内置 Electron、Chromium、Node 和基础 Office 文档编解码器，安装时无需再执行 `npm install`。**离线安装不等于所有 AI 功能都能断网运行**：使用云模型、访问网页需要联网；纯离线推理需要自行准备本地模型及运行环境。目前只制作 Apple 芯片（arm64）Mac 应用。
 
-> 本文介绍已交付的桌面 **0.19.0**，对应代码在 [`willbuddy-v0.19.0-spreadsheet-images`](https://github.com/scliubingxin/WillBuddy/tree/willbuddy-v0.19.0-spreadsheet-images) 分支；`main` 尚未合入该版本，开发时请先切换分支。处于持续开发阶段；已提供的离线包为 ad-hoc 签名候选版，尚未完成 Apple Developer ID 签名、公证及 Mac 原生完整验收。仓库已公开源码，许可证状态见[许可与项目定位](#许可与项目定位)。
+> 当前候选为桌面 **0.20.0**，完整源码以本轮 ZIP 为准，尚未上传 GitHub；`main` 也未合入本轮功能。离线包为 ad-hoc 签名，尚未完成 Apple Developer ID、公证及 Mac 原生完整验收。历史公开源码与许可状态见下方说明。
 
 ![WillBuddy 桌面 AI 工作流：目标、自选模型、受控工具、可编辑成果](docs/images/workflow.svg)
 
@@ -95,7 +101,7 @@
 
 适用平台：**Apple 芯片 Mac / arm64，最低 macOS 12**。当前不提供 Intel Mac 安装包。
 
-1. 获取实际交付的 `WillBuddy-v0.19.0-mac-arm64-offline.zip`。公开安装包是否已发布，请以仓库 [Releases](https://github.com/scliubingxin/WillBuddy/releases) 的实际内容为准；源码分支本身不是安装包。
+1. 获取实际交付的 `WillBuddy-v0.20.0-mac-arm64-offline.zip`。公开安装包是否已发布，请以仓库 [Releases](https://github.com/scliubingxin/WillBuddy/releases) 的实际内容为准；源码分支本身不是安装包。
 2. 先把 ZIP 完整解压到“下载”等用户目录，保留 `.app` 内的符号链接；不要直接向 `/Applications` 解压。
 3. 将 `WillBuddy.app` 移入“应用程序”；也可使用包内安装脚本安装到个人 `Applications` 目录。脚本会执行原生签名检查。
 4. 打开应用，在左下角配置模型，然后新建一个任务。
@@ -185,10 +191,8 @@ WillBuddy 不内置付费模型账户，也不要求使用特定云厂商。
 只使用离线应用包的用户无需执行本节命令。
 
 ```bash
-git clone https://github.com/scliubingxin/WillBuddy.git
-cd WillBuddy
-# 本说明对应已交付的桌面修复分支；main 尚未合入该版本。
-git switch willbuddy-v0.19.0-spreadsheet-images
+# 完整解压当前交付的0.20.0源码ZIP后
+cd muyun-ai
 npm --prefix desktop ci
 npm --prefix desktop start
 ```
@@ -221,7 +225,7 @@ npm --prefix desktop test
 
 ## 项目状态与路线
 
-0.19.0 的代码验证包括 **184 项核心测试、12 项真实 Chromium 验收及 9 项打包测试**，并新增真实 Linux Electron file/ASAR 预览验收。原生审批、IPC 和部分模型响应使用测试适配器；这不代表已经完成 Mac 原生、真实付费模型或 Office/WPS 保真验收。
+0.20.0 本轮验证包括 **196 项核心测试、4 项相关真实 Chromium 验收及 9 项打包测试**。历史 Linux Electron file/ASAR 预览验收未作为本轮新原生媒体验收。原生审批、IPC 和部分模型响应使用测试适配器；这不代表已经完成 Mac 原生、真实付费模型或 Office/WPS 保真验收。
 
 近期重点：
 
@@ -251,3 +255,6 @@ The current desktop supports two shared execution slots, individual task cancell
 ---
 
 **检索关键词 / Search terms**：WillBuddy、桌面 AI 工具、离线 AI 助手、源码公开、开源许可证、Apple Silicon、macOS arm64、AI Office、Word DOCX、Excel XLSX、PowerPoint PPTX、Markdown 编辑、HTML 预览、浏览器自动化、CLI Agent、多任务并发、本地模型、Ollama、BYOK、desktop AI workspace、offline installation、document generation、document editing、browser automation。
+
+
+当前0.20.0候选尚未上传GitHub：上述分支是0.19公开源码入口，不包含本轮新功能；当前完整源码以交付ZIP和docs/CHAT_RICH_MEDIA.md为准。196核心/4相关Chromium/9打包通过；远端媒体CORS/桥/模型为夹具，Mac/新原生/中文像素未验收。

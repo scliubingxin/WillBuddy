@@ -1,3 +1,29 @@
+## 2026-10-24 · 0.22.0 技能上传库与MCP连接器配置
+
+按用户六张截图落实三个管理页签：智能体、Skills技能库、MCP连接器。原生选择器上传SKILL.md/ZIP→真实有界解析/持久文件资源；元数据列表、正文目录查看、启用停用/引用保护删除。构建智能体绑定skillIds/mcpIds，可当场上传/保存连接并自动选中，保留提示词/草稿，迟到上传不能写入另一个表单；旧内嵌配置保留。MCP保存不联网，原生批准后实际发现，支持取消/修订失效/退出清理；只标上次真实发现，不假在线。运行解析绑定能力，skill_read/resource按需返回完整入口和受限文本参考；真实模型HTTP夹具四轮Skill→资源→MCP→验收通过。allowed-tools不提权，包内脚本不自动执行。
+
+从权威0.21/v22读取479内容并SHA核验后开发。新增schema1字段skillPackages/mcpConnections/agent skillIds+mcpIds，无新生产依赖。12新增核心（共232）/17真实Chromium全回归及4最终相关重跑/9打包Python通过。真实ZIP/服务/磁盘/HTTP协议与生产页面；原生选择器/IPC/审批/模型内容仍夹具。无Mac/付费模型/企业MCP/完整Office保真；认证头/OAuth/stdio未实现。原122Web/Python保护文件SHA不变，旧35Python未改未重跑。原logo白蓝/加密身份/双任务/浏览器站点许可/HTML与Office/图片保留。
+
+见docs/SKILLS_AND_CONNECTORS.md与validation/v0.22.0.json。技能格式为有界子集：4MiB输入/2MiB展开/64文件/CRC与路径及符号链接门禁、name64/description1024/主源12000字符，库40项/16MiB；binary保留不执行，资源仅UTF8有界读取。不是完整技能运行环境、市场、API密钥连接器或自主子Agent。下一轮先实际Mac/模型/MCP联调，再认证连接器/技能完整资源使用/知识索引与Office兼容。未GitHub上传/未公开release/未PR/合并main，保留此前公开发布自动审批边界；交付独立完整源码与arm64离线候选并保护替换权威。
+
+## 2026-10-24 · 0.21.0 智能体能力组合、HTML原型预览与图片附件
+
+从权威0.20/v21获取456内容文件并核验后开发。用户新反馈优先：原260561字节HTML由尾部JS绘制，旧50k摘要/静态脚本过滤造成空白；新增独立完整有界预览与双opaque隔离，原样本实际欢迎界面/供应商表单/三次绘制只读一次/无外网通过，不把localhost业务接口当已接通。新增本机PNG/JPEG→nativeImage适配器→规范PNG持久附件，默认不送模型，显式勾选本轮image_url实际HTTP协议，模型变化拒绝。原文件/原模型附件限制保持。
+
+智能体新增知识文档绑定、按需skill_read、一般工具白名单、MCP配置与1–12轮ReAct；knowledge_search调用原审批文档读取并返回有来源行片段。真实MCP初始化/目录/JSON或SSE调用/会话清理，不是占位字段；每次网络操作审批/取消/超限/配置撤销/磁盘故障门禁和审计正文隐藏。真实HTTP模型夹具四轮：技能→真实文档预算→MCP报价→验收；未运行真实付费模型/企业MCP或Mac。旧schema1增量，无新生产依赖。原Web/Python122哈希未变。
+
+220核心（新增24：图片7/HTML6/智能体11）、16个真实Chromium用例在完整回归和修正后的相关重跑中通过，另用户原HTML实际用例通过；9打包Python通过。完整浏览器首轮15/16，图片用例重载后误点搜索按钮，修正测试定位后该用例及5项相关最终回归通过；没有更改生产路径规避失败。原生选择器/PNG规范化/IPC/审批/模型响应仍夹具。原Python35未改未重跑；未新Linux Electron/Mac/字体像素/真实视觉/WordWPS验收。90生产文件与ASAR完全一致，15MachO/51216页、篡改负例、282应用+5配套/14链接/零残留和ZIP门禁通过，仍ad-hoc未公证。
+
+说明：docs/AGENT_CAPABILITIES.md、HTML_INTERACTIVE_PREVIEW.md、LOCAL_IMAGE_ATTACHMENTS.md及validation/v0.21.0.json。MCP目前无认证HTTP子集，无OAuth/stdio/自动重试；知识为有界词法行检索，不是向量库；技能为保存Markdown步骤，不是完整技能包/脚本执行；跨Web核心/自主并行组/完整Office保真未完成。保留旧身份/蓝红logo/白蓝主题、双任务/站点授权/GenOffice子引擎。下一轮先用户Mac/实际模型和MCP链路验收，再技能包导入/知识索引/认证连接器与Office兼容；不退回仅提示词壳。
+
+未GitHub上传、未公开release、未PR/合并main；保留先前公开发布自动审批拒绝边界，不另换途径绕过。源码与arm64包独立保存并保护替换权威源码。
+
+## 2026-10-24 · 0.20.0 对话富媒体展示
+
+实际新增 HTTPS图片点击加载/展开、视频控制播放、网页链接卡片和本地数据驱动柱/线/饼图；模型指令接入语法，原始Markdown/导出不改。外部媒体单独opaque frame、无Node/桥、CORS anonymous/no-referrer、启动/加载超时与关闭重试；每消息12媒体/6图、同时3媒体。固定媒体双资源+SHA校验，经典IIFE避免模块脚本opaque跨域启动失败；后台消息未变的绘制保留媒体frame。不是本地附件上传、视觉理解、转码或完整Office图表套件。196核心（新增12）/4相关真实Chromium/9打包通过；真实PNG/WebM解码/播放、链接路由、三图原值、5次重绘无额外请求及Office/流式/工作区回归。HTTPS响应/模型/原生桥夹具，未新Linux原生/Mac/远端服务验收；原Web/Python122文件未变，旧35未重跑。77生产文件ASAR精确一致；15MachO/51216页/篡改负例，包ad-hoc未公证。见docs/CHAT_RICH_MEDIA.md和validation/v0.20.0.json。
+
+下一轮：先Mac实际图片/视频/链接/流式图表验收，再本地媒体授权导入/持久附件与更完整图表/Office预览。保留旧身份/logo白蓝/双任务/站点许可。不建PR/不合并main；用户未批准0.19公开发布，禁止重试该发布或将0.20擅自公开。完整源码和arm64候选包照常保存交付。
+
 ## 2026-10-24 · 0.19.0 Excel图片按锚点预览
 
 0.19.0：Excel预览图片按单格/双格/绝对锚点定位，跟随对应工作表与可见网格；不再把整个工作簿图片堆在表尾。保持离线内置，无需另装软件。184核心/12真实Chromium/9打包；真实XLSX图片坐标+decode+独立openpyxl，Linux原生Electron源码/ASAR验证与旧生命周期回归。Mac/付费模型/完整Office保真未验收。见docs/SPREADSHEET_IMAGES.md及validation/v0.19.0.json。下一轮Mac反馈与图表/主题/模板质量；MCP/跨Web核心/自主子任务组仍有差距；不建PR/合并main。
