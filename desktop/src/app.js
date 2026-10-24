@@ -1,3 +1,8 @@
+import {capabilityTabs,skillsPage,mcpPage} from './ui/capability-library.js';
+import {agentEditor,bindAgentEditor,readAgentEditor} from './ui/agent-editor.js';
+import {imageCards} from './ui/image-cards.js';
+import {mountHtmlPreview} from './ui/html-preview.js';
+import {installChatMedia} from './ui/chat-media.js';
 import {mountOfficePreview} from './ui/office-preview.js';
 import {createOfficeWorkspace} from './ui/office-workspace.js';
 import {mountSpreadsheet} from './ui/spreadsheet.js';
@@ -6,19 +11,21 @@ import {mountWordCanvas} from './ui/word-canvas.js';
 import {documentLibrary,documentExamples,messageDocuments} from './ui/documents.js';
 import { escape, rich, htmlPreview } from './ui/markdown.js';
 import * as views from './ui/workspace.js';
-function viewContext() { return { state, chatId, pending, previewTabs, previewId, previewSource, previewZoom, sideTab, icon, composer, action, date, taskStatus, trace, executionRecords, executionRow, rich, htmlPreview, previewHtml }; }
+function viewContext() { return { state, chatId, pending, previewTabs, previewId, previewSource, previewZoom, sideTab, icon, composer, action, date, taskStatus, trace, executionRecords, executionRow, rich, htmlPreview, previewHtml, previewInteractive }; }
+installChatMedia(document,{readImage:id=>invoke('imagePreview',{id})});
 const api = window.actwill;
 const browserTargets = new Map();
 const $ = s => document.querySelector(s);
 const paths = { spark: 'm12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5Z', chat: 'M5 4h14v12H9l-4 4Z', folder: 'M3 7V5h6l2 3h10v12H3Z', grid: 'M3 3h7v7H3Zm11 0h7v7h-7ZM3 14h7v7H3Zm11 0h7v7h-7Z', agent: 'M5 7h14v13H5ZM12 3v4M8 12h1m6 0h1m-7 4h6', clock: 'M12 8v5l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0', settings: 'M4 7h16M4 17h16M8 4v6m8 4v6', search: 'M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Zm6-2 6 6', plus: 'M12 5v14M5 12h14', arrow: 'M5 12h14m-5-5 5 5-5 5', up: 'M12 20V4m-6 6 6-6 6 6', file: 'M5 3h9l5 5v13H5Zm9 0v6h5M8 13h8m-8 4h6', link: 'm9 15 6-6M8 17l-1 1a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0m2 8a4 4 0 0 0 6 0l4-4a4 4 0 0 0-6-6l-1 1', check: 'm5 12 4 4L19 6', close: 'm5 5 14 14M5 19 19 5', activity: 'M3 12h4l3-8 4 16 3-8h4', download: 'M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4', shield: 'm12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6Z', stop: 'M6 6h12v12H6Z' };
 const icon = (name) => `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${paths[name] || paths.spark}"/></svg>`;
 const pendingChats=new Set();
-let state = { chats: [], folders: [], memories: [], agents: [], tasks: [], artifacts: [], activity: [], settings: { model: '尚未配置', name: '我的工作空间' } }, page = 'home', chatId = '', agentId = 'assistant', files = [], pending = false, folderId = '', fileResults = [], fileTruncated = false, searchTerm = '', draft = '', toolsEnabled = true, activeCommand = '', toolDraft = { url: 'https://example.com', executable: 'node', args: '["--version"]', folderId: '', relative: '' };
+let state = { chats: [], folders: [], memories: [], agents: [], tasks: [], artifacts: [], activity: [], settings: { model: '尚未配置', name: '我的工作空间' } }, page = 'home', chatId = '', agentId = 'assistant', files = [], images = [], sendImages = false, pending = false, folderId = '', fileResults = [], fileTruncated = false, searchTerm = '', draft = '', toolsEnabled = true, activeCommand = '', toolDraft = { url: 'https://example.com', executable: 'node', args: '["--version"]', folderId: '', relative: '' };
+let capabilityTab='agents';const busyMcp=new Set();
 const nav = [['home', 'chat', '工作台'], ['feed', 'activity', '动态'], ['library', 'grid', '成果中心'], ['files', 'folder', '本地文件'], ['agents', 'agent', '智能体'], ['tools', 'activity', '浏览器与 CLI'], ['tasks', 'clock', '自动化'], ['context', 'spark', '我的记忆']];
-let sidebarCollapsed = false, sidePanel = false, sideTab = 'preview', previewId = '', previewTabs = [], previewSource = false, previewHtml = false, previewZoom = 100, recentQuery = '', pickerKind = '', pickerItems = [], pickerIndex = 0, pickerSerial = 0;
+let sidebarCollapsed = false, sidePanel = false, sideTab = 'preview', previewId = '', previewTabs = [], previewSource = false, previewHtml = false, previewInteractive = false, previewZoom = 100, recentQuery = '', pickerKind = '', pickerItems = [], pickerIndex = 0, pickerSerial = 0;
 const openedDetails = new Set();
 const taskWorkspaces = new Map();
-function switchChat(next) { taskWorkspaces.set(chatId, { previewTabs, previewId, sidePanel, sideTab, draft, files }); const saved = taskWorkspaces.get(next); previewTabs = saved?.previewTabs || []; previewId = saved?.previewId || ''; sidePanel = saved?.sidePanel || false; sideTab = saved?.sideTab || 'preview'; draft=saved?.draft||''; files=saved?.files||[]; chatId = next; closePicker(); }
+function switchChat(next) { taskWorkspaces.set(chatId, { previewTabs, previewId, sidePanel, sideTab, draft, files, images, sendImages, agentId }); const saved = taskWorkspaces.get(next); previewTabs = saved?.previewTabs || []; previewId = saved?.previewId || ''; sidePanel = saved?.sidePanel || false; sideTab = saved?.sideTab || 'preview'; draft=saved?.draft||''; files=saved?.files||[];images=saved?.images||[];sendImages=saved?.sendImages||false; chatId = next; agentId=saved?.agentId||state.chats.find(c=>c.id===next)?.agentId||agentId; closePicker(); }
 const toolNames = { cli_execute: '运行命令', browser_open: '打开网页', browser_read: '读取网页正文', browser_snapshot: '检查页面元素', browser_click: '点击页面元素', browser_fill: '填写文本框' };
 const statusNames = { pending_approval: '等待你确认', running: '执行中', succeeded: '已完成', completed: '已完成', opened: '已打开', read: '已读取', inspected: '已检查', clicked: '已发送点击', filled: '已填写', failed: '失败', denied: '已拒绝', cancelled: '已取消', interrupted: '已中断', queued: '排队中', paused: '已暂停', cancelling: '正在停止', timed_out: '已超时', output_limit: '输出超限', inherited_pipes: '子进程未关闭' };
 function taskStatus(c) {
@@ -44,7 +51,8 @@ function openPreview(item) {
     sidePanel = true;
     sideTab = 'preview';
     previewSource = false;
-    previewHtml = false;
+    previewHtml = /\.html?$/i.test(item.name||'');
+    previewInteractive = previewHtml;
     render();
 }
 function previewPanel() { return views.previewPanel(viewContext()); }
@@ -60,7 +68,7 @@ function empty(title, desc, button = '') { return `<div class="empty">${icon('sp
 function heading(kicker, title, desc, button = '') { return `<div class="page-title"><div><div class="eyebrow">${kicker}</div><h1>${title}</h1><p>${desc}</p></div>${button}</div>`; }
 function date(t) { return new Date(t).toLocaleString('zh-CN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }); }
 const boundComposers=new WeakSet();
-const officeWorkspace = createOfficeWorkspace($('#app'), host => mountOfficePreview(host, invoke));
+const officeWorkspace = createOfficeWorkspace($('#app'), host => host.classList.contains('html-host')?mountHtmlPreview(host):mountOfficePreview(host, invoke));
 window.addEventListener('pagehide', () => officeWorkspace.dispose());
 function render() {
     pending=pendingChats.has(chatId);
@@ -73,6 +81,7 @@ function render() {
     const markup = `<div class="titlebar"></div><aside class="sidebar"><div class="brand"><span class="brand-mark"><img src="assets/logo.png" alt="WillBuddy 工具 logo"></span><div>WillBuddy<small>你的桌面工作伙伴</small></div></div><button class="new" data-action="new">${icon('plus')}<span>新建任务</span><span>⌘ N</span></button><nav class="nav">${nav.filter(n => ['home', 'feed', 'library', 'files', 'agents'].includes(n[0])).map(([id, i, title]) => `<button class="${page === id ? 'active' : ''}" data-page="${id}">${icon(i)}<span>${title}</span></button>`).join('')}<details class="more-nav" ${['tools', 'tasks', 'context'].includes(page) ? 'open' : ''}><summary>${icon('grid')}<span>更多工具</span></summary>${nav.filter(n => ['tools', 'tasks', 'context'].includes(n[0])).map(([id, i, title]) => `<button class="${page === id ? 'active' : ''}" data-page="${id}">${icon(i)}<span>${title}</span></button>`).join('')}</details></nav><div class="recent"><div class="recent-header"><span>任务 <small>${state.chats.length}</small></span><button data-action="search" aria-label="搜索任务与成果">${icon('search')}</button></div><input id="recentQuery" aria-label="筛选历史任务" placeholder="筛选任务" value="${escape(recentQuery)}"><div id="recentList">${recentRows()}</div></div><button class="profile" data-action="settings"><div class="avatar">WB</div><div>${escape(name)}<small>${escape(state.settings.model)} · 本地工作空间</small></div>${icon('settings')}</button></aside><main class="main"><header class="topbar"><div><button class="icon-button" data-action="sidebarToggle" aria-label="${sidebarCollapsed ? '展开' : '收起'}侧栏">${icon('grid')}</button><span class="topbar-title">${escape(page === 'chat' ? state.chats.find(c => c.id === chatId)?.name || '新任务' : active?.[2] || '工作台')}</span></div><div><button class="topbar-action" data-page="tasks" aria-label="查看后台任务">后台 ${(state.runJobs||[]).filter(j=>['running','cancelling'].includes(j.status)).length} 执行 · ${(state.runJobs||[]).filter(j=>j.status==='queued').length} 排队</button>${page === 'chat' ? `<button class="topbar-action" data-action="panelTab" data-id="execution">${icon('activity')}执行过程</button>` : ''}<button class="topbar-action ${sidePanel ? 'chosen' : ''}" data-action="panelToggle">${icon('file')}工作区</button><button class="status" data-action="settings"><span class="dot ${state.settings.hasKey ? 'on' : ''}"></span>${state.settings.hasKey ? escape(state.settings.model) : '连接模型'}</button></div></header><div class="workbench ${sidePanel ? 'with-panel' : ''}"><div class="workspace ${page === 'chat' ? 'conversation-space' : ''}">${content()}</div>${sidePanel ? previewPanel() : ''}</div></main>`;
     officeWorkspace.update(markup, `${page}:${chatId}`);
     if(previousComposer&&$('#prompt'))$('#prompt').replaceWith(previousComposer);
+    $('#sendImages')?.addEventListener('change',e=>sendImages=e.target.checked);
     const composer = $('#prompt');
     if(composer&&composer.value!==draft)composer.value=draft;
     if (composer&&!boundComposers.has(composer)) {
@@ -125,7 +134,7 @@ function render() {
         paintPicker();
 }
 function chatLive() { return pending || ['queued','running','cancelling'].includes(state.chats.find(c=>c.id===chatId)?.run?.status); }
-function composer() { const live=chatLive(); return `<div class="composer-dock"><div class="composer"><div id="inlinePicker" class="inline-picker" hidden role="listbox" aria-label="选择上下文或智能体"></div><div class="chips">${files.map((f, i) => `<span class="attachment-chip">${icon('file')}<button data-action="attachedPreview" data-id="${i}">${escape(f.name)}</button><button data-action="detach" data-id="${i}" aria-label="移除 ${escape(f.name)}">×</button></span>`).join('')}</div><textarea id="prompt" aria-label="任务描述" placeholder="描述你想完成的任务，@ 添加资料，/ 选择智能体" maxlength="20000"></textarea><div class="composer-tools"><div><button class="icon-button" data-action="attach" aria-label="附加本地文件">${icon('plus')}</button><button class="context-button" data-action="contextPicker">@ 资料</button><select id="agent" aria-label="选择智能体">${state.agents.map(a => `<option value="${escape(a.id)}" ${a.id === agentId ? 'selected' : ''}>${escape(a.name)}</option>`).join('') || '<option>WillBuddy 助手</option>'}</select></div><div>${live ? `<button class="send stopping" data-action="stop" aria-label="停止生成">${icon('stop')}</button>` : `<button class="send" data-action="send" aria-label="发送任务">${icon('up')}</button>`}</div></div><div class="tool-switch"><label><input id="toolMode" type="checkbox" ${toolsEnabled ? 'checked' : ''} ${live ? 'disabled' : ''}>AI 文档、浏览器与 CLI · 获准后执行</label><button data-page="tools">工具台 ↗</button></div></div><div class="hint"><span>Enter 发送 · Shift Enter 换行</span><span>附加资料将发送给所选模型</span></div></div>`; }
+function composer() { const live=chatLive(); return `<div class="composer-dock"><div class="composer"><div id="inlinePicker" class="inline-picker" hidden role="listbox" aria-label="选择上下文或智能体"></div><div class="chips">${images.map((i,n)=>`<span class="attachment-chip">图片：${escape(i.name)}<button data-action="detachImage" data-id="${n}" aria-label="移除图片 ${escape(i.name)}">×</button></span>`).join('')}${files.map((f, i) => `<span class="attachment-chip">${icon('file')}<button data-action="attachedPreview" data-id="${i}">${escape(f.name)}</button><button data-action="detach" data-id="${i}" aria-label="移除 ${escape(f.name)}">×</button></span>`).join('')}</div>${images.length?`<label class="image-send-consent"><input id="sendImages" type="checkbox" ${sendImages?'checked':''}>发送图片给当前模型（需支持视觉）</label>`:''}<textarea id="prompt" aria-label="任务描述" placeholder="描述你想完成的任务，@ 添加资料，/ 选择智能体" maxlength="20000"></textarea><div class="composer-tools"><div><button class="icon-button" data-action="attach" aria-label="附加本地文件">${icon('plus')}</button><button class="context-button" data-action="attachImage">添加图片</button><button class="context-button" data-action="imageLibrary">本机图片</button><button class="context-button" data-action="contextPicker">@ 资料</button><select id="agent" aria-label="选择智能体">${state.agents.map(a => `<option value="${escape(a.id)}" ${a.id === agentId ? 'selected' : ''}>${escape(a.name)}</option>`).join('') || '<option>WillBuddy 助手</option>'}</select></div><div>${live ? `<button class="send stopping" data-action="stop" aria-label="停止生成">${icon('stop')}</button>` : `<button class="send" data-action="send" aria-label="发送任务">${icon('up')}</button>`}</div></div><div class="tool-switch"><label><input id="toolMode" type="checkbox" ${toolsEnabled ? 'checked' : ''} ${live ? 'disabled' : ''}>智能体工具 · 文档 / 浏览器 / CLI / MCP · 获准后执行</label><button data-page="tools">工具台 ↗</button></div></div><div class="hint"><span>Enter 发送 · Shift Enter 换行</span><span>文本资料会发送；图片需勾选后发送</span></div></div>`; }
 function homeContent() { return views.homeContent(viewContext()); }
 function conversationContent() { return views.conversationContent(viewContext()); }
 function closePicker() {
@@ -209,8 +218,9 @@ function content() {
  ${commandQueue()}<div class="section-head"><h2>实际执行记录</h2><small>包含模型和手动发起的操作</small></div>${(state.executions || []).map(r => `<details class="execution" ${['running', 'pending_approval'].includes(r.status) ? 'open' : ''}><summary><span>${escape(r.tool)}</span><span class="badge">${escape(r.status)}</span><small>${date(r.time)}</small></summary><pre>${escape(JSON.stringify(r.command || r.args, null, 2))}</pre>${r.partial ? `<pre class="terminal">${escape(r.partial)}</pre>` : ''}${r.result ? `<pre class="terminal">${escape(r.tool === 'cli_execute' ? [r.result.stdout || '', r.result.stderr ? 'stderr:\n' + r.result.stderr : '', r.result.error || '', 'status: ' + r.result.status, 'exit code: ' + r.result.exitCode].join('\n') : JSON.stringify(r.result, null, 2))}</pre>` : ''}</details>`).join('') || empty('还没有执行记录', '可先打开一个网页，或授权项目目录后执行 node --version。')}</div>`;
     if (page === 'files')
         return `<div class="page">${heading('LOCAL KNOWLEDGE', '让本地知识，触手可及。', '仅列出已授权目录中的文本和代码文件。选择文件后可预览、附加到对话。', action(icon('plus') + '授权文件夹', 'folder'))}${state.folders.length ? `<div class="file-search"><select id="folderSelect" aria-label="文件夹">${state.folders.map(f => `<option value="${f.id}" ${f.id === folderId ? 'selected' : ''}>${escape(f.name)}</option>`).join('')}</select><input id="fileQuery" placeholder="按文件名搜索，按 Enter 确认" value="${escape(searchTerm)}"><button class="secondary" data-action="fileSearch">${icon('search')}搜索</button><button class="secondary" data-action="revoke" data-id="${escape(folderId)}">撤销授权</button></div><p class="description">不自动上传。单个文件最大 1 MB，每次最多附加 5 个文件。Word/PDF 可使用原 Web 工作台处理。</p>${fileResults.map((f, i) => `<div class="file-row">${icon('file')}<div>${escape(f.name)}<small>${escape(f.relative)}</small></div>${action('预览', 'previewFile', i)}${action('附加到对话', 'attachFile', i)}</div>`).join('') || empty('暂无匹配的文件', '支持 Markdown、TXT、CSV、JSON 与常见代码文件；隐藏文件和依赖目录不会列出。')}${fileTruncated ? '<p class="description">列表已达到扫描上限（300 个结果 / 5000 个目录项 / 深度 6），可选择更小的文件夹。</p>' : ''}` : empty('选择你的第一个文件夹', '通过系统窗口授予文件夹访问权限。你可以随时在这里撤销。', action('选择文件夹', 'folder', '', 'primary'))}</div>`;
+    if (page === 'agents' && capabilityTab!=='agents')return `<div class="page">${capabilityTabs(capabilityTab)}${capabilityTab==='skills'?skillsPage(state):mcpPage(state,busyMcp)}</div>`;
     if (page === 'agents')
-        return `<div class="page">${heading('YOUR AI TEAM', '为每一种工作，找到好搭档。', '为智能体配置角色与指令，开始对话时随时切换。', action(icon('plus') + '新建智能体', 'newAgent'))}<div class="cards">${state.agents.map(a => `<div class="card"><span class="tile-icon">${icon('agent')}</span><h3>${escape(a.name)}</h3><p>${escape(a.description)}</p><div class="actions">${action('开始对话', 'useAgent', a.id, 'primary')}${action('编辑', 'editAgent', a.id)}${a.id !== 'assistant' ? action('删除', 'deleteAgent', a.id) : ''}</div></div>`).join('')}</div></div>`;
+        return `<div class="page">${capabilityTabs('agents')}${heading('YOUR AI TEAM', '为每一种工作，找到好搭档。', '配置知识文档、Skills、MCP、工具和提示词，通过 ReAct 循环完成任务。', action(icon('plus') + '新建智能体', 'newAgent'))}<div class="cards">${state.agents.map(a => `<div class="card"><span class="tile-icon">${icon('agent')}</span><h3>${escape(a.name)}</h3><p>${escape(a.description)}</p><small>${(a.knowledge||[]).length} 份知识 · ${(a.skills||[]).length+(a.skillIds||[]).length} 项技能 · ${(a.mcp||[]).length+(a.mcpIds||[]).length} 个 MCP · ReAct ${a.maxSteps||8} 轮</small><div class="actions">${action('开始对话', 'useAgent', a.id, 'primary')}${action('编辑', 'editAgent', a.id)}${a.id !== 'assistant' ? action('删除', 'deleteAgent', a.id) : ''}</div></div>`).join('')}</div></div>`;
     if (page === 'tasks')
         return `<div class="page">${heading('MISSION CONTROL', '把重复的工作，交给自动化。', '任务结果自动归入成果中心；执行失败可查看原因并手动重试。', action(icon('plus') + '新建任务', 'newTask'))}<div class="banner">每日任务从创建或启用时间起，每隔一天执行一次。应用必须运行，电脑休眠或退出时不执行；恢复后补执行一次。任务仅调用模型，不具备联网、发信或文件操作能力。</div><div class="toolbar">${action('刷新状态', 'refresh')}${action('打开本地 Office 执行器 ↗', 'runner')}</div><br>${views.runQueue({state,action,date,statusNames})}${state.tasks.length ? `<div class="cards">${state.tasks.map(t => `<div class="card"><span class="badge">${escape(({ ready: '待执行', done: '已完成', ...statusNames })[t.status] || t.status)}</span><h3>${escape(t.name)}</h3><p>${escape(t.prompt.slice(0, 160))}</p><div class="meta">${t.enabled ? '每日执行 · 下次 ' + date(t.nextRun) : '仅手动运行'}</div>${t.error ? `<p class="task-error">${escape(t.error)}</p>` : ''}<div class="actions">${!['queued','running','cancelling'].includes(t.status) ? action('立即运行', 'runTask', t.id, 'primary') : action('停止任务', 'cancelTask', t.id, 'danger')}${t.result ? action('查看结果', 'taskResult', t.id) : ''}${!['queued','running','cancelling'].includes(t.status) ? action(t.enabled ? '暂停定时' : '开启每日', 'toggleTask', t.id) + action('删除', 'deleteTask', t.id) : ''}</div></div>`).join('')}</div>` : empty('从一个小任务开始', '例如：根据固定提示词生成每日写作练习。真实数据需要在提示中提供。', action('创建任务', 'newTask', '', 'primary'))}</div>`;
     if (page === 'library')
@@ -223,6 +233,7 @@ function content() {
 }
 function modal(title, body, submit, handler) {
     const d = $('#modal');
+    d.onclick=null;
     d.innerHTML = `<form method="dialog"><header><h2>${escape(title)}</h2><button class="icon-button" value="cancel" aria-label="关闭">${icon('close')}</button></header>${body}<footer><button value="cancel" class="secondary">关闭</button>${submit ? `<button type="button" id="modalSubmit" class="primary">${submit}</button>` : ''}</footer></form>`;
     if (!d.open)
         d.showModal();
@@ -266,23 +277,23 @@ async function send() {
     }
     const prompt = draft;
     const id = chatId || crypto.randomUUID();
-    const selected = [...files];
+    const selected = [...files], selectedImages=[...images], selectedConsent=sendImages;
     chatId = id;
     page = 'chat';
     pendingChats.add(id); pending = true;
     draft = '';
-    files = [];
+    files = [];images=[];sendImages=false;
     if (!state.chats.some(c => c.id === id))
-        state.chats.unshift({ id, name: prompt.slice(0, 36), messages: [] });
-    state.chats.find(c => c.id === id).messages.push({ role: 'user', content: prompt });
+        state.chats.unshift({ id, agentId, name: prompt.slice(0, 36), messages: [] });
+    state.chats.find(c => c.id === id).messages.push({ role: 'user', content: prompt,images:selectedImages,imagesSent:selectedConsent });
     render();
     try {
-        applyState(await invoke('chat', { id, requestId:crypto.randomUUID(), prompt, agentId, toolsEnabled, files: selected.map(({ folderId, relative }) => ({ folderId, relative })) }));
+        applyState(await invoke('chat', { id, requestId:crypto.randomUUID(), prompt, agentId, toolsEnabled,images:selectedImages.map(i=>i.id),sendImages:selectedConsent, files: selected.map(({ folderId, relative }) => ({ folderId, relative })) }));
     }
     catch (e) {
         toast(e.message);
         applyState(await invoke('state'));
-        if(chatId===id){draft = prompt;files = selected;}
+        if(chatId===id){draft = prompt;files = selected;images=selectedImages;sendImages=selectedConsent;}
     }
     finally {
         pendingChats.delete(id); pending = pendingChats.has(chatId);
@@ -332,6 +343,7 @@ async function handle(actionId, id) {
         render();
         return;
     }
+    if(actionId==='previewInteractive'){previewHtml=true;previewSource=false;previewInteractive=!previewInteractive;render();return;}
     if (actionId === 'previewHtml') {
         previewHtml = !previewHtml;
         previewSource = false;
@@ -542,7 +554,7 @@ async function handle(actionId, id) {
     if (actionId === 'new') {
         switchChat('');
         draft = '';
-        files = [];
+        files = [];images=[];sendImages=false;
         page = 'home';
         render();
         return;
@@ -574,6 +586,19 @@ async function handle(actionId, id) {
         searchTerm = $('#fileQuery').value;
         return loadFiles();
     }
+    if(actionId==='attachImage'){
+        if(images.length>=3)throw Error('每次最多3张图片');
+        const scope=chatId,presentPage=page,row=await invoke('imageImport');
+        applyState(await invoke('state'));
+        if(row&&scope===chatId&&presentPage===page){images.push(row);sendImages=false;}else if(row)toast('图片已保存在本机图片库，可按需附加');render();return;
+    }
+    if(actionId==='detachImage'){images.splice(Number(id),1);sendImages=false;render();return;}
+    if(actionId==='imageLibrary'){
+        applyState(await invoke('state'));
+        modal('本机图片', '<p>选择附加图片后，默认仅本机保存；发送像素需勾选输入框中的选项。历史消息引用的图片不能在此移除。</p>'+(state.imageAttachments||[]).map(i=>`<div class="file-row"><div>${escape(i.name)}<small>${i.width} × ${i.height}</small></div><button type="button" data-action="imageAttachStored" data-id="${escape(i.id)}">附加</button><button type="button" data-action="imageRemove" data-id="${escape(i.id)}">移除未使用图片</button></div>`).join(''));return;
+    }
+    if(actionId==='imageAttachStored'){if(images.length>=3)throw Error('每次最多3张图片');const i=(state.imageAttachments||[]).find(i=>i.id===id);if(i&&!images.some(i=>i.id===id))images.push(i);sendImages=false;$('#modal').close();render();return;}
+    if(actionId==='imageRemove'){await update('imageRemove',{id});images=images.filter(i=>i.id!==id);$('#modal').close();return;}
     if (actionId === 'attach') {
         await updatePicker('@');
         $('#prompt')?.focus();
@@ -585,7 +610,8 @@ async function handle(actionId, id) {
         return;
     }
     if (actionId === 'previewFile') {
-        const f = await invoke('readFile', fileResults[Number(id)]);
+        const f = await invoke('previewFile', fileResults[Number(id)]);
+        if(f.truncated)toast('文本预览已截断；HTML文件使用完整预览');
         openPreview({ id: 'file:' + f.folderId + ':' + f.relative, name: f.name, text: f.text, kind: 'file' });
         return;
     }
@@ -607,17 +633,26 @@ async function handle(actionId, id) {
         $('#prompt')?.focus();
         return;
     }
+    if(actionId==='capabilityTab'){capabilityTab=id;render();return;}
+    if(actionId==='uploadSkill'){const out=await invoke('skillImport');applyState(out.state);render();if(out.imported)toast('技能已上传，可在智能体中绑定');return;}
+    if(actionId==='inspectSkill'){const out=await invoke('skillRead',{id});modal(out.name,`<p>${escape(out.description)}</p><pre class="skill-source">${escape(out.text)}</pre><h3>资源文件</h3>${out.files.map(f=>`<p>${escape(f.path)} · ${f.bytes} 字节</p>`).join('')}`);return;}
+    if(actionId==='toggleSkill'||actionId==='removeSkill'){const item=(state.skillPackages||[]).find(s=>s.id===id);applyState(await invoke('skillUpdate',{id,...(actionId==='removeSkill'?{remove:true}:{enabled:!item.enabled})}));render();return;}
+    if(actionId==='newMcp'||actionId==='editMcp'){const c=(state.mcpConnections||[]).find(c=>c.id===id)||{};modal(c.id?'配置 MCP 连接':'添加 MCP 连接',input('连接名称','name',c.name)+input('服务地址（Streamable HTTP）','url',c.url||'','url')+`<label>简介<input name="description" maxlength="200" value="${escape(c.description||'')}"></label><label class="check"><input type="checkbox" name="enabled" ${c.enabled===false?'':'checked'}>启用连接</label><p>支持HTTPS或本机HTTP；暂不支持密钥、OAuth或stdio。保存不会联网，测试只发现目录，不调用业务工具。</p>`,'保存',async f=>{const out=await invoke('mcpConnection',{id:c.id,name:f.get('name'),url:f.get('url'),description:f.get('description'),enabled:f.has('enabled')});applyState(out.state);render();});return;}
+    if(actionId==='removeMcp'){const out=await invoke('mcpConnection',{id,remove:true});applyState(out.state);render();return;}
+    if(actionId==='cancelMcpTest'){await invoke('mcpCancelTest',{id});return;}
+    if(actionId==='testMcp'){busyMcp.add(id);render();try{const out=await invoke('mcpTest',{id});applyState(out.state);toast('已发现 '+out.result.count+' 项工具');}finally{busyMcp.delete(id);applyState(await invoke('state'));render();}return;}
     if (actionId === 'newAgent' || actionId === 'editAgent') {
         const a = state.agents.find(a => a.id === id) || {};
-        modal(a.id ? '编辑智能体' : '创建智能体', input('名称', 'name', a.name) + input('简介', 'description', a.description) + area('角色指令', 'prompt', a.prompt), '保存', async (f) => update('agent', { ...Object.fromEntries(f), id: a.id }));
+        modal(a.id ? '编辑智能体' : '创建智能体', input('名称', 'name', a.name) + input('简介', 'description', a.description) + area('角色指令', 'prompt', a.prompt) + agentEditor(a,state.documents||[],state), '保存', async (f) => update('agent', {name:f.get('name'),description:f.get('description'),prompt:f.get('prompt'),...readAgentEditor(f,$('#modal')),id:a.id}));
+        bindAgentEditor($('#modal'),{uploadSkill:async()=>{const out=await invoke('skillImport');applyState(out.state);return out;},saveMcp:async p=>{const out=await invoke('mcpConnection',p);applyState(out.state);return out;},onError:toast});
         return;
     }
     if (actionId === 'useAgent') {
-        agentId = id;
         switchChat('');
+        agentId = id;
         page = 'home';
         draft = '';
-        files = [];
+        files = [];images=[];sendImages=false;
         render();
         return;
     }
