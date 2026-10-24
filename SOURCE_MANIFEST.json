@@ -4,7 +4,7 @@
   "version": "0.22.0",
   "packaged_date": "2026-10-24",
   "provenance": "Complete validated source snapshot; Git commits and deployment are tracked separately",
-  "base_source_commit_sha": "ecc5dd81061b5c28999120075d06884a2496114c",
+  "base_source_commit_sha": "bd67c8f348520cc70d70bea496b9f5d74102a995",
   "release_status": {
     "schema_version": 2,
     "brand": "WillBuddy",
@@ -209,8 +209,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 20330,
-      "sha256": "4d03d03bcdc6d1690867ba4353a4a599f3124ebe0b74a7e0598d544096d278aa"
+      "bytes": 9598,
+      "sha256": "6aa7154c945c740ecf76b5999e60e6325df3ccc85a939ff7e8a1770ef358e33c"
     },
     {
       "path": "RELEASE_STATUS.json",
@@ -248,14 +248,14 @@
       "sha256": "59c0e46d71babaec52ab65edce182d94433e18e15a42517675af0fb0d33b7098"
     },
     {
-      "path": "app/api/chat/route.ts",
-      "bytes": 917,
-      "sha256": "06fadc4f778d3dfaf31da5a5cdaefee516175a4fe6cb044f3d11b688a20450c8"
-    },
-    {
       "path": "app/api/chat-export/route.ts",
       "bytes": 1490,
       "sha256": "8c50a3e035aa71966edcdc128c68a556bbb08b6617c4669338236058099d2c42"
+    },
+    {
+      "path": "app/api/chat/route.ts",
+      "bytes": 917,
+      "sha256": "06fadc4f778d3dfaf31da5a5cdaefee516175a4fe6cb044f3d11b688a20450c8"
     },
     {
       "path": "app/api/data/route.ts",
@@ -371,6 +371,11 @@
       "path": "cloudflare-env.d.ts",
       "bytes": 99,
       "sha256": "8b0eca84aa3364cc7ccc43cc3af6beb88dd34ebd410de08690bf094ce39fbcb0"
+    },
+    {
+      "path": "components.json",
+      "bytes": 420,
+      "sha256": "31f4ca67a4a62572571003d3d5aac85ee6fbfca67a192924bac6b168d95e98fd"
     },
     {
       "path": "components/ui/accordion.tsx",
@@ -678,11 +683,6 @@
       "sha256": "a0784eb77831a799fad7991df4f1b666f876201565a80175e1aa68733574a2e4"
     },
     {
-      "path": "components.json",
-      "bytes": 420,
-      "sha256": "31f4ca67a4a62572571003d3d5aac85ee6fbfca67a192924bac6b168d95e98fd"
-    },
-    {
       "path": "db/index.ts",
       "bytes": 423,
       "sha256": "dc7610b00b918e0ffff1360a63626f16655ced3064b2eaf96095a4101fb14bcd"
@@ -694,8 +694,8 @@
     },
     {
       "path": "desktop/README.md",
-      "bytes": 20451,
-      "sha256": "22b84a850526a22bb39b800681a1d695feac1d8b142b48fda1255109e4cca9cb"
+      "bytes": 5038,
+      "sha256": "e866cf906b8bccf905cadf7fb1e5827eeca6045edace7c26e8951447365d4aef"
     },
     {
       "path": "desktop/assets/app.icns",
@@ -743,6 +743,11 @@
       "sha256": "5f5b909647d1977e4e534d48cb630c03bf874a61c53068695f871e933532512e"
     },
     {
+      "path": "desktop/main.mjs",
+      "bytes": 18345,
+      "sha256": "ee060347ca8077371278bdac508f6c7664d51f1c61920b238b8904aa6cbf1057"
+    },
+    {
       "path": "desktop/main/approval.mjs",
       "bytes": 3473,
       "sha256": "9a70a8e41d659665828d20f9eba7a6040dffbf280ebf71559d66a19d8ad00727"
@@ -786,11 +791,6 @@
       "path": "desktop/main/skill-files.mjs",
       "bytes": 853,
       "sha256": "2814b0602e98b7c90b78f4a593b0050c48a4898c856cf9d993b182c584a54896"
-    },
-    {
-      "path": "desktop/main.mjs",
-      "bytes": 18345,
-      "sha256": "ee060347ca8077371278bdac508f6c7664d51f1c61920b238b8904aa6cbf1057"
     },
     {
       "path": "desktop/package-lock.json",
@@ -1463,6 +1463,11 @@
       "sha256": "adaaef6766d47e0e55b2d7d49612cfc252fd4cc61733b875d06e9d29e94d7656"
     },
     {
+      "path": "docs/DOWNLOADS.md",
+      "bytes": 6064,
+      "sha256": "eb119d8242090d86c47e9c8ae20eb8f465a37cbbef0bb4260d2a8ea283f89f14"
+    },
+    {
       "path": "docs/DURABLE_COMMANDS.md",
       "bytes": 5456,
       "sha256": "5cea20210918e18561432585f5a2d442180a023fe4ca27d1753acd888185d917"
@@ -1723,6 +1728,11 @@
       "sha256": "802c74d804c475f9f3666400b19d2809cbcc33d501150f3d1e2d4e3ebeb89db9"
     },
     {
+      "path": "drizzle.config.ts",
+      "bytes": 148,
+      "sha256": "af081f7384aaeb0082cf422e29f139d137ca2f6a57c69b2c37b9fb1f8479867b"
+    },
+    {
       "path": "drizzle/0000_yellow_silver_samurai.sql",
       "bytes": 1364,
       "sha256": "9687fb913d667e36585e2e666fd2e5b16bde576bd3ef675a5d94c59ee854f821"
@@ -1761,11 +1771,6 @@
       "path": "drizzle/meta/_journal.json",
       "bytes": 641,
       "sha256": "a73c8d1a16447598b72d2cc8c88fd9bb9ded35bb9bfebb1e43601281cc7e34e0"
-    },
-    {
-      "path": "drizzle.config.ts",
-      "bytes": 148,
-      "sha256": "af081f7384aaeb0082cf422e29f139d137ca2f6a57c69b2c37b9fb1f8479867b"
     },
     {
       "path": "eslint.config.mjs",
@@ -2508,6 +2513,11 @@
       "sha256": "1d5ea6fec6089153f3afa879aaee491ab952ce74082d05f79f02e2b0b1ef06e6"
     },
     {
+      "path": "vendor/genoffice-html2docx/src/generate.ts",
+      "bytes": 1240,
+      "sha256": "7d380be876299f7e30fe4327f828e4968ef069123e1401c2ef412bf956e9563d"
+    },
+    {
       "path": "vendor/genoffice-html2docx/src/generate/bookmarks.ts",
       "bytes": 3712,
       "sha256": "8168e55c60a18dd901746ee2b18d7f85e1c9c0e1194c4c6c145f7bedf610070e"
@@ -2558,11 +2568,6 @@
       "sha256": "d81fa78c0a4735e3fb6a5481d35487c65adf94b7ff12009c5a123faa81fce3de"
     },
     {
-      "path": "vendor/genoffice-html2docx/src/generate.ts",
-      "bytes": 1240,
-      "sha256": "7d380be876299f7e30fe4327f828e4968ef069123e1401c2ef412bf956e9563d"
-    },
-    {
       "path": "vendor/genoffice-html2docx/src/index.ts",
       "bytes": 491,
       "sha256": "bd4bd0b6d9d713cea778930d1ed5172bd33930c5cde3c586fc5eecf98c278699"
@@ -2587,5 +2592,6 @@
       "bytes": 2240,
       "sha256": "4b9d8a6b14fd155328847bc6cd063c6bf44c58c64de8d46911cdf0ede611e367"
     }
-  ]
+  ],
+  "documentation_revision": "2026-10-24: product README; history on downloads; runtime unchanged"
 }
