@@ -17,6 +17,7 @@ test(
     await store.load();
     store.data.documents = [
       { id: "doc", name: "合成采购规则", format: "md", revision: 1 },
+      { id: "doc2", name: "合成资质政策", format: "md", revision: 1 },
     ];
     const view = () => structuredClone(store.data),
       workspace = createWorkspaceService({ store, active: new Map(), view }),
@@ -75,7 +76,12 @@ test(
       await modal.locator('[name="name"]').fill("采购专员");
       await modal.locator('[name="description"]').fill("使用实际知识和工具");
       await modal.locator('[name="prompt"]').fill("先核对预算再验收报价");
-      await modal.locator('[name="knowledge"]').check();
+      assert.match(
+        await modal.locator(".agent-capabilities").innerText(),
+        /跨已绑定文档检索/,
+      );
+      for (const checkbox of await modal.locator('[name="knowledge"]').all())
+        await checkbox.check();
       await modal.getByText("手工技能 / 原有配置", { exact: true }).click();
       await modal
         .getByRole("button", { name: "添加技能", exact: true })
@@ -100,7 +106,7 @@ test(
       assert.equal(store.data.agents.at(-1).skills[0].name, "采购验收");
       assert.deepEqual(store.data.agents.at(-1).tools, ["document_create"]);
       assert.equal(store.data.agents.at(-1).maxSteps, 7);
-      assert.deepEqual(store.data.agents.at(-1).knowledge, ["doc"]);
+      assert.deepEqual(store.data.agents.at(-1).knowledge, ["doc", "doc2"]);
       await page.reload();
       await page.locator('[data-page="agents"]').click();
       const card = page.locator(".card").filter({
@@ -119,6 +125,7 @@ test(
       const reload = new Store(dir);
       await reload.load();
       assert.equal(reload.data.agents.at(-1).maxSteps, 7);
+      assert.deepEqual(reload.data.agents.at(-1).knowledge, ["doc", "doc2"]);
       assert.deepEqual(errors, []);
       console.log(
         "PASS production UI → real workspace service → persisted/reloaded agent registry; native IPC fixture. MCP/model execution independently real HTTP fixture-tested.",

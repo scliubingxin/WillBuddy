@@ -1,3 +1,6 @@
+import { sharedKnowledgeIndex } from "../../services/knowledge-index.mjs";
+import { fixtureSecrets } from "../helpers/mcp-secrets.mjs";
+import { mcpViews } from "../../services/mcp-access.mjs";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createServer } from "node:http";
@@ -6,6 +9,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright-core";
+import { ToolRuntime } from "../../runtime/tools.mjs";
 import { Store } from "../../core.mjs";
 import office from "../../runtime/vendor/office.cjs";
 import {
@@ -32,34 +36,66 @@ test(
           "procurement-check/references/rules.md": Buffer.from("预算10000元"),
         }),
       );
-    const view = () =>
-        structuredClone({
-          ...store.data,
+    const token = "synthetic-ui-bearer-123456789",
+      secrets = fixtureSecrets().codec,
+      wire = [];
+    const view = () => {
+        const { knowledgeIndexes, ...publicData } = store.data;
+        return structuredClone({
+          ...publicData,
+          mcpConnections: mcpViews(store.data),
           skillPackages: skillViews(store.data),
-        }),
+        });
+      },
       approvals = [],
       library = createCapabilityLibrary({
         store,
+        secrets,
         approve: async (t) => {
           approvals.push(t);
           return true;
         },
       }),
       workspace = createWorkspaceService({ store, active: new Map(), view });
+    const runtime = new ToolRuntime({
+      store,
+      browser: {},
+      approve: async (t) => {
+        approvals.push(t);
+        return true;
+      },
+    });
+    await runtime.documents.importFile(
+      "合成采购规则",
+      "md",
+      Buffer.from("采购预算：10000元"),
+    );
+    await runtime.documents.importFile(
+      "合成合规规则",
+      "md",
+      Buffer.from("供应商资质：ISO9001"),
+    );
+    let retrieval, reusedRetrieval;
     let modelCount = 0,
       mcpCalls = 0,
       browser;
     const server = createServer(async (req, res) => {
       if (req.url === "/mcp" || req.url === "/chat/completions") {
+        if (req.url === "/mcp") {
+          wire.push({ method: req.method, auth: req.headers.authorization });
+          assert.equal(req.headers.authorization, "Bearer " + token);
+        } else assert.ok(!(req.headers.authorization || "").includes(token));
         if (req.method === "DELETE") {
           res.writeHead(204).end();
           return;
         }
         let body = "";
         for await (const c of req) body += c;
+        assert.ok(!body.includes(token));
         const p = JSON.parse(body);
         res.setHeader("Content-Type", "application/json");
         if (req.url === "/mcp") {
+          res.setHeader("Mcp-Session-Id", "synthetic-ui-session");
           if (p.method === "notifications/initialized") {
             res.writeHead(202).end();
             return;
@@ -81,12 +117,18 @@ test(
                   { content: [{ type: "text", text: "报价8000元" }] });
           res.end(JSON.stringify({ jsonrpc: "2.0", id: p.id, result }));
         } else {
+          if (modelCount === 3)
+            retrieval = JSON.parse(p.messages.at(-1).content);
+          if (modelCount === 4)
+            reusedRetrieval = JSON.parse(p.messages.at(-1).content);
           const steps = [
               ["skill_read", { name: "procurement-check" }],
               [
                 "skill_resource",
                 { name: "procurement-check", path: "references/rules.md" },
               ],
+              ["knowledge_search", { query: "核对采购预算和供应商资质" }],
+              ["knowledge_search", { query: "预算资质" }],
               ["mcp_0_quote", {}],
             ],
             action = steps[modelCount++];
@@ -150,6 +192,7 @@ test(
     };
     const conversation = createConversationService({
       store,
+      secrets,
       active: new Map(),
       key: () => "",
       view,
@@ -157,9 +200,7 @@ test(
         approvals.push(t);
         return true;
       },
-      executeTool: () => {
-        throw Error("must use bound registries");
-      },
+      executeTool: (...args) => runtime.execute(...args),
     });
     try {
       browser = await chromium.launch({
@@ -172,6 +213,9 @@ test(
         errors = [];
       page.on("pageerror", (e) => errors.push(e.message));
       await page.exposeFunction("hostState", view);
+      await page.exposeFunction("hostClearIndex", () =>
+        sharedKnowledgeIndex(store).clear(),
+      );
       let uploads = 0;
       await page.exposeFunction("hostSkillImport", async () => ({
         imported: await library.importSkill(
@@ -205,6 +249,7 @@ test(
         if (window !== top) return;
         window.actwill = {
           state: () => window.hostState(),
+          clearKnowledgeIndex: () => window.hostClearIndex(),
           skillImport: () => window.hostSkillImport(),
           skillRead: (p) => window.hostSkillRead(p),
           mcpConnection: (p) => window.hostMcp(p),
@@ -237,8 +282,19 @@ test(
       const modal = page.locator("#modal");
       await modal.locator("[name=name]").fill("本机采购报价");
       await modal.locator("[name=url]").fill(base + "/mcp");
+      await modal.locator("[name=auth]").selectOption("bearer");
+      await modal.locator("[name=token]").fill(token);
       await modal.locator("#modalSubmit").click();
       await modal.waitFor({ state: "hidden" });
+      assert.equal(wire.length, 0);
+      assert.equal(await modal.locator("[name=token]").inputValue(), "");
+      await page.getByRole("button", { name: "配置", exact: true }).click();
+      assert.equal(await modal.locator("[name=token]").inputValue(), "");
+      assert.match(
+        await modal.locator("[name=token]").getAttribute("placeholder"),
+        /已保存/,
+      );
+      await modal.locator("button[aria-label=关闭]").click();
       await page.getByRole("button", { name: "测试连接", exact: true }).click();
       await page.getByText("上次发现 1 项工具", { exact: false }).waitFor();
       assert.equal(mcpCalls, 0);
@@ -265,10 +321,18 @@ test(
       await modal
         .locator("[name=registryMcpUrl]")
         .fill(base + "/mcp-secondary");
+      await modal.locator("[name=registryMcpauth]").selectOption("bearer");
+      await modal
+        .locator("[name=registryMcptoken]")
+        .fill("synthetic-secondary-bearer-123");
       await modal
         .getByRole("button", { name: "保存连接并选中", exact: true })
         .click();
       await modal.getByText("备用报价", { exact: true }).waitFor();
+      assert.equal(
+        await modal.locator("[name=registryMcptoken]").inputValue(),
+        "",
+      );
       assert.equal(await modal.locator("[name=mcpId]:checked").count(), 2);
       const secondary = store.data.mcpConnections.find(
         (c) => c.name === "备用报价",
@@ -276,6 +340,8 @@ test(
       await modal
         .locator('[name=mcpId][value="' + secondary.id + '"]')
         .uncheck();
+      for (const box of await modal.locator("[name=knowledge]").all())
+        await box.check();
       for (const field of await modal.locator("[name=agentTool]").all())
         await field.uncheck();
       await modal.locator("#modalSubmit").click();
@@ -303,8 +369,55 @@ test(
         })
         .first()
         .waitFor();
-      assert.equal(modelCount, 4);
+      assert.equal(modelCount, 6);
+      assert.equal(retrieval.index.built, 2);
+      assert.equal(reusedRetrieval.index.reused, 2);
+      assert.equal(reusedRetrieval.index.built, 0);
+      assert.equal(view().knowledgeIndexes, undefined);
+      assert.equal(retrieval.sources.length, 2);
+      assert.equal(new Set(retrieval.matches.map((m) => m.source.id)).size, 2);
+      assert.ok(retrieval.matches.some((m) => m.text.includes("ISO9001")));
+      assert.ok(
+        retrieval.matches.every(
+          (m) => m.line >= 1 && m.source.sha256.length === 64,
+        ),
+      );
       assert.equal(mcpCalls, 1);
+      const evidence = page.getByRole("region", { name: "本轮知识检索依据" });
+      // section is exposed as a named region by aria-label.
+      await evidence.waitFor();
+      assert.equal(await evidence.locator("details").count(), 4);
+      const beforeExpand = approvals.length;
+      await evidence.locator("summary").first().click();
+      await page.getByRole("button", { name: "收起侧栏", exact: true }).click();
+      assert.equal(await evidence.locator("details[open]").count(), 1);
+      assert.equal(approvals.length, beforeExpand);
+      assert.ok(
+        (await evidence.locator("pre").first().textContent()).length > 0,
+      );
+      assert.match(await evidence.textContent(), /与当前文档版本一致/);
+      await page.reload();
+      await page.locator("[data-action=openChat]").first().click();
+      await page.getByRole("region", { name: "本轮知识检索依据" }).waitFor();
+      assert.equal(modelCount, 6);
+      assert.equal(mcpCalls, 1);
+      const budgetDoc = store.data.documents.find(
+        (d) => d.name === "合成采购规则",
+      );
+      const edited = await runtime.execute("document_edit", {
+        id: budgetDoc.id,
+        expectedRevision: 1,
+        replacements: [{ find: "10000", replace: "9000" }],
+      });
+      assert.equal(edited.status, "succeeded");
+      await page.reload();
+      await page.locator("[data-action=openChat]").first().click();
+      const stale = page.getByRole("region", { name: "本轮知识检索依据" });
+      await stale.waitFor();
+      assert.match(await stale.textContent(), /来源已更新/);
+      assert.match(await stale.textContent(), /10000/);
+      assert.ok(!(await stale.textContent()).includes("9000"));
+      assert.equal(modelCount, 6);
       const restored = new Store(dir);
       await restored.load();
       assert.equal(
@@ -317,9 +430,35 @@ test(
         "quote",
       );
       assert.ok(!JSON.stringify(view().skillPackages).includes(source));
+      assert.ok(!JSON.stringify(view()).includes(token));
+      assert.ok(!(await readFile(store.file, "utf8")).includes(token));
+      assert.ok(wire.length >= 9);
+      assert.ok(wire.every((r) => r.auth === "Bearer " + token));
+      assert.equal(restored.data.knowledgeIndexes.length, 2);
+      const approvedDocs = [];
+      for (const d of restored.data.documents) {
+        const out = await runtime.execute("document_read", { id: d.id });
+        approvedDocs.push(out.document);
+      }
+      const afterRestart = await sharedKnowledgeIndex(restored).searchApproved({
+        documents: approvedDocs,
+        query: "预算",
+        check: () => {},
+      });
+      // Budget was edited above; its old index must rebuild, the other must reuse.
+      assert.equal(afterRestart.index.built, 1);
+      assert.equal(afterRestart.index.reused, 1);
+      await page.locator("[data-page=agents]").click();
+      await page
+        .getByRole("button", { name: "清除检索索引", exact: true })
+        .click();
+      await page.getByText("已清除派生检索索引", { exact: false }).waitFor();
+      assert.equal(store.data.knowledgeIndexes, undefined);
+      assert.equal(store.data.documents.length, 2);
+      assert.equal(modelCount, 6);
       assert.deepEqual(errors, []);
       console.log(
-        "PASS real ZIP/service/store + production UI import/configure/probe/bind/reload + four real HTTP model requests/MCP tool; native picker/IPC/approvals and model semantics fixtures.",
+        "PASS real ZIP/service/store + production UI import/configure/probe/bind/reload + six real HTTP model requests/persisted index build+reuse/approved multi-document retrieval/authenticated MCP tool; native picker/IPC/approvals and model semantics fixtures.",
       );
     } finally {
       library.close();
