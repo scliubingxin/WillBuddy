@@ -27,7 +27,7 @@ const settle=()=>new Promise(r=>setTimeout(r,20));
 const click=async sel=>{assert.ok(w.document.querySelector(sel),sel);w.document.querySelector(sel).click();await settle();};
 const fill=(sel,value)=>{w.document.querySelector(sel).value=value;w.document.querySelector(sel).dispatchEvent(new w.Event('input',{bubbles:true}));};
 await settle();assert.match(w.document.body.textContent,/想一起完成什么/);
-await click('[data-action="settings"]');fill('[name="name"]','验收工作台');await click('#modalSubmit');assert.equal(calls.at(-1).name,'验收工作台');
+await click('[data-action="settings"]');await click('[data-action="legacySettings"]');fill('[name="name"]','验收工作台');await click('#modalSubmit');assert.equal(calls.at(-1).name,'验收工作台');
 await click('[data-page="files"]');await click('[data-action="folder"]');assert.match(w.document.body.textContent,/report.md/);
 await click('[data-action="attachFile"]');assert.match(w.document.querySelector('.chips').textContent,/report.md/);
 fill('#prompt','整理本地资料');await click('[data-action="send"]');assert.match(w.document.body.textContent,/真实界面测试/);assert.equal(w.pwned,undefined);assert.equal(calls.at(-1).files[0].relative,'report.md');assert.ok(!('text' in calls.at(-1).files[0]));
