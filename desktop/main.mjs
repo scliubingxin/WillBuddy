@@ -216,7 +216,7 @@ else {
             const result=await dialog.showOpenDialog(win,{title:'上传文档或ZIP（发送时正文交给当前模型）',properties:['openFile'],filters:[{name:'文档 / ZIP',extensions:['zip','docx','xlsx','pptx','md','txt','csv','json','html','js','ts','py','yaml','yml','css','sql','java','go','rs','sh']}]});
             if(result.canceled)return false;
             if(result.filePaths?.length!==1)throw Error('每次选择一个文档或ZIP');
-            const source=result.filePaths[0],bytes=await readDocumentSource(source,{noFollow:true});
+            const source=result.filePaths[0],bytes=await readDocumentSource(source,{noFollow:true,maxBytes:source.toLowerCase().endsWith(".zip")?32*1024*1024:4*1024*1024,label:source.toLowerCase().endsWith(".zip")?"ZIP压缩包":"文档"});
             const parsed=parseChatUpload(path.basename(source),bytes),documents=await toolRuntime.documents.importBatch(parsed.items);
             return {attachments:documents.map((d,i)=>({documentId:d.id,revision:d.revision,sha256:d.sha256,name:d.name,text:d.text,archive:parsed.items[i].archive,entryPath:parsed.items[i].entryPath})),skipped:parsed.skipped};
         });
