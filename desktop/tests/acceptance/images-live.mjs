@@ -117,7 +117,7 @@ test(
         };
       });
       await page.goto(base + "/index.html");
-      await page.getByRole("button", { name: "添加图片", exact: true }).click();
+      await page.locator("[data-composer-trigger=add]").click();await page.getByRole("button", { name: "添加图片", exact: true }).click();
       await page.locator("#sendImages").waitFor();
       assert.equal(await page.locator("#sendImages").isChecked(), false);
       assert.equal(requests.length, 0);

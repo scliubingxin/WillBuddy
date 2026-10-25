@@ -112,11 +112,12 @@ test(
         };
       });
       await page.goto(base + "/index.html");
+      await page.locator('[data-composer-trigger=add]').click();
       await page.getByRole('button',{name:'上传问答附件',exact:true}).click();
       await page.locator('.attachment-chip').waitFor();
       assert.match(await page.locator('.attachment-chip').textContent(),/合成预算/);
       assert.equal(requests.length,0);
-      await page.locator('#toolMode').uncheck();
+      await page.locator('[data-composer-trigger=add]').click();await page.locator('#toolMode').uncheck();await page.locator('[data-composer-trigger=add]').press('Escape');
       await page.locator('#prompt').fill('附件预算是多少？');
       await page.getByRole('button',{name:'发送任务',exact:true}).click();
       await page.locator('.message.assistant').waitFor();
