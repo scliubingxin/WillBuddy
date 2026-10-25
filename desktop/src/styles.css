@@ -30,3 +30,12 @@ html,body,#app,.main,.workspace,.sidebar,.topbar{background-color:#fff}input[typ
 .word-structure-controls{display:flex;gap:8px;margin:8px 0}.word-structure-controls button{font-size:12px;padding:5px 8px;background:#fff;color:#0078CB;border:1px solid #d3e5f4;border-radius:6px}.word-run-paragraph textarea{width:100%;min-height:70px;background:#fff;border:1px solid #0078CB;border-radius:6px;padding:8px}.word-deleted>p{text-decoration:line-through;opacity:.5}.word-deleted{border-left:3px solid #c74747;padding-left:8px}
 
 .office-host{height:70vh;min-height:480px;width:100%}.office-frame{width:100%;height:100%;border:0;background:#fff}.document-preview:has(.office-host){max-width:none;padding:0}
+
+.knowledge-evidence{margin:18px 0;padding:14px;border:1px solid #dce8f0;border-radius:12px;background:#fff;font-size:13px}
+.knowledge-evidence h4{margin:0 0 8px;color:#0078CB}.knowledge-evidence p{margin:8px 0;line-height:1.6}
+.evidence-search{margin:12px 0}.evidence-card{margin-top:8px;border:1px solid #dce8f0;border-radius:8px;padding:10px;background:#fff}
+.evidence-card summary{cursor:pointer;line-height:1.7;overflow-wrap:anywhere}.evidence-card summary span{display:block;color:#566675;font-size:12px}
+.evidence-card pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:320px;overflow:auto;font:inherit;line-height:1.7;border-left:3px solid #0078CB;padding:10px;background:#fff}
+.evidence-card small{display:block;overflow-wrap:anywhere}.evidence-location{color:#566675}
+
+.model-selection{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 0;border-top:1px solid #eef2f5}.model-selection label{display:flex;align-items:center;gap:6px;font-size:12px}.model-selection select{max-width:260px;border:1px solid #dde5eb;border-radius:8px;padding:6px;background:#fff;color:#0078CB}
