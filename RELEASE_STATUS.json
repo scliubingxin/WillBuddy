@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.29.0",
-  "checked_date": "2026-10-25",
+  "version": "0.30.0",
+  "checked_date": "2026-10-26",
   "source_status": "desktop_source_delivery_not_deployed",
   "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
   "desktop": {
@@ -41,7 +41,7 @@
     "chat_rich_media": "bundled opaque iframe classic script + SHA manifest; per-frame one-shot token/source; 5s/15s timeouts; anonymous CORS/no-referrer; no autoplay; unchanged-message redraw retains current media",
     "agent_capabilities": "agent-scoped knowledge IDs + lazy skill_read + builtin tool allowlist + bounded Streamable HTTP MCP + configurable ReAct; conversation runtime only",
     "html_interactive_preview": "full bounded authorized source; two opaque sandboxes; inline JS + ephemeral storage, no network/backend; actual private user sample Chromium passed",
-    "local_images": "native picker/PNG normalization adapter; bounded persisted bytes hidden from state; local offline cards; explicit current-target multimodal image_url only",
+    "local_images": "PNG/JPEG32MiB/64Mp input; host resize PNG4MiB/4096edge/16Mp;8 per turn;100 library/128MiB; explicit send; local thumbnails; image-only prompt and failure draft restore",
     "capability_library": "persistent Skill MD/ZIP resources and MCP global connector config/discovery with optional manual bearer; no script execution/OAuth/stdio",
     "knowledge_retrieval": "persistent bounded lexical prefix-postings index; current approved original text scoring; revision/fileSHA/extractedTextSHA/locale/algorithm/checksum/geometry; exact scans on index overflow, not embeddings",
     "knowledge_evidence": "trusted successful retrieval observation snapshots; run-scoped escaped text cards; revision/SHA drift labels; max12 groups/96000 serialized chars per chat; no extra read/model call",
@@ -50,14 +50,15 @@
     "chat_attachments": "native single-file picker imports private validated Office/text copy; turn-scoped current-target text Q&A without tools; version/hash and queue checks; no PDF/OCR/media upload",
     "chat_archives": "ZIP only; in-memory bounded validation/decompression and real document/text/code extraction; atomic import32 docs, skipped report; no RAR/7z/PDF/OCR/media understanding",
     "model_profiles": "20 independent endpoint/key/capability profiles; legacy retained; explicit or fast/balanced/extreme type-priority routing; per-run snapshot; real reasoning params; no hidden fallback",
-    "composer": "single input and toolbar; scoped accessible add/model menus, conditional consent, no new execution permissions"
+    "composer": "single input and toolbar; scoped accessible add/model menus, conditional consent, no new execution permissions",
+    "code_projects": "host staged complete ZIP; npm/Python manifests; explicit approved install/run commands using durable CLI queue;5min cap;not OS sandbox/daemon/cloud deployment"
   },
   "validation": {
-    "desktop_tests_passed": 310,
-    "ui_paths_with_mock_bridge": 6,
+    "desktop_tests_passed": 319,
+    "ui_paths_with_mock_bridge": 7,
     "real_cli_child_process_tested": true,
     "agent_http_fixture_to_real_cli_roundtrip_tested": true,
-    "browser_verification": "6 full real Chromium regressions; eight viewport/panel layouts, fourteen interactable popover placements, Tab/Enter/Esc/outside close/redraw focus and draft, real ZIP/model/image/SSE wire fixtures",
+    "browser_verification": "7 real Chromium;6000000pixel PNG/thumb/image-only/failure restore and real npm→Node HTTP health→stop; native bridge/approval and model semantics fixtures",
     "workspace_browser_test_passed": true,
     "packaging_tests_passed": 10,
     "workspace_test_scope": "real Chromium layout, keyboard, Markdown, preview/export; deterministic native bridge and model content",
@@ -69,7 +70,7 @@
     "theme_check": "real Chromium eight viewport/panel layouts; test-only Noto CJK font; not Mac pixel acceptance",
     "offline_bundle": {
       "official_runtime_sha256": "passed",
-      "asar_content": "108 production files including assets exact bytes",
+      "asar_content": "111 production files exact",
       "zip_integrity": "passed",
       "closed_inventory": "passed; 282 app entries + 5 extras; 14 symlinks; no residue",
       "unexpected_entry_negative": "passed even when every manifest file remains unchanged",
@@ -80,15 +81,15 @@
       "negative_tamper_check": "passed",
       "macOS_bundle_codesign_and_gatekeeper": "not_tested",
       "installer_shell_syntax": "passed",
-      "asar_files_matched": 108,
+      "asar_files_matched": 111,
       "protected_files_unchanged": 122,
       "app_entries": 282,
       "symlinks": 14,
       "macho": 15,
       "pages": 51216,
-      "app_asar_sha256": "cd817386376cdd6ebbfd5a7745496c6d76d14d5bb56a7a25a3f011109326fc4c",
-      "zip_sha256": "e0978e7402c4d0987834c8946bba8a7d853e82b871208dc60315f984f6c4575e",
-      "zip_bytes": 119742176,
+      "app_asar_sha256": "a7575e66104e6f9200ae143dcf87e958c81f75963e13e57afea358504244d6d2",
+      "zip_sha256": "1c6bf07141d7fd24e85374f06bcd2b4b3ab8b71c66a3a0bc39208f3268a1551b",
+      "zip_bytes": 119747649,
       "tamper_negative": "passed",
       "residues": {
         "before_sign": 0,
@@ -174,13 +175,11 @@
     "public_release_note": "0.28.1 release already public;0.29 source/app delivered independently, not uploaded or merged."
   },
   "github_last_published": {
-    "version": "0.28.1",
-    "branch": "willbuddy-v0.28.1-composer-fix",
-    "commit": "5593b0f45c6941c2a16f461e336f23817035c7cf",
-    "release": "https://github.com/scliubingxin/WillBuddy/releases/tag/v0.28.1-preview",
-    "main_commit": "bdd8db7115f41a150da399ffd0860fe7883f9009",
-    "main_runtime_version": "0.22.0"
+    "version": "0.29.0",
+    "main": "aea62a8c03939500dfa03173f87cfc3f32a702c7",
+    "pr": "https://github.com/scliubingxin/WillBuddy/pull/2",
+    "release": "https://github.com/scliubingxin/WillBuddy/releases/tag/v0.29.0-preview"
   },
   "documentation_policy": "product README only; version/test/limits in downloads and release pages",
-  "github_hotfix_publication": "0.28.1 completed, both public attachment downloads SHA verified;0.29 not published this turn"
+  "github_hotfix_publication": "0.29 merged/published;0.30 build-time pending PR/main/release under ongoing authorization"
 }
