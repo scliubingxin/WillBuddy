@@ -15,7 +15,7 @@ import struct
 import subprocess
 import zipfile
 import importlib.util
-from offline_bundle import clean_residue, inventory, write_archive
+from offline_bundle import clean_residue, inventory, write_archive, capture_staging_paths, verify_staging_paths
 
 ROOT=Path(__file__).resolve().parent.parent
 
@@ -51,7 +51,7 @@ def main():
     if checks.get(expected_name)!=runtime_sha:raise ValueError('Electron release checksum mismatch')
     stage=args.work_dir.resolve()
     if stage.exists():raise ValueError('choose a new, empty work directory')
-    stage.mkdir(parents=True);extracted=stage/'runtime';extracted.mkdir();extract_runtime(args.runtime,extracted)
+    stage.mkdir(parents=True,mode=0o700);extracted=stage/'runtime';extracted.mkdir();extract_runtime(args.runtime,extracted)
     app=stage/'WillBuddy.app';shutil.move(str(extracted/'Electron.app'),app)
     removed_before_sign=clean_residue(app)
     info_path=app/'Contents/Info.plist';info=plistlib.loads(info_path.read_bytes())
@@ -78,8 +78,16 @@ def main():
         helper.write_bytes(plistlib.dumps(helper_info))
     binary=app/'Contents/MacOS'/info['CFBundleExecutable'];magic,cpu=struct.unpack('<II',binary.read_bytes()[:8])
     if magic!=0xfeedfacf or cpu!=0x0100000c:raise ValueError('main executable is not arm64 Mach-O')
+    # The official unsigned archive has no resource seals. Permit only the nine
+    # precise seal paths belonging to its known bundles, never arbitrary extras.
+    seal_roots=['Contents','Contents/Frameworks/Electron Framework.framework/Versions/A',
+        *['Contents/Frameworks/'+name+'.app/Contents' for name in ['Electron Helper','Electron Helper (GPU)','Electron Helper (Plugin)','Electron Helper (Renderer)']],
+        *['Contents/Frameworks/'+name+'.framework/Versions/A' for name in ['Mantle','ReactiveObjC','Squirrel']]]
+    if any(not (app/root).is_dir() for root in seal_roots):raise ValueError('unexpected runtime bundle structure')
+    expected_paths=capture_staging_paths(app)|frozenset(root+'/_CodeSignature/CodeResources' for root in seal_roots)
     subprocess.run([str(args.signing_tool.resolve()),'sign','--entitlements-xml-file',str(ROOT/'desktop/installer/entitlements.mac.plist'),str(app)],check=True)
     removed_after_sign=clean_residue(app)
+    verify_staging_paths(app,expected_paths)
     spec=importlib.util.spec_from_file_location('macho_pages',ROOT/'scripts/verify-macho-pages.py')
     verifier=importlib.util.module_from_spec(spec);spec.loader.exec_module(verifier)
     verified_binaries=0;verified_pages=0
@@ -92,6 +100,7 @@ def main():
     app_sha=digest(resources/'app.asar')
     manifest={'product':'WillBuddy','version':version,'architecture':'arm64','minimum_macos':info.get('LSMinimumSystemVersion'),'runtime':'Electron '+electron,'runtime_sha256':runtime_sha,'app_asar_sha256':app_sha,'signature':'ad-hoc; no Developer ID or notarization','native_mac_tested':False,'signature_validation':'Mach-O hash verification; macOS resource-seal and Gatekeeper verification pending','verified_macho_binaries':verified_binaries,'verified_code_pages':verified_pages,'files':[]}
     manifest['files']=inventory(stage,app)
+    verify_staging_paths(app,expected_paths)
     manifest['archive_policy']='closed inventory; reject .BC.*, AppleDouble, case collisions, missing and extra files'
     manifest['removed_staging_residues']={'before_sign':removed_before_sign,'after_sign':removed_after_sign}
     (stage/'OFFLINE-MANIFEST.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
