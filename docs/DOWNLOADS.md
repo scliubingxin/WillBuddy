@@ -4,6 +4,8 @@
 
 这里集中提供安装入口、系统条件、版本变化和验收边界。产品介绍与使用步骤见首页，逐轮开发记录另见 [ITERATION_LOG](../ITERATION_LOG.md)。
 
+当前请以[GitHub Releases](https://github.com/scliubingxin/WillBuddy/releases)置顶版本附件为准；下表0.22固定链接作为历史下载保留。
+
 ## 下载安装
 
 | 文件 | 用途 |
@@ -111,3 +113,8 @@ f5fedb20d7d5d7e40b6604e54cf77b46f94b137b2a07876e99bae39b7751e12f  WillBuddy-v0.2
 ## 0.28.0 ZIP与多模型候选
 
 [使用方法与实际边界](ZIP_AND_MODELS.md)：ZIP解压理解支持正文；多个独立模型和真实快速/均衡/极致路由/强度参数。306核心/5相关Chromium/9打包通过，原生与模型语义夹具；arm64离线候选仍ad-hoc未公证、无Mac真机验收。本候选单独交付，未上传GitHub/Release/合并，公开链接仍旧0.22。
+
+
+## 0.28.1
+
+修复输入框上传按钮竖排、模型/工具行拥挤和ZIP误用4MiB限制。ZIP输入32MiB，正文最多32份/10万字符；未选入正文列明原因，不声称整包已读。保留多模型与快速/均衡/极致路由。308核心/6真实Chromium/10打包通过；安装包arm64自带运行时，ad-hoc未公证，无Mac真机结论。详见[修复说明](COMPOSER_AND_UPLOAD_FIX.md)。

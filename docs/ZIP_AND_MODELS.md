@@ -42,3 +42,8 @@ SSE的reasoning_content仅用于同一轮工具协议续接，受原4MiB响应�
 - https://docs.qwencloud.com/developer-guides/text-generation/thinking
 
 下一步：Mac实际密钥/多模型/ZIP链路，真实服务参数验收；缺机器推进有界PDF正文、长文分块来源/更广压缩格式与完整跨Web核心。
+
+
+### 0.28.1 当前ZIP上限
+
+输入32MiB/最多2000条目，展开合计16MiB，单条4MiB；普通Office仍4MiB。最多32份/合计10万字符正文，超过正文预算列为未读取，不让整个安全ZIP因正文多而全部失败。仅受支持的文档/文本/代码进入问答；PDF/媒体/嵌套包等不解析。

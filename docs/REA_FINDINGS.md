@@ -92,3 +92,6 @@ npx -y rea-agents@6.7.0 analyze-javascript-application /absolute/path/app.asar \
 ## 0.5.0 接续边界（2026-10-20）
 
 沿用已有 REA 6.7.0、官方 DMG 摘要和部分静态分析记录，没有重新声称完整 ASAR 或原生运行分析。新增实现独立依据官方公开能力文档 https://docs.aws.amazon.com/quick/latest/userguide/system-tools-desktop.html 与 Electron webContents 的隔离世界、输入 API https://www.electronjs.org/docs/latest/api/web-contents 。本轮未复制 Amazon 代码或资产。Chrome 启动被本构建主机 socket 权限阻断，JSDOM 成功不能转述为真实浏览器或 Mac 成功。
+
+
+0.28.1：修复附件按钮/模型行布局与ZIP读取上限；复用已有REA部分静态证据，无新增Amazon运行结论。Mac原生安装/审批/Keychain、真实模型、OAuth/stdio、跨Web核心、自主子任务与Office全保真仍有差距。
