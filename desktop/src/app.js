@@ -1,4 +1,5 @@
-import {modelPicker,modelLibrary,modelForm} from './ui/models.js';
+import {compactComposer,createComposerMenus} from './ui/composer.js';
+import {modelPicker,modelLibrary,modelForm,modelChoiceLabel} from './ui/models.js';
 import {capabilityTabs,skillsPage,mcpPage,mcpAuthFields} from './ui/capability-library.js';
 import {agentEditor,bindAgentEditor,readAgentEditor} from './ui/agent-editor.js';
 import {imageCards} from './ui/image-cards.js';
@@ -71,9 +72,12 @@ function empty(title, desc, button = '') { return `<div class="empty">${icon('sp
 function heading(kicker, title, desc, button = '') { return `<div class="page-title"><div><div class="eyebrow">${kicker}</div><h1>${title}</h1><p>${desc}</p></div>${button}</div>`; }
 function date(t) { return new Date(t).toLocaleString('zh-CN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }); }
 const boundComposers=new WeakSet();
+const composerMenus=createComposerMenus($('#app'));
+window.addEventListener('pagehide',()=>composerMenus.dispose());
 const officeWorkspace = createOfficeWorkspace($('#app'), host => host.classList.contains('html-host')?mountHtmlPreview(host):mountOfficePreview(host, invoke));
 window.addEventListener('pagehide', () => officeWorkspace.dispose());
 function render() {
+    composerMenus.beforeRender();
     pending=pendingChats.has(chatId);
     const previousComposer=$('#prompt');
     const oldScroll = $('.messages-scroll'), scrollTop = oldScroll?.scrollTop || 0, stick = !oldScroll || oldScroll.scrollHeight - oldScroll.scrollTop - oldScroll.clientHeight < 90;
@@ -84,6 +88,7 @@ function render() {
     const markup = `<div class="titlebar"></div><aside class="sidebar"><div class="brand"><span class="brand-mark"><img src="assets/logo.png" alt="WillBuddy 工具 logo"></span><div>WillBuddy<small>你的桌面工作伙伴</small></div></div><button class="new" data-action="new">${icon('plus')}<span>新建任务</span><span>⌘ N</span></button><nav class="nav">${nav.filter(n => ['home', 'feed', 'library', 'files', 'agents'].includes(n[0])).map(([id, i, title]) => `<button class="${page === id ? 'active' : ''}" data-page="${id}">${icon(i)}<span>${title}</span></button>`).join('')}<details class="more-nav" ${['tools', 'tasks', 'context'].includes(page) ? 'open' : ''}><summary>${icon('grid')}<span>更多工具</span></summary>${nav.filter(n => ['tools', 'tasks', 'context'].includes(n[0])).map(([id, i, title]) => `<button class="${page === id ? 'active' : ''}" data-page="${id}">${icon(i)}<span>${title}</span></button>`).join('')}</details></nav><div class="recent"><div class="recent-header"><span>任务 <small>${state.chats.length}</small></span><button data-action="search" aria-label="搜索任务与成果">${icon('search')}</button></div><input id="recentQuery" aria-label="筛选历史任务" placeholder="筛选任务" value="${escape(recentQuery)}"><div id="recentList">${recentRows()}</div></div><button class="profile" data-action="settings"><div class="avatar">WB</div><div>${escape(name)}<small>${escape(state.settings.model)} · 本地工作空间</small></div>${icon('settings')}</button></aside><main class="main"><header class="topbar"><div><button class="icon-button" data-action="sidebarToggle" aria-label="${sidebarCollapsed ? '展开' : '收起'}侧栏">${icon('grid')}</button><span class="topbar-title">${escape(page === 'chat' ? state.chats.find(c => c.id === chatId)?.name || '新任务' : active?.[2] || '工作台')}</span></div><div><button class="topbar-action" data-page="tasks" aria-label="查看后台任务">后台 ${(state.runJobs||[]).filter(j=>['running','cancelling'].includes(j.status)).length} 执行 · ${(state.runJobs||[]).filter(j=>j.status==='queued').length} 排队</button>${page === 'chat' ? `<button class="topbar-action" data-action="panelTab" data-id="execution">${icon('activity')}执行过程</button>` : ''}<button class="topbar-action ${sidePanel ? 'chosen' : ''}" data-action="panelToggle">${icon('file')}工作区</button><button class="status" data-action="settings"><span class="dot ${state.settings.hasKey ? 'on' : ''}"></span>${state.settings.hasKey ? escape(state.settings.model) : '连接模型'}</button></div></header><div class="workbench ${sidePanel ? 'with-panel' : ''}"><div class="workspace ${page === 'chat' ? 'conversation-space' : ''}">${content()}</div>${sidePanel ? previewPanel() : ''}</div></main>`;
     officeWorkspace.update(markup, `${page}:${chatId}`);
     if(previousComposer&&$('#prompt'))$('#prompt').replaceWith(previousComposer);
+    composerMenus.afterRender(`${page}:${chatId}`);
     $('#sendImages')?.addEventListener('change',e=>sendImages=e.target.checked);
     const composer = $('#prompt');
     if(composer&&composer.value!==draft)composer.value=draft;
@@ -118,7 +123,7 @@ function render() {
     for (const name of ['url', 'executable', 'args', 'folderId', 'relative'])
         $('#tool-' + name)?.addEventListener('input', e => { toolDraft[name] = e.target.value; });
     $('#modelChoice')?.addEventListener('change',e=>{modelChoice=e.target.value;modelEffort='';render();});
-    $('#modelEffort')?.addEventListener('change',e=>modelEffort=e.target.value);
+    $('#modelEffort')?.addEventListener('change',e=>{modelEffort=e.target.value;render();});
     $('#agent')?.addEventListener('change', e => agentId = e.target.value);
     $('#folderSelect')?.addEventListener('change', e => { folderId = e.target.value; loadFiles(); });
     $('#fileQuery')?.addEventListener('keydown', e => {
@@ -139,7 +144,8 @@ function render() {
         paintPicker();
 }
 function chatLive() { return pending || ['queued','running','cancelling'].includes(state.chats.find(c=>c.id===chatId)?.run?.status); }
-function composer() { const live=chatLive(); return `<div class="composer-dock"><div class="composer"><div id="inlinePicker" class="inline-picker" hidden role="listbox" aria-label="选择上下文或智能体"></div><div class="chips">${images.map((i,n)=>`<span class="attachment-chip">图片：${escape(i.name)}<button data-action="detachImage" data-id="${n}" aria-label="移除图片 ${escape(i.name)}">×</button></span>`).join('')}${files.map((f, i) => `<span class="attachment-chip">${icon('file')}<button data-action="attachedPreview" data-id="${i}">${escape(f.entryPath||f.name)}${f.archive?`（ZIP: ${escape(f.archive)}）`:""}</button><button data-action="detach" data-id="${i}" aria-label="移除 ${escape(f.name)}">×</button></span>`).join('')}</div>${images.length?`<label class="image-send-consent"><input id="sendImages" type="checkbox" ${sendImages?'checked':''}>发送图片给当前模型（需支持视觉）</label>`:''}<textarea id="prompt" aria-label="任务描述" placeholder="描述你想完成的任务，@ 添加资料，/ 选择智能体" maxlength="20000"></textarea><div class="composer-tools"><div class="composer-actions"><button class="attachment-upload" data-action="attach" aria-label="上传问答附件">${icon('plus')} 上传附件</button><button class="context-button" data-action="attachImage">添加图片</button><button class="context-button" data-action="imageLibrary">本机图片</button><button class="context-button" data-action="contextPicker">@ 资料</button><select id="agent" aria-label="选择智能体">${state.agents.map(a => `<option value="${escape(a.id)}" ${a.id === agentId ? 'selected' : ''}>${escape(a.name)}</option>`).join('') || '<option>WillBuddy 助手</option>'}</select></div><div class="composer-submit">${live ? `<button class="send stopping" data-action="stop" aria-label="停止生成">${icon('stop')}</button>` : `<button class="send" data-action="send" aria-label="发送任务">${icon('up')}</button>`}</div></div><div class="model-selection">${modelPicker(state,modelChoice,modelEffort,escape)}</div><div class="tool-switch"><label><input id="toolMode" type="checkbox" ${toolsEnabled ? 'checked' : ''} ${live ? 'disabled' : ''}>智能体工具 · 文档 / 浏览器 / CLI / MCP · 获准后执行</label><button data-page="tools">工具台 ↗</button></div></div><div class="hint"><span>Enter 发送 · Shift Enter 换行</span><span>附件正文发送给当前模型 · ZIP自动解压 · 最多32份/合计10万字符；图片需勾选</span></div></div>`; }
+function composer() {return compactComposer({state,agentId,files,images,sendImages,live:chatLive(),toolsEnabled,icon,escape,modelName:modelChoiceLabel(state,modelChoice,modelEffort),modelMarkup:modelPicker(state,modelChoice,modelEffort,escape)});}
+
 function homeContent() { return views.homeContent(viewContext()); }
 function conversationContent() { return views.conversationContent(viewContext()); }
 function closePicker() {
