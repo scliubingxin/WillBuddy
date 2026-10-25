@@ -10,10 +10,10 @@ export function parseChatUpload(name,input){
   const format=formatFor(ext);
   inspectDocument(format,bytes);return {items:[{name,format,bytes}],skipped:[]};
  }
- if(bytes.length>4194304)throw Error('ZIP输入最多4MiB');
+ if(bytes.length>32*1024*1024)throw Error('ZIP输入最多32MiB');
  let end=-1;for(let i=bytes.length-22;i>=Math.max(0,bytes.length-65557);i--)if(bytes.readUInt32LE(i)===0x06054b50){end=i;break;}
  if(end<0)throw Error('ZIP无效');
- const count=bytes.readUInt16LE(end+10);if(count>128)throw Error('ZIP最多128条目');
+ const count=bytes.readUInt16LE(end+10);if(count>2000)throw Error('ZIP最多2000条目');
  let p=bytes.readUInt32LE(end+16),total=0;const paths=[];
  for(let i=0;i<count;i++){
   if(p+46>end||bytes.readUInt32LE(p)!==0x02014b50)throw Error('ZIP清单截断');
@@ -27,15 +27,17 @@ export function parseChatUpload(name,input){
   paths.push(path);p+=46+len+extra+comment;
  }
  const folded=new Set();for(const path of paths){const key=path.normalize('NFKC').toLowerCase();if(folded.has(key))throw Error('ZIP路径规范化冲突');folded.add(key);}
- const all=openPackage(bytes),items=[],skipped=[];let chars=0;
+ const all=openPackage(bytes,{chatArchive:true}),items=[],skipped=[];let chars=0;
  for(const [path,data] of Object.entries(all)){
   if(path.endsWith('/'))continue;
   const ext=path.split('.').at(-1).toLowerCase();
   if(path.split('/').some(s=>s.startsWith('.')||s==='__MACOSX')||!extensions.has(ext)){skipped.push({path,reason:ext==='zip'?'不递归解压':'非支持正文格式或隐藏文件'});continue;}
-  if(items.length>=32)throw Error('ZIP最多32份可问答文件');
+  if(items.length>=32){skipped.push({path,reason:'超过32份可问答文件预算'});continue;}
   const format=formatFor(ext);
-  const checked=inspectDocument(format,data);chars+=checked.text.length;
-  if(chars>100000)throw Error('ZIP正文合计超过10万字符，请拆包');
+  if(['md','html'].includes(format)&&new TextDecoder('utf-8',{fatal:true}).decode(data).length>100000){skipped.push({path,reason:'单份正文超过10万字符预算'});continue;}
+  const checked=inspectDocument(format,data);
+  if(chars+checked.text.length>100000){skipped.push({path,reason:'超过正文合计10万字符预算'});continue;}
+  chars+=checked.text.length;
   if(!checked.text.trim()){skipped.push({path,reason:'未提取到正文'});continue;}
   items.push({name:path.split('/').at(-1).slice(0,100),format,bytes:Buffer.from(data),archive:name,entryPath:path});
  }

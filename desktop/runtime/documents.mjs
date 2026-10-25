@@ -240,8 +240,9 @@ export async function generateDocument(format, content) {
   return { bytes, ...inspected };
 }
 /** ZIP header bounds checked BEFORE inflation; entries never extracted to filesystem. */
-export function openPackage(bytes) {
-  if (bytes.length > 4 * 1024 * 1024) throw Error("Office 文件最多 4 MiB");
+export function openPackage(bytes,{chatArchive=false}={}) {
+  const inputLimit=(chatArchive?32:4)*1024*1024,entryLimit=(chatArchive?4:8)*1024*1024,expandedLimit=(chatArchive?16:32)*1024*1024;
+  if (bytes.length > inputLimit) throw Error(chatArchive?"ZIP输入最多32MiB":"Office 文件最多 4 MiB");
   const b = Buffer.from(bytes);
   let end = -1;
   for (let i = b.length - 22; i >= Math.max(0, b.length - 65557); i--)
@@ -280,12 +281,12 @@ export function openPackage(bytes) {
       name.includes("\\") ||
       name.split("/").some((s) => s === "..") ||
       b.readUInt16LE(p + 8) & 1 ||
-      expanded > 8 * 1024 * 1024
+      expanded > entryLimit
     )
       throw Error("拒绝 ZIP 路径、重复或加密条目");
     names.add(name.toLowerCase());
     total += expanded;
-    if (total > 32 * 1024 * 1024) throw Error("ZIP 解压体积超限");
+    if (total > expandedLimit) throw Error("ZIP 解压体积超限");
     entries.set(name, { size: expanded, crc: b.readUInt32LE(p + 16) });
     const local = b.readUInt32LE(p + 42);
     if (local + 30 > offset || b.readUInt32LE(local) !== 0x04034b50)
@@ -308,15 +309,15 @@ export function openPackage(bytes) {
   }
   if (
     p !== end ||
-    names.has("vbaproject.bin") ||
-    [...names].some(
+    (!chatArchive && names.has("vbaproject.bin")) ||
+    !chatArchive && [...names].some(
       (n) => /vbaproject|embeddings\/|activex\//i.test(n) && !n.endsWith("/"),
     )
   )
     throw Error("拒绝宏、嵌入对象或异常 ZIP");
   const files = zip.unzipSync(b, {
     filter: (f) => {
-      if (!names.has(f.name.toLowerCase()) || f.originalSize > 8 * 1024 * 1024)
+      if (!names.has(f.name.toLowerCase()) || f.originalSize > entryLimit)
         throw Error("ZIP 本地清单冲突");
       return true;
     },
@@ -328,8 +329,8 @@ export function openPackage(bytes) {
     if (!entry || data.length !== entry.size || crc32(data) !== entry.crc)
       throw Error("ZIP CRC/大小校验失败");
     actual += data.length;
-    if (actual > 32 * 1024 * 1024) throw Error("解压体积超限");
-    if (name.endsWith(".xml") || name.endsWith(".rels")) {
+    if (actual > expandedLimit) throw Error("解压体积超限");
+    if (!chatArchive && (name.endsWith(".xml") || name.endsWith(".rels"))) {
       const source = decoder.decode(data);
       const document = parse(source);
       if (
