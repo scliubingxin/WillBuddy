@@ -22,7 +22,7 @@ AI 回复之外，还能创建真实的 Word、Excel、PowerPoint、Markdown 和
 
 ### 把你的工作方法变成专属智能体
 
-为不同岗位组合提示词、知识文档、Skills、工具范围和 MCP 连接器。Skills 描述工作步骤，知识文档提供依据，工具负责执行；智能体按需调用这些能力，结合真实返回继续处理。
+为不同岗位组合提示词、知识文档、Skills、工具范围和 MCP 连接器。Skills 描述工作步骤，知识文档提供依据，获批查询可复用本机索引，检索片段可在回复下展开核对，工具负责执行；智能体按需调用这些能力，结合真实返回继续处理。
 
 ### 模型由你选，工作空间留在本机
 
@@ -94,7 +94,7 @@ Apple 芯片离线应用包内置 Electron、Chromium、Node 和文档处理组�
 1. **定义目标与提示词**：明确岗位、工作标准、输出格式和验收条件。
 2. **绑定知识文档**：先在成果中心导入资料，再选择供该智能体使用的文档。
 3. **上传或绑定 Skills**：在 Skills 技能库导入 `SKILL.md` 或支持的 ZIP 技能包，也可在构建过程中上传。
-4. **配置 MCP 与工具范围**：在 MCP 连接器中保存服务地址，经批准测试工具发现，再绑定到智能体；勾选允许使用的内置工具。
+4. **配置 MCP 与工具范围**：在 MCP 连接器中保存服务地址，按需选择无认证或 Bearer Token，经批准测试工具发现，再绑定到智能体；勾选允许使用的内置工具。
 5. **开始任务并检查结果**：开启工具模式，智能体按“模型选择工具 → 执行 → 观察结果 → 验收或继续”的循环处理任务。
 
 例如，采购助手可以结合采购规则文档、报价核对 Skill 和 MCP 报价工具，先查规则，再取报价，最后说明是否符合要求。能力是否可用取决于所选模型、已绑定资料和实际服务，不能以计划文字代替执行结果。
@@ -143,3 +143,7 @@ WillBuddy 为独立产品，不是 Amazon 官方产品。
 WillBuddy is a desktop AI workspace for Apple Silicon Macs. Bring your own compatible model, combine knowledge documents, Skills, MCP connectors and approved tools, and turn conversations into editable deliverables. The offline application bundles its desktop runtime and document components; model services and optional external tools are configured separately.
 
 [Download and release notes](https://github.com/scliubingxin/WillBuddy/releases) · [Developer guide](desktop/README.md)
+
+在对话输入框点击 **上传附件**，添加Word、Excel、PPT或文本资料后输入问题；附件正文在点击发送后交给当前模型。支持范围见[附件问答用法](docs/CHAT_ATTACHMENTS.md)。
+
+附件也可选择ZIP，自动解压支持的文档、文本和代码后问答；在“模型配置”添加多个模型，对话中可指定模型及思考强度，或按快速／均衡／极致自动选择。详见[ZIP与多模型用法](docs/ZIP_AND_MODELS.md)。
