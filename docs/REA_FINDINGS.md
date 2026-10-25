@@ -1,3 +1,15 @@
+0.28.0接续（2026-10-25）：ZIP与多模型策略为WillBuddy独立实现；模型参数按OpenAI/DeepSeek/Qwen公开文档检查，无Amazon内部路由推断。继续复用既有REA部分静态证据，未重新下载/运行Amazon包。
+
+0.27.0接续（2026-10-25）：复查官方what-is-desktop公开本机文件授权/对话能力，WillBuddy独立补直接文件选择问答，不推断Amazon内部附件实现；继续复用已有REA部分静态证据，无新Amazon安装/运行结论。
+
+0.26.0接续（2026-10-25）：复查Quick官方what-is-desktop公开文件索引/知识/MCP能力；WillBuddy独立新增私有持久词法倒排索引，未推断Amazon内部算法/存储方式。REA继续复用6.7.0公开包部分静态证据，本轮无新Quick下载/运行/完整静态分析结论。
+
+0.25.0接续（2026-10-25）：复查Quick桌面公开MCP/本机连接配置说明，并核对MCP2025-06-18 Authorization及Electron safeStorage官方文档。WillBuddy独立实现手动Bearer传递与秘密适配，不称OAuth全规范客户端，不推断Amazon认证内部实现。REA复用6.7.0公开包部分静态证据，本轮未重新下载或运行Quick。
+
+0.24.0接续（2026-10-24）：复查Quick官方what-is-desktop公开知识/文件/权限能力说明，WillBuddy独立新增检索快照交互，不推断Amazon内部引用实现。REA继续复用6.7.0公开包部分静态证据；本轮未重新下载或运行Quick。
+
+0.23.0接续（2026-10-24）：复查官方 https://docs.aws.amazon.com/quick/latest/userguide/what-is-desktop.html 对选定目录搜索/索引与智能体知识、技能/MCP的能力说明。WillBuddy独立实现受原审批控制的跨绑定文档词法分块检索，不推断Amazon内部算法；REA继续复用下方6.7.0公开包根哈希及部分静态证据，本轮未重新运行Quick/未新增原生结论，未复制Amazon代码资产。另复查用户指定AgentScope公开主页 https://github.com/agentscope-ai/agentscope ，本轮没有引入其SDK或Python安装端依赖。
+
 0.9.0 接续（2026-10-22）：复查官方system-tools-desktop公开任务管理/进度及权限描述；复用原REA证据，不重跑不完整静态分析、不新增Amazon队列内部结论。WillBuddy共享模型调度是独立实现，见 SHARED_RUNS.md。
 
 0.8.0 接续（2026-10-21）：复查官方桌面界面/系统工具文档，用于功能差距映射；继续复用已有REA根哈希与部分静态证据，本轮未重新下载/运行Amazon包，不推断其队列或内部架构。WillBuddy独立实现CLI持久队列，见 DURABLE_COMMANDS.md。

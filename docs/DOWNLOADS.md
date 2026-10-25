@@ -18,6 +18,40 @@
 
 云端模型和网页访问需要联网；本地模型与 Git、Python、Codex CLI 等可选程序没有随应用捆绑。安装问题详见[桌面说明](../desktop/README.md)和[打包问题记录](PACKAGING_INCIDENT.md)。
 
+## 当前单独交付候选：0.26.0
+
+新增真实持久词法倒排索引，首次获批查询构建，后续及重载后复用，文档或提取文本变化重建；候选仍在本次获批原文上匹配。缓存损坏重建、超限完整扫描回退、取消/磁盘故障处理和清除索引入口均已接通。不是向量语义检索或免审批读取。
+
+280核心（新增16）/4相关真实Chromium/9打包测试通过，含真实Store磁盘重载、6轮HTTP模型+认证MCP与生产UI；原生IPC/审批/Keychain/模型语义仍夹具。详见[持久知识索引](PERSISTENT_KNOWLEDGE_INDEX.md)和[验证记录](validation/v0.26.0.json)。候选由本轮交付链接下载，尚未上传GitHub或发布Release；上方公开附件仍0.22，不能据此安装0.26。离线包仍ad-hoc未公证，无Mac严格签名/Gatekeeper/安装启动结论。
+
+离线包 SHA-256：`957ed22d6a18f9599eb7df426994eb5e008da1c86d4581a4becf2100aec9f56c`，119727599 字节。
+
+## 早期单独交付候选：0.25.0
+
+新增MCP手动Bearer Token配置，连接器库和构建智能体时均可设置。凭据通过系统安全存储加密保存，界面不回填明文或密文；逐次批准后实际初始化/目录/业务调用/清理携带Header，地址或凭据变化失效，401/403不自动重试，重定向不转发凭据。不是OAuth登录或所有企业服务兼容。
+
+264核心（新增15）/4相关真实Chromium/9打包测试通过。真实HTTP认证、AES-GCM加密夹具和生产页面通过；Mac Keychain/原生审批/真实付费模型和企业服务未验收。详见[MCP认证与使用](MCP_AUTHENTICATION.md)及[验证记录](validation/v0.25.0.json)。候选由本轮交付链接下载，尚未发布到GitHub；上方公开附件仍为0.22，不能据此安装0.25。离线包仍ad-hoc未公证，无Mac严格签名/Gatekeeper/安装启动结论。
+
+离线包 SHA-256：`1447968a1e62bd9cdc489ff22a02fe67284e72383f237d2e80f76e9eac1a9c71`，119724724 字节。
+
+## 早期单独交付候选：0.24.0
+
+本轮增加对话「本轮检索依据」卡片：真实检索原文/版本/SHA/坐标快照、刷新恢复、来源更新或移除提示、无额外文件读取与模型调用。249核心/4相关真实Chromium/9打包测试通过；原生IPC/审批/模型语义仍夹具。详见[使用与边界](KNOWLEDGE_EVIDENCE.md)和[验证记录](validation/v0.24.0.json)。
+
+离线包 SHA-256：`151364d7f3f9e0068c96d4cad808c6dada46eac2f28cc48ae3f164288c728fc2`，119722105 字节。
+
+候选完整源码与arm64离线包由本轮交付链接下载，尚未上传GitHub或发布新Release；上方公开下载仍为0.22，不能据此安装0.24。仍ad-hoc未公证，无Mac严格资源封印/Gatekeeper/启动结论。
+
+## 早期单独交付候选：0.23.0
+
+此候选尚未公开发布到 GitHub，下方 0.22 附件不包含其新功能。
+
+新增跨最多八份绑定文档的中文/英文分块知识检索，逐份读取审批，片段带文档版本、哈希、行号和精确偏移；来源变化、取消、拒绝时不返回本次部分片段。仍是词法检索，不是向量索引。
+
+验证：244 项核心、4 项相关真实 Chromium 与 9 项打包测试通过；原生审批/IPC/模型语义仍有夹具，无 Mac 或真实付费模型新结论。详见[检索说明](KNOWLEDGE_RETRIEVAL.md)和[验证记录](validation/v0.23.0.json)。
+
+本次仅整理产品文档，不改应用功能、版本号或离线安装包；功能测试数字为原候选已有证据，不是本次文档修改新增测试。
+
 ## 公开版本：0.22.0 Preview
 
 [Release 与附件](https://github.com/scliubingxin/WillBuddy/releases/tag/v0.22.0-preview) · [对应代码](https://github.com/scliubingxin/WillBuddy/tree/v0.22.0-preview) · [已合并 PR #1](https://github.com/scliubingxin/WillBuddy/pull/1)
@@ -65,7 +99,15 @@ f5fedb20d7d5d7e40b6604e54cf77b46f94b137b2a07876e99bae39b7751e12f  WillBuddy-v0.2
 
 ## 已知范围
 
-- MCP 支持无需认证的 Streamable HTTP；OAuth、认证头与 stdio 尚未支持。Skill 包内脚本不自动执行。
+- MCP 支持无需认证或手动Bearer Token的 Streamable HTTP；OAuth、自定义认证头与 stdio 尚未支持。Skill 包内脚本不自动执行。
 - Office 为有界生成、修改与预览能力，复杂排版、图表、完整公式兼容和任意文件保真往返仍有限。
-- 当前没有完整向量语义索引、自主并行子 Agent、跨端云同步或 Web/桌面完整共享核心。
+- 已有本机持久词法索引，当前没有完整向量语义索引、自主并行子 Agent、跨端云同步或 Web/桌面完整共享核心。
 - Mac 真机、真实付费模型和企业 MCP 联调仍待验收。不要将夹具测试、部分静态分析或能打开网页等同于全部系统集成完成。
+
+## 0.27.0 附件问答候选
+
+输入框可直接上传Office与文本附件后提问；支持格式、发送范围和限制见[对话附件问答](CHAT_ATTACHMENTS.md)。286核心/4相关Chromium/9打包通过，原生选择器/IPC和模型语义夹具，未Mac/付费模型验收。离线arm64包仍ad-hoc未公证，本候选未上传GitHub，公开入口仍0.22，不能以旧公开包验收新能力。完整源码和候选应用独立交付保留。
+
+## 0.28.0 ZIP与多模型候选
+
+[使用方法与实际边界](ZIP_AND_MODELS.md)：ZIP解压理解支持正文；多个独立模型和真实快速/均衡/极致路由/强度参数。306核心/5相关Chromium/9打包通过，原生与模型语义夹具；arm64离线候选仍ad-hoc未公证、无Mac真机验收。本候选单独交付，未上传GitHub/Release/合并，公开链接仍旧0.22。

@@ -1,3 +1,5 @@
+当前知识检索支持[持久词法索引](PERSISTENT_KNOWLEDGE_INDEX.md)，获批后构建/复用，仍逐份读取、校验来源；不提供免审批缓存读取或向量语义检索。
+
 # 智能体能力与 ReAct 执行 · 0.21.0
 
 2026-10-24。依据用户对 AgentScope 的参考要求，独立实现桌面 Agent 能力注册表；未复制或捆绑 AgentScope SDK，不增加用户端 Python/npm 依赖。
@@ -21,7 +23,7 @@
 
 `runtime/mcp.mjs` 是真实、每任务独立的 Streamable HTTP 客户端：initialize → initialized notification → tools/list（最多4页）→ tools/call。支持2025-06-18/2025-03-26协议协商、JSON和有界SSE结果、会话头、任务结束DELETE清理。命名空间 `mcp_序号_原工具名` 防止覆盖内置工具。
 
-只接受用户显式配置的 HTTPS 或 localhost/127.0.0.1/::1 HTTP 地址，不接受URL凭据、查询或fragment；不发送cookie，不跟随跳转。不是域名解析防火墙。无OAuth、API Key配置、stdio、本地服务安装、旧HTTP+SSE双端点、server-initiated sampling/elicitation、断线续传或自动重试。需要这些能力的服务会明确失败。无需登录的服务可用；不会安装或假造MCP服务。
+只接受用户显式配置的 HTTPS 或 localhost/127.0.0.1/::1 HTTP 地址，不接受URL凭据、查询或fragment；不发送cookie，不跟随跳转。不是域名解析防火墙。全局连接器现可配置手动Bearer Token，详见[MCP认证](MCP_AUTHENTICATION.md)。原内嵌MCP仍无认证；无OAuth登录、自定义API Key头、stdio、本地服务安装、旧HTTP+SSE双端点、server-initiated sampling/elicitation、断线续传或自动重试。需要这些能力的服务会明确失败。无需登录的服务可用；不会安装或假造MCP服务。
 
 每轮连接先经原生审批；每次工具调用独立审批，展示精确服务地址和完整最多600字符参数，不复用浏览器站点授权。响应≤1MiB，输出≤30000字符，单请求15秒超时，重定向/远端schema引用/重复工具/分页异常/ID不匹配均拒绝；取消贯穿HTTP请求。工具返回是不可信数据，不自动运行其中的命令。
 
@@ -41,4 +43,4 @@
 - https://doc.agentscope.io/tutorial/task_mcp.html
 - https://modelcontextprotocol.io/specification/2025-06-18/basic/transports
 
-参考其 ReAct、Toolkit、按需技能与MCP客户端组合方式；不宣称实现完整AgentScope或多智能体自治并行。下一步优先用户Mac/实际模型验证，再按真实需求补认证MCP、技能包授权导入、知识索引和可验收的受控子任务。
+参考其 ReAct、Toolkit、按需技能与MCP客户端组合方式；不宣称实现完整AgentScope或多智能体自治并行。下一步优先用户Mac/实际模型验证，再按真实需求补OAuth授权、完整技能资源使用、知识索引和可验收的受控子任务。
