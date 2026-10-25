@@ -15,7 +15,7 @@ export function createConversationService({ models, approve, clientFactory, secr
         const attachmentTarget={baseUrl:store.data.settings.baseUrl,model:store.data.settings.model};
         const checkDocuments=()=>{for(const d of attachedDocuments)readChatDocument(store,d);if(!modelRoute&&attachedDocuments.length&&(store.data.settings.baseUrl!==attachmentTarget.baseUrl||store.data.settings.model!==attachmentTarget.model))throw Error('附件目标模型已变化，请重新发送');};
         const imageIds=p.images||[];
-        if(!Array.isArray(imageIds)||imageIds.length>3)throw Error('每次最多3张图片');
+        if(!Array.isArray(imageIds)||imageIds.length>8)throw Error('每次最多8张图片');
         if(imageIds.length&&!images)throw Error('当前图片服务不可用');
         if(p.sendImages!==undefined&&typeof p.sendImages!=='boolean')throw Error('发送图片选项无效');
         const imageTarget={baseUrl:store.data.settings.baseUrl,model:store.data.settings.model};
