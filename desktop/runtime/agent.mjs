@@ -35,7 +35,7 @@ export async function runAgent({ messages, request, execute, signal, onEvent = a
             throw new Error('工具模式已关闭，模型却返回工具调用');
         if (!Array.isArray(tools) || tools.length > 8)
             throw new Error('模型工具调用格式无效');
-        history.push({ role: 'assistant', content: typeof message.content === 'string' ? message.content : null, tool_calls: tools });
+        history.push({ role: 'assistant', ...(typeof message.reasoning_content==='string'?{reasoning_content:message.reasoning_content}:{}), content: typeof message.content === 'string' ? message.content : null, tool_calls: tools });
         for (const call of tools) {
             signal?.throwIfAborted();
             if (++calls > 12)

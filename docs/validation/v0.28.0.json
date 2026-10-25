@@ -1,0 +1,117 @@
+{
+  "version": "0.28.0",
+  "checked_date": "2026-10-25",
+  "baseline": "0.27.0 Library version29;519 content SHA checked",
+  "core_tests": {
+    "passed": 306,
+    "new": 20
+  },
+  "chromium_tests": {
+    "passed": 5,
+    "actual": "production config forms; real ZIP/DOCX parsing; distinct /speed and /deep HTTP endpoint paths and bearer credentials; auto fast/extreme/manual low wire payload; refresh selection/strength; image/SSE/workspace regressions",
+    "fixtures": [
+      "native picker",
+      "Electron IPC",
+      "OS keychain",
+      "model semantic responses"
+    ]
+  },
+  "packaging_tests_passed": 9,
+  "preserved_original_web_python_files": 122,
+  "original_python35_rerun": false,
+  "actual_changes": [
+    "ITERATION_LOG.md",
+    "ITERATION_PLAN.md",
+    "README.md",
+    "RELEASE_STATUS.json",
+    "desktop/core.mjs",
+    "desktop/main.mjs",
+    "desktop/package-lock.json",
+    "desktop/package.json",
+    "desktop/preload.cjs",
+    "desktop/runtime/agent.mjs",
+    "desktop/runtime/mcp.mjs",
+    "desktop/runtime/model-stream.mjs",
+    "desktop/services/chat-attachments.mjs",
+    "desktop/services/conversation.mjs",
+    "desktop/services/documents.mjs",
+    "desktop/services/tasks.mjs",
+    "desktop/src/app.js",
+    "desktop/src/styles.css",
+    "desktop/src/ui/workspace.js",
+    "desktop/tests/chat-attachments.test.mjs",
+    "desktop/tests/helpers/load-ui.mjs",
+    "desktop/tests/ui.test.mjs",
+    "docs/CHAT_ATTACHMENTS.md",
+    "docs/DOWNLOADS.md",
+    "docs/QUICK_GAPS.md",
+    "docs/REA_FINDINGS.md"
+  ],
+  "new_files": [
+    "desktop/main/model-secrets.mjs",
+    "desktop/runtime/chat-archive.mjs",
+    "desktop/runtime/model-policy.mjs",
+    "desktop/services/models.mjs",
+    "desktop/src/ui/models.js",
+    "desktop/tests/acceptance/models-archive-live.mjs",
+    "desktop/tests/chat-archive.test.mjs",
+    "desktop/tests/models.test.mjs",
+    "docs/ZIP_AND_MODELS.md",
+    "docs/validation/v0.28.0-tests.txt",
+    "docs/validation/v0.28.0.json"
+  ],
+  "offline_bundle": {
+    "file": "/workspace/scratch/c33bcd2beeb1/outputs/WillBuddy-v0.28.0-mac-arm64-offline.zip",
+    "version": "0.28.0",
+    "bytes": 119738751,
+    "sha256": "0d7ee9b5813eb628483f2ffd43b3537518a0be29c888c99986e4757057fbe06b",
+    "app_asar_sha256": "595ecd3ea3007b652100b1394d1ad145a6287ac7576b2ae62bce6359029fc813",
+    "architecture": "arm64",
+    "signature": "ad-hoc",
+    "verified": true,
+    "archive_check": {
+      "app_entries": 282,
+      "extra_files": 5,
+      "closed_inventory": true,
+      "residual_entries": 0
+    },
+    "production_asar_files": 107,
+    "macho_binaries": 15,
+    "code_pages": 51216,
+    "symlinks": 14,
+    "tamper_negative": "passed",
+    "installer_bash_syntax": "passed"
+  },
+  "new_tests": [
+    "ZIP nested Office/text paths and supported extraction/unsupported report",
+    "ZIP traversal/drive/backslash/NFKC/symlink refusal",
+    "ZIP entry count/expansion/CRC and unsupported-only refusal",
+    "ZIP32 docs/100k text budgets",
+    "document atomic batch/disk rollback",
+    "source code is inert text",
+    "isolated persistent/session credentials and metadata",
+    "auto type/capability/priority and no cross-tier fallback",
+    "real provider-specific effort parameters and invalid combinations",
+    "revision/address/key drift editor protection",
+    "disable/delete route invalidation",
+    "disk/secret failure rollback without fallback",
+    "text budget and tool/vision requirement refusal",
+    "actual Store reload and no plaintext",
+    "actual HTTP auth/model/reasoning wire",
+    "SSE reasoning same-run tool continuity without answer display",
+    "independent parallel chat profiles",
+    "late model response invalidation",
+    "host secureStorage adapter/basic_text/failure boundaries",
+    "queued model config drift blocks network"
+  ],
+  "initial_failures": [
+    "JSDOM helper omitted new UI module; connected actual module to test loader. Old settings UI test now navigates retained legacy editor entry. Complete final tests pass."
+  ],
+  "environment_limits": [
+    "no Mac native install/Gatekeeper/strict seal/Keychain acceptance",
+    "no paid OpenAI/DeepSeek/Qwen semantic/parameter compatibility acceptance",
+    "no RAR/7z/gzip/PDF/OCR/video understanding",
+    "no benchmark/pricing/speed guarantees"
+  ],
+  "github_published": false
+}

@@ -1,0 +1,89 @@
+{
+  "version": "0.27.0",
+  "date": "2026-10-25",
+  "baseline_version": "0.26.0",
+  "baseline_library_version": 28,
+  "core_tests": {
+    "passed": 286,
+    "new": 6
+  },
+  "chromium_tests": {
+    "passed": 4,
+    "paths": [
+      "attachments-live",
+      "images-live",
+      "streaming-live",
+      "workspace-live"
+    ],
+    "actual": "Production ESM composer plus actual DOCX bytes/parser, real local HTTP model payload, actual Store reload; image bytes and SSE real",
+    "fixtures": [
+      "native picker",
+      "Electron IPC",
+      "approval",
+      "model semantic response"
+    ]
+  },
+  "packaging_tests": 9,
+  "original_web_python_files_unchanged": 122,
+  "old_python35_tests_rerun": false,
+  "changed_files": [
+    "ITERATION_LOG.md",
+    "ITERATION_PLAN.md",
+    "README.md",
+    "RELEASE_STATUS.json",
+    "desktop/main.mjs",
+    "desktop/package-lock.json",
+    "desktop/package.json",
+    "desktop/preload.cjs",
+    "desktop/runtime/mcp.mjs",
+    "desktop/services/conversation.mjs",
+    "desktop/src/app.js",
+    "desktop/src/ui/workspace.js",
+    "docs/DOWNLOADS.md",
+    "docs/QUICK_GAPS.md",
+    "docs/REA_FINDINGS.md"
+  ],
+  "new_files": [
+    "desktop/services/chat-attachments.mjs",
+    "desktop/tests/chat-attachments.test.mjs",
+    "desktop/tests/acceptance/attachments-live.mjs",
+    "docs/CHAT_ATTACHMENTS.md",
+    "docs/validation/v0.27.0.json",
+    "docs/validation/v0.27.0-tests.txt"
+  ],
+  "offline_bundle": {
+    "file": "/workspace/scratch/c33bcd2beeb1/outputs/WillBuddy-v0.27.0-mac-arm64-offline.zip",
+    "version": "0.27.0",
+    "bytes": 119728930,
+    "sha256": "b9db05a49dd7aa2855af0dc321b2e1079b26747007addd9291c18dce311e4e26",
+    "app_asar_sha256": "32a799887f23d75fb77eeb2f5cfc74ddd355d8e21d3e5a2cb4668419a2cd2ae6",
+    "architecture": "arm64",
+    "signature": "ad-hoc",
+    "verified": true,
+    "archive_check": {
+      "app_entries": 282,
+      "extra_files": 5,
+      "closed_inventory": true,
+      "residual_entries": 0
+    },
+    "matched_files": 102,
+    "asar_sha256": "32a799887f23d75fb77eeb2f5cfc74ddd355d8e21d3e5a2cb4668419a2cd2ae6",
+    "macho_binaries": 15,
+    "code_pages": 51216,
+    "symlinks": 14,
+    "tamper_negative": "passed",
+    "installer_bash_syntax": "passed"
+  },
+  "failed_attempts": [
+    "New test initially used wrong request callback signature and non-JSON document generator input; corrected test fixture before final passes.",
+    "Initial Chrome extracted file was incomplete; fresh archive extraction compared to ZIP bytes and then --version/UI passed.",
+    "Initial offline build rejected unsigned partial hidden .libvk_swiftshader.dylib.gotatI signing residue by page verifier; cause not established. Fresh private build passed without weakening verification."
+  ],
+  "not_verified": [
+    "Mac native picker/IPC/Keychain/install/strict codesign/Gatekeeper",
+    "paid model provider Q&A semantics",
+    "PDF/OCR/video/audio attachments"
+  ],
+  "scope": "Office/text body extraction; no claims of full document object extraction or arbitrary format understanding",
+  "github_release": false
+}

@@ -20,6 +20,7 @@ const summary = (d) => ({
   text: d.text,
   parentRevision: d.parentRevision,
   conversionSource: d.conversionSource,
+  attachmentSource: d.attachmentSource,
   hasRichSource: typeof d.richSource === "string",
   history: (d.history || []).map(({ revision, time, sha256, size }) => ({
     revision,
@@ -280,6 +281,17 @@ export function createDocumentService({
         };
       }
       return save(candidate, signal);
+    },
+    async importBatch(items) {
+      if(!Array.isArray(items)||!items.length||items.length>32)throw Error('附件批次无效');
+      const candidates=items.map(i=>({...record(checkName(i.name),i.format,{bytes:i.bytes,...inspectDocument(i.format,i.bytes)}),...(i.archive?{attachmentSource:{archive:i.archive,entryPath:i.entryPath}}:{})}));
+      return lock(async()=>{
+        const previous=store.data.documents,next=[...candidates,...previous];
+        if(next.length>100||Buffer.byteLength(JSON.stringify(next))>16*1024*1024)throw Error('文档空间超限（100个/16MiB）');
+        store.data.documents=next;
+        try{await store.save();}catch(e){store.data.documents=previous;throw e;}
+        notify();return candidates.map(summary);
+      });
     },
     async importFile(name, format, bytes, signal) {
       checkName(name);

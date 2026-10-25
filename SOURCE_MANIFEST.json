@@ -1,15 +1,15 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.22.0",
-  "packaged_date": "2026-10-24",
+  "version": "0.29.0",
+  "packaged_date": "2026-10-25",
   "provenance": "Complete validated source snapshot; Git commits and deployment are tracked separately",
-  "base_source_commit_sha": "bd67c8f348520cc70d70bea496b9f5d74102a995",
+  "base_source_commit_sha": "5593b0f45c6941c2a16f461e336f23817035c7cf",
   "release_status": {
     "schema_version": 2,
     "brand": "WillBuddy",
-    "version": "0.22.0",
-    "checked_date": "2026-10-24",
+    "version": "0.29.0",
+    "checked_date": "2026-10-25",
     "source_status": "desktop_source_delivery_not_deployed",
     "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
     "desktop": {
@@ -49,26 +49,34 @@
       "agent_capabilities": "agent-scoped knowledge IDs + lazy skill_read + builtin tool allowlist + bounded Streamable HTTP MCP + configurable ReAct; conversation runtime only",
       "html_interactive_preview": "full bounded authorized source; two opaque sandboxes; inline JS + ephemeral storage, no network/backend; actual private user sample Chromium passed",
       "local_images": "native picker/PNG normalization adapter; bounded persisted bytes hidden from state; local offline cards; explicit current-target multimodal image_url only",
-      "capability_library": "persistent Skill MD/ZIP import/resources and MCP global connector config/discovery; agent skillIds/mcpIds resolved in actual ReAct; no auto script execution/auth/OAuth/stdio"
+      "capability_library": "persistent Skill MD/ZIP resources and MCP global connector config/discovery with optional manual bearer; no script execution/OAuth/stdio",
+      "knowledge_retrieval": "persistent bounded lexical prefix-postings index; current approved original text scoring; revision/fileSHA/extractedTextSHA/locale/algorithm/checksum/geometry; exact scans on index overflow, not embeddings",
+      "knowledge_evidence": "trusted successful retrieval observation snapshots; run-scoped escaped text cards; revision/SHA drift labels; max12 groups/96000 serialized chars per chat; no extra read/model call",
+      "mcp_authentication": "manual bearer only; host safeStorage adapter, explicit metadata view, approved exact-endpoint private token, revision/cipher drift guard, no redirect/retry/anonymous fallback, literal echo redaction; not OAuth",
+      "knowledge_index": "private Store field, removed from renderer state;16 entries/8MiB total/2MiB per entry; serial build/reuse/clear; cancellation/save rollback; approval never cached",
+      "chat_attachments": "native single-file picker imports private validated Office/text copy; turn-scoped current-target text Q&A without tools; version/hash and queue checks; no PDF/OCR/media upload",
+      "chat_archives": "ZIP only; in-memory bounded validation/decompression and real document/text/code extraction; atomic import32 docs, skipped report; no RAR/7z/PDF/OCR/media understanding",
+      "model_profiles": "20 independent endpoint/key/capability profiles; legacy retained; explicit or fast/balanced/extreme type-priority routing; per-run snapshot; real reasoning params; no hidden fallback",
+      "composer": "single input and toolbar; scoped accessible add/model menus, conditional consent, no new execution permissions"
     },
     "validation": {
-      "desktop_tests_passed": 232,
-      "ui_paths_with_mock_bridge": 17,
+      "desktop_tests_passed": 310,
+      "ui_paths_with_mock_bridge": 6,
       "real_cli_child_process_tested": true,
       "agent_http_fixture_to_real_cli_roundtrip_tested": true,
-      "browser_verification": "17 real Chromium full suite passed; final4 related cases passed. Production upload/config/probe/bind/inline-add/reload → actual HTTP ReAct; native picker/IPC/approvals/model semantics fixtures",
+      "browser_verification": "6 full real Chromium regressions; eight viewport/panel layouts, fourteen interactable popover placements, Tab/Enter/Esc/outside close/redraw focus and draft, real ZIP/model/image/SSE wire fixtures",
       "workspace_browser_test_passed": true,
-      "packaging_tests_passed": 9,
+      "packaging_tests_passed": 10,
       "workspace_test_scope": "real Chromium layout, keyboard, Markdown, preview/export; deterministic native bridge and model content",
       "native_chat_lifecycle_integration": "real HTTP SSE/service/Chromium; new real CLI queue/service/Chromium lifecycle; native bridge and approvals are fixtures",
       "mac_native_runtime_verified": false,
       "real_model_provider_tested": false,
       "third_party_cli_codex_tested": false,
       "web_build_tested_this_iteration": false,
-      "theme_check": "White/blue retained; current container lacks CJK fonts; no Chinese pixel or Mac validation",
+      "theme_check": "real Chromium eight viewport/panel layouts; test-only Noto CJK font; not Mac pixel acceptance",
       "offline_bundle": {
         "official_runtime_sha256": "passed",
-        "asar_content": "94 production files exact bytes",
+        "asar_content": "108 production files including assets exact bytes",
         "zip_integrity": "passed",
         "closed_inventory": "passed; 282 app entries + 5 extras; 14 symlinks; no residue",
         "unexpected_entry_negative": "passed even when every manifest file remains unchanged",
@@ -78,11 +86,25 @@
         "code_pages": 51216,
         "negative_tamper_check": "passed",
         "macOS_bundle_codesign_and_gatekeeper": "not_tested",
-        "installer_shell_syntax": "passed"
+        "installer_shell_syntax": "passed",
+        "asar_files_matched": 108,
+        "protected_files_unchanged": 122,
+        "app_entries": 282,
+        "symlinks": 14,
+        "macho": 15,
+        "pages": 51216,
+        "app_asar_sha256": "cd817386376cdd6ebbfd5a7745496c6d76d14d5bb56a7a25a3f011109326fc4c",
+        "zip_sha256": "e0978e7402c4d0987834c8946bba8a7d853e82b871208dc60315f984f6c4575e",
+        "zip_bytes": 119742176,
+        "tamper_negative": "passed",
+        "residues": {
+          "before_sign": 0,
+          "after_sign": 0
+        }
       },
       "service_boundary_tests_passed": 9,
       "streaming_http_to_chromium_passed": true,
-      "chromium_acceptance_tests_passed": 17,
+      "chromium_acceptance_tests_passed": 4,
       "streaming_to_real_node_cli_passed": true,
       "markdown_and_sandboxed_html_passed": true,
       "command_queue_tests_passed": 14,
@@ -113,14 +135,22 @@
       "preview_lifecycle_native": "Linux Electron actual preload/IPC source+ASAR; 3 formats x20 UI redraws, zero extra reads/same child frame; Mac pending",
       "spreadsheet_image_new_tests": 7,
       "spreadsheet_image_scope": "real Chromium file+openpyxl and Linux Electron source/ASAR; one/two anchors real, absolute geometry unit; no Mac/ExcelWPS fidelity",
-      "real_chromium_tests_this_iteration": 17,
-      "legacy_evidence_scope": "Historical named checks retained; docs/validation/v0.22.0.json contains current evidence.",
+      "real_chromium_tests_this_iteration": 4,
+      "legacy_evidence_scope": "Historical evidence fields retained; docs/validation/v0.26.0.json is current run authority",
       "agent_capabilities_new_tests": 11,
       "agent_real_http_fixture": "four model requests → lazy skill → approved real Markdown source → real MCP SSE response → final result; no real external model/MCP",
       "html_original_sample": "260561 bytes /242435 characters; welcome UI and supplier form, 0 outside network, 1 read across redraws; private sample excluded from source",
       "local_image_new_tests": 7,
       "html_preview_new_tests": 6,
-      "capability_library_new_tests": 12
+      "capability_library_new_tests": 12,
+      "knowledge_retrieval_new_tests": 12,
+      "knowledge_retrieval": "12 new tests; actual HTTP and production Chromium 5-model-round skill/resource/2-doc-search/MCP/final",
+      "knowledge_evidence_new_tests": 5,
+      "knowledge_evidence_scope": "real production Chromium/Store/HTTP fixtures: snapshot expansion/redraw/reload/document_edit revision drift; no additional model/MCP call",
+      "mcp_authentication_new_tests": 15,
+      "knowledge_index_new_tests": 16,
+      "chat_attachment_new_tests": 6,
+      "multi_model_and_zip_new_tests": 20
     },
     "rea": {
       "version": "6.7.0",
@@ -128,7 +158,7 @@
       "javascript_analysis": "partial_host_process_ownership_blocked",
       "report": "docs/REA_FINDINGS.md"
     },
-    "notes": "0.22 adds reusable Skill upload library and MCP connector management with real discovery, in-builder upload/configuration, persisted ID binding and actual ReAct execution. No auth/OAuth/stdio/auto-scripts/real Mac or provider validation.",
+    "notes": "Compact progressive-disclosure composer; existing business, routing and permission boundaries retained.",
     "architecture": {
       "guide": "docs/ARCHITECTURE.md",
       "layers": [
@@ -143,13 +173,23 @@
       "web_desktop_shared_core": false
     },
     "current_iteration": {
-      "version": "0.22.0",
-      "evidence": "docs/validation/v0.22.0.json",
-      "guide": "docs/SKILLS_AND_CONNECTORS.md",
+      "version": "0.29.0",
+      "evidence": "docs/validation/v0.29.0.json",
+      "guide": "docs/COMPACT_COMPOSER.md",
       "mac_native_tested": false,
       "public_github_release": false,
-      "public_release_note": "Source/offline ZIP delivery; previous public release approval rejection preserved, no retry or alternate disclosure."
-    }
+      "public_release_note": "0.28.1 release already public;0.29 source/app delivered independently, not uploaded or merged."
+    },
+    "github_last_published": {
+      "version": "0.28.1",
+      "branch": "willbuddy-v0.28.1-composer-fix",
+      "commit": "5593b0f45c6941c2a16f461e336f23817035c7cf",
+      "release": "https://github.com/scliubingxin/WillBuddy/releases/tag/v0.28.1-preview",
+      "main_commit": "bdd8db7115f41a150da399ffd0860fe7883f9009",
+      "main_runtime_version": "0.22.0"
+    },
+    "documentation_policy": "product README only; version/test/limits in downloads and release pages",
+    "github_hotfix_publication": "0.28.1 completed, both public attachment downloads SHA verified;0.29 not published this turn"
   },
   "files": [
     {
@@ -189,13 +229,13 @@
     },
     {
       "path": "ITERATION_LOG.md",
-      "bytes": 154129,
-      "sha256": "baa589732b2229c104944d76ed74fcb063bc451e7c88f0c8638d738a98818a6a"
+      "bytes": 168949,
+      "sha256": "a215646b464fb8d11adbbca9748d40e607f87d7ddd6a632c63cb6e97fce5a553"
     },
     {
       "path": "ITERATION_PLAN.md",
-      "bytes": 44473,
-      "sha256": "ca29fd7407a6df5decab369b0540efb735936514a392635ca0492cf5097d9b6b"
+      "bytes": 58610,
+      "sha256": "b84947a1bc839c6a84255df6f89ab203a45afbd1374579f93803ce7badcfc6d1"
     },
     {
       "path": "OPENWORKBUDDY_REFERENCE.md",
@@ -209,13 +249,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 9598,
-      "sha256": "6aa7154c945c740ecf76b5999e60e6325df3ccc85a939ff7e8a1770ef358e33c"
+      "bytes": 10369,
+      "sha256": "79308537d27b37168f893d8ef6416ef8340b20a4ee0ee95f228850460aaa5852"
     },
     {
       "path": "RELEASE_STATUS.json",
-      "bytes": 11193,
-      "sha256": "c9dbb52a3dda60666c5ac0044bb00207f3dd0657c11a8ee44449e37c1ead0058"
+      "bytes": 14233,
+      "sha256": "4a2494d82ab02061f4a89d45a5d1688f941e31555985d4276a9674c70a7a0888"
     },
     {
       "path": "SELF_TEST_MATRIX.md",
@@ -248,14 +288,14 @@
       "sha256": "59c0e46d71babaec52ab65edce182d94433e18e15a42517675af0fb0d33b7098"
     },
     {
-      "path": "app/api/chat-export/route.ts",
-      "bytes": 1490,
-      "sha256": "8c50a3e035aa71966edcdc128c68a556bbb08b6617c4669338236058099d2c42"
-    },
-    {
       "path": "app/api/chat/route.ts",
       "bytes": 917,
       "sha256": "06fadc4f778d3dfaf31da5a5cdaefee516175a4fe6cb044f3d11b688a20450c8"
+    },
+    {
+      "path": "app/api/chat-export/route.ts",
+      "bytes": 1490,
+      "sha256": "8c50a3e035aa71966edcdc128c68a556bbb08b6617c4669338236058099d2c42"
     },
     {
       "path": "app/api/data/route.ts",
@@ -371,11 +411,6 @@
       "path": "cloudflare-env.d.ts",
       "bytes": 99,
       "sha256": "8b0eca84aa3364cc7ccc43cc3af6beb88dd34ebd410de08690bf094ce39fbcb0"
-    },
-    {
-      "path": "components.json",
-      "bytes": 420,
-      "sha256": "31f4ca67a4a62572571003d3d5aac85ee6fbfca67a192924bac6b168d95e98fd"
     },
     {
       "path": "components/ui/accordion.tsx",
@@ -683,6 +718,11 @@
       "sha256": "a0784eb77831a799fad7991df4f1b666f876201565a80175e1aa68733574a2e4"
     },
     {
+      "path": "components.json",
+      "bytes": 420,
+      "sha256": "31f4ca67a4a62572571003d3d5aac85ee6fbfca67a192924bac6b168d95e98fd"
+    },
+    {
       "path": "db/index.ts",
       "bytes": 423,
       "sha256": "dc7610b00b918e0ffff1360a63626f16655ced3064b2eaf96095a4101fb14bcd"
@@ -724,8 +764,8 @@
     },
     {
       "path": "desktop/core.mjs",
-      "bytes": 7858,
-      "sha256": "2257dcf91402b5cd2e28ad26f7f5771f09e7438bc503ed38db67a7c8d1ff5138"
+      "bytes": 7938,
+      "sha256": "393ec6668563a503e908cb4f275bec13e1737cf42b2b70e4641f902a489684af"
     },
     {
       "path": "desktop/installer/Install-WillBuddy.command",
@@ -743,11 +783,6 @@
       "sha256": "5f5b909647d1977e4e534d48cb630c03bf874a61c53068695f871e933532512e"
     },
     {
-      "path": "desktop/main.mjs",
-      "bytes": 18345,
-      "sha256": "ee060347ca8077371278bdac508f6c7664d51f1c61920b238b8904aa6cbf1057"
-    },
-    {
       "path": "desktop/main/approval.mjs",
       "bytes": 3473,
       "sha256": "9a70a8e41d659665828d20f9eba7a6040dffbf280ebf71559d66a19d8ad00727"
@@ -759,8 +794,8 @@
     },
     {
       "path": "desktop/main/document-files.mjs",
-      "bytes": 2106,
-      "sha256": "28990e82af98ed427d07008b05472ee85da26656f0bae5a49d93cd7b50e8dab1"
+      "bytes": 2231,
+      "sha256": "7b957303487e4df2557a7eaffbd98a9df3e0ae6b7f7c3c11340a14656c2f1daf"
     },
     {
       "path": "desktop/main/genoffice.mjs",
@@ -778,6 +813,16 @@
       "sha256": "23f28d82415c14a0efbb41fb4bf266c99ad421240b608e553361c82a229b89fe"
     },
     {
+      "path": "desktop/main/mcp-secrets.mjs",
+      "bytes": 941,
+      "sha256": "5339cbed0e95b94567e6b966b3d71b9516f02bf10eaced58e3693cd5eca41c5b"
+    },
+    {
+      "path": "desktop/main/model-secrets.mjs",
+      "bytes": 715,
+      "sha256": "1cf6fb90df901aefbf314cf50d7e15c6d623733e306e043c9e8d4c9ef69dab2c"
+    },
+    {
       "path": "desktop/main/preview-navigation.mjs",
       "bytes": 774,
       "sha256": "03d0f1f25aa63715576219b178334620c733af76de6499332914c095ab164908"
@@ -793,24 +838,29 @@
       "sha256": "2814b0602e98b7c90b78f4a593b0050c48a4898c856cf9d993b182c584a54896"
     },
     {
+      "path": "desktop/main.mjs",
+      "bytes": 20433,
+      "sha256": "c71c9fd4ca4768a037e04d278d849a5eac6888b7ace66faa6a80ac5b746557d7"
+    },
+    {
       "path": "desktop/package-lock.json",
       "bytes": 279311,
-      "sha256": "51c232030a9a3cc1faadee6742f27bc5c31da79116dea6ebe0e618846b51d4da"
+      "sha256": "fffe6d7e1364ed6731aa835c816ca8030ef914534322f9a764f2e6f6b5694252"
     },
     {
       "path": "desktop/package.json",
       "bytes": 3355,
-      "sha256": "03d474438ff3726a5b3399317996977361319ef6b1991ed0a3f6c88453a3a775"
+      "sha256": "09755f46f4e6285645d31da2663fc26c4038c978b16716dafd6acb36cbe19b9c"
     },
     {
       "path": "desktop/preload.cjs",
-      "bytes": 1515,
-      "sha256": "c7cc08922c0ce4a143fdd802bcd03752635543079ab9cd01b407c37d5435d681"
+      "bytes": 1575,
+      "sha256": "dad7cc172f6aaef97e85f7382b17ddf9529270812640360c5f43cdb704bbcab9"
     },
     {
       "path": "desktop/runtime/agent.mjs",
-      "bytes": 10688,
-      "sha256": "8d04c47e0af4f11b0c41894313ded6fad6f80e30f505c2fb59b4fdac5bf44538"
+      "bytes": 10787,
+      "sha256": "c863de532ed27302c8baf7769d77021c15fdac709e76c5d291beffcafe6f1604"
     },
     {
       "path": "desktop/runtime/browser-dom.mjs",
@@ -826,6 +876,11 @@
       "path": "desktop/runtime/browser.mjs",
       "bytes": 9317,
       "sha256": "f14c77556e0658507416a107662c53976f7c6591d1e77746000a5a66e9fce916"
+    },
+    {
+      "path": "desktop/runtime/chat-archive.mjs",
+      "bytes": 3585,
+      "sha256": "174233a4becc348cdcb93105edf3cef375e8b73f6312c7ac7275daf693cdb974"
     },
     {
       "path": "desktop/runtime/command.mjs",
@@ -844,8 +899,8 @@
     },
     {
       "path": "desktop/runtime/documents.mjs",
-      "bytes": 24562,
-      "sha256": "ad1dad777bacc77ee87b7c1a265ec15d31f94e569ee3e9eea295a852a9a5ae66"
+      "bytes": 24783,
+      "sha256": "d4a5f44bde33c6e98cb377eaf37e4a7edceb712eb2ff291a7f733fe01500528a"
     },
     {
       "path": "desktop/runtime/identity.mjs",
@@ -853,14 +908,29 @@
       "sha256": "7c07d275a7365d7ef42f3d4cdf7eb89a4693f5aa6da6010d7dba373ff9c37c93"
     },
     {
+      "path": "desktop/runtime/knowledge-index.mjs",
+      "bytes": 1470,
+      "sha256": "f1286edcc8dbdbe90cf3fa37f03771ab39186c1d77b6ee1449ab4d2fb3a1968b"
+    },
+    {
+      "path": "desktop/runtime/knowledge-search.mjs",
+      "bytes": 6261,
+      "sha256": "eec80a62936cc854d77d616a99db5520184ddfe95c92e751d7f5bff52aebf40e"
+    },
+    {
       "path": "desktop/runtime/mcp.mjs",
-      "bytes": 5683,
-      "sha256": "08018e8515ebf80823ac98c1f89968ec9a1758e0cba5960d9de506f11f649c9c"
+      "bytes": 7773,
+      "sha256": "97de81bce4dfeee2162d02eb6d6a198cb1a62a63517b4164265968b902a5a0f4"
+    },
+    {
+      "path": "desktop/runtime/model-policy.mjs",
+      "bytes": 2681,
+      "sha256": "977d9b506ebfa0405bfda7a941684aa8f709b436659ce5648ccd92ebdeab4bbb"
     },
     {
       "path": "desktop/runtime/model-stream.mjs",
-      "bytes": 7720,
-      "sha256": "5e09143ef7b66e2d5877e7ed12737c48f0676eb32f56a2b4d41165568a4c5b69"
+      "bytes": 8026,
+      "sha256": "fc21cabed7fa50c6c8650cf94918eaaccac02ea6e979630dcaa0c6e146c23d27"
     },
     {
       "path": "desktop/runtime/run-queue.mjs",
@@ -934,13 +1004,18 @@
     },
     {
       "path": "desktop/services/agent-session.mjs",
-      "bytes": 10345,
-      "sha256": "7a8059b170a69e672da87aa9194b18d4696eab21452f24f46058fbeccb075810"
+      "bytes": 12033,
+      "sha256": "e3c0be78510bbfccb99f9de318d1178f68e6ce59a281f8e320030b95d62243a0"
     },
     {
       "path": "desktop/services/capability-library.mjs",
-      "bytes": 9739,
-      "sha256": "d3fc9b9918f1966a24029cbc9f253dc9b06ad8ad62c42fae64f285a74a1b8e3a"
+      "bytes": 11161,
+      "sha256": "04a8de1db11f7ffaed083f33a2a18db146f3debb0c59fb7bbbb51a037ce7e804"
+    },
+    {
+      "path": "desktop/services/chat-attachments.mjs",
+      "bytes": 1522,
+      "sha256": "58e01ad9c1fa779e3731f78d35b920634fccb221f3d613c006ce701c933f1770"
     },
     {
       "path": "desktop/services/commands.mjs",
@@ -949,13 +1024,13 @@
     },
     {
       "path": "desktop/services/conversation.mjs",
-      "bytes": 13800,
-      "sha256": "0276a8def09fab2b9b4df0c52f58366866123c6853122aecf53467ac10177e09"
+      "bytes": 15921,
+      "sha256": "2b4da53429dedec04eb674424adbc32f7d895eca3d88c9ceb63dad7ec748733a"
     },
     {
       "path": "desktop/services/documents.mjs",
-      "bytes": 15260,
-      "sha256": "dd3dcf02ebfe717e7abd6cc348aeec8d773b139d18d24aa1ef96dd879746966c"
+      "bytes": 16064,
+      "sha256": "1a5a98181a97620ec6e9c67d81405cd33fe87752c0e76b855d0c4fac17c61f2e"
     },
     {
       "path": "desktop/services/file-preview.mjs",
@@ -968,14 +1043,34 @@
       "sha256": "0536058bfd97a3fa2644f35b61719a77db47f3e70d0de057601cb1060793168d"
     },
     {
+      "path": "desktop/services/knowledge-evidence.mjs",
+      "bytes": 2037,
+      "sha256": "b8b5597624c0fe6970897b320b55100f44d6d96e632498d3df98381acb9050a9"
+    },
+    {
+      "path": "desktop/services/knowledge-index.mjs",
+      "bytes": 6235,
+      "sha256": "ca0ae95174431732fa23524b00a32177d52d512c06eb0efecfe22130c7d9849c"
+    },
+    {
+      "path": "desktop/services/mcp-access.mjs",
+      "bytes": 2102,
+      "sha256": "559e2b2118e4146b599ac77ebff7a602003bbd6245bf0aeeabb9db5737d1a8e7"
+    },
+    {
+      "path": "desktop/services/models.mjs",
+      "bytes": 5075,
+      "sha256": "399368332deb987091ae26fdea34b71875a2a5c2317cee0c02e7e61bc5c5675f"
+    },
+    {
       "path": "desktop/services/recovery.mjs",
       "bytes": 2156,
       "sha256": "ddf4e39ffe0482e597cc537b641b61c0901fb16e504f308b261c82351570bce2"
     },
     {
       "path": "desktop/services/tasks.mjs",
-      "bytes": 2892,
-      "sha256": "40ec0c09b3b7f3f01747301e0466888d846df5b285766607eefa93d656e08d59"
+      "bytes": 3103,
+      "sha256": "26e9c61f23875abff3cd694a425202ab76bfebff51d7904557b4b61fff718ec5"
     },
     {
       "path": "desktop/services/validation.mjs",
@@ -989,8 +1084,8 @@
     },
     {
       "path": "desktop/src/app.js",
-      "bytes": 70218,
-      "sha256": "52e86f0f2f0b66de37a3144b7b32f7f6d8b7ac131b32b3e715b9079a037fb41b"
+      "bytes": 72459,
+      "sha256": "24c77d1c16d0e27825efc2b3976d0d134dfb464b399e7178cbe99539841174b5"
     },
     {
       "path": "desktop/src/assets/logo.png",
@@ -1074,18 +1169,18 @@
     },
     {
       "path": "desktop/src/styles.css",
-      "bytes": 18518,
-      "sha256": "04553505557c727b2a985f07b32f7063cc2b158f6645796ca2811ceb392b75a0"
+      "bytes": 23794,
+      "sha256": "1a178055f6909c7124150291301142deffb9cc0253287a0173b654c25185faf2"
     },
     {
       "path": "desktop/src/ui/agent-editor.js",
-      "bytes": 6829,
-      "sha256": "1da9b578fef07ba837716acf38916deed7f2cc6dad844a65ed59c7c653b4ee59"
+      "bytes": 7326,
+      "sha256": "844357c74bbce5ae5ba475388a25c2480c744b6b92b77c2c1e7f253ed9197aee"
     },
     {
       "path": "desktop/src/ui/capability-library.js",
-      "bytes": 4093,
-      "sha256": "144ed5efe557f64cd4925cc2bae50becfc40172233d7cea13f2d09b660badffa"
+      "bytes": 5108,
+      "sha256": "749d1cf437142fad0b67c1135af2880c19ce9f88d7da1e9dfac3d3a23de37695"
     },
     {
       "path": "desktop/src/ui/charts.js",
@@ -1103,6 +1198,11 @@
       "sha256": "5ada8a803926fa50f63ce024f9f9ce6c881a857893cdb5cefa2fc574a38b37cd"
     },
     {
+      "path": "desktop/src/ui/composer.js",
+      "bytes": 6937,
+      "sha256": "ac3824655ddf52dc8f28bee56dfc9db5e6a80a573950182f7e9f349656b87bdf"
+    },
+    {
       "path": "desktop/src/ui/documents.js",
       "bytes": 4226,
       "sha256": "aca52bca616fb7c4bb6a8fcd061b27f3e524334e4455d7ebc70ecd1736888055"
@@ -1118,6 +1218,11 @@
       "sha256": "caef8ae7e2549ecc915f7ad5ffe96b0e7037f81ab58f5197927db34f52eabb83"
     },
     {
+      "path": "desktop/src/ui/knowledge-evidence.js",
+      "bytes": 1967,
+      "sha256": "a588729d29c3ff9bd2e9e00d2e7355ffcd3b7032734fac63844998706ddd9a57"
+    },
+    {
       "path": "desktop/src/ui/markdown.js",
       "bytes": 8848,
       "sha256": "b5c8278de0476c0868026d58e4017f1607e4d331bb45acffb60e40d031a5b97c"
@@ -1126,6 +1231,11 @@
       "path": "desktop/src/ui/media-policy.js",
       "bytes": 863,
       "sha256": "ba0eae59336ae7d42ad945192751cfb4dfabcf143088871a557901dfb5030a7f"
+    },
+    {
+      "path": "desktop/src/ui/models.js",
+      "bytes": 5923,
+      "sha256": "c720e41f8acff97505c14fc1fcbcf036e6285afa71797f1781d76dd14bc3fc21"
     },
     {
       "path": "desktop/src/ui/office-preview.js",
@@ -1159,8 +1269,8 @@
     },
     {
       "path": "desktop/src/ui/workspace.js",
-      "bytes": 10318,
-      "sha256": "6b2788b0b4df718f4bda54f20ecdee50dc8077dc04b8d30a5f760aece616c48e"
+      "bytes": 10962,
+      "sha256": "bcf6b55687f2fda26c5429e0220487f7243ad9c46296dc0d90dd772632ec2018"
     },
     {
       "path": "desktop/src/vendor/MANIFEST.json",
@@ -1194,8 +1304,13 @@
     },
     {
       "path": "desktop/tests/acceptance/agents-live.mjs",
-      "bytes": 5581,
-      "sha256": "fc6f732e3326eda27de0d44cfd36558bfb375e3fc6097bb5a168ea2c74c8685b"
+      "bytes": 5926,
+      "sha256": "3094fb15c800176c601baaa387c148366678fa01c3f0f977a456d9d3dd7cf7de"
+    },
+    {
+      "path": "desktop/tests/acceptance/attachments-live.mjs",
+      "bytes": 6295,
+      "sha256": "1e5b96be52dc6dd0ee9090bd577809ecd9c3e8beeef50c347acd9ae461485718"
     },
     {
       "path": "desktop/tests/acceptance/browser-live.mjs",
@@ -1204,8 +1319,8 @@
     },
     {
       "path": "desktop/tests/acceptance/capabilities-live.mjs",
-      "bytes": 12621,
-      "sha256": "c143e1ef7de9f7f5ba129c3a13d98e2561dd1cde9218167ec43456f6fc243630"
+      "bytes": 19064,
+      "sha256": "0b84fc3aeff03f10c32d4332ce9967caa939648bf0db6797c2bddec4321552d4"
     },
     {
       "path": "desktop/tests/acceptance/chat-media-live.mjs",
@@ -1216,6 +1331,11 @@
       "path": "desktop/tests/acceptance/commands-live.mjs",
       "bytes": 5168,
       "sha256": "364a775f643f4d2b0b3dfe2f7aea301ed6f914dc42e6627a1b289606f7204da3"
+    },
+    {
+      "path": "desktop/tests/acceptance/composer-layout-live.mjs",
+      "bytes": 8044,
+      "sha256": "0d774aaed708e92043ce281daf4eb93d09dbf65154bce9906229d860d75bc149"
     },
     {
       "path": "desktop/tests/acceptance/conversion-live.mjs",
@@ -1234,8 +1354,13 @@
     },
     {
       "path": "desktop/tests/acceptance/images-live.mjs",
-      "bytes": 6429,
-      "sha256": "22146b3990319d4519f46bb317b4d6c6b8ca9eb70b29ab32881ef319d1533b2c"
+      "bytes": 6487,
+      "sha256": "24bd7752c3293a539296e0ee4716434d0b46ee5208e32e53ed58318926697821"
+    },
+    {
+      "path": "desktop/tests/acceptance/models-archive-live.mjs",
+      "bytes": 10033,
+      "sha256": "1a27ea488b7ac25ed10a415a3d5aa3adfc87b0a7b8d3514e892dfdf4b8590992"
     },
     {
       "path": "desktop/tests/acceptance/office-preview-live.mjs",
@@ -1298,14 +1423,34 @@
       "sha256": "65bdd983da6537bcf15ddd4bf650a8b494e2750bd75a44c1e2e674c83407968b"
     },
     {
+      "path": "desktop/tests/chat-archive.test.mjs",
+      "bytes": 4252,
+      "sha256": "e92383509febcd2f76f0a6b3ca55d2eccf39d08547a838adc201c6e331a9b557"
+    },
+    {
+      "path": "desktop/tests/chat-attachments.test.mjs",
+      "bytes": 4540,
+      "sha256": "4fd2667d1c27015ae2f7943c9331cdf1a60d7904374b083d017c4f5d32db7cff"
+    },
+    {
       "path": "desktop/tests/chat-media.test.mjs",
       "bytes": 11651,
       "sha256": "91cedffd18aba6f22baa41c78e304d17ae40472b67652928e996c42bf278da9e"
     },
     {
+      "path": "desktop/tests/chat-upload-size.test.mjs",
+      "bytes": 1038,
+      "sha256": "e5ae8b5d4203349f4d6f06d2215c5ad39c3915af51b4fa982fce0b59825b65b4"
+    },
+    {
       "path": "desktop/tests/commands.test.mjs",
       "bytes": 10476,
       "sha256": "a21c0b844add4924a8252d1573e42dfe670570d2d7d1c0ff0454a296101dfa06"
+    },
+    {
+      "path": "desktop/tests/composer-menu.test.mjs",
+      "bytes": 2470,
+      "sha256": "cb5b8ce362a84ebbd8636cef81cbb160f6f856deecd4dddfe8bde7486767b69f"
     },
     {
       "path": "desktop/tests/core.test.mjs",
@@ -1344,8 +1489,13 @@
     },
     {
       "path": "desktop/tests/helpers/load-ui.mjs",
-      "bytes": 1951,
-      "sha256": "e4c01ce98f22e06580846f9a1e9fb29507af2765ea1b32df4cc5686b20e57101"
+      "bytes": 2297,
+      "sha256": "99ddebc02717656570a21427fc65555766c6447f7691073cf6487d50c639b798"
+    },
+    {
+      "path": "desktop/tests/helpers/mcp-secrets.mjs",
+      "bytes": 974,
+      "sha256": "8ead9c422a49c215cf36e1b5721d47e44bfff700b5368f33d1fd366e9c462526"
     },
     {
       "path": "desktop/tests/helpers/word-fixture.mjs",
@@ -1361,6 +1511,31 @@
       "path": "desktop/tests/images.test.mjs",
       "bytes": 7838,
       "sha256": "8480ca7a251488a6b630e6c319c72ec1bb64ce825ee13c4fd3bba6343759e811"
+    },
+    {
+      "path": "desktop/tests/knowledge-evidence.test.mjs",
+      "bytes": 3271,
+      "sha256": "6d3ae03eeb0989f360aa3742307c66d7a359a1045e4d881dece485724fe42553"
+    },
+    {
+      "path": "desktop/tests/knowledge-index.test.mjs",
+      "bytes": 12835,
+      "sha256": "2e3fe03a59c3baa6137bfabe81c21fb4f00267281f4fcc10097a90db70547e5f"
+    },
+    {
+      "path": "desktop/tests/knowledge-search.test.mjs",
+      "bytes": 15898,
+      "sha256": "1c0121349fd1f997faf240bfb4c92b0772966cfe87e908cb0ae86e9b8164bb27"
+    },
+    {
+      "path": "desktop/tests/mcp-auth.test.mjs",
+      "bytes": 14902,
+      "sha256": "ccf152de72c20ee1bea5aac0b84cfce107d5477acf84838909774f616dc4c1cf"
+    },
+    {
+      "path": "desktop/tests/models.test.mjs",
+      "bytes": 11082,
+      "sha256": "da581f7461f963bbf645f5d50bb22fb46022a4447892c53bc52ef4a5f3cde605"
     },
     {
       "path": "desktop/tests/native/preview-electron.mjs",
@@ -1424,8 +1599,8 @@
     },
     {
       "path": "desktop/tests/ui.test.mjs",
-      "bytes": 6238,
-      "sha256": "44cbbb95d07821a4722b66485b1113b1772cd809c37301ab5512fb174d104807"
+      "bytes": 6284,
+      "sha256": "7f0a853642a94205ce691c5ad17a19d84fd082c9272ba6afe53e9ae33ae10045"
     },
     {
       "path": "desktop/tests/word-paragraphs.test.mjs",
@@ -1444,8 +1619,8 @@
     },
     {
       "path": "docs/AGENT_CAPABILITIES.md",
-      "bytes": 5219,
-      "sha256": "9c5b59d2e59b5d437e39ff88dc1d92b4ebe5fc2885c3ba9c02f6808150401e2e"
+      "bytes": 5546,
+      "sha256": "7b1f389d22efc5f8a7f15a0d0d74cdbeed7c6639cca9575176d18bb0fbc7bc94"
     },
     {
       "path": "docs/APPROVAL_FIX.md",
@@ -1458,14 +1633,29 @@
       "sha256": "ab15c91d8cd2bf2a47fd1cb9d03ceb5f4c2fcd4d9fd965795bc3a731bcd93857"
     },
     {
+      "path": "docs/CHAT_ATTACHMENTS.md",
+      "bytes": 3388,
+      "sha256": "5c7daf05ba7cb93fec9a5de4cd084d8b5dc249f899c8e42793eeffce62383393"
+    },
+    {
       "path": "docs/CHAT_RICH_MEDIA.md",
       "bytes": 5671,
       "sha256": "adaaef6766d47e0e55b2d7d49612cfc252fd4cc61733b875d06e9d29e94d7656"
     },
     {
+      "path": "docs/COMPACT_COMPOSER.md",
+      "bytes": 4044,
+      "sha256": "e6664f6a2a7b8a23534913833a026f046e99450f46b54f1b4a7121aa349934cb"
+    },
+    {
+      "path": "docs/COMPOSER_AND_UPLOAD_FIX.md",
+      "bytes": 2180,
+      "sha256": "c98aad6df88ae466fd9c8906825f1ace2787eb7aee576b799c13fd9b40a0cef1"
+    },
+    {
       "path": "docs/DOWNLOADS.md",
-      "bytes": 6064,
-      "sha256": "eb119d8242090d86c47e9c8ae20eb8f465a37cbbef0bb4260d2a8ea283f89f14"
+      "bytes": 11519,
+      "sha256": "030a8794f92539ab88b9ddfa0eb76d48295d1dc2eab77a86900305c6601baf98"
     },
     {
       "path": "docs/DURABLE_COMMANDS.md",
@@ -1493,9 +1683,24 @@
       "sha256": "a27fd039f3aae90c26a55689ffeef252118b4f1380e18646ffc0af2e265daf07"
     },
     {
+      "path": "docs/KNOWLEDGE_EVIDENCE.md",
+      "bytes": 3767,
+      "sha256": "e5e64e04f8e66cc1b851db8c9926d892e9e50fe9ccd8acf690fefcc359267457"
+    },
+    {
+      "path": "docs/KNOWLEDGE_RETRIEVAL.md",
+      "bytes": 4462,
+      "sha256": "d424f0beb529627c1d9b9f7e29c59ae141fa9c30c2661a30a6ac65996f90ee90"
+    },
+    {
       "path": "docs/LOCAL_IMAGE_ATTACHMENTS.md",
       "bytes": 1828,
       "sha256": "96b5c2ddf1c3a6527671a9738fe14dd0b79fca6f800390954a3087197fb6efd8"
+    },
+    {
+      "path": "docs/MCP_AUTHENTICATION.md",
+      "bytes": 6417,
+      "sha256": "48809925c1f839b1a096db83090277e87ba178c8dfa3886affd72432dfb6e6ee"
     },
     {
       "path": "docs/OFFICE_PREVIEW.md",
@@ -1513,6 +1718,11 @@
       "sha256": "f3f47545c4f9fbc60054fe483798dcc7e0fa39520ea2a62d63a3159ea5b2e3b9"
     },
     {
+      "path": "docs/PERSISTENT_KNOWLEDGE_INDEX.md",
+      "bytes": 5863,
+      "sha256": "ec83c775e2f14cf04e444526df3b05cbb54071a140a402bc128c0cb7e8780a17"
+    },
+    {
       "path": "docs/PREVIEW_LIFECYCLE.md",
       "bytes": 3518,
       "sha256": "026aefa9248e6d7462ddf0af02d6e437f30fe15442041f53237b4bdbc257995a"
@@ -1524,13 +1734,13 @@
     },
     {
       "path": "docs/QUICK_GAPS.md",
-      "bytes": 15552,
-      "sha256": "2dcf633cbb3df54055d58f806672c7a2e0c348fb75ded393c2bd6342484215ef"
+      "bytes": 18629,
+      "sha256": "93308334d8b1ec59f996aeb4520e613602e2f0662651f0639e0b99f6b0ac43d3"
     },
     {
       "path": "docs/REA_FINDINGS.md",
-      "bytes": 7284,
-      "sha256": "33f994620f6f671266266b03a81bddfdee22e0a2ef31dff2e7f9ec46894ac351"
+      "bytes": 9932,
+      "sha256": "a605f904ea23da897f5c24c1a4da45486a5525b4398774603fa204edf5d7f3d9"
     },
     {
       "path": "docs/SCREENSHOT_ALIGNMENT.md",
@@ -1544,8 +1754,8 @@
     },
     {
       "path": "docs/SKILLS_AND_CONNECTORS.md",
-      "bytes": 5566,
-      "sha256": "bafc0dc2a3a7c7aeaf0cdeff83a7274923b08de8f72ca2e2b545d4351a4e145a"
+      "bytes": 5658,
+      "sha256": "736586f83a452818db83d9716f15e0447e567e09e16daaeebd5324141bf3f4dc"
     },
     {
       "path": "docs/SPREADSHEET_FORMULAS.md",
@@ -1576,6 +1786,11 @@
       "path": "docs/WORD_PARAGRAPHS.md",
       "bytes": 3201,
       "sha256": "9c1235a6a26832e10426f3af1bc4c42b2cc3e3ed96048be6679c58ce3278fb73"
+    },
+    {
+      "path": "docs/ZIP_AND_MODELS.md",
+      "bytes": 6434,
+      "sha256": "86559c729184dd9dc76c18929effdb26a7c746feb26917f17cdc9fd2bb4c9d93"
     },
     {
       "path": "docs/images/documents.png",
@@ -1698,6 +1913,91 @@
       "sha256": "bb41b66992f5c17354a1b8ddd7a6394de0df021302bdd21b8d400b0f3e2dd083"
     },
     {
+      "path": "docs/validation/v0.23.0-tests.txt",
+      "bytes": 30055,
+      "sha256": "b73e8b6d08a12b2600089a9558bc1bdc97584b2e10eec698d54c5cca93a08df4"
+    },
+    {
+      "path": "docs/validation/v0.23.0.json",
+      "bytes": 3207,
+      "sha256": "c5ed2671a5fc7b92be1158f098ce4896cd640f0350298e7c0ca42b8607bd4718"
+    },
+    {
+      "path": "docs/validation/v0.24.0-tests.txt",
+      "bytes": 28902,
+      "sha256": "745f036a59299ea3b43061e86b0dd800ed9106d0d33cb9e7ab5ff1d4507efa26"
+    },
+    {
+      "path": "docs/validation/v0.24.0.json",
+      "bytes": 3110,
+      "sha256": "3e12aad2d5bbc3fd405f169cc7299bb73dc8d605fbc5209b0cb2e2fc8a04d5f4"
+    },
+    {
+      "path": "docs/validation/v0.25.0-tests.txt",
+      "bytes": 30405,
+      "sha256": "89ad51f31a68c0875340c503c507ec13e4d5c8659ec284c3cd007542dccb1217"
+    },
+    {
+      "path": "docs/validation/v0.25.0.json",
+      "bytes": 4134,
+      "sha256": "0679168d77eab55c2b047b4dafbf3e7128ddc01e612001d2405834143e01ca48"
+    },
+    {
+      "path": "docs/validation/v0.26.0-index-experiment.json",
+      "bytes": 580,
+      "sha256": "65aa6389fdb7d247359ca842a0c0fb9323385d8bf42b091e8499f67ea5ecceba"
+    },
+    {
+      "path": "docs/validation/v0.26.0-tests.txt",
+      "bytes": 32114,
+      "sha256": "5fa30206802f8da3155478b2683fba6eef1b544f045208d28c19b48a879c942f"
+    },
+    {
+      "path": "docs/validation/v0.26.0.json",
+      "bytes": 4621,
+      "sha256": "f36d19ab168df42616576c747390cd2296601f6a9707b5db319faadd695acf04"
+    },
+    {
+      "path": "docs/validation/v0.27.0-tests.txt",
+      "bytes": 33290,
+      "sha256": "ac6fc8165569c0672360e4b814e5e9208b2fb4b2cd5c819935db5f66ad3e5f6a"
+    },
+    {
+      "path": "docs/validation/v0.27.0.json",
+      "bytes": 3080,
+      "sha256": "9dc84314c4d7f7d87d5a64f1a50ed9f0cbaaaadacf96a3df9f5ac87a4737a34f"
+    },
+    {
+      "path": "docs/validation/v0.28.0-tests.txt",
+      "bytes": 35615,
+      "sha256": "06b7d97ee3b6a05cd7ebd94166145e057cddae22113d89fecbb88a11c39eaabd"
+    },
+    {
+      "path": "docs/validation/v0.28.0.json",
+      "bytes": 4321,
+      "sha256": "f163d674753d89b7cb37853ce5af13c0cab174ed92673fd66b1e12b5b6eca87b"
+    },
+    {
+      "path": "docs/validation/v0.28.1-tests.txt",
+      "bytes": 35405,
+      "sha256": "275cc4b442406bc49e224211157b9661cc136569393f05701803f35c62ec44ff"
+    },
+    {
+      "path": "docs/validation/v0.28.1.json",
+      "bytes": 1654,
+      "sha256": "857bc04c9adcf95e03f72d509a61c7ead9a7492c3b7ca943f1f06c64a2e5125d"
+    },
+    {
+      "path": "docs/validation/v0.29.0-tests.txt",
+      "bytes": 35656,
+      "sha256": "00377cc7fd26c1358549d4d98801307066e7c089c07d832dd94a98d1de016b01"
+    },
+    {
+      "path": "docs/validation/v0.29.0.json",
+      "bytes": 2031,
+      "sha256": "2b38daad6ec35b2f9988812e06ad6e993d8e56884dd13c1a1120c0c9302becf0"
+    },
+    {
       "path": "docs/validation/v0.5.0.json",
       "bytes": 2382,
       "sha256": "c8c0bfc53dabe6c490788dfb32b4753063ea8b672601fcccece5adc574b617c8"
@@ -1726,11 +2026,6 @@
       "path": "docs/validation/v0.9.0.json",
       "bytes": 3603,
       "sha256": "802c74d804c475f9f3666400b19d2809cbcc33d501150f3d1e2d4e3ebeb89db9"
-    },
-    {
-      "path": "drizzle.config.ts",
-      "bytes": 148,
-      "sha256": "af081f7384aaeb0082cf422e29f139d137ca2f6a57c69b2c37b9fb1f8479867b"
     },
     {
       "path": "drizzle/0000_yellow_silver_samurai.sql",
@@ -1771,6 +2066,11 @@
       "path": "drizzle/meta/_journal.json",
       "bytes": 641,
       "sha256": "a73c8d1a16447598b72d2cc8c88fd9bb9ded35bb9bfebb1e43601281cc7e34e0"
+    },
+    {
+      "path": "drizzle.config.ts",
+      "bytes": 148,
+      "sha256": "af081f7384aaeb0082cf422e29f139d137ca2f6a57c69b2c37b9fb1f8479867b"
     },
     {
       "path": "eslint.config.mjs",
@@ -2019,18 +2319,18 @@
     },
     {
       "path": "scripts/offline_bundle.py",
-      "bytes": 5923,
-      "sha256": "b46c302790fa685e9cc01cac8a2631727b827371d85306c333db08eed1252859"
+      "bytes": 6322,
+      "sha256": "d3287606f1f067573e77e6f3eac1ed157690b7692ed825e9056eb94934cb01e3"
     },
     {
       "path": "scripts/package-desktop-source.py",
       "bytes": 3741,
-      "sha256": "d442bb69a29cefebc0a4688dd327b059bf7c1540783cabffd3001dac54416b46"
+      "sha256": "48c44f2e6ad2d155217d850f8c6e09d54660b62bd21999dba4d4eff5c09a0f1e"
     },
     {
       "path": "scripts/package-offline-mac.py",
-      "bytes": 7549,
-      "sha256": "c595e0111741c3e203bf55b5d0aa70e4eed07cd4ff088d67cb0129318ac37120"
+      "bytes": 8459,
+      "sha256": "61b22e75749e8a7536461689547aa034c39ef9a86496ea90774dbcef01effa3b"
     },
     {
       "path": "scripts/package-source.mjs",
@@ -2069,8 +2369,8 @@
     },
     {
       "path": "scripts/tests/test_offline_bundle.py",
-      "bytes": 4692,
-      "sha256": "98cc483052aac332d315b57f4dd5282391e16b17cb76089e17721e2053f27ea2"
+      "bytes": 5243,
+      "sha256": "5e6f1562a3b2cdaeb5bb3feebe6d6dfa172851bdcfd96104659079e2f589e866"
     },
     {
       "path": "scripts/tests/test_source_archive.py",
@@ -2513,11 +2813,6 @@
       "sha256": "1d5ea6fec6089153f3afa879aaee491ab952ce74082d05f79f02e2b0b1ef06e6"
     },
     {
-      "path": "vendor/genoffice-html2docx/src/generate.ts",
-      "bytes": 1240,
-      "sha256": "7d380be876299f7e30fe4327f828e4968ef069123e1401c2ef412bf956e9563d"
-    },
-    {
       "path": "vendor/genoffice-html2docx/src/generate/bookmarks.ts",
       "bytes": 3712,
       "sha256": "8168e55c60a18dd901746ee2b18d7f85e1c9c0e1194c4c6c145f7bedf610070e"
@@ -2568,6 +2863,11 @@
       "sha256": "d81fa78c0a4735e3fb6a5481d35487c65adf94b7ff12009c5a123faa81fce3de"
     },
     {
+      "path": "vendor/genoffice-html2docx/src/generate.ts",
+      "bytes": 1240,
+      "sha256": "7d380be876299f7e30fe4327f828e4968ef069123e1401c2ef412bf956e9563d"
+    },
+    {
       "path": "vendor/genoffice-html2docx/src/index.ts",
       "bytes": 491,
       "sha256": "bd4bd0b6d9d713cea778930d1ed5172bd33930c5cde3c586fc5eecf98c278699"
@@ -2592,6 +2892,5 @@
       "bytes": 2240,
       "sha256": "4b9d8a6b14fd155328847bc6cd063c6bf44c58c64de8d46911cdf0ede611e367"
     }
-  ],
-  "documentation_revision": "2026-10-24: product README; history on downloads; runtime unchanged"
+  ]
 }

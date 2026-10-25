@@ -1,22 +1,25 @@
 import { complete, uid, nextDaily } from '../core.mjs';
 import { sharedRunQueue, requestFingerprint } from '../runtime/run-queue.mjs';
 /** Model-only routines use the same persisted queue and cancellation as conversations. */
-export function createTaskService({ store, active, key, view, notify = () => {}, notifyCompleted = () => {}, request = complete, queue = sharedRunQueue({store,active,notify}) }) {
+export function createTaskService({ models, store, active, key, view, notify = () => {}, notifyCompleted = () => {}, request = complete, queue = sharedRunQueue({store,active,notify}) }) {
     async function run(id, { scheduledFor, requestId } = {}) {
         const task = store.data.tasks.find(t => t.id === id);
         if (!task) throw Error('任务不存在');
         const runId = requestId || (scheduledFor !== undefined ? 'schedule-' + requestFingerprint({id,scheduledFor}) : uid());
         if (queue.hasOwner('task',id) && !queue.lookup(runId)) throw Error('任务正在执行或排队');
         const prompt = task.prompt, name = task.name;
+        const modelRoute=models?.resolve(task.modelChoice||'legacy',task.modelEffort);
         const fingerprint = requestFingerprint({id,prompt,name,scheduledFor});
         if (scheduledFor !== undefined && (!Number.isFinite(scheduledFor) || !task.enabled
             || task.nextRun !== scheduledFor || scheduledFor > Date.now()) && !queue.lookup(runId)) throw Error('定时任务已变化或尚未到期');
         const nextRun = task.enabled ? nextDaily() : null;
         await queue.submit({id:runId,kind:'task',ownerId:id,label:name,fingerprint}, async controller => {
-            const result = await request(store.data.settings,key(),[
+            modelRoute?.check();
+            const result = await request(modelRoute?.settings||store.data.settings,modelRoute?modelRoute.key():key(),[
                 {role:'system',content:'你是 WillBuddy 定时工作助手。仅根据任务描述输出结果。没有联网或本机工具，不能假装查询了实时数据。'},
                 {role:'user',content:prompt}
             ],controller.signal);
+            modelRoute?.check();
             // Providers may ignore abort and deliver late replies. Never save/notify those as success.
             controller.signal.throwIfAborted();
             task.result = result.text;

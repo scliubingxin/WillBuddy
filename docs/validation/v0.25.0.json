@@ -1,0 +1,108 @@
+{
+  "version": "0.25.0",
+  "date": "2026-10-25",
+  "baseline": {
+    "version": "0.24.0",
+    "canonical_version_read": 26,
+    "verified_content_files": 499
+  },
+  "tests": {
+    "core": 264,
+    "new_core": 15,
+    "related_real_chromium": 4,
+    "packaging_python": 9
+  },
+  "scope": {
+    "actual": "host secret adapter + no-secret projection + exact-endpoint bearer client; real AES-GCM test encryption/Store disk and real localhost HTTP MCP JSON+SSE requests; genuine redirect test target never contacted",
+    "ui": "production Chromium: configure token/save no network/clear password/no prefill/probe/bind registry/reload/5 real HTTP model rounds; MCP header received on all9 normal session probe/run requests incl DELETE; model/state/audit/disk credential-free",
+    "fixtures": "OS safeStorage/Keychain via AES-GCM adapter fixture; native IPC/picker/approval/model semantics fixtures, not Mac acceptance",
+    "protected_original": "122 Web/Python designated files SHA unchanged; old35Python not rerun"
+  },
+  "failure_boundaries": [
+    "8–4096 ASCII token/no CRLF/prefix",
+    "basic_text/unavailable/decrypt failure denies",
+    "URL change requires reentry; no implicit credential carry",
+    "disk failure rolls back prior config",
+    "denied or changed approval no decryption/network",
+    "401/403 single request/no refresh",
+    "redirect prevents second endpoint",
+    "literal token echo/errors redacted",
+    "rotation/disable/in-flight changes withhold results; no stale DELETE",
+    "client URL immutable and close erases reference"
+  ],
+  "limits": [
+    "not OAuth/PKCE/refresh/custom API-key header/stdio",
+    "cannot undo already-sent remote side effects",
+    "literal redaction does not block arbitrary server encodings",
+    "sync safeStorage OS prompt/blocking and stable signing pending native Mac",
+    "JS reference release is not memory secure wipe"
+  ],
+  "initial_test_failures": [
+    "new UI close selector matched2 existing buttons; corrected locator",
+    "new HTTP wire-count assumed session; fixture now returns actual session header; production transport unchanged for this test issue"
+  ],
+  "production_asar_exact_files": 99,
+  "offline": {
+    "version": "0.25.0",
+    "bytes": 119724724,
+    "sha256": "1447968a1e62bd9cdc489ff22a02fe67284e72383f237d2e80f76e9eac1a9c71",
+    "app_asar_sha256": "d29d3ccfb9c2d90e89e29ca93e345da2cf2770c019810d25904e60943cb16cdc",
+    "architecture": "arm64",
+    "signature": "ad-hoc",
+    "verified": true,
+    "archive_check": {
+      "app_entries": 282,
+      "extra_files": 5,
+      "closed_inventory": true,
+      "residual_entries": 0
+    }
+  },
+  "macho": {
+    "binaries": 15,
+    "pages": 51216,
+    "symlinks": 14,
+    "tamper_negative": true
+  },
+  "not_tested": [
+    "Mac Keychain/strict resource seal/Gatekeeper/install/native launch/approval",
+    "real paid model or real authenticated enterprise MCP",
+    "new Linux native Electron runtime",
+    "full Word/WPS fidelity",
+    "old unchanged35Python"
+  ],
+  "github": {
+    "last_public_version": "0.22.0",
+    "main_observed": "bdd8db7115f41a150da399ffd0860fe7883f9009",
+    "current_025_public": false
+  },
+  "changed_files": [
+    "ITERATION_LOG.md",
+    "ITERATION_PLAN.md",
+    "README.md",
+    "RELEASE_STATUS.json",
+    "SOURCE_MANIFEST.json",
+    "desktop/main.mjs",
+    "desktop/main/mcp-secrets.mjs",
+    "desktop/package-lock.json",
+    "desktop/package.json",
+    "desktop/runtime/mcp.mjs",
+    "desktop/services/agent-session.mjs",
+    "desktop/services/capability-library.mjs",
+    "desktop/services/conversation.mjs",
+    "desktop/services/mcp-access.mjs",
+    "desktop/src/app.js",
+    "desktop/src/ui/agent-editor.js",
+    "desktop/src/ui/capability-library.js",
+    "desktop/tests/acceptance/capabilities-live.mjs",
+    "desktop/tests/helpers/mcp-secrets.mjs",
+    "desktop/tests/mcp-auth.test.mjs",
+    "docs/AGENT_CAPABILITIES.md",
+    "docs/DOWNLOADS.md",
+    "docs/MCP_AUTHENTICATION.md",
+    "docs/QUICK_GAPS.md",
+    "docs/REA_FINDINGS.md",
+    "docs/SKILLS_AND_CONNECTORS.md",
+    "docs/validation/v0.25.0-tests.txt",
+    "docs/validation/v0.25.0.json"
+  ]
+}

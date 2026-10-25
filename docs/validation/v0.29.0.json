@@ -1,0 +1,63 @@
+{
+  "version": "0.29.0",
+  "baseline": "Library0.28.1/version31;535 content SHA verified",
+  "core_tests_passed": 310,
+  "chromium_tests_passed": 6,
+  "packaging_tests_passed": 10,
+  "layout_combinations": 8,
+  "interactable_popover_placements": 14,
+  "default_composer_height_px": 159,
+  "native_mac_tested": false,
+  "fixtures": [
+    "Electron IPC",
+    "native picker/approval",
+    "Keychain",
+    "model semantics"
+  ],
+  "package": {
+    "asar_files_matched": 108,
+    "protected_files_unchanged": 122,
+    "app_entries": 282,
+    "symlinks": 14,
+    "macho": 15,
+    "pages": 51216,
+    "app_asar_sha256": "cd817386376cdd6ebbfd5a7745496c6d76d14d5bb56a7a25a3f011109326fc4c",
+    "zip_sha256": "e0978e7402c4d0987834c8946bba8a7d853e82b871208dc60315f984f6c4575e",
+    "zip_bytes": 119742176,
+    "tamper_negative": "passed",
+    "residues": {
+      "before_sign": 0,
+      "after_sign": 0
+    }
+  },
+  "changed_files": [
+    "ITERATION_LOG.md",
+    "ITERATION_PLAN.md",
+    "README.md",
+    "RELEASE_STATUS.json",
+    "desktop/package-lock.json",
+    "desktop/package.json",
+    "desktop/runtime/mcp.mjs",
+    "desktop/src/app.js",
+    "desktop/src/styles.css",
+    "desktop/src/ui/models.js",
+    "desktop/tests/acceptance/attachments-live.mjs",
+    "desktop/tests/acceptance/composer-layout-live.mjs",
+    "desktop/tests/acceptance/images-live.mjs",
+    "desktop/tests/acceptance/models-archive-live.mjs",
+    "desktop/tests/helpers/load-ui.mjs",
+    "docs/CHAT_ATTACHMENTS.md",
+    "docs/DOWNLOADS.md",
+    "docs/QUICK_GAPS.md",
+    "docs/REA_FINDINGS.md",
+    "docs/ZIP_AND_MODELS.md",
+    "scripts/package-desktop-source.py",
+    "desktop/src/ui/composer.js",
+    "desktop/tests/composer-menu.test.mjs",
+    "docs/COMPACT_COMPOSER.md",
+    "docs/validation/v0.29.0.json",
+    "docs/validation/v0.29.0-tests.txt"
+  ],
+  "first_failures": "old image test needed new menu entry; selectOption focus assumption and narrow overlay click corrected in tests; final full six tests pass",
+  "github_this_version_published": false
+}

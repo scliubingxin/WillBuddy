@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.22.0",
-  "checked_date": "2026-10-24",
+  "version": "0.29.0",
+  "checked_date": "2026-10-25",
   "source_status": "desktop_source_delivery_not_deployed",
   "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
   "desktop": {
@@ -42,26 +42,34 @@
     "agent_capabilities": "agent-scoped knowledge IDs + lazy skill_read + builtin tool allowlist + bounded Streamable HTTP MCP + configurable ReAct; conversation runtime only",
     "html_interactive_preview": "full bounded authorized source; two opaque sandboxes; inline JS + ephemeral storage, no network/backend; actual private user sample Chromium passed",
     "local_images": "native picker/PNG normalization adapter; bounded persisted bytes hidden from state; local offline cards; explicit current-target multimodal image_url only",
-    "capability_library": "persistent Skill MD/ZIP import/resources and MCP global connector config/discovery; agent skillIds/mcpIds resolved in actual ReAct; no auto script execution/auth/OAuth/stdio"
+    "capability_library": "persistent Skill MD/ZIP resources and MCP global connector config/discovery with optional manual bearer; no script execution/OAuth/stdio",
+    "knowledge_retrieval": "persistent bounded lexical prefix-postings index; current approved original text scoring; revision/fileSHA/extractedTextSHA/locale/algorithm/checksum/geometry; exact scans on index overflow, not embeddings",
+    "knowledge_evidence": "trusted successful retrieval observation snapshots; run-scoped escaped text cards; revision/SHA drift labels; max12 groups/96000 serialized chars per chat; no extra read/model call",
+    "mcp_authentication": "manual bearer only; host safeStorage adapter, explicit metadata view, approved exact-endpoint private token, revision/cipher drift guard, no redirect/retry/anonymous fallback, literal echo redaction; not OAuth",
+    "knowledge_index": "private Store field, removed from renderer state;16 entries/8MiB total/2MiB per entry; serial build/reuse/clear; cancellation/save rollback; approval never cached",
+    "chat_attachments": "native single-file picker imports private validated Office/text copy; turn-scoped current-target text Q&A without tools; version/hash and queue checks; no PDF/OCR/media upload",
+    "chat_archives": "ZIP only; in-memory bounded validation/decompression and real document/text/code extraction; atomic import32 docs, skipped report; no RAR/7z/PDF/OCR/media understanding",
+    "model_profiles": "20 independent endpoint/key/capability profiles; legacy retained; explicit or fast/balanced/extreme type-priority routing; per-run snapshot; real reasoning params; no hidden fallback",
+    "composer": "single input and toolbar; scoped accessible add/model menus, conditional consent, no new execution permissions"
   },
   "validation": {
-    "desktop_tests_passed": 232,
-    "ui_paths_with_mock_bridge": 17,
+    "desktop_tests_passed": 310,
+    "ui_paths_with_mock_bridge": 6,
     "real_cli_child_process_tested": true,
     "agent_http_fixture_to_real_cli_roundtrip_tested": true,
-    "browser_verification": "17 real Chromium full suite passed; final4 related cases passed. Production upload/config/probe/bind/inline-add/reload → actual HTTP ReAct; native picker/IPC/approvals/model semantics fixtures",
+    "browser_verification": "6 full real Chromium regressions; eight viewport/panel layouts, fourteen interactable popover placements, Tab/Enter/Esc/outside close/redraw focus and draft, real ZIP/model/image/SSE wire fixtures",
     "workspace_browser_test_passed": true,
-    "packaging_tests_passed": 9,
+    "packaging_tests_passed": 10,
     "workspace_test_scope": "real Chromium layout, keyboard, Markdown, preview/export; deterministic native bridge and model content",
     "native_chat_lifecycle_integration": "real HTTP SSE/service/Chromium; new real CLI queue/service/Chromium lifecycle; native bridge and approvals are fixtures",
     "mac_native_runtime_verified": false,
     "real_model_provider_tested": false,
     "third_party_cli_codex_tested": false,
     "web_build_tested_this_iteration": false,
-    "theme_check": "White/blue retained; current container lacks CJK fonts; no Chinese pixel or Mac validation",
+    "theme_check": "real Chromium eight viewport/panel layouts; test-only Noto CJK font; not Mac pixel acceptance",
     "offline_bundle": {
       "official_runtime_sha256": "passed",
-      "asar_content": "94 production files exact bytes",
+      "asar_content": "108 production files including assets exact bytes",
       "zip_integrity": "passed",
       "closed_inventory": "passed; 282 app entries + 5 extras; 14 symlinks; no residue",
       "unexpected_entry_negative": "passed even when every manifest file remains unchanged",
@@ -71,11 +79,25 @@
       "code_pages": 51216,
       "negative_tamper_check": "passed",
       "macOS_bundle_codesign_and_gatekeeper": "not_tested",
-      "installer_shell_syntax": "passed"
+      "installer_shell_syntax": "passed",
+      "asar_files_matched": 108,
+      "protected_files_unchanged": 122,
+      "app_entries": 282,
+      "symlinks": 14,
+      "macho": 15,
+      "pages": 51216,
+      "app_asar_sha256": "cd817386376cdd6ebbfd5a7745496c6d76d14d5bb56a7a25a3f011109326fc4c",
+      "zip_sha256": "e0978e7402c4d0987834c8946bba8a7d853e82b871208dc60315f984f6c4575e",
+      "zip_bytes": 119742176,
+      "tamper_negative": "passed",
+      "residues": {
+        "before_sign": 0,
+        "after_sign": 0
+      }
     },
     "service_boundary_tests_passed": 9,
     "streaming_http_to_chromium_passed": true,
-    "chromium_acceptance_tests_passed": 17,
+    "chromium_acceptance_tests_passed": 4,
     "streaming_to_real_node_cli_passed": true,
     "markdown_and_sandboxed_html_passed": true,
     "command_queue_tests_passed": 14,
@@ -106,14 +128,22 @@
     "preview_lifecycle_native": "Linux Electron actual preload/IPC source+ASAR; 3 formats x20 UI redraws, zero extra reads/same child frame; Mac pending",
     "spreadsheet_image_new_tests": 7,
     "spreadsheet_image_scope": "real Chromium file+openpyxl and Linux Electron source/ASAR; one/two anchors real, absolute geometry unit; no Mac/ExcelWPS fidelity",
-    "real_chromium_tests_this_iteration": 17,
-    "legacy_evidence_scope": "Historical named checks retained; docs/validation/v0.22.0.json contains current evidence.",
+    "real_chromium_tests_this_iteration": 4,
+    "legacy_evidence_scope": "Historical evidence fields retained; docs/validation/v0.26.0.json is current run authority",
     "agent_capabilities_new_tests": 11,
     "agent_real_http_fixture": "four model requests → lazy skill → approved real Markdown source → real MCP SSE response → final result; no real external model/MCP",
     "html_original_sample": "260561 bytes /242435 characters; welcome UI and supplier form, 0 outside network, 1 read across redraws; private sample excluded from source",
     "local_image_new_tests": 7,
     "html_preview_new_tests": 6,
-    "capability_library_new_tests": 12
+    "capability_library_new_tests": 12,
+    "knowledge_retrieval_new_tests": 12,
+    "knowledge_retrieval": "12 new tests; actual HTTP and production Chromium 5-model-round skill/resource/2-doc-search/MCP/final",
+    "knowledge_evidence_new_tests": 5,
+    "knowledge_evidence_scope": "real production Chromium/Store/HTTP fixtures: snapshot expansion/redraw/reload/document_edit revision drift; no additional model/MCP call",
+    "mcp_authentication_new_tests": 15,
+    "knowledge_index_new_tests": 16,
+    "chat_attachment_new_tests": 6,
+    "multi_model_and_zip_new_tests": 20
   },
   "rea": {
     "version": "6.7.0",
@@ -121,7 +151,7 @@
     "javascript_analysis": "partial_host_process_ownership_blocked",
     "report": "docs/REA_FINDINGS.md"
   },
-  "notes": "0.22 adds reusable Skill upload library and MCP connector management with real discovery, in-builder upload/configuration, persisted ID binding and actual ReAct execution. No auth/OAuth/stdio/auto-scripts/real Mac or provider validation.",
+  "notes": "Compact progressive-disclosure composer; existing business, routing and permission boundaries retained.",
   "architecture": {
     "guide": "docs/ARCHITECTURE.md",
     "layers": [
@@ -136,11 +166,21 @@
     "web_desktop_shared_core": false
   },
   "current_iteration": {
-    "version": "0.22.0",
-    "evidence": "docs/validation/v0.22.0.json",
-    "guide": "docs/SKILLS_AND_CONNECTORS.md",
+    "version": "0.29.0",
+    "evidence": "docs/validation/v0.29.0.json",
+    "guide": "docs/COMPACT_COMPOSER.md",
     "mac_native_tested": false,
     "public_github_release": false,
-    "public_release_note": "Source/offline ZIP delivery; previous public release approval rejection preserved, no retry or alternate disclosure."
-  }
+    "public_release_note": "0.28.1 release already public;0.29 source/app delivered independently, not uploaded or merged."
+  },
+  "github_last_published": {
+    "version": "0.28.1",
+    "branch": "willbuddy-v0.28.1-composer-fix",
+    "commit": "5593b0f45c6941c2a16f461e336f23817035c7cf",
+    "release": "https://github.com/scliubingxin/WillBuddy/releases/tag/v0.28.1-preview",
+    "main_commit": "bdd8db7115f41a150da399ffd0860fe7883f9009",
+    "main_runtime_version": "0.22.0"
+  },
+  "documentation_policy": "product README only; version/test/limits in downloads and release pages",
+  "github_hotfix_publication": "0.28.1 completed, both public attachment downloads SHA verified;0.29 not published this turn"
 }

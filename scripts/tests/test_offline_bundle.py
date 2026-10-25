@@ -10,7 +10,7 @@ import warnings
 import zipfile
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
-from offline_bundle import EXTRAS,clean_residue,inventory,write_archive,validate_archive
+from offline_bundle import capture_staging_paths,verify_staging_paths,EXTRAS,clean_residue,inventory,write_archive,validate_archive
 
 class OfflineBundleTests(unittest.TestCase):
     def setUp(self):
@@ -23,6 +23,13 @@ class OfflineBundleTests(unittest.TestCase):
     def tearDown(self):self.temp.cleanup()
     def pack(self):
         entries=inventory(self.stage,self.app);(self.stage/'OFFLINE-MANIFEST.json').write_text(json.dumps({'files':entries}));return write_archive(self.stage,entries,self.zip)
+    def test_signing_path_gate_rejects_unknown_temp_and_missing_files(self):
+        expected=capture_staging_paths(self.app)
+        self.assertTrue(verify_staging_paths(self.app,expected))
+        extra=self.app/'Contents/.icudtl.dat.random';extra.write_bytes(b'temp')
+        with self.assertRaisesRegex(ValueError,'added='):verify_staging_paths(self.app,expected)
+        extra.unlink();self.bin.unlink()
+        with self.assertRaisesRegex(ValueError,'missing='):verify_staging_paths(self.app,expected)
     def test_closed_inventory_and_symlink_permissions(self):
         self.assertEqual(self.pack()['app_entries'],2)
         with zipfile.ZipFile(self.zip) as z:

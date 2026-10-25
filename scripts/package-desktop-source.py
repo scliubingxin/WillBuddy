@@ -31,7 +31,7 @@ def package(output):
         'version': json.loads((root / 'desktop/package.json').read_text())['version'],
         'packaged_date': datetime.now(timezone(timedelta(hours=8))).date().isoformat(),
         'provenance': 'Complete validated source snapshot; Git commits and deployment are tracked separately',
-        'base_source_commit_sha': 'ecc5dd81061b5c28999120075d06884a2496114c',
+        'base_source_commit_sha': '5593b0f45c6941c2a16f461e336f23817035c7cf',
         'release_status': json.loads((root / 'RELEASE_STATUS.json').read_text()),
         'files': [{'path': rel, 'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest()} for rel, data, _ in files],
     }

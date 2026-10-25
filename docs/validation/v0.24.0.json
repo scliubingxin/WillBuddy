@@ -1,0 +1,89 @@
+{
+  "version": "0.24.0",
+  "date": "2026-10-24",
+  "baseline": {
+    "version": "0.23.0",
+    "canonical_version_read": 25,
+    "verified_content_files": 493,
+    "public_main_observed": "bdd8db7115f41a150da399ffd0860fe7883f9009"
+  },
+  "tests": {
+    "core": 249,
+    "new_core": 5,
+    "related_real_chromium": 4,
+    "packaging_python": 9
+  },
+  "scope": {
+    "evidence": "real successful registered knowledge_search observations captured as bounded historical chat/run snapshots; plain text cards, original source/version/SHA/line/UTF16 offsets, stale/deleted labels",
+    "browser": "real Chromium production UI and actual Store; 5 real localhost HTTP model requests and MCP; snapshot expansion, sidebar redraw, reload and actual document_edit10000→9000 yields stale10000 snapshot; no extra model or MCP calls",
+    "fixtures": "native picker/IPC/approval and model semantic content are fixtures; not Mac or actual paid provider",
+    "protected_files": "122 original Web/Python baseline SHA unchanged; old35Python tests not rerun"
+  },
+  "retention": {
+    "groups_per_chat": 12,
+    "serialized_characters_per_chat": 96000,
+    "whole_groups_only": true,
+    "old_permission_receipts_reused": false,
+    "removed_bindings_erase_chat_history": false
+  },
+  "production_asar_exact_files": 97,
+  "offline": {
+    "version": "0.24.0",
+    "bytes": 119722105,
+    "sha256": "151364d7f3f9e0068c96d4cad808c6dada46eac2f28cc48ae3f164288c728fc2",
+    "app_asar_sha256": "532945a2e1d8de97b358462de9e514c1422966f98daebd576089abdd50f78423",
+    "architecture": "arm64",
+    "signature": "ad-hoc",
+    "verified": true,
+    "archive_check": {
+      "app_entries": 282,
+      "extra_files": 5,
+      "closed_inventory": true,
+      "residual_entries": 0
+    }
+  },
+  "macho": {
+    "binaries": 15,
+    "pages": 51216,
+    "symlinks": 14,
+    "tamper_negative": true
+  },
+  "not_tested": [
+    "Mac native strict resource seals/Gatekeeper/install/launch/approval",
+    "real paid model or authenticated enterprise MCP",
+    "Linux Electron new runtime acceptance",
+    "Word/WPS full fidelity",
+    "old unchanged Python35"
+  ],
+  "github": {
+    "last_public_version": "0.22.0",
+    "main": "bdd8db7115f41a150da399ffd0860fe7883f9009",
+    "current_024_public": false
+  },
+  "changed_files": [
+    "ITERATION_LOG.md",
+    "ITERATION_PLAN.md",
+    "README.md",
+    "RELEASE_STATUS.json",
+    "SOURCE_MANIFEST.json",
+    "desktop/package-lock.json",
+    "desktop/package.json",
+    "desktop/runtime/mcp.mjs",
+    "desktop/services/conversation.mjs",
+    "desktop/services/knowledge-evidence.mjs",
+    "desktop/src/app.js",
+    "desktop/src/styles.css",
+    "desktop/src/ui/knowledge-evidence.js",
+    "desktop/src/ui/workspace.js",
+    "desktop/tests/acceptance/capabilities-live.mjs",
+    "desktop/tests/knowledge-evidence.test.mjs",
+    "desktop/tests/knowledge-search.test.mjs",
+    "docs/DOWNLOADS.md",
+    "docs/KNOWLEDGE_EVIDENCE.md",
+    "docs/QUICK_GAPS.md",
+    "docs/REA_FINDINGS.md",
+    "docs/validation/v0.24.0-tests.txt",
+    "docs/validation/v0.24.0.json",
+    "scripts/package-desktop-source.py"
+  ]
+}

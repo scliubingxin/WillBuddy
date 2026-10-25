@@ -30,6 +30,15 @@ def clean_residue(app):
             p.rmdir()
     return len(candidates)
 
+def capture_staging_paths(app):
+    return frozenset(p.relative_to(app).as_posix() for p in app.rglob('*') if p.is_file() or p.is_symlink())
+
+def verify_staging_paths(app,expected):
+    actual=capture_staging_paths(app)
+    if actual!=expected:
+        raise ValueError('signing changed bundle paths: added='+repr(sorted(actual-expected))+' missing='+repr(sorted(expected-actual)))
+    return True
+
 def safe_name(name):
     p=PurePosixPath(name)
     if p.is_absolute() or '..' in p.parts or '\\' in name or str(p)!=name or residue(name):raise ValueError('unsafe or residual archive entry: '+name)
