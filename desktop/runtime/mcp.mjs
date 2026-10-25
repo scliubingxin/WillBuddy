@@ -163,7 +163,7 @@ export class McpClient {
       {
         protocolVersion: "2025-06-18",
         capabilities: {},
-        clientInfo: { name: "WillBuddy", version: "0.29.0" },
+        clientInfo: { name: "WillBuddy", version: "0.30.0" },
       },
       signal,
     );

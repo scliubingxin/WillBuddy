@@ -4,8 +4,8 @@ import { uid } from '../core.mjs';
 import { prepareCommand, runCommand } from './command.mjs';
 
 export class ToolRuntime {
-    constructor({ store, browser, approve, notify = () => {}, convertDocument }) {
-        Object.assign(this, { store, browser, approve, notify });
+    constructor({ store, browser, approve, notify = () => {}, convertDocument, beforeCli }) {
+        Object.assign(this, { store, browser, approve, notify, beforeCli });
         this.documents = createDocumentService({store,notify,convertDocument});
         this.browserPermissions = createBrowserPermissions();
     }
@@ -66,6 +66,7 @@ export class ToolRuntime {
             let result;
             if (documentToken) result = await this.documents.perform(documentToken,signal);
             else if (name === 'cli_execute') {
+                await this.beforeCli?.(args);
                 const checked = await prepareCommand(this.store.data.folders, args);
                 if (checked.cwd !== command.cwd || checked.executable !== command.executable) throw new Error('工作目录或程序路径在审批期间发生变化，请重新执行');
                 const persistence = new AbortController();

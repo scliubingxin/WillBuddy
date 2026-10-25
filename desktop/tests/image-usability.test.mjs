@@ -1,0 +1,10 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';
+import {imageInfo,imageInputInfo} from '../src/shared/image-bytes.js';
+import {normalizeNativeImage} from '../main/image-files.mjs';
+import {createImageService} from '../services/images.mjs';
+import {initialState} from '../core.mjs';
+const tiny=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aXioAAAAASUVORK5CYII=','base64');
+const header=(w,h,n=tiny.length)=>{const b=Buffer.alloc(n);tiny.copy(b);b.writeUInt32BE(w,16);b.writeUInt32BE(h,20);return b;};
+test('large input header is accepted before native decoding; stored normalized limit remains independently bounded',()=>{assert.deepEqual(imageInputInfo(header(6000,4000,5*1024*1024)),{width:6000,height:4000,mime:'image/png'});assert.throws(()=>imageInputInfo(header(32768,32768)),/像素/);assert.throws(()=>imageInputInfo(header(1,1,32*1024*1024+1)));assert.throws(()=>imageInfo(header(6000,4000)));assert.equal(imageInfo(header(3000,2000)).width,3000);});
+test('native adapter scales full image proportionally and retries PNG byte budget; decoder failure never persists',()=>{const calls=[];const make=(w,h)=>({isEmpty:()=>false,getSize:()=>({width:w,height:h}),toPNG:()=>header(w,h,w>3000?4*1024*1024+1:100),resize:p=>{calls.push(p);return make(p.width,p.height);}});const b=normalizeNativeImage({createFromBuffer:()=>make(6000,4000)},header(6000,4000,3*1024*1024));const info=imageInfo(b);assert(info.width<=3000);assert(Math.abs(info.width/info.height-1.5)<.002);assert(calls.length>=2);assert(calls.every(p=>p.quality==='best'));assert.throws(()=>normalizeNativeImage({createFromBuffer:()=>({isEmpty:()=>true})},tiny),/解码/);});
+test('eight distinct images can be selected; ninth rejected and ordinary view contains no pixels',async()=>{const store={data:initialState(),save:async()=>{}},images=createImageService({store,decode:async()=>tiny});const rows=[];for(let i=0;i<9;i++)rows.push(await images.importFile('image-'+i+'.png',tiny));assert.equal(images.selected(rows.slice(0,8).map(x=>x.id)).length,8);assert.throws(()=>images.selected(rows.map(x=>x.id)),/8张/);assert(rows.every(r=>!r.base64));});

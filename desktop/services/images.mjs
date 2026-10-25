@@ -1,5 +1,5 @@
 import { randomUUID, createHash } from "node:crypto";
-import { imageInfo, imageFromBase64 } from "../src/shared/image-bytes.js";
+import { imageInfo, imageInputInfo, imageFromBase64 } from "../src/shared/image-bytes.js";
 const digest = (bytes) => createHash("sha256").update(bytes).digest("hex");
 export const imageViews = (data) =>
   (data.imageAttachments || []).map(
@@ -35,20 +35,20 @@ export function createImageService({ store, decode }) {
   };
   return {
     async importFile(name, bytes) {
-      imageInfo(bytes);
+      imageInputInfo(bytes);
       if (typeof name !== "string" || !name.trim() || name.length > 160)
         throw Error("图片名称无效");
       // Decode/re-encode before persistence; model and renderer never provide filesystem paths.
       return locked(async () => {
-        if (rows().length >= 30)
-          throw Error("最多保留30张本机图片，请在图片库移除未使用项");
+        if (rows().length >= 100)
+          throw Error("最多保留100张本机图片，请在图片库移除未使用项");
         const normalized = await decode(bytes),
           info = imageInfo(normalized, { pngOnly: true });
         if (
           rows().reduce((n, r) => n + r.bytes, 0) + normalized.length >
-          16 * 1024 * 1024
+          128 * 1024 * 1024
         )
-          throw Error("本机图片总量最多16 MiB，请清理未使用项");
+          throw Error("本机图片总量最多128 MiB，请清理未使用项");
         const row = {
           id: randomUUID(),
           name,
@@ -74,10 +74,10 @@ export function createImageService({ store, decode }) {
     selected(ids) {
       if (
         !Array.isArray(ids) ||
-        ids.length > 3 ||
+        ids.length > 8 ||
         new Set(ids).size !== ids.length
       )
-        throw Error("每次最多3张且不得重复附加图片");
+        throw Error("每次最多8张且不得重复附加图片");
       return ids.map((id) => structuredClone(read(id)));
     },
     preview(id) {

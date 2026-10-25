@@ -1,0 +1,46 @@
+{
+  "version": "0.30.0",
+  "date": "2026-10-26",
+  "core": 319,
+  "real_chromium": 7,
+  "packaging": 10,
+  "native_mac": false,
+  "real_paid_model": false,
+  "native_picker_ipc_approval": "fixtures",
+  "native_image_resize": "injected adapter; large actual PNG decoded by Chromium",
+  "actual_execution": [
+    "npm install with no dependencies",
+    "npm Node scripts",
+    "Node HTTP health response and cancellation",
+    "Python venv/pip empty requirements/main"
+  ],
+  "bundle": {
+    "official_runtime_sha256": "passed",
+    "asar_content": "111 production files exact",
+    "zip_integrity": "passed",
+    "closed_inventory": "passed; 282 app entries + 5 extras; 14 symlinks; no residue",
+    "unexpected_entry_negative": "passed even when every manifest file remains unchanged",
+    "case_collision_link_mode_checks": "passed",
+    "user_reported_050_signing_issue": "addressed by staging cleanup, closed inventory and native CI gate; new Mac validation pending",
+    "macho_binaries": 15,
+    "code_pages": 51216,
+    "negative_tamper_check": "passed",
+    "macOS_bundle_codesign_and_gatekeeper": "not_tested",
+    "installer_shell_syntax": "passed",
+    "asar_files_matched": 111,
+    "protected_files_unchanged": 122,
+    "app_entries": 282,
+    "symlinks": 14,
+    "macho": 15,
+    "pages": 51216,
+    "app_asar_sha256": "a7575e66104e6f9200ae143dcf87e958c81f75963e13e57afea358504244d6d2",
+    "zip_sha256": "1c6bf07141d7fd24e85374f06bcd2b4b3ab8b71c66a3a0bc39208f3268a1551b",
+    "zip_bytes": 119747649,
+    "tamper_negative": "passed",
+    "residues": {
+      "before_sign": 0,
+      "after_sign": 0
+    }
+  },
+  "limitations": "5min CLI;optional npm/Node/Python external;no daemon/container/cloud deployment;ad-hoc unnotarized;not Mac tested"
+}

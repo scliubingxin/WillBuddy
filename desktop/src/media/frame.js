@@ -51,15 +51,18 @@
   }
 
   // desktop/src/shared/image-bytes.js
-  var MAX_IMAGE_BYTES = 2 * 1024 * 1024;
+  var MAX_IMAGE_BYTES = 4 * 1024 * 1024;
   function imageInfo(bytes, { pngOnly = false } = {}) {
-    if (!(bytes instanceof Uint8Array) || bytes.length > MAX_IMAGE_BYTES) throw Error("\u56FE\u7247\u6700\u591A2 MiB");
+    if (!(bytes instanceof Uint8Array) || bytes.length > MAX_IMAGE_BYTES)
+      throw Error("\u89C4\u8303\u56FE\u7247\u6700\u591A4 MiB");
     const info = rasterInfo(bytes);
-    if (!["image/png", "image/jpeg"].includes(info.mime) || pngOnly && info.mime !== "image/png" || info.width * info.height > 4194304) throw Error("\u4EC5\u652F\u6301PNG/JPEG\u9759\u6001\u56FE\u7247\uFF0C\u6700\u591A4\u767E\u4E07\u50CF\u7D20\u3001\u8FB9\u957F4096");
+    if (!["image/png", "image/jpeg"].includes(info.mime) || pngOnly && info.mime !== "image/png" || info.width * info.height > 16777216)
+      throw Error("\u4EC5\u652F\u6301PNG/JPEG\u9759\u6001\u56FE\u7247\uFF0C\u6700\u591A16\u767E\u4E07\u50CF\u7D20\u3001\u8FB9\u957F4096");
     return info;
   }
   function imageFromBase64(base64) {
-    if (typeof base64 !== "string" || base64.length > Math.ceil(MAX_IMAGE_BYTES / 3) * 4 || base64.length % 4 || !/^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(base64)) throw Error("\u672C\u673A\u56FE\u7247\u5B57\u8282\u65E0\u6548");
+    if (typeof base64 !== "string" || base64.length > Math.ceil(MAX_IMAGE_BYTES / 3) * 4 || base64.length % 4 || !/^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(base64))
+      throw Error("\u672C\u673A\u56FE\u7247\u5B57\u8282\u65E0\u6548");
     const raw = atob(base64), bytes = Uint8Array.from(raw, (c) => c.charCodeAt(0));
     imageInfo(bytes, { pngOnly: true });
     return bytes;

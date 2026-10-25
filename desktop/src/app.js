@@ -1,3 +1,4 @@
+import {createComposerImages} from './ui/composer-images.js';
 import {compactComposer,createComposerMenus} from './ui/composer.js';
 import {modelPicker,modelLibrary,modelForm,modelChoiceLabel} from './ui/models.js';
 import {capabilityTabs,skillsPage,mcpPage,mcpAuthFields} from './ui/capability-library.js';
@@ -73,7 +74,8 @@ function heading(kicker, title, desc, button = '') { return `<div class="page-ti
 function date(t) { return new Date(t).toLocaleString('zh-CN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }); }
 const boundComposers=new WeakSet();
 const composerMenus=createComposerMenus($('#app'));
-window.addEventListener('pagehide',()=>composerMenus.dispose());
+const composerImages=createComposerImages($('#app'),id=>invoke('imagePreview',{id}));
+window.addEventListener('pagehide',()=>{composerMenus.dispose();composerImages.dispose();});
 const officeWorkspace = createOfficeWorkspace($('#app'), host => host.classList.contains('html-host')?mountHtmlPreview(host):mountOfficePreview(host, invoke));
 window.addEventListener('pagehide', () => officeWorkspace.dispose());
 function render() {
@@ -89,6 +91,7 @@ function render() {
     officeWorkspace.update(markup, `${page}:${chatId}`);
     if(previousComposer&&$('#prompt'))$('#prompt').replaceWith(previousComposer);
     composerMenus.afterRender(`${page}:${chatId}`);
+    composerImages.update();
     $('#sendImages')?.addEventListener('change',e=>sendImages=e.target.checked);
     const composer = $('#prompt');
     if(composer&&composer.value!==draft)composer.value=draft;
@@ -283,13 +286,14 @@ async function loadFiles() {
     render();
 }
 async function send() {
-    if (chatLive() || !draft.trim())
+    if (chatLive() || (!draft.trim()&&!images.length))
         return;
     if (!api) {
         toast('请在桌面应用中配置模型后使用。');
         return;
     }
-    const prompt = draft;
+    if(!draft.trim()&&images.length&&!sendImages){toast('请勾选本轮发送图片，或输入文字');return;}
+    const prompt = draft.trim()?draft:'请分析这些图片。';
     const id = chatId || crypto.randomUUID();
     const selected = [...files], selectedImages=[...images], selectedConsent=sendImages;
     chatId = id;
@@ -307,9 +311,11 @@ async function send() {
     catch (e) {
         toast(e.message);
         applyState(await invoke('state'));
-        if(chatId===id){draft = prompt;files = selected;images=selectedImages;sendImages=selectedConsent;}
+        if(chatId===id&&!draft&&!files.length&&!images.length){draft = prompt;files = selected;images=selectedImages;sendImages=selectedConsent;}
     }
     finally {
+        const reply=state.chats.find(c=>c.id===id)?.messages?.at(-1);
+        if(reply?.error&&selectedImages.length&&chatId===id&&!draft&&!files.length&&!images.length){draft=prompt;files=selected;images=selectedImages;sendImages=selectedConsent;toast('发送未成功，已恢复文字和图片，请检查错误后手动重试');}
         pendingChats.delete(id); pending = pendingChats.has(chatId);
         render();
     }
@@ -604,8 +610,14 @@ async function handle(actionId, id) {
         searchTerm = $('#fileQuery').value;
         return loadFiles();
     }
+    if(actionId==='codeProjects'){
+        applyState(await invoke('state'));
+        modal('代码项目与运行环境','<p>代码ZIP导入后只解析和保存，不自动执行。选择步骤后将显示系统确认；依赖安装可能联网，脚本使用当前账号权限，不是系统沙箱。每次执行最长5分钟，日志与停止操作在工具台。</p><button data-action="projectImport">导入代码ZIP</button><button data-page="tools">查看日志与停止</button>'+(state.codeProjects||[]).map(p=>`<article><h3>${escape(p.name)} · ${escape(p.kind)}</h3><details><summary>${p.files.length}个项目文件</summary><pre>${escape(p.files.join('\n'))}</pre></details>${p.steps.map(s=>`<p><button data-action="projectRun" data-id="${escape(p.id+':'+s.id)}">${escape(s.label)}</button> <code>${escape(s.executable+' '+s.args.join(' '))}</code>${s.script?'<br><small>项目脚本：'+escape(s.script)+'</small>':''}</p>`).join('')}${p.jobs.map(j=>{const job=(state.commandJobs||[]).find(x=>x.id===j.jobId);return `<p>${escape(j.stepId)}：${escape(job?.status||j.submissionError||'记录已清理')}</p>`;}).join('')}</article>`).join(''));return;
+    }
+    if(actionId==='projectImport'){const p=await invoke('projectImport');if(p)return handle('codeProjects');return;}
+    if(actionId==='projectRun'){const split=id.indexOf(':');await invoke('projectRun',{id:id.slice(0,split),stepId:id.slice(split+1)});applyState(await invoke('state'));$('#modal').close();await navigate('tools');toast('已加入持久命令队列，请核对系统确认中的实际命令');return;}
     if(actionId==='attachImage'){
-        if(images.length>=3)throw Error('每次最多3张图片');
+        if(images.length>=8)throw Error('每次最多8张图片');
         const scope=chatId,presentPage=page,row=await invoke('imageImport');
         applyState(await invoke('state'));
         if(row&&scope===chatId&&presentPage===page){images.push(row);sendImages=false;}else if(row)toast('图片已保存在本机图片库，可按需附加');render();return;
@@ -615,7 +627,7 @@ async function handle(actionId, id) {
         applyState(await invoke('state'));
         modal('本机图片', '<p>选择附加图片后，默认仅本机保存；发送像素需勾选输入框中的选项。历史消息引用的图片不能在此移除。</p>'+(state.imageAttachments||[]).map(i=>`<div class="file-row"><div>${escape(i.name)}<small>${i.width} × ${i.height}</small></div><button type="button" data-action="imageAttachStored" data-id="${escape(i.id)}">附加</button><button type="button" data-action="imageRemove" data-id="${escape(i.id)}">移除未使用图片</button></div>`).join(''));return;
     }
-    if(actionId==='imageAttachStored'){if(images.length>=3)throw Error('每次最多3张图片');const i=(state.imageAttachments||[]).find(i=>i.id===id);if(i&&!images.some(i=>i.id===id))images.push(i);sendImages=false;$('#modal').close();render();return;}
+    if(actionId==='imageAttachStored'){if(images.length>=8)throw Error('每次最多8张图片');const i=(state.imageAttachments||[]).find(i=>i.id===id);if(i&&!images.some(i=>i.id===id))images.push(i);sendImages=false;$('#modal').close();render();return;}
     if(actionId==='imageRemove'){await update('imageRemove',{id});images=images.filter(i=>i.id!==id);$('#modal').close();return;}
     if(actionId==='reattachDocument'){
         if(files.length>=32)throw Error('每次最多32份附件');
@@ -629,7 +641,7 @@ async function handle(actionId, id) {
         const scope=chatId,presentPage=page;
         const row=await invoke('chatAttachmentImport');
         applyState(await invoke('state'));
-        if(row&&scope===chatId&&presentPage===page){const added=row.attachments||[row];if(files.length+added.length>32)throw Error('合计超过32份，导入副本已保存到成果中心，请分批附加');files.push(...added);toast('已附加'+added.length+'份，点击发送后正文交给当前模型');if(row.skipped?.length)modal('ZIP解压报告','<p>已附加'+added.length+'份；以下文件未作为正文理解：</p>'+row.skipped.map(x=>'<p>'+escape(x.path)+'：'+escape(x.reason)+'</p>').join(''));}
+        if(row&&scope===chatId&&presentPage===page){const added=row.attachments||[row];if(row.project)toast('已识别代码项目，可在＋菜单的代码项目与运行环境中准备和启动');if(files.length+added.length>32)throw Error('合计超过32份，导入副本已保存到成果中心，请分批附加');files.push(...added);toast('已附加'+added.length+'份，点击发送后正文交给当前模型');if(row.skipped?.length)modal('ZIP解压报告','<p>已附加'+added.length+'份；以下文件未作为正文理解：</p>'+row.skipped.map(x=>'<p>'+escape(x.path)+'：'+escape(x.reason)+'</p>').join(''));}
         else if(row)toast('文档已保存到成果中心；对话已切换，未自动附加');
         render();$('#prompt')?.focus();return;
     }
