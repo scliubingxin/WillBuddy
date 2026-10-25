@@ -1,4 +1,13 @@
 const labels={fast:'快速 · 非思考',balanced:'均衡 · 日常工作',extreme:'极致 · 高强度思考'};
+export function modelChoiceLabel(state,choice,effort){
+ const auto={fast:'快速',balanced:'均衡',extreme:'极致'};
+ if(choice.startsWith('auto:'))return auto[choice.slice(5)]||'选择模型';
+ if(choice==='legacy')return state.settings.model==='尚未配置'?'选择模型':state.settings.model||'选择模型';
+ const p=(state.modelProfiles||[]).find(p=>p.enabled&&'profile:'+p.id===choice);
+ if(!p)return '重新选择模型';
+ const strength={off:'非思考',low:'低',medium:'中',high:'高'}[effort||p.effort];
+ return p.name+(strength?' · '+strength:'');
+}
 export function modelPicker(state,choice,effort,escape){
  return `<label>模型<select id="modelChoice" aria-label="选择模型或自动档位"><option value="legacy" ${choice==='legacy'?'selected':''}>原配置：${escape(state.settings.model)}</option><optgroup label="按已配置类型自动选择">${Object.entries(labels).map(([id,name])=>`<option value="auto:${id}" ${choice==='auto:'+id?'selected':''}>自动 · ${name}</option>`).join('')}</optgroup>${choice.startsWith('profile:')&&!(state.modelProfiles||[]).some(p=>p.enabled&&'profile:'+p.id===choice)?`<option value="${escape(choice)}" selected disabled>配置已移除/停用，请重新选择</option>`:''}<optgroup label="指定模型">${(state.modelProfiles||[]).filter(p=>p.enabled).map(p=>`<option value="profile:${escape(p.id)}" ${choice==='profile:'+p.id?'selected':''}>${escape(p.name)} · ${escape(p.model)}</option>`).join('')}</optgroup></select></label>${choice.startsWith('profile:')?`<label>思考强度<select id="modelEffort" aria-label="思考强度">${[['','按模型配置'],['off','关闭思考'],['low','低'],['medium','中'],['high','高']].map(([id,n])=>`<option value="${id}" ${effort===id?'selected':''}>${n}</option>`).join('')}</select></label>`:''}<button class="context-button" data-action="settings">模型配置</button><small>本轮资料及最近对话发送到所选模型；自动档位按配置类型选择。</small>`;
 }
