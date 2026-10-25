@@ -10,6 +10,27 @@ export function parseChatUpload(name,input){
   const format=formatFor(ext);
   inspectDocument(format,bytes);return {items:[{name,format,bytes}],skipped:[]};
  }
+ const all=decodeUploadArchive(bytes),items=[],skipped=[];let chars=0;
+ for(const [path,data] of Object.entries(all)){
+  if(path.endsWith('/'))continue;
+  const ext=path.split('.').at(-1).toLowerCase();
+  if(path.split('/').some(s=>s.startsWith('.')||s==='__MACOSX')||!extensions.has(ext)){skipped.push({path,reason:ext==='zip'?'不递归解压':'非支持正文格式或隐藏文件'});continue;}
+  if(items.length>=32){skipped.push({path,reason:'超过32份可问答文件预算'});continue;}
+  const format=formatFor(ext);
+  if(['md','html'].includes(format)&&new TextDecoder('utf-8',{fatal:true}).decode(data).length>100000){skipped.push({path,reason:'单份正文超过10万字符预算'});continue;}
+  const checked=inspectDocument(format,data);
+  if(chars+checked.text.length>100000){skipped.push({path,reason:'超过正文合计10万字符预算'});continue;}
+  chars+=checked.text.length;
+  if(!checked.text.trim()){skipped.push({path,reason:'未提取到正文'});continue;}
+  items.push({name:path.split('/').at(-1).slice(0,100),format,bytes:Buffer.from(data),archive:name,entryPath:path});
+ }
+ if(!items.length)throw Error('ZIP中没有支持的可问答正文文件（暂不解析PDF/图片/程序/嵌套压缩包）');
+ return {items,skipped};
+}
+
+/** Exact archive entries, independent of the question-answer excerpt budget. */
+export function decodeUploadArchive(input){
+ const bytes=Buffer.from(input);
  if(bytes.length>32*1024*1024)throw Error('ZIP输入最多32MiB');
  let end=-1;for(let i=bytes.length-22;i>=Math.max(0,bytes.length-65557);i--)if(bytes.readUInt32LE(i)===0x06054b50){end=i;break;}
  if(end<0)throw Error('ZIP无效');
@@ -27,20 +48,5 @@ export function parseChatUpload(name,input){
   paths.push(path);p+=46+len+extra+comment;
  }
  const folded=new Set();for(const path of paths){const key=path.normalize('NFKC').toLowerCase();if(folded.has(key))throw Error('ZIP路径规范化冲突');folded.add(key);}
- const all=openPackage(bytes,{chatArchive:true}),items=[],skipped=[];let chars=0;
- for(const [path,data] of Object.entries(all)){
-  if(path.endsWith('/'))continue;
-  const ext=path.split('.').at(-1).toLowerCase();
-  if(path.split('/').some(s=>s.startsWith('.')||s==='__MACOSX')||!extensions.has(ext)){skipped.push({path,reason:ext==='zip'?'不递归解压':'非支持正文格式或隐藏文件'});continue;}
-  if(items.length>=32){skipped.push({path,reason:'超过32份可问答文件预算'});continue;}
-  const format=formatFor(ext);
-  if(['md','html'].includes(format)&&new TextDecoder('utf-8',{fatal:true}).decode(data).length>100000){skipped.push({path,reason:'单份正文超过10万字符预算'});continue;}
-  const checked=inspectDocument(format,data);
-  if(chars+checked.text.length>100000){skipped.push({path,reason:'超过正文合计10万字符预算'});continue;}
-  chars+=checked.text.length;
-  if(!checked.text.trim()){skipped.push({path,reason:'未提取到正文'});continue;}
-  items.push({name:path.split('/').at(-1).slice(0,100),format,bytes:Buffer.from(data),archive:name,entryPath:path});
- }
- if(!items.length)throw Error('ZIP中没有支持的可问答正文文件（暂不解析PDF/图片/程序/嵌套压缩包）');
- return {items,skipped};
+ return openPackage(bytes,{chatArchive:true});
 }
