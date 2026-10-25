@@ -1,0 +1,59 @@
+{
+  "version": "0.28.1",
+  "baseline": "Library0.28.0/version30,530 content SHA verified",
+  "core_tests": 308,
+  "chromium_tests": 6,
+  "packaging_tests": 10,
+  "package": {
+    "asar_files_matched": 107,
+    "protected_files_unchanged": 122,
+    "app_entries": 282,
+    "symlinks": 14,
+    "macho": 15,
+    "pages": 51216,
+    "app_asar_sha256": "9e3c359862f730ea99fdd1912cbdd3ea5ba05e9fbadfd39f733156949af10b43",
+    "zip_sha256": "51ce0b96191facbe602098976011ce74aa0a9a844e2c44943e8cc3b2d8e734a2",
+    "zip_bytes": 119739518,
+    "tamper_negative": "passed",
+    "residues": {
+      "before_sign": 0,
+      "after_sign": 1
+    }
+  },
+  "fixtures": [
+    "native picker",
+    "Electron IPC",
+    "OS Keychain",
+    "semantic model response"
+  ],
+  "mac_native_verified": false,
+  "developer_id_or_notarization": false,
+  "failures_rejected": [
+    "truncated runtime SHA mismatch",
+    "unknown signing residue",
+    "known residue after signing"
+  ],
+  "source_changes": [
+    "ITERATION_LOG.md",
+    "ITERATION_PLAN.md",
+    "RELEASE_STATUS.json",
+    "desktop/main/document-files.mjs",
+    "desktop/main.mjs",
+    "desktop/package-lock.json",
+    "desktop/package.json",
+    "desktop/runtime/chat-archive.mjs",
+    "desktop/runtime/documents.mjs",
+    "desktop/runtime/mcp.mjs",
+    "desktop/services/conversation.mjs",
+    "desktop/src/app.js",
+    "desktop/src/styles.css",
+    "desktop/tests/chat-archive.test.mjs",
+    "docs/DOWNLOADS.md",
+    "docs/QUICK_GAPS.md",
+    "docs/REA_FINDINGS.md",
+    "docs/ZIP_AND_MODELS.md",
+    "scripts/offline_bundle.py",
+    "scripts/package-offline-mac.py",
+    "scripts/tests/test_offline_bundle.py"
+  ]
+}
