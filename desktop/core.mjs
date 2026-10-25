@@ -1,3 +1,4 @@
+import {requestModelOptions} from './runtime/model-policy.mjs';
 import {constants} from 'node:fs';
 import { readCompletion } from './runtime/model-stream.mjs';
 import { open, readFile, writeFile, mkdir, rename, realpath, readdir, stat, lstat } from 'node:fs/promises';
@@ -102,7 +103,7 @@ export function modelEndpoint(baseUrl) {
 export async function complete(settings, key, messages, signal, tools, options = {}) {
     if (!settings.model?.trim())
         throw new Error('请先设置模型 ID');
-    const res = await fetch(modelEndpoint(settings.baseUrl), { method: 'POST', redirect: 'error', headers: { 'Content-Type': 'application/json', ...(key ? { Authorization: `Bearer ${key}` } : {}) }, body: JSON.stringify({ model: settings.model, messages, stream: typeof options.onDelta === 'function', max_tokens: 4096, ...(tools?.length ? { tools, tool_choice: "auto" } : {}) }), signal: signal || AbortSignal.timeout(120000) });
+    const res = await fetch(modelEndpoint(settings.baseUrl), { method: 'POST', redirect: 'error', headers: { 'Content-Type': 'application/json', ...(key ? { Authorization: `Bearer ${key}` } : {}) }, body: JSON.stringify({ model: settings.model, messages, stream: typeof options.onDelta === 'function', ...requestModelOptions(settings), ...(tools?.length ? { tools, tool_choice: "auto" } : {}) }), signal: signal || AbortSignal.timeout(120000) });
     if (!res.ok)
         throw new Error(`模型服务返回 HTTP ${res.status}，请检查地址、密钥和模型权限` + (tools?.length && [400, 422].includes(res.status) ? '；模型可能不接受 tools 参数，可关闭输入框的工具模式后重试，或选择支持工具调用的模型' : ''));
     return readCompletion(res, { signal, onDelta: options.onDelta, toolsEnabled: !!tools?.length });
