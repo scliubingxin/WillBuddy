@@ -1,14 +1,14 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.28.0",
+  "version": "0.28.1",
   "packaged_date": "2026-10-25",
   "provenance": "Complete validated source snapshot; Git commits and deployment are tracked separately",
   "base_source_commit_sha": "bdd8db7115f41a150da399ffd0860fe7883f9009",
   "release_status": {
     "schema_version": 2,
     "brand": "WillBuddy",
-    "version": "0.28.0",
+    "version": "0.28.1",
     "checked_date": "2026-10-25",
     "source_status": "desktop_source_delivery_not_deployed",
     "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -59,20 +59,20 @@
       "model_profiles": "20 independent endpoint/key/capability profiles; legacy retained; explicit or fast/balanced/extreme type-priority routing; per-run snapshot; real reasoning params; no hidden fallback"
     },
     "validation": {
-      "desktop_tests_passed": 306,
-      "ui_paths_with_mock_bridge": 5,
+      "desktop_tests_passed": 308,
+      "ui_paths_with_mock_bridge": 6,
       "real_cli_child_process_tested": true,
       "agent_http_fixture_to_real_cli_roundtrip_tested": true,
       "browser_verification": "5 related real Chromium; production model forms, actual ZIP DOCX/text, fast/extreme/manual-low HTTP payloads and auth headers, reload; native picker/IPC/Keychain/model semantics fixtures",
       "workspace_browser_test_passed": true,
-      "packaging_tests_passed": 9,
+      "packaging_tests_passed": 10,
       "workspace_test_scope": "real Chromium layout, keyboard, Markdown, preview/export; deterministic native bridge and model content",
       "native_chat_lifecycle_integration": "real HTTP SSE/service/Chromium; new real CLI queue/service/Chromium lifecycle; native bridge and approvals are fixtures",
       "mac_native_runtime_verified": false,
       "real_model_provider_tested": false,
       "third_party_cli_codex_tested": false,
       "web_build_tested_this_iteration": false,
-      "theme_check": "White/blue retained; current container lacks CJK fonts; no Chinese pixel or Mac validation",
+      "theme_check": "real Chromium eight viewport/panel layouts; test-only Noto CJK font; not Mac pixel acceptance",
       "offline_bundle": {
         "official_runtime_sha256": "passed",
         "asar_content": "107 production files including assets exact bytes",
@@ -85,7 +85,21 @@
         "code_pages": 51216,
         "negative_tamper_check": "passed",
         "macOS_bundle_codesign_and_gatekeeper": "not_tested",
-        "installer_shell_syntax": "passed"
+        "installer_shell_syntax": "passed",
+        "asar_files_matched": 107,
+        "protected_files_unchanged": 122,
+        "app_entries": 282,
+        "symlinks": 14,
+        "macho": 15,
+        "pages": 51216,
+        "app_asar_sha256": "9e3c359862f730ea99fdd1912cbdd3ea5ba05e9fbadfd39f733156949af10b43",
+        "zip_sha256": "51ce0b96191facbe602098976011ce74aa0a9a844e2c44943e8cc3b2d8e734a2",
+        "zip_bytes": 119739518,
+        "tamper_negative": "passed",
+        "residues": {
+          "before_sign": 0,
+          "after_sign": 1
+        }
       },
       "service_boundary_tests_passed": 9,
       "streaming_http_to_chromium_passed": true,
@@ -171,7 +185,8 @@
       "pull_request": "https://github.com/scliubingxin/WillBuddy/pull/1",
       "release": "https://github.com/scliubingxin/WillBuddy/releases/tag/v0.22.0-preview"
     },
-    "documentation_policy": "product README only; version/test/limits in downloads and release pages"
+    "documentation_policy": "product README only; version/test/limits in downloads and release pages",
+    "github_hotfix_publication": "0.28 verified branch295049e; 0.28.1 source/app publication in progress at build time; see actual GitHub Release, main not merged"
   },
   "files": [
     {
@@ -211,13 +226,13 @@
     },
     {
       "path": "ITERATION_LOG.md",
-      "bytes": 163762,
-      "sha256": "c2b0694044011719fe43156282427c33c14d5bfd78563b4ce4f6c5ca573db720"
+      "bytes": 165911,
+      "sha256": "b7fbd2d94df82babacdb8c621fee87872006de89b581785bb57b8a0b1667c378"
     },
     {
       "path": "ITERATION_PLAN.md",
-      "bytes": 53423,
-      "sha256": "e3f7ad5a6a3d80845e76f3ffab47a66d8f9ef30ca0e342c02b56868eae4b7b79"
+      "bytes": 55572,
+      "sha256": "9beb82dfecc11f8b99cc5fa11b5843d06a54c2525de7ccc41b386799f5d384fd"
     },
     {
       "path": "OPENWORKBUDDY_REFERENCE.md",
@@ -236,8 +251,8 @@
     },
     {
       "path": "RELEASE_STATUS.json",
-      "bytes": 13415,
-      "sha256": "ed211b810f6d4e46ca12dd678e6edd012b6231fbb3ae97f071bbe12036b92851"
+      "bytes": 14069,
+      "sha256": "1d090ee542e3e7548709b795187833bce9a2d3fa8896a85e41bf13361311fc79"
     },
     {
       "path": "SELF_TEST_MATRIX.md",
@@ -776,8 +791,8 @@
     },
     {
       "path": "desktop/main/document-files.mjs",
-      "bytes": 2106,
-      "sha256": "28990e82af98ed427d07008b05472ee85da26656f0bae5a49d93cd7b50e8dab1"
+      "bytes": 2231,
+      "sha256": "7b957303487e4df2557a7eaffbd98a9df3e0ae6b7f7c3c11340a14656c2f1daf"
     },
     {
       "path": "desktop/main/genoffice.mjs",
@@ -821,18 +836,18 @@
     },
     {
       "path": "desktop/main.mjs",
-      "bytes": 20293,
-      "sha256": "a3a0990a08238c4f4afe550c40b19f26d89f64bf35240e9ee9066ebf5ac6728b"
+      "bytes": 20433,
+      "sha256": "c71c9fd4ca4768a037e04d278d849a5eac6888b7ace66faa6a80ac5b746557d7"
     },
     {
       "path": "desktop/package-lock.json",
       "bytes": 279311,
-      "sha256": "54dc04068bb63fbc9b7655b5c7df8f30f4d10f58e30204e0fd398dd9ac1f65ce"
+      "sha256": "12a5ff60c7a956069b3f75a00b94f83013d577a3ab2e3b9f807a806bf49e7c27"
     },
     {
       "path": "desktop/package.json",
       "bytes": 3355,
-      "sha256": "044a6e25dcaf846db8b01159fa6d6e53fae1df1d0080ee6baf92ee7163e2eb64"
+      "sha256": "9c96f89c689dfeec220330a409ac20b18e57aa1de9e139b5ebb7d77f3ea33fdd"
     },
     {
       "path": "desktop/preload.cjs",
@@ -861,8 +876,8 @@
     },
     {
       "path": "desktop/runtime/chat-archive.mjs",
-      "bytes": 3309,
-      "sha256": "e4901cc73a6284dc7f0a77ac876f1654b810f661d0f961e41748ef5771759872"
+      "bytes": 3585,
+      "sha256": "174233a4becc348cdcb93105edf3cef375e8b73f6312c7ac7275daf693cdb974"
     },
     {
       "path": "desktop/runtime/command.mjs",
@@ -881,8 +896,8 @@
     },
     {
       "path": "desktop/runtime/documents.mjs",
-      "bytes": 24562,
-      "sha256": "ad1dad777bacc77ee87b7c1a265ec15d31f94e569ee3e9eea295a852a9a5ae66"
+      "bytes": 24783,
+      "sha256": "d4a5f44bde33c6e98cb377eaf37e4a7edceb712eb2ff291a7f733fe01500528a"
     },
     {
       "path": "desktop/runtime/identity.mjs",
@@ -902,7 +917,7 @@
     {
       "path": "desktop/runtime/mcp.mjs",
       "bytes": 7773,
-      "sha256": "3c6beeade9324b160c93814d1dd17cd2edbf9063a42a4c74d8416e3263d79391"
+      "sha256": "cf78cf74eb30fc9d7380951c4417233e21b89c7db0df80838066279fcbb3c009"
     },
     {
       "path": "desktop/runtime/model-policy.mjs",
@@ -1006,8 +1021,8 @@
     },
     {
       "path": "desktop/services/conversation.mjs",
-      "bytes": 15859,
-      "sha256": "8537e861a7f39f7aa714b77907a81fb1fa18d38b66af128e9271889b85fedf41"
+      "bytes": 15921,
+      "sha256": "2b4da53429dedec04eb674424adbc32f7d895eca3d88c9ceb63dad7ec748733a"
     },
     {
       "path": "desktop/services/documents.mjs",
@@ -1066,8 +1081,8 @@
     },
     {
       "path": "desktop/src/app.js",
-      "bytes": 74187,
-      "sha256": "8573c47c06a022cf239b7c250bf07fc40d04a0bed4ec51a4ed8726a1bcee2455"
+      "bytes": 74448,
+      "sha256": "1b4f8573cb33f6760e9310f949fd6199c7f5df4ba523791bcf2454c2ee0d8e9c"
     },
     {
       "path": "desktop/src/assets/logo.png",
@@ -1151,8 +1166,8 @@
     },
     {
       "path": "desktop/src/styles.css",
-      "bytes": 19625,
-      "sha256": "6a66c5b5bc0e4ee77e3e97ff24118bd16ce750d67054ffc65ff638812454d29a"
+      "bytes": 21408,
+      "sha256": "bec975c384944a98aec4134e6133330cc4dfbfefa216d162937ee06f01038917"
     },
     {
       "path": "desktop/src/ui/agent-editor.js",
@@ -1310,6 +1325,11 @@
       "sha256": "364a775f643f4d2b0b3dfe2f7aea301ed6f914dc42e6627a1b289606f7204da3"
     },
     {
+      "path": "desktop/tests/acceptance/composer-layout-live.mjs",
+      "bytes": 4948,
+      "sha256": "1aa0deec6ca0e13ccdb00af469ef6ed070bd32e91552e386947f1f9e28315cea"
+    },
+    {
       "path": "desktop/tests/acceptance/conversion-live.mjs",
       "bytes": 10457,
       "sha256": "fdb8fc7ef92e0a8fd43007f0e07dc60654069a15a3d6afc0d4e13c11b6cae12e"
@@ -1396,8 +1416,8 @@
     },
     {
       "path": "desktop/tests/chat-archive.test.mjs",
-      "bytes": 3707,
-      "sha256": "d33be24fb6d9fcfdede760fe3e0667e821e8e053c5493eb1bc4f5bc2837c92fd"
+      "bytes": 4252,
+      "sha256": "e92383509febcd2f76f0a6b3ca55d2eccf39d08547a838adc201c6e331a9b557"
     },
     {
       "path": "desktop/tests/chat-attachments.test.mjs",
@@ -1408,6 +1428,11 @@
       "path": "desktop/tests/chat-media.test.mjs",
       "bytes": 11651,
       "sha256": "91cedffd18aba6f22baa41c78e304d17ae40472b67652928e996c42bf278da9e"
+    },
+    {
+      "path": "desktop/tests/chat-upload-size.test.mjs",
+      "bytes": 1038,
+      "sha256": "e5ae8b5d4203349f4d6f06d2215c5ad39c3915af51b4fa982fce0b59825b65b4"
     },
     {
       "path": "desktop/tests/commands.test.mjs",
@@ -1605,9 +1630,14 @@
       "sha256": "adaaef6766d47e0e55b2d7d49612cfc252fd4cc61733b875d06e9d29e94d7656"
     },
     {
+      "path": "docs/COMPOSER_AND_UPLOAD_FIX.md",
+      "bytes": 2180,
+      "sha256": "c98aad6df88ae466fd9c8906825f1ace2787eb7aee576b799c13fd9b40a0cef1"
+    },
+    {
       "path": "docs/DOWNLOADS.md",
-      "bytes": 10512,
-      "sha256": "cd3e408e78f2676b9adb496037863c56037d5122e97249d1f26132de6517a20c"
+      "bytes": 11083,
+      "sha256": "f3e18fc30d668b8b8316a6840b7bc94a05786ac00e853f81f6902f0aeae5bcb8"
     },
     {
       "path": "docs/DURABLE_COMMANDS.md",
@@ -1686,13 +1716,13 @@
     },
     {
       "path": "docs/QUICK_GAPS.md",
-      "bytes": 18023,
-      "sha256": "0352fb66ea74c65322723fc6b08aa6cda50832e22ad87b590b3d5c9d807e6623"
+      "bytes": 18282,
+      "sha256": "89a0cb2964b5d5a472adb3486d9dff764d0279da1c00ce4d1bafa95eabaad745"
     },
     {
       "path": "docs/REA_FINDINGS.md",
-      "bytes": 9326,
-      "sha256": "a5d677615b95f1e43181438489a502e5399e50a1251e2e57c6fee9dacda6fd41"
+      "bytes": 9585,
+      "sha256": "d6944b39f00fad97cc0a2d7c3e030f6ad1ae1ee70926135a7b3c6ef903e4b1d6"
     },
     {
       "path": "docs/SCREENSHOT_ALIGNMENT.md",
@@ -1741,8 +1771,8 @@
     },
     {
       "path": "docs/ZIP_AND_MODELS.md",
-      "bytes": 5953,
-      "sha256": "b62e02cd349f240c32f0acfff7b6537bbcb307ac0fe43fd83beb81aec95b4a09"
+      "bytes": 6280,
+      "sha256": "993e3913aadc10ebfa827f2a975c87f84865039b95aa691db0785a9b671922e2"
     },
     {
       "path": "docs/images/documents.png",
@@ -1928,6 +1958,16 @@
       "path": "docs/validation/v0.28.0.json",
       "bytes": 4321,
       "sha256": "f163d674753d89b7cb37853ce5af13c0cab174ed92673fd66b1e12b5b6eca87b"
+    },
+    {
+      "path": "docs/validation/v0.28.1-tests.txt",
+      "bytes": 35405,
+      "sha256": "275cc4b442406bc49e224211157b9661cc136569393f05701803f35c62ec44ff"
+    },
+    {
+      "path": "docs/validation/v0.28.1.json",
+      "bytes": 1654,
+      "sha256": "857bc04c9adcf95e03f72d509a61c7ead9a7492c3b7ca943f1f06c64a2e5125d"
     },
     {
       "path": "docs/validation/v0.5.0.json",
@@ -2251,8 +2291,8 @@
     },
     {
       "path": "scripts/offline_bundle.py",
-      "bytes": 5923,
-      "sha256": "b46c302790fa685e9cc01cac8a2631727b827371d85306c333db08eed1252859"
+      "bytes": 6322,
+      "sha256": "d3287606f1f067573e77e6f3eac1ed157690b7692ed825e9056eb94934cb01e3"
     },
     {
       "path": "scripts/package-desktop-source.py",
@@ -2261,8 +2301,8 @@
     },
     {
       "path": "scripts/package-offline-mac.py",
-      "bytes": 7549,
-      "sha256": "c595e0111741c3e203bf55b5d0aa70e4eed07cd4ff088d67cb0129318ac37120"
+      "bytes": 8459,
+      "sha256": "61b22e75749e8a7536461689547aa034c39ef9a86496ea90774dbcef01effa3b"
     },
     {
       "path": "scripts/package-source.mjs",
@@ -2301,8 +2341,8 @@
     },
     {
       "path": "scripts/tests/test_offline_bundle.py",
-      "bytes": 4692,
-      "sha256": "98cc483052aac332d315b57f4dd5282391e16b17cb76089e17721e2053f27ea2"
+      "bytes": 5243,
+      "sha256": "5e6f1562a3b2cdaeb5bb3feebe6d6dfa172851bdcfd96104659079e2f589e866"
     },
     {
       "path": "scripts/tests/test_source_archive.py",

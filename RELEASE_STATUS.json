@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.28.0",
+  "version": "0.28.1",
   "checked_date": "2026-10-25",
   "source_status": "desktop_source_delivery_not_deployed",
   "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -52,20 +52,20 @@
     "model_profiles": "20 independent endpoint/key/capability profiles; legacy retained; explicit or fast/balanced/extreme type-priority routing; per-run snapshot; real reasoning params; no hidden fallback"
   },
   "validation": {
-    "desktop_tests_passed": 306,
-    "ui_paths_with_mock_bridge": 5,
+    "desktop_tests_passed": 308,
+    "ui_paths_with_mock_bridge": 6,
     "real_cli_child_process_tested": true,
     "agent_http_fixture_to_real_cli_roundtrip_tested": true,
     "browser_verification": "5 related real Chromium; production model forms, actual ZIP DOCX/text, fast/extreme/manual-low HTTP payloads and auth headers, reload; native picker/IPC/Keychain/model semantics fixtures",
     "workspace_browser_test_passed": true,
-    "packaging_tests_passed": 9,
+    "packaging_tests_passed": 10,
     "workspace_test_scope": "real Chromium layout, keyboard, Markdown, preview/export; deterministic native bridge and model content",
     "native_chat_lifecycle_integration": "real HTTP SSE/service/Chromium; new real CLI queue/service/Chromium lifecycle; native bridge and approvals are fixtures",
     "mac_native_runtime_verified": false,
     "real_model_provider_tested": false,
     "third_party_cli_codex_tested": false,
     "web_build_tested_this_iteration": false,
-    "theme_check": "White/blue retained; current container lacks CJK fonts; no Chinese pixel or Mac validation",
+    "theme_check": "real Chromium eight viewport/panel layouts; test-only Noto CJK font; not Mac pixel acceptance",
     "offline_bundle": {
       "official_runtime_sha256": "passed",
       "asar_content": "107 production files including assets exact bytes",
@@ -78,7 +78,21 @@
       "code_pages": 51216,
       "negative_tamper_check": "passed",
       "macOS_bundle_codesign_and_gatekeeper": "not_tested",
-      "installer_shell_syntax": "passed"
+      "installer_shell_syntax": "passed",
+      "asar_files_matched": 107,
+      "protected_files_unchanged": 122,
+      "app_entries": 282,
+      "symlinks": 14,
+      "macho": 15,
+      "pages": 51216,
+      "app_asar_sha256": "9e3c359862f730ea99fdd1912cbdd3ea5ba05e9fbadfd39f733156949af10b43",
+      "zip_sha256": "51ce0b96191facbe602098976011ce74aa0a9a844e2c44943e8cc3b2d8e734a2",
+      "zip_bytes": 119739518,
+      "tamper_negative": "passed",
+      "residues": {
+        "before_sign": 0,
+        "after_sign": 1
+      }
     },
     "service_boundary_tests_passed": 9,
     "streaming_http_to_chromium_passed": true,
@@ -164,5 +178,6 @@
     "pull_request": "https://github.com/scliubingxin/WillBuddy/pull/1",
     "release": "https://github.com/scliubingxin/WillBuddy/releases/tag/v0.22.0-preview"
   },
-  "documentation_policy": "product README only; version/test/limits in downloads and release pages"
+  "documentation_policy": "product README only; version/test/limits in downloads and release pages",
+  "github_hotfix_publication": "0.28 verified branch295049e; 0.28.1 source/app publication in progress at build time; see actual GitHub Release, main not merged"
 }
