@@ -1,3 +1,4 @@
+import {largePNG} from '../helpers/large-png.mjs';
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createServer } from "node:http";
@@ -20,10 +21,7 @@ test(
       store = new Store(dir),
       requests = [];
     await store.load();
-    const png = Buffer.from(
-        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aXioAAAAASUVORK5CYII=",
-        "base64",
-      ),
+    const png = largePNG(),
       images = createImageService({ store, decode: async () => png });
     let browser;
     const view = () =>
@@ -36,6 +34,7 @@ test(
           let body = "";
           for await (const c of req) body += c;
           requests.push(JSON.parse(body));
+          if(body.includes("FAIL_IMAGE_TEST")){res.writeHead(500).end("synthetic model failure");return;}
           res.setHeader("Content-Type", "application/json");
           res.end(
             JSON.stringify({
@@ -120,6 +119,7 @@ test(
       await page.locator("[data-composer-trigger=add]").click();await page.getByRole("button", { name: "添加图片", exact: true }).click();
       await page.locator("#sendImages").waitFor();
       assert.equal(await page.locator("#sendImages").isChecked(), false);
+      const thumb=page.locator('img[data-composer-image]');await thumb.waitFor();await thumb.evaluate(async img=>{if(!img.src)await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=reject;});await img.decode();});assert.equal(await thumb.evaluate(i=>i.naturalWidth),3000);
       assert.equal(requests.length, 0);
       assert.equal(store.data.imageAttachments.length, 1);
       await page.locator("#sendImages").check();
@@ -140,7 +140,7 @@ test(
         .locator("img");
       await image.waitFor();
       await image.evaluate((el) => el.decode());
-      assert.equal(await image.evaluate((el) => el.naturalWidth), 1);
+      assert.equal(await image.evaluate((el) => el.naturalWidth), 3000);
       assert.deepEqual(network, []);
       await page.reload();
       await page.locator('.recent [data-action="openChat"]').first().click();
@@ -162,6 +162,10 @@ test(
         store.data.imageAttachments[0].id,
       );
       assert.equal(requests.length, 1);
+      await page.getByRole('button',{name:'新建任务',exact:false}).click();
+      await page.locator('[data-composer-trigger=add]').click();await page.getByRole('button',{name:'添加图片',exact:true}).click();await page.locator('#sendImages').check();
+      await page.getByRole('button',{name:'发送任务',exact:true}).click();await page.locator('.message.assistant').waitFor();assert.equal(requests.length,2);assert(requests[1].messages.at(-1).content[0].text.startsWith('请分析这些图片。'));
+      await page.getByRole('button',{name:'新建任务',exact:false}).click();await page.locator('[data-composer-trigger=add]').click();await page.getByRole('button',{name:'添加图片',exact:true}).click();await page.locator('#sendImages').check();await page.locator('#prompt').fill('FAIL_IMAGE_TEST');await page.getByRole('button',{name:'发送任务',exact:true}).click();await page.waitForFunction(()=>document.querySelector('#prompt')?.value==='FAIL_IMAGE_TEST');assert.equal(await page.locator('img[data-composer-image]').count(),1);assert.equal(requests.length,3);
       console.log(
         "PASS real PNG decode and real HTTP multimodal wire payload; native picker/normalizer and model response fixtures, not native Mac or actual vision semantics",
       );
