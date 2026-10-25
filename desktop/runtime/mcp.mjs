@@ -1,12 +1,60 @@
 import { mcpUrl } from "../services/agent-profile.mjs";
-/** Bounded per-run Streamable HTTP client. No subprocess, credentials, reconnect or hidden retry. */
+/** Bounded per-run Streamable HTTP client. No subprocess, OAuth, reconnect or hidden retry; optional exact-endpoint bearer. */
 export class McpClient {
-  constructor(url, { fetcher = fetch } = {}) {
-    this.url = mcpUrl(url);
+  #closed = false;
+  #url;
+  #token;
+  #validate;
+  constructor(url, { fetcher = fetch, token, validate = () => {} } = {}) {
+    if (
+      token !== undefined &&
+      (typeof token !== "string" ||
+        token.length < 8 ||
+        token.length > 4096 ||
+        !/^[A-Za-z0-9._~+\/-]+=*$/.test(token))
+    )
+      throw Error("MCP凭据无效");
+    this.#token = token;
+    this.#validate = validate;
+    this.#url = mcpUrl(url);
     this.fetcher = fetcher;
     this.sequence = 0;
   }
-  async rpc(method, params, signal, { notification = false } = {}) {
+  get url() {
+    return this.#url;
+  }
+  redact(value) {
+    if (!this.#token) return value;
+    return JSON.parse(
+      JSON.stringify(value).split(this.#token).join("[凭据已隐藏]"),
+    );
+  }
+  parse(input) {
+    try {
+      return JSON.parse(input);
+    } catch {
+      throw Error("MCP响应JSON无效");
+    }
+  }
+  async rpc(method, params, signal, options) {
+    try {
+      return await this.request(method, params, signal, options);
+    } catch (e) {
+      if (this.#token) {
+        // Transport errors and parse diagnostics must never expose headers/body.
+        const known = /^(MCP|不支持|测试期间|智能体)/.test(e.message);
+        throw Error(
+          known
+            ? e.message.split(this.#token).join("[凭据已隐藏]")
+            : "MCP认证请求失败或已取消",
+        );
+      }
+      throw e;
+    }
+  }
+  async request(method, params, signal, { notification = false } = {}) {
+    if (this.#closed) throw Error("MCP连接已关闭");
+    this.#validate();
     signal?.throwIfAborted();
     const id = ++this.sequence,
       body = {
@@ -16,6 +64,7 @@ export class McpClient {
         ...(params ? { params } : {}),
       };
     const headers = {
+      ...(this.#token ? { Authorization: "Bearer " + this.#token } : {}),
       "Content-Type": "application/json",
       Accept: "application/json, text/event-stream",
       ...(this.version ? { "MCP-Protocol-Version": this.version } : {}),
@@ -31,7 +80,22 @@ export class McpClient {
       body: JSON.stringify(body),
       signal: combined,
     });
-    if (!r.ok) throw Error("MCP HTTP " + r.status);
+    try {
+      this.#validate();
+    } catch (e) {
+      await r.body?.cancel();
+      throw e;
+    }
+    if (!r.ok) {
+      await r.body?.cancel();
+      if ([401, 403].includes(r.status))
+        throw Error(
+          "MCP HTTP " +
+            r.status +
+            "：认证失败或权限不足，请检查凭据；未自动重试",
+        );
+      throw Error("MCP HTTP " + r.status);
+    }
     const session = r.headers.get("mcp-session-id");
     if (session) {
       if (!/^[\x21-\x7e]{1,256}$/.test(session)) throw Error("MCP会话标识无效");
@@ -54,7 +118,8 @@ export class McpClient {
         throw Error("MCP响应ID不匹配或不支持服务端请求");
       if (value.error) throw Error("MCP远端错误 " + String(value.error.code));
       if (!Object.hasOwn(value, "result")) throw Error("MCP结果无效");
-      return value.result;
+      this.#validate();
+      return this.redact(value.result);
     };
     try {
       while (true) {
@@ -79,7 +144,7 @@ export class McpClient {
               .map((l) => l.slice(5).trimStart())
               .join("\n");
             if (!data) continue;
-            const v = JSON.parse(data);
+            const v = this.parse(data);
             if (v.id === id) return check(v);
             if (v.method && !v.id) continue;
             throw Error("不支持的MCP服务端请求");
@@ -87,7 +152,7 @@ export class McpClient {
         }
       }
       if (sse) throw Error("MCP事件流缺少对应结果");
-      return check(JSON.parse(input));
+      return check(this.parse(input));
     } finally {
       await reader.cancel().catch(() => {});
     }
@@ -98,7 +163,7 @@ export class McpClient {
       {
         protocolVersion: "2025-06-18",
         capabilities: {},
-        clientInfo: { name: "WillBuddy", version: "0.22.0" },
+        clientInfo: { name: "WillBuddy", version: "0.28.0" },
       },
       signal,
     );
@@ -152,20 +217,28 @@ export class McpClient {
     return this.rpc("tools/call", { name, arguments: args }, signal);
   }
   async close() {
-    if (this.session) {
-      await this.fetcher(this.url, {
-        method: "DELETE",
-        redirect: "error",
-        credentials: "omit",
-        headers: {
-          "Mcp-Session-Id": this.session,
-          "MCP-Protocol-Version": this.version,
-        },
-        signal: AbortSignal.timeout(2000),
-      })
-        .then((r) => r.body?.cancel())
-        .catch(() => {});
+    try {
+      // A revoked or changed credential must not be sent even for cleanup.
+      this.#validate();
+      if (this.session)
+        await this.fetcher(this.url, {
+          method: "DELETE",
+          redirect: "error",
+          credentials: "omit",
+          headers: {
+            "Mcp-Session-Id": this.session,
+            "MCP-Protocol-Version": this.version,
+            ...(this.#token ? { Authorization: "Bearer " + this.#token } : {}),
+          },
+          signal: AbortSignal.timeout(2000),
+        })
+          .then((r) => r.body?.cancel())
+          .catch(() => {});
+    } catch {
+    } finally {
+      this.#closed = true;
+      this.session = undefined;
+      this.#token = undefined;
     }
-    this.session = undefined;
   }
 }

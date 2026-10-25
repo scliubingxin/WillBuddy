@@ -28,7 +28,7 @@ export async function readCompletion(response, { signal, onDelta, toolsEnabled =
                 await onDelta?.(result.text);
             return result;
         }
-        let buffer = '', dataLines = [], text = '', usage = null, done = false, finished = false, toolMode = false;
+        let buffer = '', dataLines = [], text = '', reasoning = '', usage = null, done = false, finished = false, toolMode = false;
         const calls = new Map();
         async function dispatch() {
             if (!dataLines.length)
@@ -53,13 +53,14 @@ export async function readCompletion(response, { signal, onDelta, toolsEnabled =
             const choice = packet.choices?.find(c => c.index === 0 || c.index === undefined);
             if (!choice)
                 return;
-            if (finished && (choice.delta?.content || choice.delta?.tool_calls?.length))
+            if (finished && (choice.delta?.content || choice.delta?.reasoning_content || choice.delta?.tool_calls?.length))
                 throw new Error('模型在结束标记后继续输出');
             if (choice.finish_reason === 'length')
                 throw new Error('模型输出达到长度上限；已保留接收内容，请继续生成');
             if (choice.finish_reason === 'content_filter')
                 throw new Error('模型服务过滤了本轮输出');
             const delta = choice.delta || {};
+            if(delta.reasoning_content!==undefined&&delta.reasoning_content!==null){if(typeof delta.reasoning_content!=='string')throw Error('模型思考字段无效');reasoning+=delta.reasoning_content;}
             if (delta.content !== undefined && delta.content !== null) {
                 if (typeof delta.content !== 'string')
                     throw new Error('模型流文本格式无效');
@@ -142,7 +143,7 @@ export async function readCompletion(response, { signal, onDelta, toolsEnabled =
         } return call; });
         if (toolMode && !tool_calls.length)
             throw new Error('工具流不完整');
-        const result = validate({ role: 'assistant', content: text || null, ...(tool_calls.length ? { tool_calls } : {}) }, usage);
+        const result = validate({ role: 'assistant', ...(reasoning?{reasoning_content:reasoning}:{}), content: text || null, ...(tool_calls.length ? { tool_calls } : {}) }, usage);
         return result;
     }
     finally {
