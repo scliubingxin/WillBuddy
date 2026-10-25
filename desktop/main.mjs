@@ -1,3 +1,4 @@
+import {createCodeProjects} from './services/code-projects.mjs';
 import {createModelService} from './services/models.mjs';
 import {createModelSecretCodec} from './main/model-secrets.mjs';
 import {parseChatUpload} from './runtime/chat-archive.mjs';
@@ -44,9 +45,9 @@ const notifyRuntime = () => {
         win.webContents.send('actwill:runtime');
 };
 const approve = createApprover({ dialog, getWindow: () => win, focus });
-let toolRuntime, genoffice, models;
+let toolRuntime, genoffice, models, projects;
 const executeTool = (...args) => toolRuntime.execute(...args);
-const view = () => { const { encryptedKey, ...settings } = store.data.settings; const {knowledgeIndexes,modelProfiles,...publicData}=store.data; return { ...publicData, modelProfiles:models?.view()||[], mcpConnections:mcpViews(store.data), documents:documentViews(store.data), skillPackages:skillViews(store.data), imageAttachments:imageViews(store.data), settings: { ...settings, hasKey: !!sessionKey || !!encryptedKey, keySaved: !!encryptedKey, secureStorage: safeStorage.isEncryptionAvailable() && safeStorage.getSelectedStorageBackend?.() !== 'basic_text' }, browsers: browser.list(), desktop: { platform: process.platform, shortcutReady } }; };
+const view = () => { const { encryptedKey, ...settings } = store.data.settings; const {knowledgeIndexes,modelProfiles,codeProjects,...publicData}=store.data; return { ...publicData, codeProjects:projects?.view()||[], modelProfiles:models?.view()||[], mcpConnections:mcpViews(store.data), documents:documentViews(store.data), skillPackages:skillViews(store.data), imageAttachments:imageViews(store.data), settings: { ...settings, hasKey: !!sessionKey || !!encryptedKey, keySaved: !!encryptedKey, secureStorage: safeStorage.isEncryptionAvailable() && safeStorage.getSelectedStorageBackend?.() !== 'basic_text' }, browsers: browser.list(), desktop: { platform: process.platform, shortcutReady } }; };
 function key() {
     if (sessionKey)
         return sessionKey;
@@ -96,10 +97,13 @@ else {
             defaultAgent.prompt = '你是 WillBuddy 工作助手。用中文清晰地帮助用户完成工作。区分事实和假设，不编造来源。';
         store.data.executions ??= [];
         const convertDocument=createDocumentConverter({createDriver:signal=>createConversionBrowser({BrowserWindow,session,signal})});
-        toolRuntime = new ToolRuntime({ store, browser, approve, notify: notifyRuntime, convertDocument });
+        toolRuntime = new ToolRuntime({ store, browser, approve, notify: notifyRuntime, convertDocument,beforeCli:args=>projects?.validate(args) });
         genoffice=createGenOfficeBridge({documents:toolRuntime.documents,approve});
         recoverInterruptedWork(store.data);
         commands = createCommandService({ store, active, executeTool, notify: notifyRuntime });
+        projects=createCodeProjects({store,directory:path.join(app.getPath('userData'),'code-projects'),approve,commands});
+        register('projectRun',p=>projects.run(p.id,p.stepId));
+        register('projectImport',async()=>{const result=await dialog.showOpenDialog(win,{title:'导入代码项目ZIP（不自动执行）',properties:['openFile'],filters:[{name:'代码项目ZIP',extensions:['zip']}]});if(result.canceled)return false;const source=result.filePaths?.[0];if(!source)throw Error('未选择代码包');return projects.importArchive(path.basename(source),await readDocumentSource(source,{noFollow:true,maxBytes:32*1024*1024,label:'代码ZIP'}));});
         runs = sharedRunQueue({store, active, notify:notifyRuntime});
         const mcpSecrets=createMcpSecretCodec(safeStorage);
         models=createModelService({store,secrets:createModelSecretCodec(safeStorage),legacyKey:key});
@@ -217,8 +221,9 @@ else {
             if(result.canceled)return false;
             if(result.filePaths?.length!==1)throw Error('每次选择一个文档或ZIP');
             const source=result.filePaths[0],bytes=await readDocumentSource(source,{noFollow:true,maxBytes:source.toLowerCase().endsWith(".zip")?32*1024*1024:4*1024*1024,label:source.toLowerCase().endsWith(".zip")?"ZIP压缩包":"文档"});
+            let project,projectError;if(source.toLowerCase().endsWith('.zip')){try{project=await projects.importArchive(path.basename(source),bytes);}catch(e){projectError=e.message;}}
             const parsed=parseChatUpload(path.basename(source),bytes),documents=await toolRuntime.documents.importBatch(parsed.items);
-            return {attachments:documents.map((d,i)=>({documentId:d.id,revision:d.revision,sha256:d.sha256,name:d.name,text:d.text,archive:parsed.items[i].archive,entryPath:parsed.items[i].entryPath})),skipped:parsed.skipped};
+            return {project,projectError,attachments:documents.map((d,i)=>({documentId:d.id,revision:d.revision,sha256:d.sha256,name:d.name,text:d.text,archive:parsed.items[i].archive,entryPath:parsed.items[i].entryPath})),skipped:parsed.skipped};
         });
         register('documentImport', async () => {
             const result=await dialog.showOpenDialog(win,{title:'导入可编辑文档（原文件不变）',properties:['openFile'],filters:[{name:'文档',extensions:['docx','xlsx','pptx','md','html']}]});
