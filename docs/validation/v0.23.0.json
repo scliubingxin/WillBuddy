@@ -1,0 +1,86 @@
+{
+  "version": "0.23.0",
+  "date": "2026-10-24",
+  "baseline": {
+    "version": "0.22.0",
+    "canonical_version_read": 23,
+    "verified_content_files": 487,
+    "matching_public_main": "bd67c8f348520cc70d70bea496b9f5d74102a995"
+  },
+  "tests": {
+    "core": 244,
+    "new_core": 12,
+    "related_real_chromium": 4,
+    "packaging_python": 9
+  },
+  "scope": {
+    "knowledge": "real approved multi-document Markdown text; lexical chunks/Chinese bigrams/NFKC/original exact excerpts and revision/SHA/line/offset; no embeddings/index persistence",
+    "end_to_end": "production Chromium builder binds2docs, persists/reloads; real local HTTP model 5 rounds skill/resource/2-doc knowledge/MCP/final; native picker/IPC/approval/model semantics fixtures",
+    "failure_boundaries": "unbound/missing docs before reads; denial after earlier approval no partial output; cancel/revoke/version drift/forged receipt/read failure reject; JSON budget retains complete observation",
+    "original_system": "122 app/components/db/drizzle/hooks/lib/local-runner baseline files SHA unchanged; old35Python not rerun"
+  },
+  "limits": {
+    "bound_documents": 8,
+    "source_characters": 100000,
+    "query_characters": 200,
+    "query_terms": 64,
+    "excerpt_characters": 8000,
+    "matches": 8,
+    "serialized_result_characters": 30000
+  },
+  "production_asar_exact_files": 95,
+  "offline": {
+    "version": "0.23.0",
+    "bytes": 119720500,
+    "sha256": "810320fc88182bd43c31cfa922fc8198ba26ac42400e3a3481755bc99ea0e54f",
+    "app_asar_sha256": "eb8ddea8a0555519add9fdfe48bac4a7e726b8e5f7b7b0b1a9328a76e60f9134",
+    "architecture": "arm64",
+    "signature": "ad-hoc; not notarized; no Mac runtime acceptance",
+    "verified": true,
+    "archive_check": {
+      "app_entries": 282,
+      "extra_files": 5,
+      "closed_inventory": true,
+      "residual_entries": 0
+    },
+    "macho": 15,
+    "code_pages": 51216,
+    "symlinks": 14,
+    "tamper_negative": true
+  },
+  "not_tested": [
+    "Mac installation/strict resource seals/Gatekeeper/native launch/approvals",
+    "real paid model/provider or authenticated enterprise MCP",
+    "OCR/vector semantic retrieval/global folder index",
+    "full Office/WPS fidelity or cross-Web shared core",
+    "old unchanged Python35 not rerun"
+  ],
+  "github": {
+    "last_public_version": "0.22.0",
+    "main": "bd67c8f348520cc70d70bea496b9f5d74102a995",
+    "verified_by": "public git ls-remote matches prior merged commit",
+    "current_023_public": false
+  },
+  "changed_files": [
+    "ITERATION_LOG.md",
+    "ITERATION_PLAN.md",
+    "README.md",
+    "RELEASE_STATUS.json",
+    "desktop/README.md",
+    "desktop/package-lock.json",
+    "desktop/package.json",
+    "desktop/runtime/knowledge-search.mjs",
+    "desktop/runtime/mcp.mjs",
+    "desktop/services/agent-session.mjs",
+    "desktop/src/ui/agent-editor.js",
+    "desktop/tests/acceptance/agents-live.mjs",
+    "desktop/tests/acceptance/capabilities-live.mjs",
+    "desktop/tests/knowledge-search.test.mjs",
+    "docs/KNOWLEDGE_RETRIEVAL.md",
+    "docs/QUICK_GAPS.md",
+    "docs/REA_FINDINGS.md",
+    "docs/validation/v0.23.0-tests.txt",
+    "docs/validation/v0.23.0.json",
+    "scripts/package-desktop-source.py"
+  ]
+}

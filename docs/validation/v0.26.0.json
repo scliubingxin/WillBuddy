@@ -1,0 +1,128 @@
+{
+  "version": "0.26.0",
+  "date": "2026-10-25",
+  "baseline": {
+    "version": "0.25.0",
+    "canonical_version_read": 27,
+    "verified_content_files": 506
+  },
+  "tests": {
+    "core": 280,
+    "new_core": 16,
+    "related_real_chromium": 4,
+    "packaging_python": 9
+  },
+  "scope": {
+    "index": "real persisted lexical unigram/bigram-prefix inverted postings, per-chunk original substring verification; not embeddings",
+    "service": "real Store save/reload/clear/concurrent serial merge; metadata/text hash/checksum/geometry/version; no stored query/full extra text",
+    "permission": "every knowledge_search first performs all real document_read approvals; warm denial no excerpts; no cache-only IPC/model tool; index field hidden from state",
+    "ui": "production Chromium6 real local HTTP model calls: Skill/resource/search build2/search reuse2/bearer MCP/final; actual source edit and reload rebuild only1 source, clear button retains docs/chat",
+    "fixtures": "native IPC/approval/system cryptography and model semantics fixtures; no Mac/provider/enterprise integration",
+    "protected_original": "122 Web/Python protected SHA unchanged; old35Python unchanged not rerun"
+  },
+  "bounds": {
+    "max_documents_per_search": 8,
+    "chars_per_document": 100000,
+    "cache_entries": 16,
+    "entry_utf8_json_bytes": 2097152,
+    "total_cache_utf8_json_bytes": 8388608,
+    "dictionary_keys": 50000,
+    "posting_references": 150000,
+    "normalized_build_characters": 2000000,
+    "complete_result_json_characters": 30000
+  },
+  "experiment": {
+    "scope": "synthetic approved-text callback fixture; real Node Store/index and reload; not native permission or latency benchmark",
+    "first": {
+      "version": 1,
+      "kind": "persistent lexical prefix postings; not embeddings",
+      "built": 2,
+      "reused": 0,
+      "uncached": 0,
+      "sourceChunks": 96,
+      "candidateChunks": 2
+    },
+    "afterStoreReload": {
+      "version": 1,
+      "kind": "persistent lexical prefix postings; not embeddings",
+      "built": 0,
+      "reused": 2,
+      "uncached": 0,
+      "sourceChunks": 96,
+      "candidateChunks": 2
+    },
+    "identicalMatches": true
+  },
+  "failure_boundaries": [
+    "denial/cancel/revocation no result",
+    "save error restores old field",
+    "post-save cancellation performs disk rollback; rollback error explicit no result",
+    "corrupt/unknown cache rebuilds",
+    "dictionary overflow exact scan fallback, uncached counter",
+    "source revision/fileSHA/text digest changes invalidate",
+    "whole cache bounded and clear preserves docs/chat",
+    "cold load checksum/geometry validation then deep freeze; checksum not malicious-workspace authentication"
+  ],
+  "production_asar_exact_files": 101,
+  "offline": {
+    "version": "0.26.0",
+    "bytes": 119727599,
+    "sha256": "957ed22d6a18f9599eb7df426994eb5e008da1c86d4581a4becf2100aec9f56c",
+    "app_asar_sha256": "a0acb57021447a9a012baa954dab56a56dbbfd508a4cd7a4671ab460dac2d8e0",
+    "architecture": "arm64",
+    "signature": "ad-hoc",
+    "verified": true,
+    "archive_check": {
+      "app_entries": 282,
+      "extra_files": 5,
+      "closed_inventory": true,
+      "residual_entries": 0
+    }
+  },
+  "macho": {
+    "binaries": 15,
+    "pages": 51216,
+    "symlinks": 14,
+    "tamper_negative": true
+  },
+  "not_tested": [
+    "Mac strict resources/Gatekeeper/install/native launch/approval/Keychain",
+    "real paid model or enterprise MCP",
+    "new Linux native Electron runtime",
+    "full Word/WPS fidelity",
+    "unchanged old35Python"
+  ],
+  "github": {
+    "last_public_version": "0.22.0",
+    "main_observed": "bdd8db7115f41a150da399ffd0860fe7883f9009",
+    "current_026_public": false
+  },
+  "changed_files": [
+    "ITERATION_LOG.md",
+    "ITERATION_PLAN.md",
+    "README.md",
+    "RELEASE_STATUS.json",
+    "SOURCE_MANIFEST.json",
+    "desktop/main.mjs",
+    "desktop/package-lock.json",
+    "desktop/package.json",
+    "desktop/preload.cjs",
+    "desktop/runtime/knowledge-index.mjs",
+    "desktop/runtime/knowledge-search.mjs",
+    "desktop/runtime/mcp.mjs",
+    "desktop/services/agent-session.mjs",
+    "desktop/services/knowledge-index.mjs",
+    "desktop/src/app.js",
+    "desktop/tests/acceptance/capabilities-live.mjs",
+    "desktop/tests/knowledge-index.test.mjs",
+    "docs/AGENT_CAPABILITIES.md",
+    "docs/DOWNLOADS.md",
+    "docs/KNOWLEDGE_RETRIEVAL.md",
+    "docs/PERSISTENT_KNOWLEDGE_INDEX.md",
+    "docs/QUICK_GAPS.md",
+    "docs/REA_FINDINGS.md",
+    "docs/validation/v0.26.0-index-experiment.json",
+    "docs/validation/v0.26.0-tests.txt",
+    "docs/validation/v0.26.0.json"
+  ]
+}

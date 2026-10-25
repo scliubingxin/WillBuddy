@@ -1,0 +1,22 @@
+{
+  "scope": "synthetic approved-text callback fixture; real Node Store/index and reload; not native permission or latency benchmark",
+  "first": {
+    "version": 1,
+    "kind": "persistent lexical prefix postings; not embeddings",
+    "built": 2,
+    "reused": 0,
+    "uncached": 0,
+    "sourceChunks": 96,
+    "candidateChunks": 2
+  },
+  "afterStoreReload": {
+    "version": 1,
+    "kind": "persistent lexical prefix postings; not embeddings",
+    "built": 0,
+    "reused": 2,
+    "uncached": 0,
+    "sourceChunks": 96,
+    "candidateChunks": 2
+  },
+  "identicalMatches": true
+}
