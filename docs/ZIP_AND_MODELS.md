@@ -1,5 +1,7 @@
 # ZIP附件与多模型选择
 
+当前输入区入口：「＋ → 上传文件或 ZIP」；模型与思考强度在右侧模型菜单。详见[对话输入区](COMPACT_COMPOSER.md)。
+
 ## ZIP附件
 
 输入框“上传附件”可选择ZIP。实际在内存中解压并验证每个条目，对DOCX/XLSX/PPTX/Markdown/HTML/UTF-8文本和常见代码（JS/TS/Python/Java/Go/Rust/C/C++/CSS/SQL/YAML/XML/Shell/TOML等）提取真实正文。代码只当文本，不执行脚本、不安装依赖、不落地压缩包路径。支持文件逐项显示包名/内部路径，可预览、移除；发送当前问题时正文交给所选模型。原ZIP和原文件不改，支持文件作为本机文档副本保存。代码/普通文本副本格式为Markdown，但保留原扩展名。
