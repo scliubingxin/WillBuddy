@@ -1,7 +1,7 @@
 import { uid } from "../core.mjs";
 import { agentCapabilities, mcpUrl } from "./agent-profile.mjs";
 import { parseSkillPackage, skillResource } from "../runtime/skill-package.mjs";
-import { McpClient } from "../runtime/mcp.mjs";
+import { bearerToken, createMcpClientFactory } from "./mcp-access.mjs";
 export function skillViews(data) {
   return (data.skillPackages || []).map(
     ({
@@ -61,6 +61,10 @@ export function resolveCapabilities(data, agent) {
   return {
     profile: merged,
     packages,
+    mcpBindings: [
+      ...base.mcp.map(() => null),
+      ...connections.map(({ id, revision }) => ({ id, revision })),
+    ],
     stamp: JSON.stringify({
       agent,
       packages: packages.map(({ id, sha256, revision, enabled }) => ({
@@ -84,8 +88,11 @@ export function createCapabilityLibrary({
   store,
   approve = async () => false,
   notify = () => {},
-  clientFactory = (url) => new McpClient(url),
+  clientFactory,
+  secrets,
 }) {
+  const makeClient =
+    clientFactory || createMcpClientFactory({ store, secrets });
   let queue = Promise.resolve();
   const probes = new Map();
   const mutate = (work) => {
@@ -182,7 +189,29 @@ export function createCapabilityLibrary({
           (p.description || "").length > 200
         )
           throw Error("MCP名称、简介或启用状态无效");
+        if (p.id && index < 0) throw Error("MCP连接不存在");
+        const old = store.data.mcpConnections[index];
+        const auth = p.auth ?? old?.auth ?? "none";
+        if (!["none", "bearer"].includes(auth)) throw Error("MCP认证方式无效");
+        const url = mcpUrl(p.url);
+        let encryptedToken;
+        if (auth === "bearer") {
+          if (p.token !== undefined && p.token !== "") {
+            if (!secrets) throw Error("系统安全存储不可用，不能保存MCP凭据");
+            encryptedToken = secrets.seal(bearerToken(p.token));
+          } else {
+            if (
+              old?.url !== url ||
+              old?.auth !== "bearer" ||
+              !old.encryptedToken
+            )
+              throw Error("请为此MCP地址填写新的Bearer Token");
+            encryptedToken = old.encryptedToken;
+          }
+        } else if (p.token) throw Error("请选择Bearer认证后再填写凭据");
         const row = {
+          auth,
+          ...(encryptedToken ? { encryptedToken } : {}),
           id: p.id || uid(),
           name: p.name.trim(),
           description: p.description || "",
@@ -247,6 +276,10 @@ export function createCapabilityLibrary({
             row.name +
               "\n" +
               row.url +
+              "\n认证：" +
+              (row.auth === "bearer"
+                ? "使用此连接已保存的Bearer Token"
+                : "无认证") +
               "\n只连接和发现工具，不调用任何业务工具。",
             controller.signal,
           )) !== true
@@ -261,7 +294,7 @@ export function createCapabilityLibrary({
           )
         )
           throw Error("测试期间MCP配置发生变化");
-        client = clientFactory(row.url);
+        client = makeClient(row.url, { id: row.id, revision });
         audit.status = "running";
         await store.save();
         controller.signal.throwIfAborted();
