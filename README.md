@@ -144,6 +144,8 @@ WillBuddy is a desktop AI workspace for Apple Silicon Macs. Bring your own compa
 
 [Download and release notes](https://github.com/scliubingxin/WillBuddy/releases) · [Developer guide](desktop/README.md)
 
-在对话输入框点击 **上传附件**，添加Word、Excel、PPT或文本资料后输入问题；附件正文在点击发送后交给当前模型。支持范围见[附件问答用法](docs/CHAT_ATTACHMENTS.md)。
+在对话输入框点击 **＋ → 上传文件或 ZIP**，添加Word、Excel、PPT或文本资料后输入问题；附件正文在点击发送后交给当前模型。支持范围见[附件问答用法](docs/CHAT_ATTACHMENTS.md)。
 
 附件也可选择ZIP，自动解压支持的文档、文本和代码后问答；在“模型配置”添加多个模型，对话中可指定模型及思考强度，或按快速／均衡／极致自动选择。详见[ZIP与多模型用法](docs/ZIP_AND_MODELS.md)。
+
+输入框的「＋」集中添加附件、图片和资料；右侧模型菜单选择档位、特定模型和思考强度，其他设置按需展开。

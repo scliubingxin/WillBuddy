@@ -1,14 +1,14 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.28.1",
+  "version": "0.29.0",
   "packaged_date": "2026-10-25",
   "provenance": "Complete validated source snapshot; Git commits and deployment are tracked separately",
-  "base_source_commit_sha": "bdd8db7115f41a150da399ffd0860fe7883f9009",
+  "base_source_commit_sha": "5593b0f45c6941c2a16f461e336f23817035c7cf",
   "release_status": {
     "schema_version": 2,
     "brand": "WillBuddy",
-    "version": "0.28.1",
+    "version": "0.29.0",
     "checked_date": "2026-10-25",
     "source_status": "desktop_source_delivery_not_deployed",
     "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -56,14 +56,15 @@
       "knowledge_index": "private Store field, removed from renderer state;16 entries/8MiB total/2MiB per entry; serial build/reuse/clear; cancellation/save rollback; approval never cached",
       "chat_attachments": "native single-file picker imports private validated Office/text copy; turn-scoped current-target text Q&A without tools; version/hash and queue checks; no PDF/OCR/media upload",
       "chat_archives": "ZIP only; in-memory bounded validation/decompression and real document/text/code extraction; atomic import32 docs, skipped report; no RAR/7z/PDF/OCR/media understanding",
-      "model_profiles": "20 independent endpoint/key/capability profiles; legacy retained; explicit or fast/balanced/extreme type-priority routing; per-run snapshot; real reasoning params; no hidden fallback"
+      "model_profiles": "20 independent endpoint/key/capability profiles; legacy retained; explicit or fast/balanced/extreme type-priority routing; per-run snapshot; real reasoning params; no hidden fallback",
+      "composer": "single input and toolbar; scoped accessible add/model menus, conditional consent, no new execution permissions"
     },
     "validation": {
-      "desktop_tests_passed": 308,
+      "desktop_tests_passed": 310,
       "ui_paths_with_mock_bridge": 6,
       "real_cli_child_process_tested": true,
       "agent_http_fixture_to_real_cli_roundtrip_tested": true,
-      "browser_verification": "5 related real Chromium; production model forms, actual ZIP DOCX/text, fast/extreme/manual-low HTTP payloads and auth headers, reload; native picker/IPC/Keychain/model semantics fixtures",
+      "browser_verification": "6 full real Chromium regressions; eight viewport/panel layouts, fourteen interactable popover placements, Tab/Enter/Esc/outside close/redraw focus and draft, real ZIP/model/image/SSE wire fixtures",
       "workspace_browser_test_passed": true,
       "packaging_tests_passed": 10,
       "workspace_test_scope": "real Chromium layout, keyboard, Markdown, preview/export; deterministic native bridge and model content",
@@ -75,7 +76,7 @@
       "theme_check": "real Chromium eight viewport/panel layouts; test-only Noto CJK font; not Mac pixel acceptance",
       "offline_bundle": {
         "official_runtime_sha256": "passed",
-        "asar_content": "107 production files including assets exact bytes",
+        "asar_content": "108 production files including assets exact bytes",
         "zip_integrity": "passed",
         "closed_inventory": "passed; 282 app entries + 5 extras; 14 symlinks; no residue",
         "unexpected_entry_negative": "passed even when every manifest file remains unchanged",
@@ -86,19 +87,19 @@
         "negative_tamper_check": "passed",
         "macOS_bundle_codesign_and_gatekeeper": "not_tested",
         "installer_shell_syntax": "passed",
-        "asar_files_matched": 107,
+        "asar_files_matched": 108,
         "protected_files_unchanged": 122,
         "app_entries": 282,
         "symlinks": 14,
         "macho": 15,
         "pages": 51216,
-        "app_asar_sha256": "9e3c359862f730ea99fdd1912cbdd3ea5ba05e9fbadfd39f733156949af10b43",
-        "zip_sha256": "51ce0b96191facbe602098976011ce74aa0a9a844e2c44943e8cc3b2d8e734a2",
-        "zip_bytes": 119739518,
+        "app_asar_sha256": "cd817386376cdd6ebbfd5a7745496c6d76d14d5bb56a7a25a3f011109326fc4c",
+        "zip_sha256": "e0978e7402c4d0987834c8946bba8a7d853e82b871208dc60315f984f6c4575e",
+        "zip_bytes": 119742176,
         "tamper_negative": "passed",
         "residues": {
           "before_sign": 0,
-          "after_sign": 1
+          "after_sign": 0
         }
       },
       "service_boundary_tests_passed": 9,
@@ -157,7 +158,7 @@
       "javascript_analysis": "partial_host_process_ownership_blocked",
       "report": "docs/REA_FINDINGS.md"
     },
-    "notes": "0.28 ZIP attachments and multi-model config/routing. Other retained validation fields reflect prior iterations; no new Mac/paid-provider acceptance.",
+    "notes": "Compact progressive-disclosure composer; existing business, routing and permission boundaries retained.",
     "architecture": {
       "guide": "docs/ARCHITECTURE.md",
       "layers": [
@@ -172,21 +173,23 @@
       "web_desktop_shared_core": false
     },
     "current_iteration": {
-      "version": "0.28.0",
-      "evidence": "docs/validation/v0.28.0.json",
-      "guide": "docs/ZIP_AND_MODELS.md",
+      "version": "0.29.0",
+      "evidence": "docs/validation/v0.29.0.json",
+      "guide": "docs/COMPACT_COMPOSER.md",
       "mac_native_tested": false,
       "public_github_release": false,
-      "public_release_note": "0.22 public;0.28 candidate only, not uploaded/published/merged."
+      "public_release_note": "0.28.1 release already public;0.29 source/app delivered independently, not uploaded or merged."
     },
     "github_last_published": {
-      "version": "0.22.0",
+      "version": "0.28.1",
+      "branch": "willbuddy-v0.28.1-composer-fix",
+      "commit": "5593b0f45c6941c2a16f461e336f23817035c7cf",
+      "release": "https://github.com/scliubingxin/WillBuddy/releases/tag/v0.28.1-preview",
       "main_commit": "bdd8db7115f41a150da399ffd0860fe7883f9009",
-      "pull_request": "https://github.com/scliubingxin/WillBuddy/pull/1",
-      "release": "https://github.com/scliubingxin/WillBuddy/releases/tag/v0.22.0-preview"
+      "main_runtime_version": "0.22.0"
     },
     "documentation_policy": "product README only; version/test/limits in downloads and release pages",
-    "github_hotfix_publication": "0.28 verified branch295049e; 0.28.1 source/app publication in progress at build time; see actual GitHub Release, main not merged"
+    "github_hotfix_publication": "0.28.1 completed, both public attachment downloads SHA verified;0.29 not published this turn"
   },
   "files": [
     {
@@ -226,13 +229,13 @@
     },
     {
       "path": "ITERATION_LOG.md",
-      "bytes": 165911,
-      "sha256": "b7fbd2d94df82babacdb8c621fee87872006de89b581785bb57b8a0b1667c378"
+      "bytes": 168949,
+      "sha256": "a215646b464fb8d11adbbca9748d40e607f87d7ddd6a632c63cb6e97fce5a553"
     },
     {
       "path": "ITERATION_PLAN.md",
-      "bytes": 55572,
-      "sha256": "9beb82dfecc11f8b99cc5fa11b5843d06a54c2525de7ccc41b386799f5d384fd"
+      "bytes": 58610,
+      "sha256": "b84947a1bc839c6a84255df6f89ab203a45afbd1374579f93803ce7badcfc6d1"
     },
     {
       "path": "OPENWORKBUDDY_REFERENCE.md",
@@ -246,13 +249,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 10202,
-      "sha256": "e01ad54b39b8c4268ce489175374ef1dcee93b03e4190f01c8ff33be5fde98a1"
+      "bytes": 10369,
+      "sha256": "79308537d27b37168f893d8ef6416ef8340b20a4ee0ee95f228850460aaa5852"
     },
     {
       "path": "RELEASE_STATUS.json",
-      "bytes": 14069,
-      "sha256": "1d090ee542e3e7548709b795187833bce9a2d3fa8896a85e41bf13361311fc79"
+      "bytes": 14233,
+      "sha256": "4a2494d82ab02061f4a89d45a5d1688f941e31555985d4276a9674c70a7a0888"
     },
     {
       "path": "SELF_TEST_MATRIX.md",
@@ -842,12 +845,12 @@
     {
       "path": "desktop/package-lock.json",
       "bytes": 279311,
-      "sha256": "12a5ff60c7a956069b3f75a00b94f83013d577a3ab2e3b9f807a806bf49e7c27"
+      "sha256": "fffe6d7e1364ed6731aa835c816ca8030ef914534322f9a764f2e6f6b5694252"
     },
     {
       "path": "desktop/package.json",
       "bytes": 3355,
-      "sha256": "9c96f89c689dfeec220330a409ac20b18e57aa1de9e139b5ebb7d77f3ea33fdd"
+      "sha256": "09755f46f4e6285645d31da2663fc26c4038c978b16716dafd6acb36cbe19b9c"
     },
     {
       "path": "desktop/preload.cjs",
@@ -917,7 +920,7 @@
     {
       "path": "desktop/runtime/mcp.mjs",
       "bytes": 7773,
-      "sha256": "cf78cf74eb30fc9d7380951c4417233e21b89c7db0df80838066279fcbb3c009"
+      "sha256": "97de81bce4dfeee2162d02eb6d6a198cb1a62a63517b4164265968b902a5a0f4"
     },
     {
       "path": "desktop/runtime/model-policy.mjs",
@@ -1081,8 +1084,8 @@
     },
     {
       "path": "desktop/src/app.js",
-      "bytes": 74448,
-      "sha256": "1b4f8573cb33f6760e9310f949fd6199c7f5df4ba523791bcf2454c2ee0d8e9c"
+      "bytes": 72459,
+      "sha256": "24c77d1c16d0e27825efc2b3976d0d134dfb464b399e7178cbe99539841174b5"
     },
     {
       "path": "desktop/src/assets/logo.png",
@@ -1166,8 +1169,8 @@
     },
     {
       "path": "desktop/src/styles.css",
-      "bytes": 21408,
-      "sha256": "bec975c384944a98aec4134e6133330cc4dfbfefa216d162937ee06f01038917"
+      "bytes": 23794,
+      "sha256": "1a178055f6909c7124150291301142deffb9cc0253287a0173b654c25185faf2"
     },
     {
       "path": "desktop/src/ui/agent-editor.js",
@@ -1193,6 +1196,11 @@
       "path": "desktop/src/ui/commands.js",
       "bytes": 2282,
       "sha256": "5ada8a803926fa50f63ce024f9f9ce6c881a857893cdb5cefa2fc574a38b37cd"
+    },
+    {
+      "path": "desktop/src/ui/composer.js",
+      "bytes": 6937,
+      "sha256": "ac3824655ddf52dc8f28bee56dfc9db5e6a80a573950182f7e9f349656b87bdf"
     },
     {
       "path": "desktop/src/ui/documents.js",
@@ -1226,8 +1234,8 @@
     },
     {
       "path": "desktop/src/ui/models.js",
-      "bytes": 5355,
-      "sha256": "18722352f29203530d00e9713bf00644ba73de468109c25fddbc7cf9bfc68cf5"
+      "bytes": 5923,
+      "sha256": "c720e41f8acff97505c14fc1fcbcf036e6285afa71797f1781d76dd14bc3fc21"
     },
     {
       "path": "desktop/src/ui/office-preview.js",
@@ -1301,8 +1309,8 @@
     },
     {
       "path": "desktop/tests/acceptance/attachments-live.mjs",
-      "bytes": 6106,
-      "sha256": "5985c1e42635d56b31025ef2fb0c30cf48c885e8957066156b0fcd4e26942fbf"
+      "bytes": 6295,
+      "sha256": "1e5b96be52dc6dd0ee9090bd577809ecd9c3e8beeef50c347acd9ae461485718"
     },
     {
       "path": "desktop/tests/acceptance/browser-live.mjs",
@@ -1326,8 +1334,8 @@
     },
     {
       "path": "desktop/tests/acceptance/composer-layout-live.mjs",
-      "bytes": 4948,
-      "sha256": "1aa0deec6ca0e13ccdb00af469ef6ed070bd32e91552e386947f1f9e28315cea"
+      "bytes": 8044,
+      "sha256": "0d774aaed708e92043ce281daf4eb93d09dbf65154bce9906229d860d75bc149"
     },
     {
       "path": "desktop/tests/acceptance/conversion-live.mjs",
@@ -1346,13 +1354,13 @@
     },
     {
       "path": "desktop/tests/acceptance/images-live.mjs",
-      "bytes": 6429,
-      "sha256": "22146b3990319d4519f46bb317b4d6c6b8ca9eb70b29ab32881ef319d1533b2c"
+      "bytes": 6487,
+      "sha256": "24bd7752c3293a539296e0ee4716434d0b46ee5208e32e53ed58318926697821"
     },
     {
       "path": "desktop/tests/acceptance/models-archive-live.mjs",
-      "bytes": 9460,
-      "sha256": "b000087947f26699b443ea2cd95552eb5b659e8418c3ddcd4a969d3cbbfb1d8b"
+      "bytes": 10033,
+      "sha256": "1a27ea488b7ac25ed10a415a3d5aa3adfc87b0a7b8d3514e892dfdf4b8590992"
     },
     {
       "path": "desktop/tests/acceptance/office-preview-live.mjs",
@@ -1440,6 +1448,11 @@
       "sha256": "a21c0b844add4924a8252d1573e42dfe670570d2d7d1c0ff0454a296101dfa06"
     },
     {
+      "path": "desktop/tests/composer-menu.test.mjs",
+      "bytes": 2470,
+      "sha256": "cb5b8ce362a84ebbd8636cef81cbb160f6f856deecd4dddfe8bde7486767b69f"
+    },
+    {
       "path": "desktop/tests/core.test.mjs",
       "bytes": 4179,
       "sha256": "1313a0a04fb7b011a38193d133e6c08d34c9fb6ff3a0b6839340e0249072641e"
@@ -1476,8 +1489,8 @@
     },
     {
       "path": "desktop/tests/helpers/load-ui.mjs",
-      "bytes": 2096,
-      "sha256": "69a93a39086e8e1d3beec51c53d4fc106975a5d27d427417f3997fab5729452c"
+      "bytes": 2297,
+      "sha256": "99ddebc02717656570a21427fc65555766c6447f7691073cf6487d50c639b798"
     },
     {
       "path": "desktop/tests/helpers/mcp-secrets.mjs",
@@ -1621,13 +1634,18 @@
     },
     {
       "path": "docs/CHAT_ATTACHMENTS.md",
-      "bytes": 3234,
-      "sha256": "370cb841d86ba9be9490697676cbbc783cddf8dec4b3a033b074eb5e433d6ce7"
+      "bytes": 3388,
+      "sha256": "5c7daf05ba7cb93fec9a5de4cd084d8b5dc249f899c8e42793eeffce62383393"
     },
     {
       "path": "docs/CHAT_RICH_MEDIA.md",
       "bytes": 5671,
       "sha256": "adaaef6766d47e0e55b2d7d49612cfc252fd4cc61733b875d06e9d29e94d7656"
+    },
+    {
+      "path": "docs/COMPACT_COMPOSER.md",
+      "bytes": 4044,
+      "sha256": "e6664f6a2a7b8a23534913833a026f046e99450f46b54f1b4a7121aa349934cb"
     },
     {
       "path": "docs/COMPOSER_AND_UPLOAD_FIX.md",
@@ -1636,8 +1654,8 @@
     },
     {
       "path": "docs/DOWNLOADS.md",
-      "bytes": 11083,
-      "sha256": "f3e18fc30d668b8b8316a6840b7bc94a05786ac00e853f81f6902f0aeae5bcb8"
+      "bytes": 11519,
+      "sha256": "030a8794f92539ab88b9ddfa0eb76d48295d1dc2eab77a86900305c6601baf98"
     },
     {
       "path": "docs/DURABLE_COMMANDS.md",
@@ -1716,13 +1734,13 @@
     },
     {
       "path": "docs/QUICK_GAPS.md",
-      "bytes": 18282,
-      "sha256": "89a0cb2964b5d5a472adb3486d9dff764d0279da1c00ce4d1bafa95eabaad745"
+      "bytes": 18629,
+      "sha256": "93308334d8b1ec59f996aeb4520e613602e2f0662651f0639e0b99f6b0ac43d3"
     },
     {
       "path": "docs/REA_FINDINGS.md",
-      "bytes": 9585,
-      "sha256": "d6944b39f00fad97cc0a2d7c3e030f6ad1ae1ee70926135a7b3c6ef903e4b1d6"
+      "bytes": 9932,
+      "sha256": "a605f904ea23da897f5c24c1a4da45486a5525b4398774603fa204edf5d7f3d9"
     },
     {
       "path": "docs/SCREENSHOT_ALIGNMENT.md",
@@ -1771,8 +1789,8 @@
     },
     {
       "path": "docs/ZIP_AND_MODELS.md",
-      "bytes": 6280,
-      "sha256": "993e3913aadc10ebfa827f2a975c87f84865039b95aa691db0785a9b671922e2"
+      "bytes": 6434,
+      "sha256": "86559c729184dd9dc76c18929effdb26a7c746feb26917f17cdc9fd2bb4c9d93"
     },
     {
       "path": "docs/images/documents.png",
@@ -1968,6 +1986,16 @@
       "path": "docs/validation/v0.28.1.json",
       "bytes": 1654,
       "sha256": "857bc04c9adcf95e03f72d509a61c7ead9a7492c3b7ca943f1f06c64a2e5125d"
+    },
+    {
+      "path": "docs/validation/v0.29.0-tests.txt",
+      "bytes": 35656,
+      "sha256": "00377cc7fd26c1358549d4d98801307066e7c089c07d832dd94a98d1de016b01"
+    },
+    {
+      "path": "docs/validation/v0.29.0.json",
+      "bytes": 2031,
+      "sha256": "2b38daad6ec35b2f9988812e06ad6e993d8e56884dd13c1a1120c0c9302becf0"
     },
     {
       "path": "docs/validation/v0.5.0.json",
@@ -2297,7 +2325,7 @@
     {
       "path": "scripts/package-desktop-source.py",
       "bytes": 3741,
-      "sha256": "8a6c0a55265c89b0b1307fde2775e50fab05ecd4a478100b8ee34b7535adbe52"
+      "sha256": "48c44f2e6ad2d155217d850f8c6e09d54660b62bd21999dba4d4eff5c09a0f1e"
     },
     {
       "path": "scripts/package-offline-mac.py",

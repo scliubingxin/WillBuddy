@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.28.1",
+  "version": "0.29.0",
   "checked_date": "2026-10-25",
   "source_status": "desktop_source_delivery_not_deployed",
   "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -49,14 +49,15 @@
     "knowledge_index": "private Store field, removed from renderer state;16 entries/8MiB total/2MiB per entry; serial build/reuse/clear; cancellation/save rollback; approval never cached",
     "chat_attachments": "native single-file picker imports private validated Office/text copy; turn-scoped current-target text Q&A without tools; version/hash and queue checks; no PDF/OCR/media upload",
     "chat_archives": "ZIP only; in-memory bounded validation/decompression and real document/text/code extraction; atomic import32 docs, skipped report; no RAR/7z/PDF/OCR/media understanding",
-    "model_profiles": "20 independent endpoint/key/capability profiles; legacy retained; explicit or fast/balanced/extreme type-priority routing; per-run snapshot; real reasoning params; no hidden fallback"
+    "model_profiles": "20 independent endpoint/key/capability profiles; legacy retained; explicit or fast/balanced/extreme type-priority routing; per-run snapshot; real reasoning params; no hidden fallback",
+    "composer": "single input and toolbar; scoped accessible add/model menus, conditional consent, no new execution permissions"
   },
   "validation": {
-    "desktop_tests_passed": 308,
+    "desktop_tests_passed": 310,
     "ui_paths_with_mock_bridge": 6,
     "real_cli_child_process_tested": true,
     "agent_http_fixture_to_real_cli_roundtrip_tested": true,
-    "browser_verification": "5 related real Chromium; production model forms, actual ZIP DOCX/text, fast/extreme/manual-low HTTP payloads and auth headers, reload; native picker/IPC/Keychain/model semantics fixtures",
+    "browser_verification": "6 full real Chromium regressions; eight viewport/panel layouts, fourteen interactable popover placements, Tab/Enter/Esc/outside close/redraw focus and draft, real ZIP/model/image/SSE wire fixtures",
     "workspace_browser_test_passed": true,
     "packaging_tests_passed": 10,
     "workspace_test_scope": "real Chromium layout, keyboard, Markdown, preview/export; deterministic native bridge and model content",
@@ -68,7 +69,7 @@
     "theme_check": "real Chromium eight viewport/panel layouts; test-only Noto CJK font; not Mac pixel acceptance",
     "offline_bundle": {
       "official_runtime_sha256": "passed",
-      "asar_content": "107 production files including assets exact bytes",
+      "asar_content": "108 production files including assets exact bytes",
       "zip_integrity": "passed",
       "closed_inventory": "passed; 282 app entries + 5 extras; 14 symlinks; no residue",
       "unexpected_entry_negative": "passed even when every manifest file remains unchanged",
@@ -79,19 +80,19 @@
       "negative_tamper_check": "passed",
       "macOS_bundle_codesign_and_gatekeeper": "not_tested",
       "installer_shell_syntax": "passed",
-      "asar_files_matched": 107,
+      "asar_files_matched": 108,
       "protected_files_unchanged": 122,
       "app_entries": 282,
       "symlinks": 14,
       "macho": 15,
       "pages": 51216,
-      "app_asar_sha256": "9e3c359862f730ea99fdd1912cbdd3ea5ba05e9fbadfd39f733156949af10b43",
-      "zip_sha256": "51ce0b96191facbe602098976011ce74aa0a9a844e2c44943e8cc3b2d8e734a2",
-      "zip_bytes": 119739518,
+      "app_asar_sha256": "cd817386376cdd6ebbfd5a7745496c6d76d14d5bb56a7a25a3f011109326fc4c",
+      "zip_sha256": "e0978e7402c4d0987834c8946bba8a7d853e82b871208dc60315f984f6c4575e",
+      "zip_bytes": 119742176,
       "tamper_negative": "passed",
       "residues": {
         "before_sign": 0,
-        "after_sign": 1
+        "after_sign": 0
       }
     },
     "service_boundary_tests_passed": 9,
@@ -150,7 +151,7 @@
     "javascript_analysis": "partial_host_process_ownership_blocked",
     "report": "docs/REA_FINDINGS.md"
   },
-  "notes": "0.28 ZIP attachments and multi-model config/routing. Other retained validation fields reflect prior iterations; no new Mac/paid-provider acceptance.",
+  "notes": "Compact progressive-disclosure composer; existing business, routing and permission boundaries retained.",
   "architecture": {
     "guide": "docs/ARCHITECTURE.md",
     "layers": [
@@ -165,19 +166,21 @@
     "web_desktop_shared_core": false
   },
   "current_iteration": {
-    "version": "0.28.0",
-    "evidence": "docs/validation/v0.28.0.json",
-    "guide": "docs/ZIP_AND_MODELS.md",
+    "version": "0.29.0",
+    "evidence": "docs/validation/v0.29.0.json",
+    "guide": "docs/COMPACT_COMPOSER.md",
     "mac_native_tested": false,
     "public_github_release": false,
-    "public_release_note": "0.22 public;0.28 candidate only, not uploaded/published/merged."
+    "public_release_note": "0.28.1 release already public;0.29 source/app delivered independently, not uploaded or merged."
   },
   "github_last_published": {
-    "version": "0.22.0",
+    "version": "0.28.1",
+    "branch": "willbuddy-v0.28.1-composer-fix",
+    "commit": "5593b0f45c6941c2a16f461e336f23817035c7cf",
+    "release": "https://github.com/scliubingxin/WillBuddy/releases/tag/v0.28.1-preview",
     "main_commit": "bdd8db7115f41a150da399ffd0860fe7883f9009",
-    "pull_request": "https://github.com/scliubingxin/WillBuddy/pull/1",
-    "release": "https://github.com/scliubingxin/WillBuddy/releases/tag/v0.22.0-preview"
+    "main_runtime_version": "0.22.0"
   },
   "documentation_policy": "product README only; version/test/limits in downloads and release pages",
-  "github_hotfix_publication": "0.28 verified branch295049e; 0.28.1 source/app publication in progress at build time; see actual GitHub Release, main not merged"
+  "github_hotfix_publication": "0.28.1 completed, both public attachment downloads SHA verified;0.29 not published this turn"
 }
