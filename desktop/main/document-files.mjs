@@ -3,13 +3,14 @@ import { open, rename, unlink, readFile } from "node:fs/promises";
 import path from "node:path";
 import {constants} from "node:fs";
 import { randomUUID } from "node:crypto";
-export async function readDocumentSource(source, {noFollow=false}={}) {
+export async function readDocumentSource(source, {noFollow=false,maxBytes=4*1024*1024,label="文档"}={}) {
+  if (![4*1024*1024,32*1024*1024].includes(maxBytes)) throw Error("无效读取限制");
   const file = await open(source, noFollow ? constants.O_RDONLY | constants.O_NOFOLLOW : "r");
   try {
     const before = await file.stat();
-    if (!before.isFile() || before.size > 4 * 1024 * 1024)
-      throw Error("文档最多 4 MiB");
-    const buffer = Buffer.alloc(4 * 1024 * 1024 + 1);
+    if (!before.isFile() || before.size > maxBytes)
+      throw Error(label+"最多 "+maxBytes/1024/1024+" MiB");
+    const buffer = Buffer.alloc(maxBytes + 1);
     let count = 0;
     while (count < buffer.length) {
       const { bytesRead } = await file.read(
@@ -21,7 +22,7 @@ export async function readDocumentSource(source, {noFollow=false}={}) {
       if (!bytesRead) break;
       count += bytesRead;
     }
-    if (count > 4 * 1024 * 1024) throw Error("文档读取体积超限");
+    if (count > maxBytes) throw Error("文档读取体积超限");
     const after = await file.stat();
     if (
       before.size !== after.size ||
