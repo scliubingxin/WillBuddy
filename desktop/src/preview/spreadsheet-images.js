@@ -165,8 +165,8 @@ export function sheetImages(
   )
     throw Error("工作表绘图关系无效");
   const drawing = parse(rel.part),
-    media = relationships(files, rel.part, parse),
     images = [];
+  let media;
   let unsupported = 0;
   for (const anchor of [...drawing.documentElement.children]) {
     if (
@@ -206,6 +206,7 @@ export function sheetImages(
       )
     )
       throw Error("图片裁剪/旋转/翻转暂不支持");
+    media ||= relationships(files, rel.part, parse);
     const mr = media.get(blips[0].getAttributeNS(R, "embed"));
     if (
       !mr ||

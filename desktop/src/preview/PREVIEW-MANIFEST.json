@@ -1,6 +1,6 @@
 {
-  "sha256": "dd948ebbfd50891933070e3350f10b791d8e648ba546cf41d194973ea529e393",
-  "bytes": 1665556,
+  "sha256": "d569be1f27e4e7a411e8137c651b1e9a9666f1f9e7176609088823bb930afb0f",
+  "bytes": 1666013,
   "packages": 5,
   "entryDependencies": {
     "@aiden0z/pptx-renderer": "1.4.0",

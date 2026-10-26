@@ -105,7 +105,11 @@ async function spreadsheet(bytes) {
       rows = Math.max(rows, m[1].r);
       columns = Math.max(columns, m[1].c);
     }
-    const drawing = sheetImages(files, part, doc, parse, imageBudget);
+    let drawing;
+    try{drawing=sheetImages(files,part,doc,parse,imageBudget);}catch(e){
+      if(e.message!=='图片关系部件缺失')throw e;
+      drawing={images:[],unsupported:0,warning:'此工作表的图片关系缺失，未显示图片；以下单元格仍可查看。原文件未修改。'};
+    }
     for (const image of drawing.images)
       for (const marker of [image.from, image.to])
         if (marker) {
@@ -247,6 +251,7 @@ async function spreadsheet(bytes) {
       }
     }
     section.append(table);
+    if(drawing.warning){const warning=document.createElement('p');warning.className='preview-warning';warning.textContent=drawing.warning;section.prepend(warning);}
     if (drawing.unsupported) {
       const warning = document.createElement("p");
       warning.textContent =
