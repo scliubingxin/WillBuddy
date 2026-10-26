@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.34.0",
-  "checked_date": "2026-10-26",
+  "version": "0.35.0",
+  "checked_date": "2026-10-27",
   "source_status": "desktop_source_delivery_not_deployed",
   "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
   "desktop": {
@@ -42,7 +42,7 @@
     "agent_capabilities": "bound Skills eagerly read and audited before conversation model call; approved knowledge and MCP tools retained",
     "html_interactive_preview": "full bounded authorized source; two opaque sandboxes; inline JS + ephemeral storage, no network/backend; actual private user sample Chromium passed",
     "local_images": "PNG/JPEG32MiB/64Mp input; host resize PNG4MiB/4096edge/16Mp;8 per turn;100 library/128MiB; explicit send; local thumbnails; image-only prompt and failure draft restore",
-    "capability_library": "persistent Skill MD/ZIP resources and MCP global connector config/discovery with optional manual bearer; no script execution/OAuth/stdio",
+    "capability_library": "13 Skills including actual Node budget script;8 MCP templates;approved script runtime;no OAuth/stdio",
     "knowledge_retrieval": "persistent bounded lexical prefix-postings index; current approved original text scoring; revision/fileSHA/extractedTextSHA/locale/algorithm/checksum/geometry; exact scans on index overflow, not embeddings",
     "knowledge_evidence": "trusted successful retrieval observation snapshots; run-scoped escaped text cards; revision/SHA drift labels; max12 groups/96000 serialized chars per chat; no extra read/model call",
     "mcp_authentication": "manual bearer only; host safeStorage adapter, explicit metadata view, approved exact-endpoint private token, revision/cipher drift guard, no redirect/retry/anonymous fallback, literal echo redaction; not OAuth",
@@ -55,7 +55,8 @@
     "project_services": "Host-only30min startup lease, one service/shared2 slots,64KiB newest output, explicit stop/fresh restart; no daemon/OSsandbox",
     "capability_presets": "12 skills:4 MIT pinned public/8 independent workflows;8 official HTTP MCP templates;no automatic network or execution",
     "word_selection": "imported DOCX single paragraph text or whole simple table; trusted source validation and patch bounds; native approval unchanged",
-    "xlsx_text_patch": "literal shared/inline text only; unchanged OOXML parts byte-identical; no recalculation"
+    "xlsx_text_patch": "literal shared/inline text only; unchanged OOXML parts byte-identical; no recalculation",
+    "skill_runtime": "Actual Node/baseline installed Python subprocess;120s64KiB;private verified resources;fresh per-action approval and output import;not OS sandbox/full SDK"
   },
   "validation": {
     "report": "docs/validation/v0.34.0.json"
@@ -81,10 +82,12 @@
     "web_desktop_shared_core": false
   },
   "current_iteration": {
-    "feature": "Marked feedback fixes: actual Skill loading, dialogs, attachment commits, Excel preview, text continuation and readable controls",
-    "details": "docs/FEEDBACK_FIXES.md",
-    "tests": "docs/validation/v0.34.0.json",
-    "github": "pending version branch/PR/main/Release; build-time snapshot"
+    "version": "0.35.0",
+    "date": "2026-10-27",
+    "status": "validated_source_and_arm64_candidate_github_pending_at_build",
+    "previous_main": "292207f4f6e051fdf21c908a0ce2c983f3b4aef3",
+    "report": "docs/validation/v0.35.0.json",
+    "native_mac_tested": false
   },
   "github_last_published": {
     "version": "0.33.0",

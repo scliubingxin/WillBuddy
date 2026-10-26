@@ -157,3 +157,5 @@ WillBuddy is a desktop AI workspace for Apple Silicon Macs. Bring your own compa
 Skills 技能库可从预置目录添加常用工作流；MCP页选择官方服务模板，按需填写自己的密钥，再批准测试与绑定。[预置能力用法](docs/PRESET_CAPABILITIES.md)。
 
 在导入Word的预览中选择文字或整表，可附加到对话，让AI在选区范围内修改；简单文字也可直接编辑并保存新版本。详见[Office选区与原件修改](docs/OFFICE_SELECTION.md)。
+
+含代码的Skill可经批准运行Node/Python脚本并回收真实文档成果；可从预置目录添加预算脚本。Node随应用内置，Python与外部依赖按需准备。[Skill代码运行用法](docs/SKILL_RUNTIME.md)。

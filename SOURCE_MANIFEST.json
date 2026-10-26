@@ -1,15 +1,15 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.34.0",
-  "packaged_date": "2026-10-26",
+  "version": "0.35.0",
+  "packaged_date": "2026-10-27",
   "provenance": "Complete validated source snapshot; Git commits and deployment are tracked separately",
-  "base_source_commit_sha": "3367fc758479006e4e0faa8ec22746d85ea45408",
+  "base_source_commit_sha": "292207f4f6e051fdf21c908a0ce2c983f3b4aef3",
   "release_status": {
     "schema_version": 2,
     "brand": "WillBuddy",
-    "version": "0.34.0",
-    "checked_date": "2026-10-26",
+    "version": "0.35.0",
+    "checked_date": "2026-10-27",
     "source_status": "desktop_source_delivery_not_deployed",
     "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
     "desktop": {
@@ -49,7 +49,7 @@
       "agent_capabilities": "bound Skills eagerly read and audited before conversation model call; approved knowledge and MCP tools retained",
       "html_interactive_preview": "full bounded authorized source; two opaque sandboxes; inline JS + ephemeral storage, no network/backend; actual private user sample Chromium passed",
       "local_images": "PNG/JPEG32MiB/64Mp input; host resize PNG4MiB/4096edge/16Mp;8 per turn;100 library/128MiB; explicit send; local thumbnails; image-only prompt and failure draft restore",
-      "capability_library": "persistent Skill MD/ZIP resources and MCP global connector config/discovery with optional manual bearer; no script execution/OAuth/stdio",
+      "capability_library": "13 Skills including actual Node budget script;8 MCP templates;approved script runtime;no OAuth/stdio",
       "knowledge_retrieval": "persistent bounded lexical prefix-postings index; current approved original text scoring; revision/fileSHA/extractedTextSHA/locale/algorithm/checksum/geometry; exact scans on index overflow, not embeddings",
       "knowledge_evidence": "trusted successful retrieval observation snapshots; run-scoped escaped text cards; revision/SHA drift labels; max12 groups/96000 serialized chars per chat; no extra read/model call",
       "mcp_authentication": "manual bearer only; host safeStorage adapter, explicit metadata view, approved exact-endpoint private token, revision/cipher drift guard, no redirect/retry/anonymous fallback, literal echo redaction; not OAuth",
@@ -62,7 +62,8 @@
       "project_services": "Host-only30min startup lease, one service/shared2 slots,64KiB newest output, explicit stop/fresh restart; no daemon/OSsandbox",
       "capability_presets": "12 skills:4 MIT pinned public/8 independent workflows;8 official HTTP MCP templates;no automatic network or execution",
       "word_selection": "imported DOCX single paragraph text or whole simple table; trusted source validation and patch bounds; native approval unchanged",
-      "xlsx_text_patch": "literal shared/inline text only; unchanged OOXML parts byte-identical; no recalculation"
+      "xlsx_text_patch": "literal shared/inline text only; unchanged OOXML parts byte-identical; no recalculation",
+      "skill_runtime": "Actual Node/baseline installed Python subprocess;120s64KiB;private verified resources;fresh per-action approval and output import;not OS sandbox/full SDK"
     },
     "validation": {
       "report": "docs/validation/v0.34.0.json"
@@ -88,10 +89,12 @@
       "web_desktop_shared_core": false
     },
     "current_iteration": {
-      "feature": "Marked feedback fixes: actual Skill loading, dialogs, attachment commits, Excel preview, text continuation and readable controls",
-      "details": "docs/FEEDBACK_FIXES.md",
-      "tests": "docs/validation/v0.34.0.json",
-      "github": "pending version branch/PR/main/Release; build-time snapshot"
+      "version": "0.35.0",
+      "date": "2026-10-27",
+      "status": "validated_source_and_arm64_candidate_github_pending_at_build",
+      "previous_main": "292207f4f6e051fdf21c908a0ce2c983f3b4aef3",
+      "report": "docs/validation/v0.35.0.json",
+      "native_mac_tested": false
     },
     "github_last_published": {
       "version": "0.33.0",
@@ -142,13 +145,13 @@
     },
     {
       "path": "ITERATION_LOG.md",
-      "bytes": 179856,
-      "sha256": "20dc869202698732161a223c4dd0b61ac0ace803380412f38fddd0488d94a85d"
+      "bytes": 181310,
+      "sha256": "f13d1d2e4110a8aea0910d620989fc6fe6f0608d4fe0056b1e570f92bf044e47"
     },
     {
       "path": "ITERATION_PLAN.md",
-      "bytes": 69346,
-      "sha256": "fbfd88e199afc503cb30caa417d3e729f9cc790aed07d99f123116f2f82c1a1d"
+      "bytes": 70800,
+      "sha256": "c4677e2f6276e2cb923c548c24724f338dc30046ada94eb61463a344bfdd29a5"
     },
     {
       "path": "OPENWORKBUDDY_REFERENCE.md",
@@ -162,13 +165,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 11238,
-      "sha256": "b7dcf870faf16e6096967e197239b58a37979cab85a8e640398e551aa86a20bc"
+      "bytes": 11470,
+      "sha256": "5e9f4037eca0899e069d45fa193b07cb62e9f4a1ef6c5d583fc7a8ba7b109610"
     },
     {
       "path": "RELEASE_STATUS.json",
-      "bytes": 8565,
-      "sha256": "b1b8c3eadc1dcb838cc7f45811640146e4c674cc90a2eb7b387648e1522e0604"
+      "bytes": 8669,
+      "sha256": "138a277c216a1c6bb84469ff162726be448bf43d08a42f1eba304e1ceae77937"
     },
     {
       "path": "SELF_TEST_MATRIX.md",
@@ -647,8 +650,8 @@
     },
     {
       "path": "desktop/README.md",
-      "bytes": 5953,
-      "sha256": "0a5b2febc4c07981398e2307976de247e24154f8a11192eae8ed4b5281e788f4"
+      "bytes": 6276,
+      "sha256": "129d10ef0bdd21882e225407b8a4c02993b756898cc460d2551678ce293dcec7"
     },
     {
       "path": "desktop/assets/app.icns",
@@ -758,12 +761,12 @@
     {
       "path": "desktop/package-lock.json",
       "bytes": 279311,
-      "sha256": "1adeb8a2c72f436cc326321aeb17fcd8dc49d1c6903484fc345454f017babe80"
+      "sha256": "b6f2124c43e12e291ef245849b17b62d94eef48acc3af21c37f57974df4dda54"
     },
     {
       "path": "desktop/package.json",
       "bytes": 3355,
-      "sha256": "1bf4e712483786a05994672d811bc69f390476c3a92525b0d5fdb4ff010bb7a2"
+      "sha256": "c3b50104588fac89f74ffe10baf4c0283cbc9dbb17a92b14e706c5caa97c86ab"
     },
     {
       "path": "desktop/preload.cjs",
@@ -807,8 +810,8 @@
     },
     {
       "path": "desktop/runtime/command.mjs",
-      "bytes": 5907,
-      "sha256": "a363953cfc3b1b4980d7eaef4b822182a123fb6debd8dbcc323e54e176242b6d"
+      "bytes": 6385,
+      "sha256": "50b419f2d48529e1ff98028a0cec2c9d96953fc9301d2761d806cb472cf1ed22"
     },
     {
       "path": "desktop/runtime/conversion-sanitizer.js",
@@ -867,8 +870,8 @@
     },
     {
       "path": "desktop/runtime/presets/catalog.json",
-      "bytes": 65975,
-      "sha256": "2389432b535de669393496fa76e7e478d3b9125c948be46a2ad564bdabf0d164"
+      "bytes": 69201,
+      "sha256": "169c62f52efdde517420299bc43a129b408faa0261cb99fb305b7048f93f2043"
     },
     {
       "path": "desktop/runtime/project-diagnostics.mjs",
@@ -891,6 +894,11 @@
       "sha256": "692e2b6aec0b99d1856206c806a4ea71223dfd08512272ca44270f2e6011fc7e"
     },
     {
+      "path": "desktop/runtime/skill-runtime.mjs",
+      "bytes": 4899,
+      "sha256": "e093330fccabfca945bff8e8abbf84f8b76e49feaeeeb86e9a8982ccdf57f5c4"
+    },
+    {
       "path": "desktop/runtime/spreadsheet-text.mjs",
       "bytes": 2206,
       "sha256": "d57325845923af7b8589324fbb4896ab5c477876b595d2e07dfef07cc1adcb93"
@@ -902,8 +910,8 @@
     },
     {
       "path": "desktop/runtime/tools.mjs",
-      "bytes": 9264,
-      "sha256": "604f54c5fe715d3748772f44b8717dc820f399d4bfbb72277b824ea644184ad4"
+      "bytes": 9434,
+      "sha256": "f86c2b5dd83c971699a31fdceae96e432b67a0fb2ef9e4c4efa98a95821685bf"
     },
     {
       "path": "desktop/runtime/vendor/GENOFFICE-MANIFEST.json",
@@ -962,8 +970,8 @@
     },
     {
       "path": "desktop/services/agent-session.mjs",
-      "bytes": 12814,
-      "sha256": "61cb715e71e1b887e08b09ba94ec270f20155f0c1bfca8573b5e5623f37db43c"
+      "bytes": 14275,
+      "sha256": "4ec0d4fffce8fd609dbceee5be5bdcc50c28df9fc5e17e950e2a58635e82ecd9"
     },
     {
       "path": "desktop/services/capability-library.mjs",
@@ -987,8 +995,8 @@
     },
     {
       "path": "desktop/services/conversation.mjs",
-      "bytes": 18369,
-      "sha256": "813da1bb10f49a220771bddaae618809c061a291ee3c7a76dc8316f701aa62eb"
+      "bytes": 18391,
+      "sha256": "2df989a02f7f8ff5602bcee2fe7c94fa52e6bb64cc889ec85365d0128ceb940a"
     },
     {
       "path": "desktop/services/document-selection.mjs",
@@ -997,8 +1005,8 @@
     },
     {
       "path": "desktop/services/documents.mjs",
-      "bytes": 16172,
-      "sha256": "75d7768e3cd8e8761140d26ba0fca8e7ebce7ae500ca9cabaf77e4f8effc99a0"
+      "bytes": 16364,
+      "sha256": "25b0dcfec960c1324c1133e2365287a0b18a8510234f30d671e07e0b6302447d"
     },
     {
       "path": "desktop/services/file-preview.mjs",
@@ -1034,6 +1042,11 @@
       "path": "desktop/services/recovery.mjs",
       "bytes": 2156,
       "sha256": "ddf4e39ffe0482e597cc537b641b61c0901fb16e504f308b261c82351570bce2"
+    },
+    {
+      "path": "desktop/services/skill-execution.mjs",
+      "bytes": 5226,
+      "sha256": "4dbb3d69c13334dc692aa0a92add681ae8d1d3a6b7830c91ce66d472be1c2a0a"
     },
     {
       "path": "desktop/services/tasks.mjs",
@@ -1363,7 +1376,7 @@
     {
       "path": "desktop/tests/acceptance/presets-live.mjs",
       "bytes": 8125,
-      "sha256": "f653038a22d704eca6de386b63ee873d4ba6436ded2e042ac692008389222ec7"
+      "sha256": "13b80b2bc7b980c8557e9e8c7cf6e3a87a7ec4146be15955042c3460e2a7c327"
     },
     {
       "path": "desktop/tests/acceptance/project-services-live.mjs",
@@ -1379,6 +1392,11 @@
       "path": "desktop/tests/acceptance/runs-live.mjs",
       "bytes": 5433,
       "sha256": "45f3157751fbc63f104f26c1569a3e6722d88c12def69ac49b75a4aace82e114"
+    },
+    {
+      "path": "desktop/tests/acceptance/skill-runtime-live.mjs",
+      "bytes": 9083,
+      "sha256": "b8fd35698d3b2bb06c6009665f5ef0be2bd38f0910ac08ce8e47b1568ef1199e"
     },
     {
       "path": "desktop/tests/acceptance/spreadsheet-live.mjs",
@@ -1438,7 +1456,7 @@
     {
       "path": "desktop/tests/capability-presets.test.mjs",
       "bytes": 7324,
-      "sha256": "37a29f9d7b03d0cb141405c79760a1a9771594b1aa8a38f3c01dae866fbb96ff"
+      "sha256": "d64f73d394b4d2cb7eefca7b944b8e082a6375056216c34d0f72a2a875271ce7"
     },
     {
       "path": "desktop/tests/chat-archive.test.mjs",
@@ -1626,6 +1644,11 @@
       "sha256": "2ec40e388c4d09ea8265526c5b708979f30d8b70ab00f0721895c89edde98628"
     },
     {
+      "path": "desktop/tests/skill-runtime.test.mjs",
+      "bytes": 8164,
+      "sha256": "8c781532c2ad809d3974e529887322e342727329ba4aad50310fa827f6308c09"
+    },
+    {
       "path": "desktop/tests/spreadsheet-formula.test.mjs",
       "bytes": 19856,
       "sha256": "18279a4ba88de35897532a2f8ffc7f084d2d706299edbc21c5f516bb80a05dd8"
@@ -1702,8 +1725,8 @@
     },
     {
       "path": "docs/DOWNLOADS.md",
-      "bytes": 18407,
-      "sha256": "2e01e8f23fc1f3c3a9e3e34737074d378f2b14f70552979e8c6818b444a46f2f"
+      "bytes": 19861,
+      "sha256": "faee880fd6f18803023ff405d709529a5c95990277126faa048d6dde7bbab1ab"
     },
     {
       "path": "docs/DURABLE_COMMANDS.md",
@@ -1807,8 +1830,8 @@
     },
     {
       "path": "docs/QUICK_GAPS.md",
-      "bytes": 29195,
-      "sha256": "db35f89c6a7b10d2168886d6df3bee7f9a06297b42ff2733048404728b47bfad"
+      "bytes": 30649,
+      "sha256": "06f3eea155e1405749bdb93d9e50ae8350539968409ce3691ee107db69c3b662"
     },
     {
       "path": "docs/REA_FINDINGS.md",
@@ -1829,6 +1852,11 @@
       "path": "docs/SKILLS_AND_CONNECTORS.md",
       "bytes": 5658,
       "sha256": "736586f83a452818db83d9716f15e0447e567e09e16daaeebd5324141bf3f4dc"
+    },
+    {
+      "path": "docs/SKILL_RUNTIME.md",
+      "bytes": 3788,
+      "sha256": "10bd49aaa48121a49483ab5b1a5fe8097aee95d6e422b29132c63d831fd99f57"
     },
     {
       "path": "docs/SPREADSHEET_FORMULAS.md",
@@ -1879,6 +1907,11 @@
       "path": "docs/images/imported-word.png",
       "bytes": 116362,
       "sha256": "374d71f078fbd78d7279647908aadc7cc66a19df3ed3e18f7fe4c96842cc3b70"
+    },
+    {
+      "path": "docs/images/skill-runtime.png",
+      "bytes": 57533,
+      "sha256": "04d6e07611e88a25f5833a635669a2a45c31499c94adbf58e4cb9ff3172baad8"
     },
     {
       "path": "docs/images/spreadsheet-formulas.png",
@@ -2126,6 +2159,16 @@
       "sha256": "0edb74a1534bfaa5a1dbee55652853a3018a8213b0ce9a6e323c679e5cbe8c4b"
     },
     {
+      "path": "docs/validation/v0.35.0-tests.txt",
+      "bytes": 39167,
+      "sha256": "3af68e331b3142ff9d38dd9cc4c97c34086dffbda2b06f554a9925af493be768"
+    },
+    {
+      "path": "docs/validation/v0.35.0.json",
+      "bytes": 1460,
+      "sha256": "411776993d87432675c32f67762e67bc533176602df54e64747ea51cb684f024"
+    },
+    {
       "path": "docs/validation/v0.5.0.json",
       "bytes": 2382,
       "sha256": "c8c0bfc53dabe6c490788dfb32b4753063ea8b672601fcccece5adc574b617c8"
@@ -2214,6 +2257,16 @@
       "path": "examples/d1/db/schema.ts",
       "bytes": 370,
       "sha256": "d89eabd95716ce404f5f7ca2a254220435be8ddce7c899d7ef461ff22ec80454"
+    },
+    {
+      "path": "examples/skills/office-runtime/SKILL.md",
+      "bytes": 511,
+      "sha256": "6eeabcaf08fec0c6349e10de53a15e43b39061b25888eae80b0a3a2cdb543a6a"
+    },
+    {
+      "path": "examples/skills/office-runtime/scripts/create-budget.cjs",
+      "bytes": 2964,
+      "sha256": "453f95775d27439f41dee2796d9f8f65c28b9cb817708c84c1b36d84f5eb15c1"
     },
     {
       "path": "hooks/use-mobile.ts",
@@ -2453,7 +2506,7 @@
     {
       "path": "scripts/package-desktop-source.py",
       "bytes": 3741,
-      "sha256": "1ae593dbafad64ade3c74ee60afe21836cbe01c34553b4776593bd24d541fbdb"
+      "sha256": "b3bf46400704cb188db3190e4111828a00d678e50fea0a895e1c76cb24a40cb4"
     },
     {
       "path": "scripts/package-offline-mac.py",
@@ -2504,6 +2557,11 @@
       "path": "scripts/tests/test_source_archive.py",
       "bytes": 2344,
       "sha256": "010c5dbc05d4e42185a9dcbeaf25ea304129f2398771dad97a7c6621256e8510"
+    },
+    {
+      "path": "scripts/update-runtime-skill.py",
+      "bytes": 1276,
+      "sha256": "8135ebe203ff49cb9d2f88ab36bcb8aa2a71081f7ea45529d5b33e3114210f1b"
     },
     {
       "path": "scripts/vendor-capability-presets.py",
