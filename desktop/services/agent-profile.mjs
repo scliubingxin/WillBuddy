@@ -71,9 +71,9 @@ export function agentCapabilities(p = {}) {
   }));
   if (new Set(cleanMcp.map((s) => s.url)).size !== cleanMcp.length)
     throw Error("MCP地址重复");
-  const maxSteps = p.maxSteps === undefined ? 8 : p.maxSteps;
-  if (!Number.isInteger(maxSteps) || maxSteps < 1 || maxSteps > 12)
-    throw Error("ReAct轮数须为1至12");
+  const maxSteps = p.maxSteps === undefined ? 32 : p.maxSteps;
+  if (!Number.isInteger(maxSteps) || maxSteps < 1 || maxSteps > 96)
+    throw Error("ReAct轮数须为1至96");
   return {
     tools: [...tools],
     knowledge: [...knowledge],
