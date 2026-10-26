@@ -30,17 +30,18 @@ const summary = (d) => ({
   })),
 });
 export const documentViews = (data) => (data.documents || []).map(summary);
+const storeLocks=new WeakMap();
 export function createDocumentService({
   store,
   notify = () => {},
   convertDocument,
 }) {
   store.data.documents ??= [];
-  let serial = Promise.resolve();
+  if(!storeLocks.has(store))storeLocks.set(store,Promise.resolve());
   const tokens = new WeakMap();
   const lock = (fn) => {
-    const p = serial.then(fn);
-    serial = p.catch(() => {});
+    const p = storeLocks.get(store).then(fn);
+    storeLocks.set(store,p.catch(() => {}));
     return p;
   };
   const find = (id) => {
@@ -48,10 +49,10 @@ export function createDocumentService({
     if (!d) throw Error("文档不存在");
     return d;
   };
-  async function save(candidate, signal) {
+  async function save(candidate, signal, guard=()=>{}) {
     signal?.throwIfAborted();
     return lock(async () => {
-      signal?.throwIfAborted();
+      signal?.throwIfAborted();guard();
       if (
         candidate.conversionSource &&
         find(candidate.conversionSource.id).revision !==
@@ -75,9 +76,10 @@ export function createDocumentService({
         throw Error("文档空间超限（100 个 / 16 MiB），请导出备份后清理");
       store.data.documents = next;
       try {
-        await store.save();
+        await store.save();signal?.throwIfAborted();guard();
       } catch (e) {
         store.data.documents = previous;
+        await store.save();
         throw e;
       }
       notify();
@@ -293,11 +295,11 @@ export function createDocumentService({
         notify();return candidates.map(summary);
       });
     },
-    async importFile(name, format, bytes, signal) {
+    async importFile(name, format, bytes, signal, guard) {
       checkName(name);
       if (!formats.includes(format)) throw Error("格式不支持");
       const inspected = inspectDocument(format, bytes);
-      return save(record(name, format, { bytes, ...inspected }), signal);
+      return save(record(name, format, { bytes, ...inspected }), signal, guard);
     },
     richEditor(id) {
       const d = find(id);
