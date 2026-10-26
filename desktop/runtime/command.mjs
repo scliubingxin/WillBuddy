@@ -33,7 +33,7 @@ export async function prepareCommand(folders,p) {
   const timeoutMs=p.timeoutMs===undefined?120000:p.timeoutMs;if(!Number.isInteger(timeoutMs)||timeoutMs<100||timeoutMs>300000)throw new Error('超时必须在 100 到 300000 毫秒之间');
   return {executable:await resolveExecutable(p.executable.trim()),requestedExecutable:p.executable.trim(),args:[...p.args],cwd,timeoutMs};
 }
-export function runCommand(command,{signal,onOutput=()=>{},maxBytes=1024*1024,outputMode='stop'}={}) {
+export function runCommand(command,{signal,onOutput=()=>{},maxBytes=1024*1024,outputMode='stop',environment}={}) {
   return new Promise((resolve,reject)=>{
     if(signal?.aborted){reject(new Error('执行已取消'));return;}
     const started=Date.now();let child,stdout='',stderr='',bytes=0,stopped='',forceTimer,settled=false,pipeTimer;
@@ -46,7 +46,7 @@ export function runCommand(command,{signal,onOutput=()=>{},maxBytes=1024*1024,ou
     function stop(reason){if(!stopped){stopped=reason;kill();}}
     const abort=()=>stop('cancelled');
     function finish(exitCode,exitSignal,error){if(settled)return;settled=true;clearTimeout(timer);clearTimeout(pipeTimer);if(!stopped)clearTimeout(forceTimer);signal?.removeEventListener('abort',abort);if(error){reject(new Error(error.code==='ENOENT'?`找不到命令 ${command.executable}。请安装此 CLI，或填写其绝对路径。`:error.message));return;}resolve({stdout,stderr,exitCode,signal:exitSignal,elapsedMs:Date.now()-started,status:stopped||(exitCode===0?'succeeded':'failed'),truncated:outputMode==='tail'?bytes>maxBytes:stopped==='output_limit',outputBytes:bytes});}
-    try{child=spawn(command.executable,command.args,{cwd:command.cwd,env:commandEnvironment(),shell:false,windowsHide:true,detached:process.platform!=='win32',stdio:['ignore','pipe','pipe']});}catch(e){finish(null,null,e);return;}
+    try{child=spawn(command.executable,command.args,{cwd:command.cwd,env:environment||commandEnvironment(),shell:false,windowsHide:true,detached:process.platform!=='win32',stdio:['ignore','pipe','pipe']});}catch(e){finish(null,null,e);return;}
     for(const [stream,field] of [[child.stdout,'stdout'],[child.stderr,'stderr']]){
       stream.setEncoding('utf8');stream.on('data',chunk=>{
         const received=Buffer.byteLength(chunk),remaining=Math.max(0,maxBytes-bytes);
@@ -63,4 +63,10 @@ export function runCommand(command,{signal,onOutput=()=>{},maxBytes=1024*1024,ou
     child.once('close',(code,sig)=>finish(code,sig));
     timer=setTimeout(()=>stop('timed_out'),command.timeoutMs);signal?.addEventListener('abort',abort,{once:true});if(signal?.aborted)abort();
   });
+}
+
+// CLI-Anything style structured stdout, independent of exit status.
+export function commandJson(text){
+ if(typeof text!=='string'||Buffer.byteLength(text)>32768)return;
+ try{const data=JSON.parse(text);if(!data||typeof data!=='object')return;let nodes=0;function visit(x,depth){if(++nodes>2000||depth>32)throw Error('JSON budget');if(x&&typeof x==='object')for(const v of Object.values(x))visit(v,depth+1);}visit(data,0);return data;}catch{return;}
 }

@@ -1,0 +1,58 @@
+{
+  "version": "0.35.0",
+  "baseline": {
+    "version": "0.34.0",
+    "library_version": 37,
+    "content_files_verified": 584
+  },
+  "core": {
+    "tests": 356,
+    "passed": 356,
+    "new_runtime_tests": 9
+  },
+  "chromium": {
+    "passed": 5,
+    "real": [
+      "Node process",
+      "Python process",
+      "HTTP transport",
+      "Store disk",
+      "XLSX/openpyxl",
+      "production ESM preview"
+    ],
+    "fixtures": [
+      "native IPC",
+      "approval",
+      "model semantic content",
+      "Keychain"
+    ]
+  },
+  "packaging_tests": 10,
+  "old_web_python_protected_files": 122,
+  "old_python_executor_tests_rerun": false,
+  "asar": {
+    "source_files_identical": 125,
+    "sha256": "24c9faa240be1633d32be57d14b8f023ec394bae22f7f2b885bd1aade354d1a6"
+  },
+  "app": {
+    "bytes": 119814083,
+    "sha256": "2b278a92ffdfa602c1f954d6cefacfd6948e80e31e38248c5c5454f81411e17f",
+    "app_entries": 282,
+    "extras": 5,
+    "signature": "ad-hoc",
+    "notarized": false,
+    "mac_runtime_verified": false
+  },
+  "research": [
+    "https://github.com/HKUDS/CLI-Anything",
+    "https://pypi.org/project/skills-runtime-sdk/"
+  ],
+  "limits": [
+    "not full skills-runtime-sdk integration",
+    "Python external",
+    "not OS sandbox",
+    "No Mac/paid-model validation",
+    "REA prior partial static evidence only"
+  ],
+  "recovery": "Lost unsaved early candidate; restored from authoritative0.34 and reran tests; no old candidate conclusions reused"
+}
