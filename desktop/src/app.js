@@ -1,3 +1,4 @@
+import {codeProjectsView} from './ui/code-projects.js';
 import {createComposerImages} from './ui/composer-images.js';
 import {compactComposer,createComposerMenus} from './ui/composer.js';
 import {modelPicker,modelLibrary,modelForm,modelChoiceLabel} from './ui/models.js';
@@ -612,10 +613,11 @@ async function handle(actionId, id) {
     }
     if(actionId==='codeProjects'){
         applyState(await invoke('state'));
-        modal('代码项目与运行环境','<p>代码ZIP导入后只解析和保存，不自动执行。选择步骤后将显示系统确认；依赖安装可能联网，脚本使用当前账号权限，不是系统沙箱。每次执行最长5分钟，日志与停止操作在工具台。</p><button data-action="projectImport">导入代码ZIP</button><button data-page="tools">查看日志与停止</button>'+(state.codeProjects||[]).map(p=>`<article><h3>${escape(p.name)} · ${escape(p.kind)}</h3><details><summary>${p.files.length}个项目文件</summary><pre>${escape(p.files.join('\n'))}</pre></details>${p.steps.map(s=>`<p><button data-action="projectRun" data-id="${escape(p.id+':'+s.id)}">${escape(s.label)}</button> <code>${escape(s.executable+' '+s.args.join(' '))}</code>${s.script?'<br><small>项目脚本：'+escape(s.script)+'</small>':''}</p>`).join('')}${p.jobs.map(j=>{const job=(state.commandJobs||[]).find(x=>x.id===j.jobId);return `<p>${escape(j.stepId)}：${escape(job?.status||j.submissionError||'记录已清理')}</p>`;}).join('')}</article>`).join(''));return;
+        modal('代码项目与运行环境',codeProjectsView({projects:state.codeProjects,jobs:state.commandJobs,escape}));return;
     }
     if(actionId==='projectImport'){const p=await invoke('projectImport');if(p)return handle('codeProjects');return;}
-    if(actionId==='projectRun'){const split=id.indexOf(':');await invoke('projectRun',{id:id.slice(0,split),stepId:id.slice(split+1)});applyState(await invoke('state'));$('#modal').close();await navigate('tools');toast('已加入持久命令队列，请核对系统确认中的实际命令');return;}
+    if(actionId==='projectLogs'){$('#modal').close();await navigate('tools');return;}
+    if(actionId==='projectRun'||actionId==='projectRunService'){const split=id.indexOf(':');await invoke('projectRun',{id:id.slice(0,split),stepId:id.slice(split+1),service:actionId==='projectRunService'});applyState(await invoke('state'));$('#modal').close();await navigate('tools');toast('已加入持久命令队列，请核对系统确认中的实际命令');return;}
     if(actionId==='attachImage'){
         if(images.length>=8)throw Error('每次最多8张图片');
         const scope=chatId,presentPage=page,row=await invoke('imageImport');
