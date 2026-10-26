@@ -1,3 +1,4 @@
+import {isServiceStep,checkServicePolicy} from '../runtime/project-service-policy.mjs';
 import path from 'node:path';
 import {mkdir,mkdtemp,writeFile,readFile,lstat,rm,realpath} from 'node:fs/promises';
 import {randomUUID} from 'node:crypto';
@@ -15,7 +16,7 @@ export function createCodeProjects({store,directory,approve,commands}){
   return target;
  }
  return {view,
-  async validate(args){if(args.folderId?.startsWith("project:"))await check(find(args.folderId.slice(8)));},
+  async validate(args,policy){if(args.folderId?.startsWith("project:")){const p=find(args.folderId.slice(8));const cwd=await check(p);const grant=store.data.folders.find(f=>f.id===args.folderId);if(!grant||await realpath(grant.path)!==cwd)throw Error('项目目录授权已变化');if(policy){checkServicePolicy(policy,args);const step=p.steps.find(s=>s.id===policy.stepId);if(!step||args.executable!==(step.executable.startsWith('.venv/')?path.join(cwd,step.executable):step.executable)||JSON.stringify(step.args)!==JSON.stringify(args.args))throw Error('项目服务启动步骤已变化');}}},
   importArchive:(name,bytes)=>lock(async()=>{
    if(rows().length>=10)throw Error('最多保留10个代码项目');
    const parsed=inspectCodeProject(bytes),id=randomUUID();
@@ -30,7 +31,8 @@ export function createCodeProjects({store,directory,approve,commands}){
     return view().find(p=>p.id===id);
    }catch(e){await rm(temp,{recursive:true,force:true});await rm(path.join(directory,id),{recursive:true,force:true});throw e;}
   }),
-  run:(id,stepId)=>lock(async()=>{
+  run:(id,stepId,{service=false}={})=>lock(async()=>{
+   if(service&&!isServiceStep(stepId))throw Error('安装、构建与测试不支持服务模式');
    const p=find(id),step=p.steps.find(s=>s.id===stepId);if(!step)throw Error('未知项目步骤');
    if(p.jobs.some(j=>live.has(store.data.commandJobs?.find(x=>x.id===j.jobId)?.status)))throw Error('项目已有执行，请先停止或等待结束');
    const cwd=await check(p);
@@ -42,9 +44,9 @@ export function createCodeProjects({store,directory,approve,commands}){
    }
    const executable=step.executable.startsWith('.venv/')?path.join(cwd,step.executable):step.executable;
    const jobId=randomUUID(),before=p.jobs;
-   p.jobs=[...p.jobs,{jobId,stepId,time:Date.now()}].slice(-30);
+   p.jobs=[...p.jobs,{jobId,stepId,service,time:Date.now()}].slice(-30);
    try{await store.save();}catch(e){p.jobs=before;throw e;}
-   try{const job=await commands.enqueue({id:jobId,folderId:'project:'+id,executable,args:step.args,timeoutMs:300000});return {project:view().find(x=>x.id===id),job};}
+   try{const request={id:jobId,folderId:'project:'+id,executable,args:step.args,timeoutMs:300000};const job=service?await commands.enqueueProjectService(request,{projectId:id,stepId}):await commands.enqueue(request);return {project:view().find(x=>x.id===id),job};}
    catch(e){p.jobs.find(x=>x.jobId===jobId).submissionError=e.message;await store.save();throw e;}
 
   })
