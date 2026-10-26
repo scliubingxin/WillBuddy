@@ -115,3 +115,6 @@ blockquote{border-left:3px solid #b8dff7;padding:2px 12px;margin:14px 0;color:#6
 .project-card{border-top:1px solid #e6edf3;padding:16px 0}.project-step{padding:10px 0}.project-step code{white-space:pre-wrap;overflow-wrap:anywhere}
 
 .preset-catalog{margin-top:32px;border-top:1px solid #e4edf4;padding-top:24px}.preset-filters{display:flex;gap:12px;margin:16px 0}.preset-filters input{flex:1;min-width:0}.preset-filters select{max-width:180px}.preset-card[hidden]{display:none}.preset-card details p{overflow-wrap:anywhere;font-size:12px}.preset-card>small{display:block;margin-bottom:8px}.preset-card .actions{margin-top:12px}
+
+/* Keep chat text clear of the adjacent document workspace. */
+.messages{padding-right:24px;padding-left:12px}.message-body{min-width:0}.message-files pre{white-space:pre-wrap;max-height:180px;overflow:auto}@media(max-width:700px){.messages{padding-right:12px}}
