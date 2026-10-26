@@ -11,7 +11,7 @@ import {
 } from "../runtime/documents.mjs";
 const summary = (d) => ({
   id: d.id,
-  name: d.name,
+  name: d.name.replace(new RegExp('(?:\\.'+d.format+')+$','i'),''),
   format: d.format,
   revision: d.revision,
   time: d.time,
@@ -91,7 +91,7 @@ export function createDocumentService({
   function record(name, format, result, prior) {
     return {
       id: prior?.id || uid(),
-      name,
+      name: name.replace(new RegExp('(?:\\.'+format+')+$','i'),''),
       format,
       revision: (prior?.revision || 0) + 1,
       time: Date.now(),
