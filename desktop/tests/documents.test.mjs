@@ -303,13 +303,8 @@ test("invalid specs, missing replacements, invalid cells and unsupported formula
       }),
     /地址/,
   );
-  assert.throws(
-    () =>
-      editDocument("xlsx", x.bytes, {
-        replacements: [{ find: "2025", replace: "2026" }],
-      }),
-    /Excel/,
-  );
+  const redacted=editDocument("xlsx",x.bytes,{replacements:[{find:"2025",replace:"2026"}]});
+  assert.match(redacted.text,/2026/);
   const files = openPackage(x.bytes),
     enc = new TextEncoder();
   files["xl/worksheets/sheet1.xml"] = enc.encode(
