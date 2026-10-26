@@ -1,0 +1,91 @@
+{
+  "version": "0.32.0",
+  "date": "2026-10-26",
+  "baseline": {
+    "version": "0.31.0",
+    "library_version": 34,
+    "source_content_files": 558,
+    "main": "a52a7dc3c1979c24ce20d8d5db479a0949b71b37"
+  },
+  "tests": {
+    "core": 338,
+    "new_core": 8,
+    "real_chromium_related": 8,
+    "packaging_python": 10,
+    "protected_unchanged": 122,
+    "old_python_tests_rerun": false
+  },
+  "catalog": {
+    "skills": 12,
+    "public_MIT_skills": 4,
+    "original_workflows": 8,
+    "MCP_templates": 8,
+    "upstream_commit": "2ce8aa15d05bd57213e6f746f953aafb7ded7a8b",
+    "public_discovery": "Actual Learn3/DeepWiki3 tools; no business call",
+    "paid_service_validation": false
+  },
+  "production_asar_matches": 119,
+  "packaging": {
+    "file": "/workspace/scratch/c33bcd2beeb1/outputs/WillBuddy-v0.32.0-mac-arm64-offline.zip",
+    "version": "0.32.0",
+    "bytes": 119798245,
+    "sha256": "782f0fc95d6868945349692bdf40df487c803f5e5d3ec832bdaf69faef6dcbeb",
+    "app_asar_sha256": "9dc9653b8b708954e2a40fae856d6468aa2dba2932ad20a0b6a6649d4a331b96",
+    "architecture": "arm64",
+    "signature": "ad-hoc",
+    "verified": true,
+    "archive_check": {
+      "app_entries": 282,
+      "extra_files": 5,
+      "closed_inventory": true,
+      "residual_entries": 0
+    }
+  },
+  "signing_scope": "ad-hoc,noMac/Gatekeeper/notarization;15MachO51216pages14links,closed inventory,zeroresidue,tamper negative",
+  "native_scope": "Picker/IPC/approval/OS Keychain/model semantics fixtures; actual local HTTP model and MCP transport/Store/Chromium",
+  "user_uploaded_compatibility": {
+    "excel_knowledge": "parsed3files",
+    "company_PPT": "parsed5files/2460447bytes",
+    "CAD": "blocked ZIP local-directory conflict",
+    "Dashi": "blocked >16MiB expansion",
+    "WeChat": "blocked >12000 chars entry"
+  },
+  "private_uploaded_content_bundled": false,
+  "modified_files": [
+    "ITERATION_LOG.md",
+    "ITERATION_PLAN.md",
+    "README.md",
+    "RELEASE_STATUS.json",
+    "SOURCE_MANIFEST.json",
+    "desktop/README.md",
+    "desktop/main.mjs",
+    "desktop/main/skill-files.mjs",
+    "desktop/package-lock.json",
+    "desktop/package.json",
+    "desktop/preload.cjs",
+    "desktop/runtime/capability-presets.mjs",
+    "desktop/runtime/mcp.mjs",
+    "desktop/runtime/presets/NOTICE.txt",
+    "desktop/runtime/presets/SUPERPOWERS-LICENSE.txt",
+    "desktop/runtime/presets/catalog.json",
+    "desktop/runtime/skill-package.mjs",
+    "desktop/services/capability-library.mjs",
+    "desktop/src/app.js",
+    "desktop/src/ui/capability-library.js",
+    "desktop/src/ui/preset-catalog.js",
+    "desktop/src/workbench.css",
+    "desktop/tests/acceptance/presets-live.mjs",
+    "desktop/tests/capability-library.test.mjs",
+    "desktop/tests/capability-presets.test.mjs",
+    "desktop/tests/helpers/load-ui.mjs",
+    "docs/DOWNLOADS.md",
+    "docs/PRESET_CAPABILITIES.md",
+    "docs/QUICK_GAPS.md",
+    "docs/validation/v0.32.0-public-mcp.txt",
+    "docs/validation/v0.32.0-tests.txt",
+    "docs/validation/v0.32.0.json",
+    "scripts/package-desktop-source.py",
+    "scripts/vendor-capability-presets.py"
+  ],
+  "publication": "Build-time pending regular authorized version branch/PR/main/Release; final Release records completion"
+}

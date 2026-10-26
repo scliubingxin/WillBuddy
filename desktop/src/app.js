@@ -1,3 +1,4 @@
+import {bindPresetFilters} from './ui/preset-catalog.js';
 import {codeProjectsView} from './ui/code-projects.js';
 import {createComposerImages} from './ui/composer-images.js';
 import {compactComposer,createComposerMenus} from './ui/composer.js';
@@ -93,6 +94,7 @@ function render() {
     if(previousComposer&&$('#prompt'))$('#prompt').replaceWith(previousComposer);
     composerMenus.afterRender(`${page}:${chatId}`);
     composerImages.update();
+    bindPresetFilters($('#app'));
     $('#sendImages')?.addEventListener('change',e=>sendImages=e.target.checked);
     const composer = $('#prompt');
     if(composer&&composer.value!==draft)composer.value=draft;
@@ -677,11 +679,12 @@ async function handle(actionId, id) {
         return;
     }
     if(actionId==='capabilityTab'){capabilityTab=id;render();return;}
+    if(actionId==='addPresetSkill'){const out=await invoke('skillPreset',{id});applyState(out.state);render();toast('技能已添加，可在智能体中绑定');return;}
     if(actionId==='uploadSkill'){const out=await invoke('skillImport');applyState(out.state);render();if(out.imported)toast('技能已上传，可在智能体中绑定');return;}
     if(actionId==='inspectSkill'){const out=await invoke('skillRead',{id});modal(out.name,`<p>${escape(out.description)}</p><pre class="skill-source">${escape(out.text)}</pre><h3>资源文件</h3>${out.files.map(f=>`<p>${escape(f.path)} · ${f.bytes} 字节</p>`).join('')}`);return;}
     if(actionId==='toggleSkill'||actionId==='removeSkill'){const item=(state.skillPackages||[]).find(s=>s.id===id);applyState(await invoke('skillUpdate',{id,...(actionId==='removeSkill'?{remove:true}:{enabled:!item.enabled})}));render();return;}
     if(actionId==='clearKnowledgeIndex'){await invoke('clearKnowledgeIndex');toast('已清除派生检索索引，文档与对话保留；后续获批查询会重建');return;}
-    if(actionId==='newMcp'||actionId==='editMcp'){const c=(state.mcpConnections||[]).find(c=>c.id===id)||{};modal(c.id?'配置 MCP 连接':'添加 MCP 连接',input('连接名称','name',c.name)+input('服务地址（Streamable HTTP）','url',c.url||'','url')+mcpAuthFields(c)+`<label>简介<input name="description" maxlength="200" value="${escape(c.description||'')}"></label><label class="check"><input type="checkbox" name="enabled" ${c.enabled===false?'':'checked'}>启用连接</label><p>支持HTTPS或本机HTTP；支持手动Bearer Token；暂不支持OAuth登录、自动刷新或stdio。保存不会联网，测试只发现目录，不调用业务工具。</p>`,'保存',async f=>{const out=await invoke('mcpConnection',{id:c.id,name:f.get('name'),url:f.get('url'),description:f.get('description'),auth:f.get('auth'),token:f.get('token'),enabled:f.has('enabled')});applyState(out.state);render();});return;}
+    if(actionId==='newMcp'||actionId==='editMcp'||actionId==='newPresetMcp'){const preset=actionId==='newPresetMcp'?(state.capabilityPresets?.mcp||[]).find(p=>p.id===id):null;if(actionId==='newPresetMcp'&&!preset)throw Error('预置连接器不存在');const c=(state.mcpConnections||[]).find(c=>preset?c.url.replace(/\/$/,'')===preset.url.replace(/\/$/,''):c.id===id)||(preset?{name:preset.title,url:preset.url,auth:preset.auth,description:preset.description}:{});modal(c.id?'配置 MCP 连接':'添加 MCP 连接',input('连接名称','name',c.name)+input('服务地址（Streamable HTTP）','url',c.url||'','url')+mcpAuthFields(c)+`<label>简介<input name="description" maxlength="200" value="${escape(c.description||'')}"></label><label class="check"><input type="checkbox" name="enabled" ${c.enabled===false?'':'checked'}>启用连接</label><p>支持HTTPS或本机HTTP；支持手动Bearer Token；暂不支持OAuth登录、自动刷新或stdio。保存不会联网，测试只发现目录，不调用业务工具。</p>`,'保存',async f=>{const out=await invoke('mcpConnection',{id:c.id,name:f.get('name'),url:f.get('url'),description:f.get('description'),auth:f.get('auth'),token:f.get('token'),enabled:f.has('enabled')});applyState(out.state);render();});return;}
     if(actionId==='removeMcp'){const out=await invoke('mcpConnection',{id,remove:true});applyState(out.state);render();return;}
     if(actionId==='cancelMcpTest'){await invoke('mcpCancelTest',{id});return;}
     if(actionId==='testMcp'){busyMcp.add(id);render();try{const out=await invoke('mcpTest',{id});applyState(out.state);toast('已发现 '+out.result.count+' 项工具');}finally{busyMcp.delete(id);applyState(await invoke('state'));render();}return;}

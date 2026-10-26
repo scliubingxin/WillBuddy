@@ -1,3 +1,4 @@
+import {capabilityPresets} from './runtime/capability-presets.mjs';
 import {createCodeProjects} from './services/code-projects.mjs';
 import {createModelService} from './services/models.mjs';
 import {createModelSecretCodec} from './main/model-secrets.mjs';
@@ -47,7 +48,7 @@ const notifyRuntime = () => {
 const approve = createApprover({ dialog, getWindow: () => win, focus });
 let toolRuntime, genoffice, models, projects;
 const executeTool = (...args) => toolRuntime.execute(...args);
-const view = () => { const { encryptedKey, ...settings } = store.data.settings; const {knowledgeIndexes,modelProfiles,codeProjects,...publicData}=store.data; return { ...publicData, codeProjects:projects?.view()||[], modelProfiles:models?.view()||[], mcpConnections:mcpViews(store.data), documents:documentViews(store.data), skillPackages:skillViews(store.data), imageAttachments:imageViews(store.data), settings: { ...settings, hasKey: !!sessionKey || !!encryptedKey, keySaved: !!encryptedKey, secureStorage: safeStorage.isEncryptionAvailable() && safeStorage.getSelectedStorageBackend?.() !== 'basic_text' }, browsers: browser.list(), desktop: { platform: process.platform, shortcutReady } }; };
+const view = () => { const { encryptedKey, ...settings } = store.data.settings; const {knowledgeIndexes,modelProfiles,codeProjects,...publicData}=store.data; return { ...publicData, capabilityPresets:capabilityPresets(), codeProjects:projects?.view()||[], modelProfiles:models?.view()||[], mcpConnections:mcpViews(store.data), documents:documentViews(store.data), skillPackages:skillViews(store.data), imageAttachments:imageViews(store.data), settings: { ...settings, hasKey: !!sessionKey || !!encryptedKey, keySaved: !!encryptedKey, secureStorage: safeStorage.isEncryptionAvailable() && safeStorage.getSelectedStorageBackend?.() !== 'basic_text' }, browsers: browser.list(), desktop: { platform: process.platform, shortcutReady } }; };
 function key() {
     if (sessionKey)
         return sessionKey;
@@ -127,6 +128,7 @@ else {
         const importSkill=createSkillImporter({dialog,getWindow:()=>win,library:capabilityLibrary});
         app.on('before-quit',()=>capabilityLibrary.close());
         register('skillImport',async()=>{const imported=await importSkill();return {imported,state:view()};});
+        register('skillPreset',async p=>{const imported=await capabilityLibrary.installPreset(p.id);return {imported,state:view()};});
         register('skillRead',p=>capabilityLibrary.readSkill(p.id));
         register('skillUpdate',async p=>{await capabilityLibrary.skill(p);return view();});
         register('mcpConnection',async p=>{const saved=await capabilityLibrary.connection(p);return {saved,state:view()};});

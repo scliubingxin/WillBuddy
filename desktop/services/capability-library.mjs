@@ -1,3 +1,4 @@
+import {presetSkill} from '../runtime/capability-presets.mjs';
 import { uid } from "../core.mjs";
 import { agentCapabilities, mcpUrl } from "./agent-profile.mjs";
 import { parseSkillPackage, skillResource } from "../runtime/skill-package.mjs";
@@ -15,6 +16,7 @@ export function skillViews(data) {
       enabled,
       revision,
       files,
+      preset,
     }) => ({
       id,
       name,
@@ -25,6 +27,7 @@ export function skillViews(data) {
       time,
       enabled,
       revision,
+      ...(preset?{preset:structuredClone(preset)}:{}),
       files: files.map(({ path, bytes, textReadable }) => ({
         path,
         bytes,
@@ -120,19 +123,24 @@ export function createCapabilityLibrary({
     return next;
   };
   return {
-    async importSkill(filename, bytes) {
+    async installPreset(id) {
+      const p=presetSkill(id);
+      return this.importSkill(p.filename,p.bytes,{preset:p.metadata});
+    },
+    async importSkill(filename, bytes, {preset}={}) {
       const p = parseSkillPackage(filename, bytes);
       return mutate(() => {
         const items = store.data.skillPackages;
+        const duplicate=items.find(s=>s.sha256===p.sha256);
+        if(duplicate){if(preset)return {id:duplicate.id,name:duplicate.name,existing:true};throw Error("相同技能包已导入");}
         if (
           items.length >= 40 ||
           items.reduce((n, p) => n + p.bytes, 0) + p.bytes > 16777216
         )
           throw Error("技能库最多40项/总16MiB");
-        if (items.some((s) => s.sha256 === p.sha256))
-          throw Error("相同技能包已导入");
         const item = {
           ...p,
+          ...(preset?{preset:structuredClone(preset)}:{}),
           id: uid(),
           enabled: true,
           revision: 1,

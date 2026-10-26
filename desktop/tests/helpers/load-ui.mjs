@@ -1,3 +1,4 @@
+import {bindPresetFilters} from '../../src/ui/preset-catalog.js';
 import {codeProjectsView} from '../../src/ui/code-projects.js';
 import {createComposerImages} from '../../src/ui/composer-images.js';
 import {compactComposer,createComposerMenus} from '../../src/ui/composer.js';
@@ -19,8 +20,8 @@ export async function loadUI(window) {
   if(window.actwill&&!window.actwill.previewFile)window.actwill.previewFile=window.actwill.readFile;
   const rich=createRich(window).rich;
   const preview=content=>'<!doctype html><html><body>'+createRich(window).sanitizeHtml(content)+'</body></html>';
-  window.__uiModules={codeProjectsView,createComposerImages,compactComposer,createComposerMenus,modelChoiceLabel,modelPicker,modelLibrary,modelForm,capabilityTabs,skillsPage,mcpPage,agentEditor,bindAgentEditor,readAgentEditor,mountHtmlPreview,installChatMedia,createOfficeWorkspace,mountOfficePreview,mountSpreadsheet,mountWordRuns,mountWordCanvas,escape,rich,views,htmlPreview:preview,documentLibrary,documentExamples,messageDocuments};
+  window.__uiModules={bindPresetFilters,codeProjectsView,createComposerImages,compactComposer,createComposerMenus,modelChoiceLabel,modelPicker,modelLibrary,modelForm,capabilityTabs,skillsPage,mcpPage,agentEditor,bindAgentEditor,readAgentEditor,mountHtmlPreview,installChatMedia,createOfficeWorkspace,mountOfficePreview,mountSpreadsheet,mountWordRuns,mountWordCanvas,escape,rich,views,htmlPreview:preview,documentLibrary,documentExamples,messageDocuments};
   const source=await readFile(new URL('../../src/app.js',import.meta.url),'utf8');
   window.eval(source.replace(/^import .*;\n/gm,'')
-    .replace(/^/,'const {codeProjectsView,createComposerImages,compactComposer,createComposerMenus,modelChoiceLabel,modelPicker,modelLibrary,modelForm,capabilityTabs,skillsPage,mcpPage,agentEditor,bindAgentEditor,readAgentEditor,mountHtmlPreview,installChatMedia,createOfficeWorkspace,mountOfficePreview,mountSpreadsheet,mountWordRuns,mountWordCanvas,escape,rich,views,htmlPreview,documentLibrary,documentExamples,messageDocuments}=window.__uiModules;\n'));
+    .replace(/^/,'const {bindPresetFilters,codeProjectsView,createComposerImages,compactComposer,createComposerMenus,modelChoiceLabel,modelPicker,modelLibrary,modelForm,capabilityTabs,skillsPage,mcpPage,agentEditor,bindAgentEditor,readAgentEditor,mountHtmlPreview,installChatMedia,createOfficeWorkspace,mountOfficePreview,mountSpreadsheet,mountWordRuns,mountWordCanvas,escape,rich,views,htmlPreview,documentLibrary,documentExamples,messageDocuments}=window.__uiModules;\n'));
 }

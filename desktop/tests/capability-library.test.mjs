@@ -69,7 +69,7 @@ test("rejects traversal, case duplicates, extra roots, missing entry, huge expan
     zip({ "SKILL.md": skill, "skill.md": skill }),
     zip({ "a/SKILL.md": skill, "outside.md": "x" }),
     zip({ "readme.md": "no" }),
-    zip({ "SKILL.md": skill, "large.txt": Buffer.alloc(262145) }),
+    zip({ "SKILL.md": skill, "large.txt": Buffer.alloc(4194305) }),
     buf("---\nname: x\n---\nbody"),
   ];
   for (const [i, b] of bad.entries())

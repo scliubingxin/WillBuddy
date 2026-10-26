@@ -14,8 +14,8 @@ const utf8 = (bytes) => {
 /** ZIP is inspected in memory. Nothing is extracted or executed. */
 export function parseSkillPackage(filename, input) {
   const bytes = Buffer.from(input);
-  if (!bytes.length || bytes.length > 4 * 1024 * 1024)
-    throw Error("Skill文件须为1字节至4MiB");
+  if (!bytes.length || bytes.length > 32 * 1024 * 1024)
+    throw Error("Skill文件须为1字节至32MiB");
   let files;
   if (filename.toLowerCase().endsWith(".zip")) {
     let end = -1;
@@ -26,7 +26,7 @@ export function parseSkillPackage(filename, input) {
       }
     if (end < 0) throw Error("无效Skill ZIP");
     const count = bytes.readUInt16LE(end + 10);
-    if (count > 128) throw Error("技能包最多128个ZIP条目");
+    if (count > 2000) throw Error("技能包最多2000个ZIP条目");
     let p = bytes.readUInt32LE(end + 16),
       total = 0;
     for (let i = 0; i < count; i++) {
@@ -40,11 +40,11 @@ export function parseSkillPackage(filename, input) {
       if (p + 46 + n + extra + comment > end) throw Error("技能ZIP清单截断");
       if ((mode & 0xf000) === 0xa000) throw Error("技能包不允许符号链接");
       total += size;
-      if (size > 262144 || total > 2097152)
-        throw Error("技能包单文件最多256KiB，展开总计2MiB");
+      if (size > 4194304 || total > 16777216)
+        throw Error("技能包单文件最多4MiB，展开总计16MiB");
       p += 46 + n + extra + comment;
     }
-    files = openPackage(bytes);
+    files = openPackage(bytes,{chatArchive:true});
   } else if (filename.toLowerCase().endsWith(".md")) {
     if (bytes.length > 65536) throw Error("SKILL.md最多64KiB");
     files = { "SKILL.md": bytes };
@@ -54,7 +54,7 @@ export function parseSkillPackage(filename, input) {
       !n.endsWith("/") &&
       !n.split("/").some((p) => p === "__MACOSX" || p.startsWith("._")),
   );
-  if (entries.length > 64) throw Error("技能包最多64个文件");
+  if (entries.length > 256) throw Error("技能包最多256个文件");
   for (const [n] of entries) if (!safePath(n)) throw Error("技能文件路径无效");
   const roots = entries.filter(
     ([n]) => n === "SKILL.md" || /^[^/]+\/SKILL\.md$/.test(n),

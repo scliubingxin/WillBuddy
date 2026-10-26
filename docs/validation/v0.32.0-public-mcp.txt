@@ -1,0 +1,2 @@
+{"url":"https://learn.microsoft.com/api/mcp","status":"discovered","tools":["microsoft_docs_search","microsoft_code_sample_search","microsoft_docs_fetch"]}
+{"url":"https://mcp.deepwiki.com/mcp","status":"discovered","tools":["ask_wiki_question","read_wiki_contents","read_wiki_structure"]}

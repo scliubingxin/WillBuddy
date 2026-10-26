@@ -1,14 +1,14 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.31.0",
+  "version": "0.32.0",
   "packaged_date": "2026-10-26",
   "provenance": "Complete validated source snapshot; Git commits and deployment are tracked separately",
-  "base_source_commit_sha": "24c712072499af12fd1621d6af675d7816bbc534",
+  "base_source_commit_sha": "a52a7dc3c1979c24ce20d8d5db479a0949b71b37",
   "release_status": {
     "schema_version": 2,
     "brand": "WillBuddy",
-    "version": "0.31.0",
+    "version": "0.32.0",
     "checked_date": "2026-10-26",
     "source_status": "desktop_source_delivery_not_deployed",
     "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -59,7 +59,8 @@
       "model_profiles": "20 independent endpoint/key/capability profiles; legacy retained; explicit or fast/balanced/extreme type-priority routing; per-run snapshot; real reasoning params; no hidden fallback",
       "composer": "single input and toolbar; scoped accessible add/model menus, conditional consent, no new execution permissions",
       "code_projects": "host staged complete ZIP; npm/Python manifests; explicit approved install/run commands using durable CLI queue;5min cap;not OS sandbox/daemon/cloud deployment",
-      "project_services": "Host-only30min startup lease, one service/shared2 slots,64KiB newest output, explicit stop/fresh restart; no daemon/OSsandbox"
+      "project_services": "Host-only30min startup lease, one service/shared2 slots,64KiB newest output, explicit stop/fresh restart; no daemon/OSsandbox",
+      "capability_presets": "12 skills:4 MIT pinned public/8 independent workflows;8 official HTTP MCP templates;no automatic network or execution"
     },
     "validation": {
       "desktop_tests_passed": 319,
@@ -137,8 +138,8 @@
       "preview_lifecycle_native": "Linux Electron actual preload/IPC source+ASAR; 3 formats x20 UI redraws, zero extra reads/same child frame; Mac pending",
       "spreadsheet_image_new_tests": 7,
       "spreadsheet_image_scope": "real Chromium file+openpyxl and Linux Electron source/ASAR; one/two anchors real, absolute geometry unit; no Mac/ExcelWPS fidelity",
-      "real_chromium_tests_this_iteration": 9,
-      "legacy_evidence_scope": "Historical fields retained; docs/validation/v0.31.0.json is current evidence",
+      "real_chromium_tests_this_iteration": 8,
+      "legacy_evidence_scope": "Historical fields retained; docs/validation/v0.32.0.json is current evidence",
       "agent_capabilities_new_tests": 11,
       "agent_real_http_fixture": "four model requests → lazy skill → approved real Markdown source → real MCP SSE response → final result; no real external model/MCP",
       "html_original_sample": "260561 bytes /242435 characters; welcome UI and supplier form, 0 outside network, 1 read across redraws; private sample excluded from source",
@@ -153,7 +154,7 @@
       "knowledge_index_new_tests": 16,
       "chat_attachment_new_tests": 6,
       "multi_model_and_zip_new_tests": 20,
-      "node_tests_passed": 330
+      "node_tests_passed": 338
     },
     "rea": {
       "version": "6.7.0",
@@ -161,7 +162,7 @@
       "javascript_analysis": "partial_host_process_ownership_blocked",
       "report": "docs/REA_FINDINGS.md"
     },
-    "notes": "Controlled project service lease, bounded tail logging and explicit stop/restart; no automatic replay.",
+    "notes": "Offline12 skills/8 MCP templates; actual installation, encrypted user configuration, discovery/binding and controlled import budgets.",
     "architecture": {
       "guide": "docs/ARCHITECTURE.md",
       "layers": [
@@ -176,21 +177,21 @@
       "web_desktop_shared_core": false
     },
     "current_iteration": {
-      "version": "0.31.0",
-      "evidence": "docs/validation/v0.31.0.json",
-      "guide": "docs/PROJECT_SERVICES.md",
+      "version": "0.32.0",
+      "evidence": "docs/validation/v0.32.0.json",
+      "guide": "docs/PRESET_CAPABILITIES.md",
       "mac_native_tested": false,
       "public_github_release": false,
-      "public_release_note": "Build-time pending regular authorized version branch/PR/main/Release; final Release records outcome."
+      "public_release_note": "Build-time pending regular authorized publication; final Release records actual outcome."
     },
     "github_last_published": {
-      "version": "0.30.0",
-      "main": "24c712072499af12fd1621d6af675d7816bbc534",
-      "pr": "https://github.com/scliubingxin/WillBuddy/pull/3",
-      "release": "https://github.com/scliubingxin/WillBuddy/releases/tag/v0.30.0-preview"
+      "version": "0.31.0",
+      "main": "a52a7dc3c1979c24ce20d8d5db479a0949b71b37",
+      "pr": "https://github.com/scliubingxin/WillBuddy/pull/4",
+      "release": "https://github.com/scliubingxin/WillBuddy/releases/tag/v0.31.0-preview"
     },
     "documentation_policy": "product README only; version/test/limits in downloads and release pages",
-    "github_hotfix_publication": "0.30 merged/published;0.31 build-time pending publication"
+    "github_hotfix_publication": "0.31 merged/published;0.32 build-time pending publication"
   },
   "files": [
     {
@@ -230,13 +231,13 @@
     },
     {
       "path": "ITERATION_LOG.md",
-      "bytes": 175422,
-      "sha256": "9b73f90508967a8888fe18f7ba2d1ed5b0a2d20d40aefb8b2388d32e1268d1fc"
+      "bytes": 177947,
+      "sha256": "2a1c248d1fd486c5ff0d6123c76532e7dcefadb3b8dcb5f3196943ed47bf1b6e"
     },
     {
       "path": "ITERATION_PLAN.md",
-      "bytes": 65083,
-      "sha256": "c0226dbffc2c6220e2c944693a0bb35f7e53cc01a95159f6ead4868e8b3afd62"
+      "bytes": 67608,
+      "sha256": "f68daadd5dfd01ce21ac3bf901e62e1e38c91af71a8c7f1c704207c7b8475641"
     },
     {
       "path": "OPENWORKBUDDY_REFERENCE.md",
@@ -250,13 +251,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 10802,
-      "sha256": "2a7e776ad87a08f3e0b18fe56e207fe94869261451d58076ae9de7ba082138d9"
+      "bytes": 11004,
+      "sha256": "3b24a980fb586e4d79bae7dc87be1ffeb9314f58619e12e645856eb8b2b2aed6"
     },
     {
       "path": "RELEASE_STATUS.json",
-      "bytes": 14418,
-      "sha256": "b6638cffc01857e41c2d60ff495d2a79871b9ad1201dd6ed00110167e0955249"
+      "bytes": 14587,
+      "sha256": "5a7fabd8c4ac6f5ca18a3f0efbc5b86253e2cd650af4c66b10f6bdd9771d6bd3"
     },
     {
       "path": "SELF_TEST_MATRIX.md",
@@ -735,8 +736,8 @@
     },
     {
       "path": "desktop/README.md",
-      "bytes": 5725,
-      "sha256": "783eb97b609c6ace6082416f4cd3d1f6b234532aec3aa391b1aaa26cbd8d04cb"
+      "bytes": 5953,
+      "sha256": "0a5b2febc4c07981398e2307976de247e24154f8a11192eae8ed4b5281e788f4"
     },
     {
       "path": "desktop/assets/app.icns",
@@ -835,28 +836,28 @@
     },
     {
       "path": "desktop/main/skill-files.mjs",
-      "bytes": 853,
-      "sha256": "2814b0602e98b7c90b78f4a593b0050c48a4898c856cf9d993b182c584a54896"
+      "bytes": 895,
+      "sha256": "bf8acc4a850f669b5550d9bb2248291a2afa98e09a0349d092a1027165804085"
     },
     {
       "path": "desktop/main.mjs",
-      "bytes": 21511,
-      "sha256": "3d639ef1a4b28e48b853645d11a901b9398d30448f3c7bae0575f6ee4a518a1c"
+      "bytes": 21753,
+      "sha256": "7a9ce74388a5e5dd0efd91c99a7fd2b1ab65ce340ecf6d2104238b00c32b30eb"
     },
     {
       "path": "desktop/package-lock.json",
       "bytes": 279311,
-      "sha256": "6410d9729848824feccdd12f3df5132fd520840991c1f866bbf4793a46fcd223"
+      "sha256": "9ba2301d808b4037fb5bf080869315ecc5b1826a5bf1242a8e95aaa63a1e398f"
     },
     {
       "path": "desktop/package.json",
       "bytes": 3355,
-      "sha256": "161056e8fa3a4b25c5a7761930c6ec57a742d57d33f7b699d3aad4fef09c0a05"
+      "sha256": "1254adce03717664a20f038e701d1c4aa93b7b23bfe318ccf54806025daf9f2d"
     },
     {
       "path": "desktop/preload.cjs",
-      "bytes": 1604,
-      "sha256": "273ff616b9e21e2f9dcaa96f4ef235a44e132449cda1e783e93d3eecc5a741ab"
+      "bytes": 1618,
+      "sha256": "137dece3bf1cc60d17349282eaf60e6201408148eb942fc0913a260e49662b54"
     },
     {
       "path": "desktop/runtime/agent.mjs",
@@ -877,6 +878,11 @@
       "path": "desktop/runtime/browser.mjs",
       "bytes": 9317,
       "sha256": "f14c77556e0658507416a107662c53976f7c6591d1e77746000a5a66e9fce916"
+    },
+    {
+      "path": "desktop/runtime/capability-presets.mjs",
+      "bytes": 1058,
+      "sha256": "249ee021542e9b5635bf6cfa9889e63cfc8fa1e2fce979f5cac10f4033c8f36e"
     },
     {
       "path": "desktop/runtime/chat-archive.mjs",
@@ -926,7 +932,7 @@
     {
       "path": "desktop/runtime/mcp.mjs",
       "bytes": 7773,
-      "sha256": "20a46dbae357e9b9990153c013254f43bf70319cb752674a07f0d530921eb3d4"
+      "sha256": "2b56f6c765b37acb9dbb081fc12e6e475b7c523d050066f7b5920e600cd156b0"
     },
     {
       "path": "desktop/runtime/model-policy.mjs",
@@ -937,6 +943,21 @@
       "path": "desktop/runtime/model-stream.mjs",
       "bytes": 8026,
       "sha256": "fc21cabed7fa50c6c8650cf94918eaaccac02ea6e979630dcaa0c6e146c23d27"
+    },
+    {
+      "path": "desktop/runtime/presets/NOTICE.txt",
+      "bytes": 469,
+      "sha256": "6be4591992dbef67e436579478e626f82edd9ff069d07c41799e972a8a4711be"
+    },
+    {
+      "path": "desktop/runtime/presets/SUPERPOWERS-LICENSE.txt",
+      "bytes": 1070,
+      "sha256": "a37e0e9697144819e1d965176ac4ae5bc3fa02d11e7812036bbcadf6dafe2400"
+    },
+    {
+      "path": "desktop/runtime/presets/catalog.json",
+      "bytes": 65975,
+      "sha256": "2389432b535de669393496fa76e7e478d3b9125c948be46a2ad564bdabf0d164"
     },
     {
       "path": "desktop/runtime/project-diagnostics.mjs",
@@ -955,8 +976,8 @@
     },
     {
       "path": "desktop/runtime/skill-package.mjs",
-      "bytes": 6010,
-      "sha256": "b43e74ca12146348b08e971c1a43c701d7fc812c1513f04cf5be532ad3a5ec2d"
+      "bytes": 6036,
+      "sha256": "692e2b6aec0b99d1856206c806a4ea71223dfd08512272ca44270f2e6011fc7e"
     },
     {
       "path": "desktop/runtime/spreadsheet.mjs",
@@ -1025,8 +1046,8 @@
     },
     {
       "path": "desktop/services/capability-library.mjs",
-      "bytes": 11161,
-      "sha256": "04a8de1db11f7ffaed083f33a2a18db146f3debb0c59fb7bbbb51a037ce7e804"
+      "bytes": 11592,
+      "sha256": "08ee71aee6670bee091e64cdbb26ad8cebb0c6ecfbf2f83b6f6f36f9417db346"
     },
     {
       "path": "desktop/services/chat-attachments.mjs",
@@ -1105,8 +1126,8 @@
     },
     {
       "path": "desktop/src/app.js",
-      "bytes": 74167,
-      "sha256": "ce928cbfbe844ad2971ba5cf4a0ec2ab9c765348808fa5e4625690f1838b29fc"
+      "bytes": 74787,
+      "sha256": "334df95e5b18647182de72a6a68dddeceedb22ab84df7639e37b9b857a33866e"
     },
     {
       "path": "desktop/src/assets/logo.png",
@@ -1200,8 +1221,8 @@
     },
     {
       "path": "desktop/src/ui/capability-library.js",
-      "bytes": 5108,
-      "sha256": "749d1cf437142fad0b67c1135af2880c19ce9f88d7da1e9dfac3d3a23de37695"
+      "bytes": 5267,
+      "sha256": "4115de443e35c9933c1d093229de9ecd3760c6455f1a8638677d03c6401b4960"
     },
     {
       "path": "desktop/src/ui/charts.js",
@@ -1279,6 +1300,11 @@
       "sha256": "4f7f025ba16bc0f8889752d59c41bfe0bb97e2cd4447c2dc54bc2e4703a07031"
     },
     {
+      "path": "desktop/src/ui/preset-catalog.js",
+      "bytes": 3152,
+      "sha256": "0e46b3f1f097be8668d9941881f584b3cdbe40931ceacaadba9f48a38e5596e7"
+    },
+    {
       "path": "desktop/src/ui/runs.js",
       "bytes": 1211,
       "sha256": "5a3b7f8db4bb73afe9f430aeebe17e4dafc5956713f2c263355f23b092039c1a"
@@ -1330,8 +1356,8 @@
     },
     {
       "path": "desktop/src/workbench.css",
-      "bytes": 22010,
-      "sha256": "5b24ff9bd62b9b047043fc7d91175c05b36cf5d03a75ebc6c2b172c948546998"
+      "bytes": 22406,
+      "sha256": "d99c0b37fe0315c6d4e6bd7a2df779e7696739b67fbf016528b61337bf34e03f"
     },
     {
       "path": "desktop/tests/acceptance/agents-live.mjs",
@@ -1399,6 +1425,11 @@
       "sha256": "11d770ee4987c41b37d35442fc2be19dc6272eeb31e979d18af89e57d3ee7fc9"
     },
     {
+      "path": "desktop/tests/acceptance/presets-live.mjs",
+      "bytes": 8125,
+      "sha256": "f653038a22d704eca6de386b63ee873d4ba6436ded2e042ac692008389222ec7"
+    },
+    {
       "path": "desktop/tests/acceptance/project-services-live.mjs",
       "bytes": 5701,
       "sha256": "c81731e72b7d06fc82c897c508ed44c47995e6fb1d6d182cd07e975d9d51eae0"
@@ -1460,8 +1491,13 @@
     },
     {
       "path": "desktop/tests/capability-library.test.mjs",
-      "bytes": 17078,
-      "sha256": "65bdd983da6537bcf15ddd4bf650a8b494e2750bd75a44c1e2e674c83407968b"
+      "bytes": 17079,
+      "sha256": "15137e290adafb1caf48f9417d41a9d026b127ed691eceeb8c181860def7a706"
+    },
+    {
+      "path": "desktop/tests/capability-presets.test.mjs",
+      "bytes": 7324,
+      "sha256": "37a29f9d7b03d0cb141405c79760a1a9771594b1aa8a38f3c01dae866fbb96ff"
     },
     {
       "path": "desktop/tests/chat-archive.test.mjs",
@@ -1540,8 +1576,8 @@
     },
     {
       "path": "desktop/tests/helpers/load-ui.mjs",
-      "bytes": 2507,
-      "sha256": "2f468c38d57e64f3b90422f65ca8516892e131143fc5097d616070bb52c71fec"
+      "bytes": 2609,
+      "sha256": "6f5beb3edb92aa0f1a3ea86f7ca9836a604abb099492160d2bb76bc1b4152669"
     },
     {
       "path": "desktop/tests/helpers/mcp-secrets.mjs",
@@ -1715,8 +1751,8 @@
     },
     {
       "path": "docs/DOWNLOADS.md",
-      "bytes": 16291,
-      "sha256": "2fc2cae9e1357f33909d28f047995da31a54fbcd7a29ebcb26b8488e18f555b4"
+      "bytes": 16801,
+      "sha256": "bb713ea0932fe839ea5878a4b6224c3888b5c85998595f4eb5ddd9940be44a75"
     },
     {
       "path": "docs/DURABLE_COMMANDS.md",
@@ -1789,6 +1825,11 @@
       "sha256": "ec83c775e2f14cf04e444526df3b05cbb54071a140a402bc128c0cb7e8780a17"
     },
     {
+      "path": "docs/PRESET_CAPABILITIES.md",
+      "bytes": 4315,
+      "sha256": "df1b123f80690122a2b6ccd69ff37751f3382eab82c8e0a40b3d1862964bc57e"
+    },
+    {
       "path": "docs/PREVIEW_LIFECYCLE.md",
       "bytes": 3518,
       "sha256": "026aefa9248e6d7462ddf0af02d6e437f30fe15442041f53237b4bdbc257995a"
@@ -1805,8 +1846,8 @@
     },
     {
       "path": "docs/QUICK_GAPS.md",
-      "bytes": 25102,
-      "sha256": "a24ce75a753ad69c9223f9b95ae6bb35c995acd4dcba2025dd3ecceed9b95d20"
+      "bytes": 27627,
+      "sha256": "7f4a097ff66304ff2a3fef202de481c0e02938dfd0fca7c13cf4b2cfd0de4690"
     },
     {
       "path": "docs/REA_FINDINGS.md",
@@ -2087,6 +2128,21 @@
       "path": "docs/validation/v0.31.0.json",
       "bytes": 3425,
       "sha256": "daa77ab7e47be15b5adcff25dc4f0e70a261a5dfa3f4d13f000c5b552d7bb0ee"
+    },
+    {
+      "path": "docs/validation/v0.32.0-public-mcp.txt",
+      "bytes": 290,
+      "sha256": "694ef071749baef4ed1d87b9db8bb4988d7fc1770770a0b180694c336f573907"
+    },
+    {
+      "path": "docs/validation/v0.32.0-tests.txt",
+      "bytes": 39243,
+      "sha256": "06acdf28976d5b9f41893d3fe83ea20982f7d08ac5d0c7ca001393dc3f059587"
+    },
+    {
+      "path": "docs/validation/v0.32.0.json",
+      "bytes": 3227,
+      "sha256": "d65ff7e7893a532abdb36a519f628a1df67bf75d979f6b5b4f63765b6586189e"
     },
     {
       "path": "docs/validation/v0.5.0.json",
@@ -2416,7 +2472,7 @@
     {
       "path": "scripts/package-desktop-source.py",
       "bytes": 3741,
-      "sha256": "d8433d3178aa6230c804873a4fd1118691c3d16c444a41c8294e6b0cef3481a2"
+      "sha256": "d1e260c8ef90ec5cdde22fea94c6707e96836e6e21549662b9c03f9cb6050a23"
     },
     {
       "path": "scripts/package-offline-mac.py",
@@ -2467,6 +2523,11 @@
       "path": "scripts/tests/test_source_archive.py",
       "bytes": 2344,
       "sha256": "010c5dbc05d4e42185a9dcbeaf25ea304129f2398771dad97a7c6621256e8510"
+    },
+    {
+      "path": "scripts/vendor-capability-presets.py",
+      "bytes": 9579,
+      "sha256": "8d283e7e4206d88424d88d33b4c54119de01f2069bc158d7ba7ec9ea4d020ee1"
     },
     {
       "path": "scripts/vendor-desktop-office.mjs",
