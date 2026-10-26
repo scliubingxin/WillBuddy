@@ -22,7 +22,7 @@ export function tierEffort(profile,tier){
  return profile.protocol==='deepseek'?'low':'medium';
 }
 export function requestModelOptions(settings){
- if(!settings.profileProtocol)return {max_tokens:4096};
+ if(!settings.profileProtocol)return {max_tokens:8192};
  const profile={protocol:settings.profileProtocol,supportsOff:settings.supportsOff};
  const output=settings.outputTokens||4096;
  if(!Number.isInteger(output)||output<256||output>32768)throw Error('模型输出预算无效');
