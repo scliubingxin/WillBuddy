@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.31.0",
+  "version": "0.32.0",
   "checked_date": "2026-10-26",
   "source_status": "desktop_source_delivery_not_deployed",
   "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -52,7 +52,8 @@
     "model_profiles": "20 independent endpoint/key/capability profiles; legacy retained; explicit or fast/balanced/extreme type-priority routing; per-run snapshot; real reasoning params; no hidden fallback",
     "composer": "single input and toolbar; scoped accessible add/model menus, conditional consent, no new execution permissions",
     "code_projects": "host staged complete ZIP; npm/Python manifests; explicit approved install/run commands using durable CLI queue;5min cap;not OS sandbox/daemon/cloud deployment",
-    "project_services": "Host-only30min startup lease, one service/shared2 slots,64KiB newest output, explicit stop/fresh restart; no daemon/OSsandbox"
+    "project_services": "Host-only30min startup lease, one service/shared2 slots,64KiB newest output, explicit stop/fresh restart; no daemon/OSsandbox",
+    "capability_presets": "12 skills:4 MIT pinned public/8 independent workflows;8 official HTTP MCP templates;no automatic network or execution"
   },
   "validation": {
     "desktop_tests_passed": 319,
@@ -130,8 +131,8 @@
     "preview_lifecycle_native": "Linux Electron actual preload/IPC source+ASAR; 3 formats x20 UI redraws, zero extra reads/same child frame; Mac pending",
     "spreadsheet_image_new_tests": 7,
     "spreadsheet_image_scope": "real Chromium file+openpyxl and Linux Electron source/ASAR; one/two anchors real, absolute geometry unit; no Mac/ExcelWPS fidelity",
-    "real_chromium_tests_this_iteration": 9,
-    "legacy_evidence_scope": "Historical fields retained; docs/validation/v0.31.0.json is current evidence",
+    "real_chromium_tests_this_iteration": 8,
+    "legacy_evidence_scope": "Historical fields retained; docs/validation/v0.32.0.json is current evidence",
     "agent_capabilities_new_tests": 11,
     "agent_real_http_fixture": "four model requests → lazy skill → approved real Markdown source → real MCP SSE response → final result; no real external model/MCP",
     "html_original_sample": "260561 bytes /242435 characters; welcome UI and supplier form, 0 outside network, 1 read across redraws; private sample excluded from source",
@@ -146,7 +147,7 @@
     "knowledge_index_new_tests": 16,
     "chat_attachment_new_tests": 6,
     "multi_model_and_zip_new_tests": 20,
-    "node_tests_passed": 330
+    "node_tests_passed": 338
   },
   "rea": {
     "version": "6.7.0",
@@ -154,7 +155,7 @@
     "javascript_analysis": "partial_host_process_ownership_blocked",
     "report": "docs/REA_FINDINGS.md"
   },
-  "notes": "Controlled project service lease, bounded tail logging and explicit stop/restart; no automatic replay.",
+  "notes": "Offline12 skills/8 MCP templates; actual installation, encrypted user configuration, discovery/binding and controlled import budgets.",
   "architecture": {
     "guide": "docs/ARCHITECTURE.md",
     "layers": [
@@ -169,19 +170,19 @@
     "web_desktop_shared_core": false
   },
   "current_iteration": {
-    "version": "0.31.0",
-    "evidence": "docs/validation/v0.31.0.json",
-    "guide": "docs/PROJECT_SERVICES.md",
+    "version": "0.32.0",
+    "evidence": "docs/validation/v0.32.0.json",
+    "guide": "docs/PRESET_CAPABILITIES.md",
     "mac_native_tested": false,
     "public_github_release": false,
-    "public_release_note": "Build-time pending regular authorized version branch/PR/main/Release; final Release records outcome."
+    "public_release_note": "Build-time pending regular authorized publication; final Release records actual outcome."
   },
   "github_last_published": {
-    "version": "0.30.0",
-    "main": "24c712072499af12fd1621d6af675d7816bbc534",
-    "pr": "https://github.com/scliubingxin/WillBuddy/pull/3",
-    "release": "https://github.com/scliubingxin/WillBuddy/releases/tag/v0.30.0-preview"
+    "version": "0.31.0",
+    "main": "a52a7dc3c1979c24ce20d8d5db479a0949b71b37",
+    "pr": "https://github.com/scliubingxin/WillBuddy/pull/4",
+    "release": "https://github.com/scliubingxin/WillBuddy/releases/tag/v0.31.0-preview"
   },
   "documentation_policy": "product README only; version/test/limits in downloads and release pages",
-  "github_hotfix_publication": "0.30 merged/published;0.31 build-time pending publication"
+  "github_hotfix_publication": "0.31 merged/published;0.32 build-time pending publication"
 }
