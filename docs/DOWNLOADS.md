@@ -1,3 +1,7 @@
+# 0.33.0 · Word选区与原件修改
+
+单段文字/整表附加聊天、源坐标与范围校验、AI补丁和直接文字替换；Excel原件文字补丁；默认32/最高96轮；消息留白。验证343核心、7相关Chromium、10打包；Mac/付费模型/Office像素保真未验收，ad-hoc未公证。详见[选区使用与范围](OFFICE_SELECTION.md)。源码和arm64将在本轮保存与公开发布，完成状态以对应Release为准。
+
 ## 0.32.0 · 预置Skills/MCP
 
 技能库预置12项可添加技能，MCP页预置8个官方模板；需要凭据的连接提供空白安全填写入口，保存不联网，测试真实发现后再绑定。详见[预置库](PRESET_CAPABILITIES.md)。338核心/8相关Chromium/10打包通过；公网Learn/DeepWiki发现通过，付费服务与Mac待验收。arm64离线应用ad-hoc未公证，主程序无需npm安装。0.31已合并main发布，0.32构建时待常规发布，最终以GitHub Release为准。
