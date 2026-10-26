@@ -1,3 +1,4 @@
+import {replaceSpreadsheetText} from './spreadsheet-text.mjs';
 import { cellAddress } from "../src/shared/formula-core.js";
 import {
   formulaValue,
@@ -443,10 +444,10 @@ export function editDocument(format, bytes, { replacements = [], cells = [] }) {
     output = encoder.encode(source);
   } else {
     const files = openPackage(bytes);
-    if (format === "xlsx" && replacements.length)
-      throw Error(
-        "Excel 请使用 sheetIndex/address/value 更新，避免误改共享字符串",
-      );
+    if(format==='xlsx'&&replacements.length){
+      if(cells.length)throw Error('保留原结构的文字替换与重算单元格修改请分开提交');
+      const result=replaceSpreadsheetText(files,replacements);const bytes=Buffer.from(zip.zipSync(files));return {bytes,...inspectDocument(format,bytes),changes:result.changes,preservation:{changedParts:result.changedParts,formulasRecalculated:false}};
+    }
     const hadFormulas =
       format === "xlsx" &&
       Object.entries(files).some(

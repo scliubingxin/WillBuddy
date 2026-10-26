@@ -1,3 +1,7 @@
+## 0.33.0接续
+
+2026-10-26复查官方 https://docs.aws.amazon.com/quick/latest/userguide/working-with-chat-desktop.html 的Session tabs选择附加能力；不将其解释为任意Office全保真。继续复用已有REA部分静态证据，无新Amazon运行结论。
+
 ## 2026-10-26 接续边界
 
 本轮复用已有公开包的部分静态REA证据，没有新增Amazon运行结论。对齐参考复查 https://docs.aws.amazon.com/quick/latest/userguide/system-tools-desktop.html 与 https://docs.aws.amazon.com/quick/latest/userguide/desktop-security.html ；进程行为参考 https://nodejs.org/api/child_process.html 。WillBuddy新增受控项目服务，不等同Quick全部系统能力或OS隔离。

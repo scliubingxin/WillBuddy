@@ -1,0 +1,66 @@
+{
+  "version": "0.33.0",
+  "date": "2026-10-26",
+  "baseline": {
+    "version": "0.32.0",
+    "library_version": 35,
+    "content_files": 570,
+    "main": "75182dd2737615851a268d25c7ec3250b07df17a"
+  },
+  "tests": {
+    "core": 343,
+    "new_core": 5,
+    "real_chromium_related": 7,
+    "final_selection_ui_rerun": 1,
+    "packaging_python": 10,
+    "protected_unchanged": 122,
+    "old_python_tests_rerun": false
+  },
+  "packaging": {
+    "file": "/workspace/scratch/c33bcd2beeb1/outputs/WillBuddy-v0.33.0-mac-arm64-offline.zip",
+    "version": "0.33.0",
+    "bytes": 119804558,
+    "sha256": "1c8a55548475c0ae540604c0f375965b13d2702589c3b5cdf3f2df2e27a1f58c",
+    "app_asar_sha256": "22ba03a6d1bd860ff28cfc6e0d49722e2c85c883e7870a0bcc5bb9893e32b27e",
+    "architecture": "arm64",
+    "signature": "ad-hoc",
+    "verified": true,
+    "archive_check": {
+      "app_entries": 282,
+      "extra_files": 5,
+      "closed_inventory": true,
+      "residual_entries": 0
+    }
+  },
+  "production_asar_matches": 123,
+  "limits": {
+    "formats": "selection: imported DOCX body only; XLSX literal text patch separate from recalc",
+    "native": "IPC/approval/Keychain are fixtures; no Mac or paid model acceptance",
+    "fidelity": "unmodified ZIP parts byte equal; changed XML serialized; no Office pixel equivalence claim"
+  },
+  "failed_candidates": [
+    "build33-a unknown unsigned temporary framework copy rejected by path gate",
+    "build33-b residual temporary framework copy rejected by inventory; root cause unknown; neither was released"
+  ],
+  "changed_existing_files": [
+    "desktop/main.mjs",
+    "desktop/package-lock.json",
+    "desktop/package.json",
+    "desktop/preload.cjs",
+    "desktop/runtime/agent.mjs",
+    "desktop/runtime/documents.mjs",
+    "desktop/services/agent-profile.mjs",
+    "desktop/services/conversation.mjs",
+    "desktop/src/app.js",
+    "desktop/src/preview/PREVIEW-MANIFEST.json",
+    "desktop/src/preview/engine.js",
+    "desktop/src/preview/renderer.js",
+    "desktop/src/ui/agent-editor.js",
+    "desktop/src/ui/composer.js",
+    "desktop/src/ui/office-preview.js",
+    "desktop/src/ui/workspace.js",
+    "desktop/src/workbench.css",
+    "desktop/tests/documents.test.mjs",
+    "docs/images/imported-word.png"
+  ]
+}

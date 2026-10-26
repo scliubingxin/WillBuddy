@@ -25,13 +25,14 @@ const paths = { spark: 'm12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5
 const icon = (name) => `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${paths[name] || paths.spark}"/></svg>`;
 const pendingChats=new Set();
 let state = { chats: [], folders: [], memories: [], agents: [], tasks: [], artifacts: [], activity: [], settings: { model: '尚未配置', name: '我的工作空间' } }, page = 'home', chatId = '', agentId = 'assistant', files = [], images = [], sendImages = false, pending = false, folderId = '', fileResults = [], fileTruncated = false, searchTerm = '', draft = '', toolsEnabled = true, activeCommand = '', toolDraft = { url: 'https://example.com', executable: 'node', args: '["--version"]', folderId: '', relative: '' };
+let selections=[];
 let modelChoice='legacy',modelEffort='';
 let capabilityTab='agents';const busyMcp=new Set();
 const nav = [['home', 'chat', '工作台'], ['feed', 'activity', '动态'], ['library', 'grid', '成果中心'], ['files', 'folder', '本地文件'], ['agents', 'agent', '智能体'], ['tools', 'activity', '浏览器与 CLI'], ['tasks', 'clock', '自动化'], ['context', 'spark', '我的记忆']];
 let sidebarCollapsed = false, sidePanel = false, sideTab = 'preview', previewId = '', previewTabs = [], previewSource = false, previewHtml = false, previewInteractive = false, previewZoom = 100, recentQuery = '', pickerKind = '', pickerItems = [], pickerIndex = 0, pickerSerial = 0;
 const openedDetails = new Set();
 const taskWorkspaces = new Map();
-function switchChat(next) { taskWorkspaces.set(chatId, { previewTabs, previewId, sidePanel, sideTab, draft, files, images, sendImages, agentId,modelChoice,modelEffort }); const saved = taskWorkspaces.get(next); previewTabs = saved?.previewTabs || []; previewId = saved?.previewId || ''; sidePanel = saved?.sidePanel || false; sideTab = saved?.sideTab || 'preview'; draft=saved?.draft||''; files=saved?.files||[];images=saved?.images||[];sendImages=saved?.sendImages||false; modelChoice=saved?.modelChoice||state.chats.find(c=>c.id===next)?.modelChoice||'legacy';modelEffort=saved?.modelEffort??state.chats.find(c=>c.id===next)?.modelEffort??'';chatId = next; agentId=saved?.agentId||state.chats.find(c=>c.id===next)?.agentId||agentId; closePicker(); }
+function switchChat(next) { taskWorkspaces.set(chatId, { previewTabs, previewId, sidePanel, sideTab, draft, files, selections, images, sendImages, agentId,modelChoice,modelEffort }); const saved = taskWorkspaces.get(next); previewTabs = saved?.previewTabs || []; previewId = saved?.previewId || ''; sidePanel = saved?.sidePanel || false; sideTab = saved?.sideTab || 'preview'; draft=saved?.draft||''; files=saved?.files||[];selections=saved?.selections||[];images=saved?.images||[];sendImages=saved?.sendImages||false; modelChoice=saved?.modelChoice||state.chats.find(c=>c.id===next)?.modelChoice||'legacy';modelEffort=saved?.modelEffort??state.chats.find(c=>c.id===next)?.modelEffort??'';chatId = next; agentId=saved?.agentId||state.chats.find(c=>c.id===next)?.agentId||agentId; closePicker(); }
 const toolNames = { cli_execute: '运行命令', browser_open: '打开网页', browser_read: '读取网页正文', browser_snapshot: '检查页面元素', browser_click: '点击页面元素', browser_fill: '填写文本框' };
 const statusNames = { pending_approval: '等待你确认', running: '执行中', succeeded: '已完成', completed: '已完成', opened: '已打开', read: '已读取', inspected: '已检查', clicked: '已发送点击', filled: '已填写', failed: '失败', denied: '已拒绝', cancelled: '已取消', interrupted: '已中断', queued: '排队中', paused: '已暂停', cancelling: '正在停止', timed_out: '已超时', output_limit: '输出超限', inherited_pipes: '子进程未关闭' };
 function taskStatus(c) {
@@ -150,7 +151,7 @@ function render() {
         paintPicker();
 }
 function chatLive() { return pending || ['queued','running','cancelling'].includes(state.chats.find(c=>c.id===chatId)?.run?.status); }
-function composer() {return compactComposer({state,agentId,files,images,sendImages,live:chatLive(),toolsEnabled,icon,escape,modelName:modelChoiceLabel(state,modelChoice,modelEffort),modelMarkup:modelPicker(state,modelChoice,modelEffort,escape)});}
+function composer() {return compactComposer({selections,state,agentId,files,images,sendImages,live:chatLive(),toolsEnabled,icon,escape,modelName:modelChoiceLabel(state,modelChoice,modelEffort),modelMarkup:modelPicker(state,modelChoice,modelEffort,escape)});}
 
 function homeContent() { return views.homeContent(viewContext()); }
 function conversationContent() { return views.conversationContent(viewContext()); }
@@ -298,23 +299,24 @@ async function send() {
     if(!draft.trim()&&images.length&&!sendImages){toast('请勾选本轮发送图片，或输入文字');return;}
     const prompt = draft.trim()?draft:'请分析这些图片。';
     const id = chatId || crypto.randomUUID();
+    const selectedSelections=[...selections];
     const selected = [...files], selectedImages=[...images], selectedConsent=sendImages;
     chatId = id;
     page = 'chat';
     pendingChats.add(id); pending = true;
     draft = '';
-    files = [];images=[];sendImages=false;
+    files = [];selections=[];images=[];sendImages=false;
     if (!state.chats.some(c => c.id === id))
         state.chats.unshift({ id, agentId, name: prompt.slice(0, 36), messages: [] });
     state.chats.find(c => c.id === id).messages.push({ role: 'user', content: prompt,documents:selected.filter(f=>f.documentId),images:selectedImages,imagesSent:selectedConsent });
     render();
     try {
-        applyState(await invoke('chat', { id, requestId:crypto.randomUUID(), prompt, agentId, toolsEnabled,modelChoice,modelEffort,images:selectedImages.map(i=>i.id),sendImages:selectedConsent, documents:selected.filter(f=>f.documentId).map(({documentId,revision,sha256,name,archive,entryPath})=>({documentId,revision,sha256,name,archive,entryPath})), files: selected.filter(f=>!f.documentId).map(({ folderId, relative }) => ({ folderId, relative })) }));
+        applyState(await invoke('chat', { id, requestId:crypto.randomUUID(), prompt, selections:selectedSelections.map(({documentId,revision,sha256,request})=>({documentId,revision,sha256,request})), agentId, toolsEnabled,modelChoice,modelEffort,images:selectedImages.map(i=>i.id),sendImages:selectedConsent, documents:selected.filter(f=>f.documentId).map(({documentId,revision,sha256,name,archive,entryPath})=>({documentId,revision,sha256,name,archive,entryPath})), files: selected.filter(f=>!f.documentId).map(({ folderId, relative }) => ({ folderId, relative })) }));
     }
     catch (e) {
         toast(e.message);
         applyState(await invoke('state'));
-        if(chatId===id&&!draft&&!files.length&&!images.length){draft = prompt;files = selected;images=selectedImages;sendImages=selectedConsent;}
+        if(chatId===id&&!draft&&!files.length&&!images.length){draft = prompt;files = selected;selections=selectedSelections;images=selectedImages;sendImages=selectedConsent;}
     }
     finally {
         const reply=state.chats.find(c=>c.id===id)?.messages?.at(-1);
@@ -332,6 +334,7 @@ async function navigate(next) {
         render();
 }
 async function handle(actionId, id) {
+    if(actionId==='detachSelection'){selections.splice(Number(id),1);render();return;}
     if (actionId === 'sidebarToggle') {
         sidebarCollapsed = !sidebarCollapsed;
         render();
@@ -578,7 +581,7 @@ async function handle(actionId, id) {
     if (actionId === 'new') {
         switchChat('');
         draft = '';
-        files = [];images=[];sendImages=false;
+        files = [];selections=[];images=[];sendImages=false;
         page = 'home';
         render();
         return;
@@ -699,7 +702,7 @@ async function handle(actionId, id) {
         agentId = id;
         page = 'home';
         draft = '';
-        files = [];images=[];sendImages=false;
+        files = [];selections=[];images=[];sendImages=false;
         render();
         return;
     }
@@ -936,3 +939,16 @@ document.addEventListener('click', event => { const link = event.target.closest(
     return; event.preventDefault(); const url = link.getAttribute('href'); if (url && /^https?:\/\//i.test(url))
     invoke('openBrowser', { url }).catch(error => toast(error.message)); });
 boot();
+
+// A preview frame has no native bridge. Reconcile its explicit selection on the host.
+document.addEventListener('office-selection',async e=>{
+ const scope=chatId;try{
+  const selected=await invoke('documentSelection',e.detail.input);
+  if(scope!==chatId)return;
+  if(e.detail.action==='edit'){
+   if(selected.kind!=='text'||!selected.editable)throw Error('此选区仅可附加问答，复杂段落不能直接编辑');
+   modal('编辑选中文字','<p>仅替换以下选区，保留未修改文字与其他文档部件。</p><blockquote>'+escape(selected.text)+'</blockquote>'+area('替换为','replacement',selected.text),'保存Word新版本',async f=>{const r=await invoke('documentSelectionReplace',{...e.detail.input,replacement:f.get('replacement')});if(r.status!=='succeeded')throw Error('未保存选区');await update('state');toast('已保存选区修改，原件保留');});return;
+  }
+  if(selections.length>=3)throw Error('每轮最多3处选区');selections.push(selected);toolsEnabled=true;page=chatId?'chat':'home';render();$('#prompt')?.focus();toast('选区已附加，发送后交给当前模型；修改范围受限于选区');
+ }catch(err){toast(err.message);}
+});

@@ -1,3 +1,5 @@
+import {resolveDocumentSelection} from './services/document-selection.mjs';
+import {selectionPatches} from './runtime/word-selection.mjs';
 import {capabilityPresets} from './runtime/capability-presets.mjs';
 import {createCodeProjects} from './services/code-projects.mjs';
 import {createModelService} from './services/models.mjs';
@@ -213,6 +215,8 @@ else {
         register('genofficeOpen', p => genoffice.open(p.id,p.revision));
         register('genofficeImport', p => genoffice.importEdited(p.id));
         register('documentRichEditor', p => toolRuntime.documents.richEditor(p.id));
+        register('documentSelection', p=>resolveDocumentSelection(store,p));
+        register('documentSelectionReplace', p=>{const selected=resolveDocumentSelection(store,p);return toolRuntime.documents.updateEditor(selected.documentId,selected.revision,{patches:selectionPatches(selected,p.replacement)},approve);});
         register('documentPreview', p => toolRuntime.documents.preview(p.id,p.revision));
         register('documentEditor', p => toolRuntime.documents.editor(p.id,p.mode));
         register('documentSaveEditor', p => toolRuntime.documents.updateEditor(p.id,p.revision,p.patch,approve));
