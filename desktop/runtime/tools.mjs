@@ -2,7 +2,7 @@ import {checkServicePolicy} from './project-service-policy.mjs';
 import {createBrowserPermissions} from './browser-permissions.mjs';
 import { createDocumentService } from '../services/documents.mjs';
 import { uid } from '../core.mjs';
-import { prepareCommand, runCommand } from './command.mjs';
+import { prepareCommand, runCommand, commandJson } from './command.mjs';
 
 export class ToolRuntime {
     constructor({ store, browser, approve, notify = () => {}, convertDocument, beforeCli }) {
@@ -90,6 +90,7 @@ export class ToolRuntime {
                 await checkpoint;
                 if (diskError) throw diskError;
                 delete record.partial;
+                if(args.args.includes("--json")&&!result.truncated){const data=commandJson(result.stdout);if(data!==undefined)result.structuredOutput=data;}
             } else if (name === 'browser_open') result = await this.browser.open(args.url, args.external === true, signal);
             else if (name === 'browser_read') result = await this.browser.read(args.id, signal);
             else if (name === 'browser_snapshot') result = await this.browser.snapshot(args.id, signal);
