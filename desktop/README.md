@@ -98,3 +98,5 @@ python3 scripts/package-desktop-source.py /absolute/output/WillBuddy-source.zip
 项目服务核心验证：`node --test tests/project-services.test.mjs`。真实浏览器：设置CHROME_PATH后执行 `node --test tests/acceptance/project-services-live.mjs`；原生桥/审批为测试夹具。服务策略与日志边界见[项目服务](../docs/PROJECT_SERVICES.md)。
 
 预置目录源码：`runtime/presets/catalog.json`，重建脚本 `scripts/vendor-capability-presets.py` 固定上游commit。核心 `tests/capability-presets.test.mjs`；真实浏览器 `tests/acceptance/presets-live.mjs`。
+
+Skill运行示例在 `examples/skills/office-runtime/`；修改后运行 `python3 scripts/update-runtime-skill.py` 更新独立预置，再运行 `node --test desktop/tests/skill-runtime.test.mjs`（从根目录运行时需进入desktop以便使用完整测试环境）。详见[运行协议](../docs/SKILL_RUNTIME.md)。
