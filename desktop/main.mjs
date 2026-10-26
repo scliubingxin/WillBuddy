@@ -97,12 +97,12 @@ else {
             defaultAgent.prompt = '你是 WillBuddy 工作助手。用中文清晰地帮助用户完成工作。区分事实和假设，不编造来源。';
         store.data.executions ??= [];
         const convertDocument=createDocumentConverter({createDriver:signal=>createConversionBrowser({BrowserWindow,session,signal})});
-        toolRuntime = new ToolRuntime({ store, browser, approve, notify: notifyRuntime, convertDocument,beforeCli:args=>projects?.validate(args) });
+        toolRuntime = new ToolRuntime({ store, browser, approve, notify: notifyRuntime, convertDocument,beforeCli:(args,policy)=>projects?.validate(args,policy) });
         genoffice=createGenOfficeBridge({documents:toolRuntime.documents,approve});
         recoverInterruptedWork(store.data);
         commands = createCommandService({ store, active, executeTool, notify: notifyRuntime });
         projects=createCodeProjects({store,directory:path.join(app.getPath('userData'),'code-projects'),approve,commands});
-        register('projectRun',p=>projects.run(p.id,p.stepId));
+        register('projectRun',p=>projects.run(p.id,p.stepId,{service:p.service===true}));
         register('projectImport',async()=>{const result=await dialog.showOpenDialog(win,{title:'导入代码项目ZIP（不自动执行）',properties:['openFile'],filters:[{name:'代码项目ZIP',extensions:['zip']}]});if(result.canceled)return false;const source=result.filePaths?.[0];if(!source)throw Error('未选择代码包');return projects.importArchive(path.basename(source),await readDocumentSource(source,{noFollow:true,maxBytes:32*1024*1024,label:'代码ZIP'}));});
         runs = sharedRunQueue({store, active, notify:notifyRuntime});
         const mcpSecrets=createMcpSecretCodec(safeStorage);

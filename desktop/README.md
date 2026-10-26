@@ -94,3 +94,5 @@ python3 scripts/package-desktop-source.py /absolute/output/WillBuddy-source.zip
 [下载与版本说明](../docs/DOWNLOADS.md) · [Skills / MCP](../docs/SKILLS_AND_CONNECTORS.md) · [智能体](../docs/AGENT_CAPABILITIES.md) · [Office](../docs/OFFICE_PREVIEW.md) · [HTML 交互预览](../docs/HTML_INTERACTIVE_PREVIEW.md) · [对话富媒体](../docs/CHAT_RICH_MEDIA.md) · [原 Web 文档](../docs/WEB_README_ORIGINAL.md)
 
 代码项目与图片实现见 runtime/code-project.mjs、services/code-projects.mjs、main/image-files.mjs；开发验收：`node --test tests/code-projects.test.mjs tests/image-usability.test.mjs`，真实UI：`CHROME_PATH=... node --test tests/acceptance/projects-live.mjs tests/acceptance/images-live.mjs`。可选外部npm/Python只用于用户代码项目，不是WillBuddy安装依赖。
+
+项目服务核心验证：`node --test tests/project-services.test.mjs`。真实浏览器：设置CHROME_PATH后执行 `node --test tests/acceptance/project-services-live.mjs`；原生桥/审批为测试夹具。服务策略与日志边界见[项目服务](../docs/PROJECT_SERVICES.md)。
