@@ -238,7 +238,7 @@ function content() {
         return `<div class="page">${heading('LOCAL KNOWLEDGE', '让本地知识，触手可及。', '仅列出已授权目录中的文本和代码文件。选择文件后可预览、附加到对话。', action(icon('plus') + '授权文件夹', 'folder'))}${state.folders.length ? `<div class="file-search"><select id="folderSelect" aria-label="文件夹">${state.folders.map(f => `<option value="${f.id}" ${f.id === folderId ? 'selected' : ''}>${escape(f.name)}</option>`).join('')}</select><input id="fileQuery" placeholder="按文件名搜索，按 Enter 确认" value="${escape(searchTerm)}"><button class="secondary" data-action="fileSearch">${icon('search')}搜索</button><button class="secondary" data-action="revoke" data-id="${escape(folderId)}">撤销授权</button></div><p class="description">不自动上传。单个文件最大 1 MB，每次最多附加 32 个文件。Word/PDF 可使用原 Web 工作台处理。</p>${fileResults.map((f, i) => `<div class="file-row">${icon('file')}<div>${escape(f.name)}<small>${escape(f.relative)}</small></div>${action('预览', 'previewFile', i)}${action('附加到对话', 'attachFile', i)}</div>`).join('') || empty('暂无匹配的文件', '支持 Markdown、TXT、CSV、JSON 与常见代码文件；隐藏文件和依赖目录不会列出。')}${fileTruncated ? '<p class="description">列表已达到扫描上限（300 个结果 / 5000 个目录项 / 深度 6），可选择更小的文件夹。</p>' : ''}` : empty('选择你的第一个文件夹', '通过系统窗口授予文件夹访问权限。你可以随时在这里撤销。', action('选择文件夹', 'folder', '', 'primary'))}</div>`;
     if (page === 'agents' && capabilityTab!=='agents')return `<div class="page">${capabilityTabs(capabilityTab)}${capabilityTab==='skills'?skillsPage(state):mcpPage(state,busyMcp)}</div>`;
     if (page === 'agents')
-        return `<div class="page">${capabilityTabs('agents')}${heading('YOUR AI TEAM', '为每一种工作，找到好搭档。', '配置知识文档、Skills、MCP、工具和提示词，通过 ReAct 循环完成任务。', action('清除检索索引','clearKnowledgeIndex')+action(icon('plus') + '新建智能体', 'newAgent'))}<div class="cards">${state.agents.map(a => `<div class="card"><span class="tile-icon">${icon('agent')}</span><h3>${escape(a.name)}</h3><p>${escape(a.description)}</p><small>${(a.knowledge||[]).length} 份知识 · ${(a.skills||[]).length+(a.skillIds||[]).length} 项技能 · ${(a.mcp||[]).length+(a.mcpIds||[]).length} 个 MCP · ReAct ${a.maxSteps||8} 轮</small><div class="actions">${action('开始对话', 'useAgent', a.id, 'primary')}${action('编辑', 'editAgent', a.id)}${a.id !== 'assistant' ? action('删除', 'deleteAgent', a.id) : ''}</div></div>`).join('')}</div></div>`;
+        return `<div class="page">${capabilityTabs('agents')}${heading('YOUR AI TEAM', '为每一种工作，找到好搭档。', '配置知识文档、Skills、MCP、工具和提示词，通过 ReAct 循环完成任务。', action('清除检索索引','clearKnowledgeIndex')+action(icon('plus') + '新建智能体', 'newAgent'))}<div class="cards">${state.agents.map(a => `<div class="card"><span class="tile-icon">${icon('agent')}</span><h3>${escape(a.name)}</h3><p>${escape(a.description)}</p><small>${(a.knowledge||[]).length} 份知识 · ${(a.skills||[]).length+(a.skillIds||[]).length} 项技能 · ${(a.mcp||[]).length+(a.mcpIds||[]).length} 个 MCP · ReAct ${a.maxSteps||32} 轮</small><div class="actions">${action('开始对话', 'useAgent', a.id, 'primary')}${action('编辑', 'editAgent', a.id)}${a.id !== 'assistant' ? action('删除', 'deleteAgent', a.id) : ''}</div></div>`).join('')}</div></div>`;
     if (page === 'tasks')
         return `<div class="page">${heading('MISSION CONTROL', '把重复的工作，交给自动化。', '任务结果自动归入成果中心；执行失败可查看原因并手动重试。', action(icon('plus') + '新建任务', 'newTask'))}<div class="banner">每日任务从创建或启用时间起，每隔一天执行一次。应用必须运行，电脑休眠或退出时不执行；恢复后补执行一次。任务仅调用模型，不具备联网、发信或文件操作能力。</div><div class="toolbar">${action('刷新状态', 'refresh')}${action('打开本地 Office 执行器 ↗', 'runner')}</div><br>${views.runQueue({state,action,date,statusNames})}${state.tasks.length ? `<div class="cards">${state.tasks.map(t => `<div class="card"><span class="badge">${escape(({ ready: '待执行', done: '已完成', ...statusNames })[t.status] || t.status)}</span><h3>${escape(t.name)}</h3><p>${escape(t.prompt.slice(0, 160))}</p><div class="meta">${t.enabled ? '每日执行 · 下次 ' + date(t.nextRun) : '仅手动运行'}</div>${t.error ? `<p class="task-error">${escape(t.error)}</p>` : ''}<div class="actions">${!['queued','running','cancelling'].includes(t.status) ? action('立即运行', 'runTask', t.id, 'primary') : action('停止任务', 'cancelTask', t.id, 'danger')}${t.result ? action('查看结果', 'taskResult', t.id) : ''}${!['queued','running','cancelling'].includes(t.status) ? action(t.enabled ? '暂停定时' : '开启每日', 'toggleTask', t.id) + action('删除', 'deleteTask', t.id) : ''}</div></div>`).join('')}</div>` : empty('从一个小任务开始', '例如：根据固定提示词生成每日写作练习。真实数据需要在提示中提供。', action('创建任务', 'newTask', '', 'primary'))}</div>`;
     if (page === 'library')
@@ -253,11 +253,13 @@ function modal(title, body, submit, handler) {
     const d = $('#modal');
     d.onclick=null;
     d.onclose=()=>d.querySelectorAll('[data-mcp-secret],input[type="password"]').forEach(el=>el.value='');
-    d.innerHTML = `<form method="dialog"><header><h2>${escape(title)}</h2><button class="icon-button" value="cancel" aria-label="关闭">${icon('close')}</button></header>${body}<footer><button value="cancel" class="secondary">关闭</button>${submit ? `<button type="button" id="modalSubmit" class="primary">${submit}</button>` : ''}</footer></form>`;
+    d.innerHTML = `<form method="dialog" novalidate><header><h2>${escape(title)}</h2><button type="button" data-modal-close class="icon-button" value="cancel" aria-label="关闭">${icon('close')}</button></header>${body}<footer><button type="button" data-modal-close value="cancel" class="secondary">关闭</button>${submit ? `<button type="button" id="modalSubmit" class="primary">${submit}</button>` : ''}</footer></form>`;
+    for(const close of d.querySelectorAll("[data-modal-close]"))close.onclick=()=>d.close();
     if (!d.open)
         d.showModal();
     if (handler)
         $('#modalSubmit').onclick = async () => {
+            if(!d.querySelector('form').reportValidity())return;
             const button = $('#modalSubmit');
             button.disabled = true;
             try {
@@ -334,6 +336,11 @@ async function navigate(next) {
         render();
 }
 async function handle(actionId, id) {
+    if(actionId==='continueReply'){
+      const c=state.chats.find(c=>c.id===chatId),failed=c?.messages?.[Number(id)];if(!failed||(failed.continuation!==true&&!(failed.continuation===undefined&&failed.error&&/长度上限/.test(failed.content))))throw Error('没有可继续的文字');
+      const partial=c.messages.filter(m=>m.runId===failed.runId&&m.partial&&m.content).at(-1);if(!partial)throw Error('未保留可续写内容');
+      draft='请从下方已接收内容的末尾继续，只输出尚未完成的文字，不重复前文或执行工具。以下是原回复末尾：\n'+partial.content.slice(-16000);toolsEnabled=false;render();await send();return;
+    }
     if(actionId==='detachSelection'){selections.splice(Number(id),1);render();return;}
     if (actionId === 'sidebarToggle') {
         sidebarCollapsed = !sidebarCollapsed;
