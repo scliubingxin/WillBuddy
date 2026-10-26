@@ -151,3 +151,5 @@ WillBuddy is a desktop AI workspace for Apple Silicon Macs. Bring your own compa
 输入框的「＋」集中添加附件、图片和资料；右侧模型菜单选择档位、特定模型和思考强度，其他设置按需展开。
 
 图片自动缩放后可在输入框核对缩略图并发给视觉模型；代码ZIP可在「＋→代码项目与运行环境」查看依赖计划，经确认准备环境和本机试运行。[使用说明](docs/IMAGES_AND_CODE_PROJECTS.md)。
+
+代码项目的启动入口可选择30分钟开发服务，在工具台查看日志与停止；依赖准备和构建沿用普通命令。[项目服务说明](docs/PROJECT_SERVICES.md)。
