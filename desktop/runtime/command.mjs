@@ -33,7 +33,7 @@ export async function prepareCommand(folders,p) {
   const timeoutMs=p.timeoutMs===undefined?120000:p.timeoutMs;if(!Number.isInteger(timeoutMs)||timeoutMs<100||timeoutMs>300000)throw new Error('超时必须在 100 到 300000 毫秒之间');
   return {executable:await resolveExecutable(p.executable.trim()),requestedExecutable:p.executable.trim(),args:[...p.args],cwd,timeoutMs};
 }
-export function runCommand(command,{signal,onOutput=()=>{},maxBytes=1024*1024}={}) {
+export function runCommand(command,{signal,onOutput=()=>{},maxBytes=1024*1024,outputMode='stop'}={}) {
   return new Promise((resolve,reject)=>{
     if(signal?.aborted){reject(new Error('执行已取消'));return;}
     const started=Date.now();let child,stdout='',stderr='',bytes=0,stopped='',forceTimer,settled=false,pipeTimer;
@@ -45,9 +45,19 @@ export function runCommand(command,{signal,onOutput=()=>{},maxBytes=1024*1024}={
     }
     function stop(reason){if(!stopped){stopped=reason;kill();}}
     const abort=()=>stop('cancelled');
-    function finish(exitCode,exitSignal,error){if(settled)return;settled=true;clearTimeout(timer);clearTimeout(pipeTimer);if(!stopped)clearTimeout(forceTimer);signal?.removeEventListener('abort',abort);if(error){reject(new Error(error.code==='ENOENT'?`找不到命令 ${command.executable}。请安装此 CLI，或填写其绝对路径。`:error.message));return;}resolve({stdout,stderr,exitCode,signal:exitSignal,elapsedMs:Date.now()-started,status:stopped||(exitCode===0?'succeeded':'failed'),truncated:stopped==='output_limit'});}
+    function finish(exitCode,exitSignal,error){if(settled)return;settled=true;clearTimeout(timer);clearTimeout(pipeTimer);if(!stopped)clearTimeout(forceTimer);signal?.removeEventListener('abort',abort);if(error){reject(new Error(error.code==='ENOENT'?`找不到命令 ${command.executable}。请安装此 CLI，或填写其绝对路径。`:error.message));return;}resolve({stdout,stderr,exitCode,signal:exitSignal,elapsedMs:Date.now()-started,status:stopped||(exitCode===0?'succeeded':'failed'),truncated:outputMode==='tail'?bytes>maxBytes:stopped==='output_limit',outputBytes:bytes});}
     try{child=spawn(command.executable,command.args,{cwd:command.cwd,env:commandEnvironment(),shell:false,windowsHide:true,detached:process.platform!=='win32',stdio:['ignore','pipe','pipe']});}catch(e){finish(null,null,e);return;}
-    for(const [stream,field] of [[child.stdout,'stdout'],[child.stderr,'stderr']]){stream.setEncoding('utf8');stream.on('data',chunk=>{const remaining=Math.max(0,maxBytes-bytes);const received=Buffer.byteLength(chunk);const part=Buffer.from(chunk).subarray(0,remaining).toString('utf8');bytes+=received;if(field==='stdout')stdout+=part;else stderr+=part;onOutput({stream:field,text:part});if(bytes>maxBytes)stop('output_limit');});}
+    for(const [stream,field] of [[child.stdout,'stdout'],[child.stderr,'stderr']]){
+      stream.setEncoding('utf8');stream.on('data',chunk=>{
+        const received=Buffer.byteLength(chunk),remaining=Math.max(0,maxBytes-bytes);
+        const part=outputMode==='tail'?chunk:Buffer.from(chunk).subarray(0,remaining).toString('utf8');
+        bytes+=received;
+        const append=previous=>outputMode==='tail'?Buffer.from(previous+part).subarray(-Math.floor(maxBytes/2)).toString('utf8'):previous+part;
+        if(field==='stdout')stdout=append(stdout);else stderr=append(stderr);
+        onOutput({stream:field,text:part});
+        if(outputMode!=='tail'&&bytes>maxBytes)stop('output_limit');
+      });
+    }
     child.once('error',e=>finish(null,null,e));
     child.once('exit',(code,sig)=>{pipeTimer=setTimeout(()=>{stop('inherited_pipes');child.stdout.destroy();child.stderr.destroy();finish(code,sig);},1000);pipeTimer.unref();});
     child.once('close',(code,sig)=>finish(code,sig));
