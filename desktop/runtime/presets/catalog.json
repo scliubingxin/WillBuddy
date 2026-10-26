@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": 1,
-  "checkedDate": "2026-10-26",
+  "version": 2,
+  "checkedDate": "2026-10-27",
   "upstreamCommit": "2ce8aa15d05bd57213e6f746f953aafb7ded7a8b",
   "skills": [
     {
@@ -253,6 +253,26 @@
         {
           "path": "SKILL.md",
           "sha256": "185331e6e55cc33e0d4ba2457cf31bab67bd01015e9c708a2d0d09b093e2b905"
+        }
+      ]
+    },
+    {
+      "id": "wb-runtime-budget",
+      "title": "预算脚本运行（Node）",
+      "category": "办公协同",
+      "description": "真实执行Node脚本生成预算XLSX，检查退出状态并回收成果。",
+      "source": "WillBuddy independent workflow",
+      "license": "UNLICENSED · WillBuddy source",
+      "archiveBase64": "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",
+      "sha256": "08491ce1e450bc5f1f624b4437c6c59e09b71bc14ec6bb9ea6e07444f83b4338",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "6eeabcaf08fec0c6349e10de53a15e43b39061b25888eae80b0a3a2cdb543a6a"
+        },
+        {
+          "path": "scripts/create-budget.cjs",
+          "sha256": "453f95775d27439f41dee2796d9f8f65c28b9cb817708c84c1b36d84f5eb15c1"
         }
       ]
     }
