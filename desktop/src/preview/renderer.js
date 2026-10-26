@@ -1,3 +1,4 @@
+import {installOfficeSelection} from './office-selection.js';
 import { renderAsync } from "docx-preview";
 import {
   PptxViewer,
@@ -325,6 +326,7 @@ window.addEventListener("message", async (e) => {
         ignoreLastRenderedPageBreak: false,
         useBase64URL: true,
       });
+    if (format === "docx") installOfficeSelection(content,token);
     if (format === "xlsx") await spreadsheet(bytes);
     if (format === "pptx")
       await PptxViewer.open(bytes.buffer, content, {
