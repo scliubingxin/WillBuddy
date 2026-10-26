@@ -389,7 +389,7 @@ test("real HTTP model → multi-document Chinese retrieval → MCP quote → sou
       modelRequests[0].tools.map((t) => t.function.name),
       ["skill_read", "knowledge_search", "mcp_0_quote"],
     );
-    assert.ok(!JSON.stringify(modelRequests[0]).includes(skill.instructions));
+    assert.ok(JSON.stringify(modelRequests[0]).includes(skill.instructions));
     assert.ok(JSON.stringify(modelRequests[1]).includes(skill.instructions));
     assert.ok(JSON.stringify(modelRequests[2]).includes("10000"));
     assert.ok(JSON.stringify(modelRequests[3]).includes("8000"));

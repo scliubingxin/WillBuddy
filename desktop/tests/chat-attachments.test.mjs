@@ -13,7 +13,7 @@ async function fixture(format='md',spec='预算为12345元'){
 }
 test('chat attachments verify actual bytes, reject forged metadata, duplicate, removed and changed copies',async()=>{
  const {store,ref}=await fixture();assert.equal(readChatDocument(store,ref).text,'预算为12345元');
- assert.equal(validateChatDocuments(store,[{...ref,name:'forged'}])[0].name,'预算资料');
+ assert.equal(validateChatDocuments(store,[{...ref,name:'forged'}])[0].name,'预算资料.md');
  assert.throws(()=>validateChatDocuments(store,[ref,ref]),/无效/);
  assert.throws(()=>validateChatDocuments(store,[{...ref,revision:0}]),/变化/);
  store.data.documents[0].base64=Buffer.from('tampered').toString('base64');assert.throws(()=>readChatDocument(store,ref),/校验/);

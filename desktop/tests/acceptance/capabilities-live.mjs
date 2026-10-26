@@ -298,22 +298,18 @@ test(
       await page.getByRole("button", { name: "测试连接", exact: true }).click();
       await page.getByText("上次发现 1 项工具", { exact: false }).waitFor();
       assert.equal(mcpCalls, 0);
+      await page.getByRole('tab',{name:'Skills 技能库',exact:true}).click();
+      await page.getByRole('button',{name:'上传 Skill',exact:true}).click();
+      await page.getByRole('heading',{name:'inline-skill',exact:true}).waitFor();
       await page.getByRole("tab", { name: "智能体", exact: true }).click();
       await page.locator("[data-action=newAgent]").click();
       await modal.locator("[name=name]").fill("采购专员");
       await modal.locator("[name=description]").fill("使用已上传技能和MCP");
       await modal.locator("[name=prompt]").fill("检查报价是否超预算");
-      await modal.locator("[name=skillId]").check();
+      for(const box of await modal.locator("[name=skillId]").all())await box.check();
       await modal.locator("[name=mcpId]").check();
-      await modal
-        .getByRole("button", { name: "上传 Skill", exact: true })
-        .click();
-      await modal.getByText("inline-skill", { exact: true }).waitFor();
-      assert.equal(await modal.locator("[name=skillId]:checked").count(), 2);
-      assert.equal(
-        await modal.locator("[name=prompt]").inputValue(),
-        "检查报价是否超预算",
-      );
+      assert.equal(await modal.locator('[data-agent-upload]').count(),0);
+      assert.equal(await modal.locator('[name=skillId]:checked').count(),2);
       await modal
         .getByRole("button", { name: "配置新的 MCP", exact: true })
         .click();

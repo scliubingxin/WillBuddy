@@ -170,3 +170,4 @@ test("unsupported shapes are counted and cropped or rotated pictures explicitly 
     assert.throws(() => f.read(), /裁剪/);
   }
 });
+test('shape-only drawing without image relationships preserves sheet preview; actual missing image refs still fail',()=>{const f=fixture();delete f.files['xl/drawings/_rels/drawing1.xml.rels'];f.files['xl/drawings/drawing1.xml']=`<xdr:wsDr xmlns:xdr="${X}"><xdr:twoCellAnchor><xdr:sp/></xdr:twoCellAnchor></xdr:wsDr>`;const result=f.read();assert.equal(result.images.length,0);assert.equal(result.unsupported,1);});

@@ -6,7 +6,7 @@ export function readChatDocument(store, ref) {
   const bytes=Buffer.from(d.base64,'base64'), checked=inspectDocument(d.format,bytes);
   if(checked.sha256!==ref.sha256)throw Error('问答附件校验失败');
   if(!checked.text.trim())throw Error('附件未提取到可问答正文；扫描件和图片内容需视觉/OCR支持');
-  return {name:d.attachmentSource?d.attachmentSource.archive+' / '+d.attachmentSource.entryPath:d.name,text:checked.text,truncated:false,attachmentSource:d.attachmentSource};
+  return {name:d.attachmentSource?d.attachmentSource.archive+' / '+d.attachmentSource.entryPath:(d.format==='md'&&/\.[a-z0-9]+$/i.test(d.name)?d.name:d.name.replace(new RegExp('(?:\\.'+d.format+')+$','i'),'')+'.'+d.format),text:checked.text,truncated:false,attachmentSource:d.attachmentSource};
 }
 export function validateChatDocuments(store, refs) {
   if(!Array.isArray(refs)||refs.length>32)throw Error('每次最多32份问答附件');

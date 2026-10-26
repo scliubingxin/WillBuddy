@@ -8,6 +8,7 @@ export async function readCompletion(response, { signal, onDelta, toolsEnabled =
     let bytes = 0;
     async function read() { signal?.throwIfAborted(); const result = await reader.read(); signal?.throwIfAborted(); if (!result.done && (bytes += result.value.length) > LIMIT)
         throw new Error('模型响应超过 4 MB'); return result; }
+    function lengthError(incompleteTools=false){const e=new Error('模型输出达到长度上限；已保留接收内容，可继续文字输出或分批生成');e.code='MODEL_OUTPUT_LIMIT';e.incompleteTools=incompleteTools;return e;}
     function validate(message, usage) { const text = message?.content; if ((typeof text !== 'string' || !text.trim()) && !(toolsEnabled && Array.isArray(message?.tool_calls) && message.tool_calls.length))
         throw new Error('模型没有返回文本内容'); return { text, usage: usage || null, message }; }
     try {
@@ -26,6 +27,7 @@ export async function readCompletion(response, { signal, onDelta, toolsEnabled =
             const result = validate(data.choices?.[0]?.message, data.usage);
             if (typeof result.text === 'string' && result.text)
                 await onDelta?.(result.text);
+            if(data.choices?.[0]?.finish_reason==='length')throw lengthError(!!result.message?.tool_calls?.length);
             return result;
         }
         let buffer = '', dataLines = [], text = '', reasoning = '', usage = null, done = false, finished = false, toolMode = false;
@@ -55,8 +57,7 @@ export async function readCompletion(response, { signal, onDelta, toolsEnabled =
                 return;
             if (finished && (choice.delta?.content || choice.delta?.reasoning_content || choice.delta?.tool_calls?.length))
                 throw new Error('模型在结束标记后继续输出');
-            if (choice.finish_reason === 'length')
-                throw new Error('模型输出达到长度上限；已保留接收内容，请继续生成');
+
             if (choice.finish_reason === 'content_filter')
                 throw new Error('模型服务过滤了本轮输出');
             const delta = choice.delta || {};
@@ -94,6 +95,7 @@ export async function readCompletion(response, { signal, onDelta, toolsEnabled =
                     calls.set(piece.index, call);
                 }
             }
+            if(choice.finish_reason==='length')throw lengthError(toolMode||calls.size>0);
             if (choice.finish_reason) {
                 if (!['stop', 'tool_calls', 'function_call'].includes(choice.finish_reason))
                     throw new Error('模型流结束状态无效');
