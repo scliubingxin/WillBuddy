@@ -12,7 +12,7 @@ export function createSkillImporter({ dialog, getWindow, library }) {
     if (result.canceled) return null;
     if (result.filePaths?.length !== 1) throw Error("每次选择一个技能包");
     const source = result.filePaths[0],
-      bytes = await readDocumentSource(source, { noFollow: true });
+      bytes = await readDocumentSource(source, { noFollow: true,maxBytes:32*1024*1024,label:"Skill文件" });
     if (win.isDestroyed?.()) throw Error("窗口已关闭");
     return library.importSkill(path.basename(source), bytes);
   };
