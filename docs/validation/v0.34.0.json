@@ -1,0 +1,41 @@
+{
+  "version": "0.34.0",
+  "date": "2026-10-26",
+  "baseline": {
+    "version": "0.33.0",
+    "library_version": 36,
+    "content_files": 579,
+    "main": "3367fc758479006e4e0faa8ec22746d85ea45408"
+  },
+  "tests": {
+    "core_unique": 347,
+    "execution": "four groups; filename assertion corrected and 9 related rerun passed; isolated 11 service tests passed after initial 200ms scheduling failure",
+    "real_chromium_related_unique": 8,
+    "packaging_python": 10,
+    "protected_unchanged": 122,
+    "old_python_tests_rerun": false
+  },
+  "packaging": {
+    "file": "/workspace/scratch/c33bcd2beeb1/outputs/WillBuddy-v0.34.0-mac-arm64-offline.zip",
+    "version": "0.34.0",
+    "bytes": 119806870,
+    "sha256": "c5a22f245c227989cef6c36a5874dc54ea6ebe6f04900f88e9f8c2b0776a986c",
+    "app_asar_sha256": "fe0e8f23092aa376a84e83c93b935107a02d9d49ae3c982da469d8b887f970fb",
+    "architecture": "arm64",
+    "signature": "ad-hoc",
+    "verified": true,
+    "archive_check": {
+      "app_entries": 282,
+      "extra_files": 5,
+      "closed_inventory": true,
+      "residual_entries": 0
+    }
+  },
+  "production_content_match": 123,
+  "limitations": [
+    "ad-hoc, not notarized",
+    "No native Mac/paid model/Keychain/Gatekeeper acceptance",
+    "Not full Office fidelity"
+  ],
+  "details": "docs/FEEDBACK_FIXES.md"
+}
