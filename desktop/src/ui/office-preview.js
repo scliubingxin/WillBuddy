@@ -16,7 +16,7 @@ export function mountOfficePreview(host, invoke) {
     note.textContent = "正在启动本机预览组件…";
     let sent = false,
       disposed = false,
-      timer;
+      timer, snapshot;
     const finish = () => {
       win.clearTimeout(timer);
       win.removeEventListener("message", listener);
@@ -46,16 +46,19 @@ export function mountOfficePreview(host, invoke) {
       )
         return;
       if (e.data.kind === "office-complete" && sent) {
-        finish();
+        win.clearTimeout(timer);
         note.remove();
         return;
+      }
+      if(e.data.kind==='office-selection'&&sent&&snapshot&&['attach','edit'].includes(e.data.action)&&JSON.stringify(e.data.request||{}).length<=20000){
+        host.dispatchEvent(new win.CustomEvent('office-selection',{bubbles:true,detail:{action:e.data.action,input:{documentId:host.dataset.documentId,revision:snapshot.revision,sha256:snapshot.sha256,request:e.data.request}}}));return;
       }
       if (e.data.kind !== "office-ready" || sent) return;
       sent = true;
       note.textContent = "正在校验并渲染文件…";
       deadline(15000, "文件预览未在15秒内完成；文件未修改。可重试或导出查看。");
       try {
-        const snapshot = await invoke("documentPreview", {
+        snapshot = await invoke("documentPreview", {
           id: host.dataset.documentId,
           revision: Number(host.dataset.revision),
         });
