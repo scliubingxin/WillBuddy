@@ -1,3 +1,7 @@
+## 2026-10-26 接续边界
+
+本轮复用已有公开包的部分静态REA证据，没有新增Amazon运行结论。对齐参考复查 https://docs.aws.amazon.com/quick/latest/userguide/system-tools-desktop.html 与 https://docs.aws.amazon.com/quick/latest/userguide/desktop-security.html ；进程行为参考 https://nodejs.org/api/child_process.html 。WillBuddy新增受控项目服务，不等同Quick全部系统能力或OS隔离。
+
 ## 0.29.0 · 输入区层级
 
 根据用户提供的Quick/WorkBuddy截图，实际收敛常驻控件并保留菜单内的真实功能与授权。仅UX参考，不复制代码/资产；复用旧REA静态证据，无新第三方原生运行结论。Mac/真实模型、跨Web核心、自主子任务、OAuth/stdio与全Office保真继续待完成。

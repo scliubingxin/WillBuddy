@@ -1,3 +1,4 @@
+import {checkServicePolicy} from './project-service-policy.mjs';
 import {createBrowserPermissions} from './browser-permissions.mjs';
 import { createDocumentService } from '../services/documents.mjs';
 import { uid } from '../core.mjs';
@@ -10,7 +11,7 @@ export class ToolRuntime {
         this.browserPermissions = createBrowserPermissions();
     }
 
-    async execute(name, args, signal, { chatId, runId, jobId, onRecord, manual = false } = {}) {
+    async execute(name, args, signal, { chatId, runId, jobId, onRecord, projectService, manual = false } = {}) {
         const auditArgs = structuredClone(args);
         if (name.startsWith('document_')) { delete auditArgs.content; delete auditArgs.html; delete auditArgs.replacements; delete auditArgs.cells; delete auditArgs.patches; auditArgs.note='文档正文/修改内容不写入执行审计'; }
         if (name === 'browser_fill' && 'text' in auditArgs) auditArgs.text = '[输入文本已隐藏]';
@@ -33,12 +34,12 @@ export class ToolRuntime {
                 if (!readScope) throw new Error('浏览器窗口已关闭或不存在');
                 record.receipt = { operation: name, ...readScope };
             }
-            if (name === 'cli_execute') { command = await prepareCommand(this.store.data.folders, args); record.command = command; }
+            if (name === 'cli_execute') { projectService=checkServicePolicy(projectService,args);command = await prepareCommand(this.store.data.folders, args); if(projectService){command.timeoutMs=projectService.maxDurationMs;record.projectService=projectService;}record.command = command; }
             if (['browser_click', 'browser_fill'].includes(name)) { prepared = await this.browser.prepareAction(name, args, signal); record.receipt = this.browser.receipt(prepared); }
             if (name.startsWith('document_')) documentToken = await this.documents.prepare(name,args,signal);
-            const title = documentToken ? '文档操作 · ' + name : name === 'cli_execute' ? '执行本机 CLI' : name === 'browser_read' ? '读取网页内容' : name === 'browser_snapshot' ? '检查网页元素' : name === 'browser_click' ? '点击网页元素' : name === 'browser_fill' ? '填写网页文本框' : '打开浏览器';
+            const title = documentToken ? '文档操作 · ' + name : name === 'cli_execute' ? (projectService?'启动项目开发服务':'执行本机 CLI') : name === 'browser_read' ? '读取网页内容' : name === 'browser_snapshot' ? '检查网页元素' : name === 'browser_click' ? '点击网页元素' : name === 'browser_fill' ? '填写网页文本框' : '打开浏览器';
             const detail = documentToken ? documentToken.detail : prepared ? JSON.stringify(record.receipt, null, 2) + (name === 'browser_fill' ? '\n将填写（不自动提交）：\n' + prepared.inputText : '\n点击可能触发网页业务操作，请核对网址与目标。')
-                : name === 'cli_execute' ? JSON.stringify(command, null, 2) + '\nCLI 会以当前账号权限运行，可访问工作目录以外的文件，不是文件夹沙箱。' + (chatId ? '\nstdout/stderr 将发给当前模型。' : '')
+                : name === 'cli_execute' ? JSON.stringify(command, null, 2) + '\nCLI 会以当前账号权限运行，可访问工作目录以外的文件，不是文件夹沙箱。' + (projectService?'\n开发服务最长30分钟；日志保留最近尾部，退出/停止会终止进程；不表示业务就绪。':'') + (chatId ? '\nstdout/stderr 将发给当前模型。' : '')
                 : readScope ? JSON.stringify(readScope, null, 2) + '\n将读取当前页正文；对话发起的读取会将正文发给模型。' : String(args.url);
             const browserScope = this.browserPermissions.scope(name,args,{runId,readScope,prepared});
             const remembered = this.browserPermissions.has(browserScope);
@@ -57,6 +58,7 @@ export class ToolRuntime {
             signal?.throwIfAborted();
             if (readScope && this.browser.list().find(w => w.id === args.id)?.url !== readScope.url) throw new Error('审批期间网页地址发生变化，请重新确认');
             record.status = 'running';
+            record.startedAt=Date.now();
             await this.store.save();
             await onRecord?.(record); // A durable queue claim must succeed before any side effect.
             signal?.throwIfAborted();
@@ -66,22 +68,24 @@ export class ToolRuntime {
             let result;
             if (documentToken) result = await this.documents.perform(documentToken,signal);
             else if (name === 'cli_execute') {
-                await this.beforeCli?.(args);
+                await this.beforeCli?.(args,projectService);
                 const checked = await prepareCommand(this.store.data.folders, args);
                 if (checked.cwd !== command.cwd || checked.executable !== command.executable) throw new Error('工作目录或程序路径在审批期间发生变化，请重新执行');
+                if(projectService)checked.timeoutMs=projectService.maxDurationMs;
                 const persistence = new AbortController();
                 const commandSignal = signal ? AbortSignal.any([signal, persistence.signal]) : persistence.signal;
                 let streamed = 0, lastSaved = 0, checkpoint = Promise.resolve(), diskError;
-                result = await runCommand(checked, { signal: commandSignal, onOutput: chunk => {
-                    const part = chunk.text.slice(0, Math.max(0, 50000 - streamed));
+                result = await runCommand(checked, { signal: commandSignal,...(projectService?{outputMode:'tail',maxBytes:65536}:{}), onOutput: chunk => {
+                    const part = projectService?chunk.text:chunk.text.slice(0, Math.max(0, 50000 - streamed));
                     streamed += part.length;
-                    record.partial = (record.partial || '') + part;
-                    const now = Date.now();
-                    if (now - lastSaved >= 500) {
+                    record.partial = ((record.partial || '') + part).slice(projectService?-50000:0);
+                    if(projectService)record.logPolicy='最近50000字符；结果stdout/stderr合计最近64KiB';
+                    const now = Date.now(),publish=now-lastSaved>=500;
+                    if (publish) {
                         lastSaved = now;
                         checkpoint = this.store.save().catch(error => { diskError = error; persistence.abort(); });
                     }
-                    this.notify();
+                    if(!projectService||publish)this.notify();
                 } });
                 await checkpoint;
                 if (diskError) throw diskError;

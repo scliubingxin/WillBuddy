@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.30.0",
+  "version": "0.31.0",
   "checked_date": "2026-10-26",
   "source_status": "desktop_source_delivery_not_deployed",
   "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -51,7 +51,8 @@
     "chat_archives": "ZIP only; in-memory bounded validation/decompression and real document/text/code extraction; atomic import32 docs, skipped report; no RAR/7z/PDF/OCR/media understanding",
     "model_profiles": "20 independent endpoint/key/capability profiles; legacy retained; explicit or fast/balanced/extreme type-priority routing; per-run snapshot; real reasoning params; no hidden fallback",
     "composer": "single input and toolbar; scoped accessible add/model menus, conditional consent, no new execution permissions",
-    "code_projects": "host staged complete ZIP; npm/Python manifests; explicit approved install/run commands using durable CLI queue;5min cap;not OS sandbox/daemon/cloud deployment"
+    "code_projects": "host staged complete ZIP; npm/Python manifests; explicit approved install/run commands using durable CLI queue;5min cap;not OS sandbox/daemon/cloud deployment",
+    "project_services": "Host-only30min startup lease, one service/shared2 slots,64KiB newest output, explicit stop/fresh restart; no daemon/OSsandbox"
   },
   "validation": {
     "desktop_tests_passed": 319,
@@ -118,7 +119,7 @@
     "imported_word_run_tests": 13,
     "imported_word_actual_chromium": "production UI import/edit/export/reload, independent python-docx verifies marks/size/color/table/image/header/footer; native IPC/approval fixtures",
     "original_web_python_unchanged_scope": "app/components/db/drizzle/hooks/lib/local-runner designated baseline files; hashes checked this run",
-    "packaging_python_tests_passed": 9,
+    "packaging_python_tests_passed": 10,
     "spreadsheet_formula_new_tests": 20,
     "spreadsheet_actual_chromium": "production create/edit/tab draft retention/preview/unsupported block/binary export/disk reload; native IPC/approval fixtures",
     "spreadsheet_independent_recalculation": "openpyxl formula/cache inspection; LibreOfficeDev 26.8.0.0.alpha0 independent recalculation matches 8 formula cells; not full Excel parity",
@@ -129,8 +130,8 @@
     "preview_lifecycle_native": "Linux Electron actual preload/IPC source+ASAR; 3 formats x20 UI redraws, zero extra reads/same child frame; Mac pending",
     "spreadsheet_image_new_tests": 7,
     "spreadsheet_image_scope": "real Chromium file+openpyxl and Linux Electron source/ASAR; one/two anchors real, absolute geometry unit; no Mac/ExcelWPS fidelity",
-    "real_chromium_tests_this_iteration": 4,
-    "legacy_evidence_scope": "Historical evidence fields retained; docs/validation/v0.26.0.json is current run authority",
+    "real_chromium_tests_this_iteration": 9,
+    "legacy_evidence_scope": "Historical fields retained; docs/validation/v0.31.0.json is current evidence",
     "agent_capabilities_new_tests": 11,
     "agent_real_http_fixture": "four model requests → lazy skill → approved real Markdown source → real MCP SSE response → final result; no real external model/MCP",
     "html_original_sample": "260561 bytes /242435 characters; welcome UI and supplier form, 0 outside network, 1 read across redraws; private sample excluded from source",
@@ -144,7 +145,8 @@
     "mcp_authentication_new_tests": 15,
     "knowledge_index_new_tests": 16,
     "chat_attachment_new_tests": 6,
-    "multi_model_and_zip_new_tests": 20
+    "multi_model_and_zip_new_tests": 20,
+    "node_tests_passed": 330
   },
   "rea": {
     "version": "6.7.0",
@@ -152,7 +154,7 @@
     "javascript_analysis": "partial_host_process_ownership_blocked",
     "report": "docs/REA_FINDINGS.md"
   },
-  "notes": "Compact progressive-disclosure composer; existing business, routing and permission boundaries retained.",
+  "notes": "Controlled project service lease, bounded tail logging and explicit stop/restart; no automatic replay.",
   "architecture": {
     "guide": "docs/ARCHITECTURE.md",
     "layers": [
@@ -167,19 +169,19 @@
     "web_desktop_shared_core": false
   },
   "current_iteration": {
-    "version": "0.29.0",
-    "evidence": "docs/validation/v0.29.0.json",
-    "guide": "docs/COMPACT_COMPOSER.md",
+    "version": "0.31.0",
+    "evidence": "docs/validation/v0.31.0.json",
+    "guide": "docs/PROJECT_SERVICES.md",
     "mac_native_tested": false,
     "public_github_release": false,
-    "public_release_note": "0.28.1 release already public;0.29 source/app delivered independently, not uploaded or merged."
+    "public_release_note": "Build-time pending regular authorized version branch/PR/main/Release; final Release records outcome."
   },
   "github_last_published": {
-    "version": "0.29.0",
-    "main": "aea62a8c03939500dfa03173f87cfc3f32a702c7",
-    "pr": "https://github.com/scliubingxin/WillBuddy/pull/2",
-    "release": "https://github.com/scliubingxin/WillBuddy/releases/tag/v0.29.0-preview"
+    "version": "0.30.0",
+    "main": "24c712072499af12fd1621d6af675d7816bbc534",
+    "pr": "https://github.com/scliubingxin/WillBuddy/pull/3",
+    "release": "https://github.com/scliubingxin/WillBuddy/releases/tag/v0.30.0-preview"
   },
   "documentation_policy": "product README only; version/test/limits in downloads and release pages",
-  "github_hotfix_publication": "0.29 merged/published;0.30 build-time pending PR/main/release under ongoing authorization"
+  "github_hotfix_publication": "0.30 merged/published;0.31 build-time pending publication"
 }
