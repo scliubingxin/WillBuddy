@@ -1,3 +1,7 @@
+# 0.33.0 · 2026-10-26
+
+按用户8张修改意见落实Office主线。新增runtime/word-selection.mjs、spreadsheet-text.mjs、services/document-selection.mjs、src/preview/office-selection.js与对应核心/真实UI测试；接入preview/主机IPC/preload/composer/conversation，保留沙箱和审批。修改文件与验证见validation/v0.33.0.json。343核心/7真实Chromium相关回归/10打包通过，原Web/Python122文件SHA不变。早期未保存选区草稿因环境重置丢失，本轮从权威0.32/v35重新实现并验证。两次签名临时残留候选被拒绝；干净目录构建通过，根因未确定。ad-hoc未公证/未Mac验收。0.32已PR5合并main75182dd并公开v0.32.0-preview，571文件和下载附件SHA核对。
+
 ## 2026-10-26 · 0.32.0 预置技能与MCP库
 
 按用户“skill太少”与截图落实12项技能（4公开MIT/8独立内置工作流）和8官方远程MCP模板；真实添加/重复去重/停用不复活/绑定/密钥配置/发现/模型循环，不是假工具按钮或固定答复。目录离线，添加不联网不执行；主机id白名单、包及资源SHA检查，上传与旧数据不覆盖。模板显示待配置/未测试，不把密钥保存或目录当已联网。MCP原生批准、Bearer安全存储与逐业务审批不变。UI支持用途分类、搜索和来源。用户私人上传包不收入公开发布。
