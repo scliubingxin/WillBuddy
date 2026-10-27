@@ -27,7 +27,7 @@ export class ToolRuntime {
             await onRecord?.(record);
             this.notify();
             signal?.throwIfAborted();
-            if (!['cli_execute', 'browser_open', 'browser_read', 'browser_snapshot', 'browser_click', 'browser_fill', 'document_create', 'document_read', 'document_edit', 'document_convert', 'document_write', 'document_patch'].includes(name)) throw new Error('未知工具');
+            if (!['cli_execute', 'browser_open', 'browser_read', 'browser_snapshot', 'browser_click', 'browser_fill', 'document_create', 'document_read', 'document_edit', 'document_convert', 'document_write', 'document_patch','document_insert_image'].includes(name)) throw new Error('未知工具');
             let command, readScope;
             if (['browser_read', 'browser_snapshot'].includes(name)) {
                 readScope = this.browser.list().find(w => w.id === args.id);
