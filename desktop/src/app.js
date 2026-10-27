@@ -67,7 +67,7 @@ function toast(message) { $('#toast').textContent = message; $('#toast').style.d
 async function invoke(name, payload) {
     if (!api)
         throw new Error('当前为界面预览。请通过 npm start 启动桌面应用以使用此功能。');
-    try { return await api[name](payload); }
+    try { if(typeof api?.[name] !== 'function')throw Error('当前窗口缺少此功能接口，请完全退出 WillBuddy 后重新打开；若仍失败请更新应用。'); return await api[name](payload); }
     catch(error) { throw new Error(String(error?.message||'操作失败，请重试').replace(/^Error invoking remote method ['"][^'"]+['"]:\s*(?:Error:\s*)?/,'').replace(/^Error:\s*/,'')); }
 }
 async function update(name, payload) { applyState(await invoke(name, payload)); render(); return state; }

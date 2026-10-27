@@ -163,3 +163,5 @@ Skills 技能库可从预置目录添加常用工作流；MCP页选择官方服�
 Apple 芯片离线包内置 Python 和 LibreOffice，可在本机分页查看 Office 文档，并打开 WillBuddy Office 文档窗口；修改直接保存为文档新版本，无需另装 LibreOffice。
 
 Office 文档可双击在 WillBuddy Office 窗口打开；选区后展开 AI 侧栏进行定向修改。当前为基础嵌入式编辑，详细支持范围见[Office 使用说明](docs/WILLBUDDY_OFFICE.md)。
+
+Office 预览组件内置中文字符映射和标准字体资源，离线显示支持范围见[文档故障修复说明](docs/SCREENSHOT_FIXES_0371.md)。

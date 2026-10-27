@@ -108,3 +108,5 @@ Skill运行示例在 `examples/skills/office-runtime/`；修改后运行 `python
 详见 ../docs/WILLBUDDY_OFFICE.md。运行测试可设置 WB_TEST_OFFICE_DIRECTORY 指向 LibreOffice program（Mac为Contents/MacOS），WB_TEST_PYTHON 指向包含Pillow的Python。生产仅使用包内运行时；不自动发现系统安装。独立worker与ABI会从ASAR复制到私有目录再执行。
 
 可从已验证0.36原始离线包升级构建（仅开发主机）：`python3 scripts/repackage-native-mac.py --base BASE_ZIP --work-dir NEW_PRIVATE_DIR --output OUTPUT_ZIP --signing-tool RCODESIGN`。脚本固定校验base SHA，保留原厂LO全部文件字节、重签外壳/Python并检查所有代码页/封闭ZIP/链接/执行位；base不是安装端下载依赖。最终仍需Mac codesign/Gatekeeper/启动验收。
+
+PDF预览构建：node scripts/vendor-pdf-preview.mjs 固定读取锁定pdfjs-dist，将CMap和标准字体离线内联，禁止运行时下载。开发中文PDF验收需要宿主可用CJK字体，原始图文档的字体兼容需目标Mac验收。0.37.1 repackage-native-mac.py已固定已验0.37完整app base SHA，保留上游运行时字节。
