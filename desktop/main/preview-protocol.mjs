@@ -60,6 +60,8 @@ export async function preparePreviewProtocol(directory) {
       throw Error("媒体组件完整性校验失败");
     resources.set(url, { bytes, type, csp: mediaCsp });
   }
+  const pdfRoot=path.join(directory,'../pdf'),pdfManifest=JSON.parse(await readFile(path.join(pdfRoot,'PDF-MANIFEST.json'),'utf8'));
+  for(const name of ['index.html','engine.js']){const bytes=await readFile(path.join(pdfRoot,name));if(name==='engine.js'&&(bytes.length!==pdfManifest.bytes||createHash('sha256').update(bytes).digest('hex')!==pdfManifest.sha256))throw Error('PDF组件完整性失败');resources.set('/pdf/'+name,{bytes,type:name.endsWith('.js')?'text/javascript; charset=utf-8':'text/html; charset=utf-8',csp:CSP});}
   const htmlRoot=path.join(directory,'../html');
   const htmlCsp="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; media-src data: blob:; font-src data:; frame-src about:; connect-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'";
   for(const name of ['index.html','frame.js'])resources.set('/html/'+name,{bytes:await readFile(path.join(htmlRoot,name)),type:name.endsWith('.js')?'text/javascript; charset=utf-8':'text/html; charset=utf-8',csp:htmlCsp});

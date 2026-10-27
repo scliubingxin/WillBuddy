@@ -10,7 +10,7 @@ export function allowPreviewNavigation(value) {
       !u.username &&
       !u.password &&
       !u.search &&
-      ["/index.html", "/media/index.html", "/html/index.html"].includes(
+      ["/index.html", "/media/index.html", "/html/index.html", "/pdf/index.html"].includes(
         u.pathname,
       )
     );
