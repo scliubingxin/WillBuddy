@@ -1,3 +1,5 @@
+import {bundledExecutable,runtimeRoot} from './runtime/bundled-runtime.mjs';
+import {createLibreOffice} from './services/libreoffice.mjs';
 import {resolveDocumentSelection} from './services/document-selection.mjs';
 import {selectionPatches} from './runtime/word-selection.mjs';
 import {capabilityPresets} from './runtime/capability-presets.mjs';
@@ -48,9 +50,9 @@ const notifyRuntime = () => {
         win.webContents.send('actwill:runtime');
 };
 const approve = createApprover({ dialog, getWindow: () => win, focus });
-let toolRuntime, genoffice, models, projects;
+let toolRuntime, genoffice, models, projects, libreoffice;
 const executeTool = (...args) => toolRuntime.execute(...args);
-const view = () => { const { encryptedKey, ...settings } = store.data.settings; const {knowledgeIndexes,modelProfiles,codeProjects,...publicData}=store.data; return { ...publicData, capabilityPresets:capabilityPresets(), codeProjects:projects?.view()||[], modelProfiles:models?.view()||[], mcpConnections:mcpViews(store.data), documents:documentViews(store.data), skillPackages:skillViews(store.data), imageAttachments:imageViews(store.data), settings: { ...settings, hasKey: !!sessionKey || !!encryptedKey, keySaved: !!encryptedKey, secureStorage: safeStorage.isEncryptionAvailable() && safeStorage.getSelectedStorageBackend?.() !== 'basic_text' }, browsers: browser.list(), desktop: { platform: process.platform, shortcutReady } }; };
+const view = () => { const { encryptedKey, ...settings } = store.data.settings; const {knowledgeIndexes,modelProfiles,codeProjects,...publicData}=store.data; return { ...publicData, officeNative:!!libreoffice,officeEdits:libreoffice?.sessions()||[], capabilityPresets:capabilityPresets(), codeProjects:projects?.view()||[], modelProfiles:models?.view()||[], mcpConnections:mcpViews(store.data), documents:documentViews(store.data), skillPackages:skillViews(store.data), imageAttachments:imageViews(store.data), settings: { ...settings, hasKey: !!sessionKey || !!encryptedKey, keySaved: !!encryptedKey, secureStorage: safeStorage.isEncryptionAvailable() && safeStorage.getSelectedStorageBackend?.() !== 'basic_text' }, browsers: browser.list(), desktop: { platform: process.platform, shortcutReady } }; };
 function key() {
     if (sessionKey)
         return sessionKey;
@@ -101,6 +103,7 @@ else {
         store.data.executions ??= [];
         const convertDocument=createDocumentConverter({createDriver:signal=>createConversionBrowser({BrowserWindow,session,signal})});
         toolRuntime = new ToolRuntime({ store, browser, approve, notify: notifyRuntime, convertDocument,beforeCli:(args,policy)=>projects?.validate(args,policy) });
+        if(runtimeRoot()){await bundledExecutable('python');await bundledExecutable('office');libreoffice=createLibreOffice({documents:toolRuntime.documents,directory:path.join(store.dir,'office-runtime'),executable:()=>bundledExecutable('office'),approve,notify:notifyRuntime});}
         genoffice=createGenOfficeBridge({documents:toolRuntime.documents,approve});
         recoverInterruptedWork(store.data);
         commands = createCommandService({ store, active, executeTool, notify: notifyRuntime });
@@ -209,7 +212,7 @@ else {
         register('cancelRun', p => runs.cancel(p.id));
         register('documentOperation', p => {
             const {operation,...args}=p;
-            if (!['document_create','document_read','document_edit','document_convert','document_write','document_patch'].includes(operation)) throw Error('未知文档操作');
+            if (!['document_create','document_read','document_edit','document_convert','document_write','document_patch','document_insert_image'].includes(operation)) throw Error('未知文档操作');
             return executeTool(operation,args);
         });
         register('genofficeOpen', p => genoffice.open(p.id,p.revision));
@@ -217,7 +220,9 @@ else {
         register('documentRichEditor', p => toolRuntime.documents.richEditor(p.id));
         register('documentSelection', p=>resolveDocumentSelection(store,p));
         register('documentSelectionReplace', p=>{const selected=resolveDocumentSelection(store,p);return toolRuntime.documents.updateEditor(selected.documentId,selected.revision,{patches:selectionPatches(selected,p.replacement)},approve);});
-        register('documentPreview', p => toolRuntime.documents.preview(p.id,p.revision));
+        register('officeEdit',p=>{if(!libreoffice)throw Error('源码开发环境没有内置LibreOffice');return libreoffice.edit(p.id,p.revision);});
+        register('officeCollect',p=>{if(!libreoffice)throw Error('源码开发环境没有内置LibreOffice');return libreoffice.collect(p.id);});
+        register('documentPreview',p=>libreoffice?libreoffice.preview(p.id,p.revision):toolRuntime.documents.preview(p.id,p.revision));
         register('documentEditor', p => toolRuntime.documents.editor(p.id,p.mode));
         register('documentSaveEditor', p => toolRuntime.documents.updateEditor(p.id,p.revision,p.patch,approve));
         register('documentRead', p => toolRuntime.documents.read(p.id));
@@ -293,7 +298,9 @@ else {
         }, 1000);
     }).catch(e => { dialog.showErrorBox('WillBuddy 启动失败', e.message); app.quit(); });
     app.on('activate', focus);
-    app.on('before-quit', () => {
+    app.on('before-quit', (event) => {
+        if(libreoffice?.sessions().length){const choice=dialog.showMessageBoxSync(win,{type:'warning',message:'有LibreOffice编辑副本尚未收回',detail:'请先保存并退出内置编辑窗口，再返回收回新版本。放弃退出会清理尚未回收的副本。',buttons:['返回处理','放弃副本并退出'],defaultId:0,cancelId:0});if(choice===0){event.preventDefault();return;}}
+        libreoffice?.close().catch(()=>{});
         genoffice?.close().catch(()=>{});
         closing = true;
         approve.cancelAll();
