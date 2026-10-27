@@ -396,6 +396,8 @@ async function handle(actionId, id) {
     if(actionId==='documentExportVersion'){const [doc,revision]=id.split(':');await invoke('documentExport',{id:doc,revision:Number(revision)});return;}
     if(actionId==='revokeBrowserApprovals'||actionId==='cancelApprovals'){await invoke(actionId);toast(actionId==='cancelApprovals'?'已取消当前与排队的确认；也可按 ⌘⇧Esc':'已撤销全部浏览器任务授权');return;}
     if (actionId==='documentImport') {await invoke('documentImport');await update('state');return;}
+    if(actionId==='officeCollect'){const result=await invoke('officeCollect',{id});if(result.status==='succeeded'){await update('state');toast('LibreOffice结果已保存新版本');}return;}
+    if(state.officeNative&&id&&['documentCanvas','documentWordEditor','documentEditor'].includes(actionId)&&['docx','xlsx','pptx'].includes(state.documents?.find(d=>d.id===id)?.format)){const d=state.documents.find(d=>d.id===id);await invoke('officeEdit',{id,revision:d.revision});await update('state');toast('已启动内置LibreOffice；保存并退出后点击收回编辑结果');return;}
     if (actionId==='documentCanvas') {
         const editor=id?await invoke('documentRichEditor',{id}):{name:'新文档',html:'<h1>项目方案</h1><p>在这里编辑正文，选择文字后可设置格式。</p>'};
         let canvas;
