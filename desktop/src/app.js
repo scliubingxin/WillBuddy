@@ -397,7 +397,7 @@ async function handle(actionId, id) {
     if(actionId==='revokeBrowserApprovals'||actionId==='cancelApprovals'){await invoke(actionId);toast(actionId==='cancelApprovals'?'已取消当前与排队的确认；也可按 ⌘⇧Esc':'已撤销全部浏览器任务授权');return;}
     if (actionId==='documentImport') {await invoke('documentImport');await update('state');return;}
     if(actionId==='officeCollect'){const result=await invoke('officeCollect',{id});if(result.status==='succeeded'){await update('state');toast('LibreOffice结果已保存新版本');}return;}
-    if(state.officeNative&&id&&['documentCanvas','documentWordEditor','documentEditor'].includes(actionId)&&['docx','xlsx','pptx'].includes(state.documents?.find(d=>d.id===id)?.format)){const d=state.documents.find(d=>d.id===id);await invoke('officeEdit',{id,revision:d.revision});await update('state');toast('已启动内置LibreOffice；保存并退出后点击收回编辑结果');return;}
+    if(state.officeNative&&id&&['documentCanvas','documentWordEditor','documentEditor'].includes(actionId)&&['docx','xlsx','pptx'].includes(state.documents?.find(d=>d.id===id)?.format)){const d=state.documents.find(d=>d.id===id);await invoke(state.officeWorkspace?'officeOpen':'officeEdit',{id,revision:d.revision});await update('state');toast(state.officeWorkspace?'已打开WillBuddy Office，编辑直接保存，无需收回':'已启动内置LibreOffice；保存并退出后点击收回编辑结果');return;}
     if (actionId==='documentCanvas') {
         const editor=id?await invoke('documentRichEditor',{id}):{name:'新文档',html:'<h1>项目方案</h1><p>在这里编辑正文，选择文字后可设置格式。</p>'};
         let canvas;
@@ -961,3 +961,6 @@ document.addEventListener('office-selection',async e=>{
   if(selections.length>=3)throw Error('每轮最多3处选区');selections.push(selected);toolsEnabled=true;page=chatId?'chat':'home';render();$('#prompt')?.focus();toast('选区已附加，发送后交给当前模型；修改范围受限于选区');
  }catch(err){toast(err.message);}
 });
+
+// Explicit double-click opens an owned Office editor window; never infer filesystem paths.
+document.addEventListener('dblclick',event=>{if(!state.officeWorkspace||event.target.closest('button,a,input,textarea'))return;const card=event.target.closest('[data-document]');const d=state.documents?.find(d=>d.id===card?.dataset.document);if(d&&['docx','xlsx','pptx'].includes(d.format))invoke('officeOpen',{id:d.id,revision:d.revision}).catch(e=>toast(e.message));});
