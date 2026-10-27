@@ -1,7 +1,7 @@
 {
   "name": "actwill-desktop",
   "productName": "WillBuddy",
-  "version": "0.37.0",
+  "version": "0.37.1",
   "private": true,
   "description": "WillBuddy desktop AI workspace",
   "author": "Actwill",
