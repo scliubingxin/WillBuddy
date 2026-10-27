@@ -80,7 +80,7 @@ def main():
         if struct.unpack('<II',header)!=(0xfeedfacf,0x0100000c):raise ValueError('native executable is not arm64')
 
     source=stage/'app-source';source.mkdir()
-    for name in ['main.mjs','preload.cjs','core.mjs','src','runtime','assets','main','services']:
+    for name in ['main.mjs','preload.cjs','office-preload.cjs','core.mjs','src','runtime','assets','main','services']:
         src=ROOT/'desktop'/name;dst=source/name
         if src.is_dir():shutil.copytree(src,dst)
         else:shutil.copy2(src,dst)

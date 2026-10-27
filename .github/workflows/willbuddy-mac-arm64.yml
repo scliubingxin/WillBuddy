@@ -38,6 +38,7 @@ jobs:
       - run: npm test
         env:
           WB_TEST_SOFFICE: ${{ github.workspace }}/native-runtimes/LibreOffice.app/Contents/MacOS/soffice
+          WB_TEST_PYTHON: ${{ github.workspace }}/native-runtimes/python/bin/python3.12
       - name: Native file-host Office preview (actual Electron, fixture documents)
         run: npm run test:preview-native
       - name: Packaging boundary tests

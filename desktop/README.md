@@ -102,3 +102,9 @@ python3 scripts/package-desktop-source.py /absolute/output/WillBuddy-source.zip
 Skill运行示例在 `examples/skills/office-runtime/`；修改后运行 `python3 scripts/update-runtime-skill.py` 更新独立预置，再运行 `node --test desktop/tests/skill-runtime.test.mjs`（从根目录运行时需进入desktop以便使用完整测试环境）。详见[运行协议](../docs/SKILL_RUNTIME.md)。
 
 运行时构建入口：../scripts/prepare-native-runtimes.py；electron-builder 要求 ../native-runtimes，离线打包脚本要求 --native-runtimes。Python wheel 哈希锁为 python-wheels.lock.json/requirements-native-python.txt。详见 ../docs/NATIVE_OFFICE_AND_PYTHON.md。
+
+## 嵌入式 Office 开发
+
+详见 ../docs/WILLBUDDY_OFFICE.md。运行测试可设置 WB_TEST_OFFICE_DIRECTORY 指向 LibreOffice program（Mac为Contents/MacOS），WB_TEST_PYTHON 指向包含Pillow的Python。生产仅使用包内运行时；不自动发现系统安装。独立worker与ABI会从ASAR复制到私有目录再执行。
+
+可从已验证0.36原始离线包升级构建（仅开发主机）：`python3 scripts/repackage-native-mac.py --base BASE_ZIP --work-dir NEW_PRIVATE_DIR --output OUTPUT_ZIP --signing-tool RCODESIGN`。脚本固定校验base SHA，保留原厂LO全部文件字节、重签外壳/Python并检查所有代码页/封闭ZIP/链接/执行位；base不是安装端下载依赖。最终仍需Mac codesign/Gatekeeper/启动验收。

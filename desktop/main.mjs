@@ -1,3 +1,6 @@
+import {createOfficeWorkspace} from './services/office-workspace.mjs';
+import {createOfficeChat} from './services/office-chat.mjs';
+import {createOfficeWindows} from './main/office-windows.mjs';
 import {bundledExecutable,runtimeRoot} from './runtime/bundled-runtime.mjs';
 import {createLibreOffice} from './services/libreoffice.mjs';
 import {resolveDocumentSelection} from './services/document-selection.mjs';
@@ -50,9 +53,9 @@ const notifyRuntime = () => {
         win.webContents.send('actwill:runtime');
 };
 const approve = createApprover({ dialog, getWindow: () => win, focus });
-let toolRuntime, genoffice, models, projects, libreoffice;
+let toolRuntime, genoffice, models, projects, libreoffice, officeWindows;
 const executeTool = (...args) => toolRuntime.execute(...args);
-const view = () => { const { encryptedKey, ...settings } = store.data.settings; const {knowledgeIndexes,modelProfiles,codeProjects,...publicData}=store.data; return { ...publicData, officeNative:!!libreoffice,officeEdits:libreoffice?.sessions()||[], capabilityPresets:capabilityPresets(), codeProjects:projects?.view()||[], modelProfiles:models?.view()||[], mcpConnections:mcpViews(store.data), documents:documentViews(store.data), skillPackages:skillViews(store.data), imageAttachments:imageViews(store.data), settings: { ...settings, hasKey: !!sessionKey || !!encryptedKey, keySaved: !!encryptedKey, secureStorage: safeStorage.isEncryptionAvailable() && safeStorage.getSelectedStorageBackend?.() !== 'basic_text' }, browsers: browser.list(), desktop: { platform: process.platform, shortcutReady } }; };
+const view = () => { const { encryptedKey, ...settings } = store.data.settings; const {knowledgeIndexes,modelProfiles,codeProjects,...publicData}=store.data; return { ...publicData, officeNative:!!libreoffice,officeWorkspace:!!officeWindows,officeEdits:libreoffice?.sessions()||[], capabilityPresets:capabilityPresets(), codeProjects:projects?.view()||[], modelProfiles:models?.view()||[], mcpConnections:mcpViews(store.data), documents:documentViews(store.data), skillPackages:skillViews(store.data), imageAttachments:imageViews(store.data), settings: { ...settings, hasKey: !!sessionKey || !!encryptedKey, keySaved: !!encryptedKey, secureStorage: safeStorage.isEncryptionAvailable() && safeStorage.getSelectedStorageBackend?.() !== 'basic_text' }, browsers: browser.list(), desktop: { platform: process.platform, shortcutReady } }; };
 function key() {
     if (sessionKey)
         return sessionKey;
@@ -120,6 +123,12 @@ else {
         register('imagePreview',p=>images.preview(p.id));
         register('imageRemove',async p=>{await images.remove(p.id);return view();});
         conversations = createConversationService({ approve, models, secrets:mcpSecrets, images, queue:runs, store, active, key, view, executeTool, releaseToolGrants:id=>toolRuntime.browserPermissions.release(id), notify: notifyRuntime,notifyStream:event=>{if(win&&!win.isDestroyed())win.webContents.send('actwill:stream',event);} });
+        if(runtimeRoot()){
+            const kit=createOfficeWorkspace({documents:toolRuntime.documents,directory:path.join(store.dir,'office-kit'),runtime:async()=>({python:await bundledExecutable('python'),officeDirectory:path.dirname(await bundledExecutable('office'))}),approve,notify:notifyRuntime,audit:async event=>{const prev=store.data.executions;store.data.executions=[event,...prev.filter(e=>e.id!==event.id)].slice(0,300);try{await store.save();}catch(e){store.data.executions=prev;throw e;}notifyRuntime();}});
+            const officeChat=createOfficeChat({store,kit,models,key,approve,queue:runs,notify:notifyRuntime});
+            officeWindows=createOfficeWindows({BrowserWindow,ipcMain,here,kit,chat:officeChat,models,documents:toolRuntime.documents});
+            register('officeOpen',p=>officeWindows.open(p.id,p.revision));
+        }
         tasks = createTaskService({ models, queue:runs, notify:notifyRuntime, store, active, key, view, notifyCompleted: task => {
                 if (Notification.isSupported())
                     new Notification({ title: 'WillBuddy · 任务完成', body: task.name }).show();
@@ -299,7 +308,9 @@ else {
     }).catch(e => { dialog.showErrorBox('WillBuddy 启动失败', e.message); app.quit(); });
     app.on('activate', focus);
     app.on('before-quit', (event) => {
+        if(officeWindows?.hasUnsaved()){event.preventDefault();dialog.showMessageBoxSync({type:'warning',message:'WillBuddy Office有尚未保存的修改',detail:'请在文档窗口重试保存后退出；不会丢弃未保存内容。'});return;}
         if(libreoffice?.sessions().length){const choice=dialog.showMessageBoxSync(win,{type:'warning',message:'有LibreOffice编辑副本尚未收回',detail:'请先保存并退出内置编辑窗口，再返回收回新版本。放弃退出会清理尚未回收的副本。',buttons:['返回处理','放弃副本并退出'],defaultId:0,cancelId:0});if(choice===0){event.preventDefault();return;}}
+        officeWindows?.close().catch(()=>{});
         libreoffice?.close().catch(()=>{});
         genoffice?.close().catch(()=>{});
         closing = true;

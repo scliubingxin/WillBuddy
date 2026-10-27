@@ -156,8 +156,10 @@ WillBuddy is a desktop AI workspace for Apple Silicon Macs. Bring your own compa
 
 Skills 技能库可从预置目录添加常用工作流；MCP页选择官方服务模板，按需填写自己的密钥，再批准测试与绑定。[预置能力用法](docs/PRESET_CAPABILITIES.md)。
 
-源码开发预览保留Word文字/整表选区与AI定向修改；安装版LibreOffice分页预览的选区映射尚待适配，编辑可用内置原生窗口并收回新版本。详见[Office选区与原件修改](docs/OFFICE_SELECTION.md)。
+源码开发预览保留Word文字/整表选区与AI定向修改；安装版LibreOffice分页预览的选区映射尚待适配，编辑可用 WillBuddy Office 窗口并直接保存新版本。详见[Office选区与原件修改](docs/OFFICE_SELECTION.md)。
 
 含代码的Skill可经批准运行Node/Python脚本并回收真实文档成果；可从预置目录添加预算脚本。Node、Python和常用文档依赖随Apple芯片离线包内置；未列入依赖锁的模块按需准备。[Skill代码运行用法](docs/SKILL_RUNTIME.md)。
 
-Apple 芯片离线包内置 Python 和 LibreOffice，可在本机分页查看 Office 文档，并打开内置原生编辑窗口；保存退出后收回为文档新版本，无需另装 LibreOffice。
+Apple 芯片离线包内置 Python 和 LibreOffice，可在本机分页查看 Office 文档，并打开 WillBuddy Office 文档窗口；修改直接保存为文档新版本，无需另装 LibreOffice。
+
+Office 文档可双击在 WillBuddy Office 窗口打开；选区后展开 AI 侧栏进行定向修改。当前为基础嵌入式编辑，详细支持范围见[Office 使用说明](docs/WILLBUDDY_OFFICE.md)。
