@@ -1,0 +1,3 @@
+API member order derived from LibreOfficeKit.h, LibreOffice core bf6ef2662401c7d6dce671ab4deb26ee0af3a7c1. MPL-2.0. https://mozilla.org/MPL/2.0/
+https://git.libreoffice.org/core/+/bf6ef2662401c7d6dce671ab4deb26ee0af3a7c1/include/LibreOfficeKit/LibreOfficeKit.h
+Original upstream binaries and notices retained in native runtime. WillBuddy adapter and interface independently implemented.
