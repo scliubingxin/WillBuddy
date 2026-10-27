@@ -124,7 +124,7 @@
     },
     "github_current_version": "pending branch/PR/main/Release at build time; see final Release",
     "installation_fix_candidate": {
-      "status": "included, 13 filesystem/packaging tests passed; native Mac unverified",
+      "status": "included, 17 filesystem/packaging tests; exact 0.37 offline update candidate added; native Mac unverified",
       "guide": "docs/SCREENSHOT_FIXES_0371.md"
     }
   },
@@ -166,13 +166,13 @@
     },
     {
       "path": "ITERATION_LOG.md",
-      "bytes": 188915,
-      "sha256": "10a04da72ef6551e8e3582297b7012003c435739349c66211b88a4f30d9b3d04"
+      "bytes": 190169,
+      "sha256": "3c26ca2c29e0e7a5d4e2ffd1a1440f0faaa141ebea99bd922730632cbf5be900"
     },
     {
       "path": "ITERATION_PLAN.md",
-      "bytes": 78405,
-      "sha256": "768de3bf6847868aaba1a0a4327369ba481ee10d86321875cc37f2bf3523f19a"
+      "bytes": 79659,
+      "sha256": "91c3ce338a54a68a80e829628f5e5bb2c96baf70895471ac78aa7ba6f2cd1fe2"
     },
     {
       "path": "OPENWORKBUDDY_REFERENCE.md",
@@ -191,8 +191,8 @@
     },
     {
       "path": "RELEASE_STATUS.json",
-      "bytes": 9725,
-      "sha256": "250598933e6a773e3849fe77f5474e358021f5278cc784ff4fa8df8b511e3e0c"
+      "bytes": 9761,
+      "sha256": "9e6fa98d472adbc09725d54cb27731cdb1c72786e632193ef25608c3dd2990e0"
     },
     {
       "path": "SELF_TEST_MATRIX.md",
@@ -705,6 +705,11 @@
       "sha256": "393ec6668563a503e908cb4f275bec13e1737cf42b2b70e4641f902a489684af"
     },
     {
+      "path": "desktop/installer/Apply-WillBuddy-Update.command",
+      "bytes": 875,
+      "sha256": "a9bdd979c36222e24c4735837048518da550d441ba92be644b6ab46f837cec9b"
+    },
+    {
       "path": "desktop/installer/Install-WillBuddy.command",
       "bytes": 3544,
       "sha256": "6ff97bb924d82be975424f551eaa7e17d54b965866ef22f19238da7d12656cf4"
@@ -718,6 +723,11 @@
       "path": "desktop/installer/entitlements.mac.plist",
       "bytes": 309,
       "sha256": "5f5b909647d1977e4e534d48cb630c03bf874a61c53068695f871e933532512e"
+    },
+    {
+      "path": "desktop/installer/update-app.py",
+      "bytes": 4358,
+      "sha256": "8a861d1ac7852a23caeb44a260774f6f0d8d93bd1406861adaa1b1b88f670bb9"
     },
     {
       "path": "desktop/main/approval.mjs",
@@ -1921,8 +1931,8 @@
     },
     {
       "path": "docs/DOWNLOADS.md",
-      "bytes": 21396,
-      "sha256": "1e9db9abc56376d34f7f880b9b1c6df911bbdd8839ccc00348eb05d77d972e4e"
+      "bytes": 21596,
+      "sha256": "2b85a0a7a1ab122a313ac719ff22543e896f47283fec838fc15d8d61f944bbf5"
     },
     {
       "path": "docs/DURABLE_COMMANDS.md",
@@ -2051,8 +2061,8 @@
     },
     {
       "path": "docs/SCREENSHOT_FIXES_0371.md",
-      "bytes": 3159,
-      "sha256": "9608d8eb03889adf93950a364975e6f8083a7d87c7f5844c66ce398b8c3b9a45"
+      "bytes": 4412,
+      "sha256": "b89afa2ed7ee7c0948134198422e127ec3ede720ed9114eef8f7a0390e253e92"
     },
     {
       "path": "docs/SHARED_RUNS.md",
@@ -2411,13 +2421,13 @@
     },
     {
       "path": "docs/validation/v0.37.1-tests.txt",
-      "bytes": 44238,
-      "sha256": "c398d02e37571266a2b8563f679d8bb712f4e0631b8e8f8b84e9fb33fa0a8b69"
+      "bytes": 46942,
+      "sha256": "90417d51747cc52bc3201ed1a8f9e38f0f35195b9182034f38835afefb612f50"
     },
     {
       "path": "docs/validation/v0.37.1.json",
-      "bytes": 2050,
-      "sha256": "5cb7fbef1fd971411eb2faccfc38572f73ac5d746585f71d3361aeef036ed517"
+      "bytes": 2408,
+      "sha256": "2b61c793d34b0e4d5691a974246ccaadc2a1b04a6f8b9378dbe202632941f883"
     },
     {
       "path": "docs/validation/v0.5.0.json",
@@ -2760,6 +2770,11 @@
       "sha256": "7d948f2ef5a38c7660ccd42eeed1dcfaecb6a12e1dee28a383d1bc23dae777ac"
     },
     {
+      "path": "scripts/package-mac-update.py",
+      "bytes": 2684,
+      "sha256": "0a70c65ca48c9de49c55aeb84e0757571153144af9eecfe863d892fa4391e950"
+    },
+    {
       "path": "scripts/package-offline-mac.py",
       "bytes": 11729,
       "sha256": "b524cf9b4678b607705a7df693c2c562a032876921264591116afc26c3b7193e"
@@ -2813,6 +2828,11 @@
       "path": "scripts/tests/test_fast_install.py",
       "bytes": 1768,
       "sha256": "af8fe2f0af2272947e016f2e8d42269d1a1592f324c80ef355a2144bd3b6da4f"
+    },
+    {
+      "path": "scripts/tests/test_mac_update.py",
+      "bytes": 3214,
+      "sha256": "856c1678c0834b962bd3e0bf2885420013a5ad79193794b32239dbbf63e6b517"
     },
     {
       "path": "scripts/tests/test_offline_bundle.py",

@@ -117,7 +117,7 @@
   },
   "github_current_version": "pending branch/PR/main/Release at build time; see final Release",
   "installation_fix_candidate": {
-    "status": "included, 13 filesystem/packaging tests passed; native Mac unverified",
+    "status": "included, 17 filesystem/packaging tests; exact 0.37 offline update candidate added; native Mac unverified",
     "guide": "docs/SCREENSHOT_FIXES_0371.md"
   }
 }
