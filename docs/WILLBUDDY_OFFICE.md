@@ -1,3 +1,5 @@
+文档侧栏点击发送即明确发送当前正文/选区给所选模型；不再逐条重复正文确认，AI实际写入仍逐动作审批。Enter发送、ShiftEnter换行，保存结果在顶部显示。支持边界见 OFFICE_INTERACTION_0372.md。
+
 # WillBuddy Office：嵌入式 LibreOfficeKit
 
 0.37.0 使用随应用分发的 LibreOffice 原生内核，通过 LibreOfficeKit C ABI、独立 Python 工作进程和自有白蓝界面接入。不是仅打开 LibreOffice 窗口，也不是重新编译或修改 LibreOffice 上游源码；上游二进制、许可证和声明原样保留，WillBuddy 适配器独立实现。Python、Pillow 与 Office 内核随 Apple 芯片包交付，用户无需另装软件或运行 npm/pip。
