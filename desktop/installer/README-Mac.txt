@@ -28,3 +28,7 @@ Git、Python、Codex、Ollama 等外部 CLI/服务需在本机另行安装，它
 原 Python Office 执行器、LibreOffice、Poppler 和 Docker 未内置；本包不宣称该外部 Office 工具链可离线免安装使用。
 
 OFFLINE-MANIFEST.json 记录运行时校验值、应用逐文件哈希、执行位与符号链接。除指定的说明/安装/许可证/清单文件外，包内不允许多出任何文件。
+
+WillBuddy Office：点击文档卡片的“WillBuddy Office 编辑”，或双击文档卡片，会打开WillBuddy自己的编辑窗口。真实LibreOfficeKit内核直接绘制/编辑当前文档。常用工具栏和右侧AI面板由WillBuddy提供；写入或AI选区修改后保存新版本，无需退出/手动收回。当前为基础嵌入编辑：输入区点击“写入文档”，支持拖选、全选、粗斜体/下划线、撤销重做与切换工作表/幻灯片；不是完整Office功能/键盘IME/图片图表编辑器。MacKit动态加载/原生运行仍未验收，初始化失败明确报错，不冒充成功。
+
+WillBuddy Office：双击文档或点击“WillBuddy Office 编辑”，在自有窗口查看原生页面、选择文字/单元格范围并修改；AI侧栏默认折叠。修改直接保存新版本，无需退出再收回。当前为基础嵌入式编辑，完整键盘/中文IME、复杂对象、Mac运行及严格签名仍待验收。
