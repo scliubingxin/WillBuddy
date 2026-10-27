@@ -6,6 +6,7 @@ const tools = [
   "document_read",
   "document_edit",
   "document_patch",
+  "document_insert_image",
   "document_convert",
   "browser_open",
   "browser_read",

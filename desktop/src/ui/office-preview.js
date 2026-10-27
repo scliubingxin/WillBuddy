@@ -56,7 +56,7 @@ export function mountOfficePreview(host, invoke) {
       if (e.data.kind !== "office-ready" || sent) return;
       sent = true;
       note.textContent = "正在校验并渲染文件…";
-      deadline(15000, "文件预览未在15秒内完成；文件未修改。可重试或导出查看。");
+      deadline(host.dataset.engine==='libreoffice'?95000:15000, host.dataset.engine==='libreoffice'?'本机转换或分页渲染超时；文件未修改。可重试或导出查看。':'文件预览未在15秒内完成；文件未修改。可重试或导出查看。');
       try {
         snapshot = await invoke("documentPreview", {
           id: host.dataset.documentId,
@@ -75,8 +75,8 @@ export function mountOfficePreview(host, invoke) {
     win.addEventListener("message", listener);
     iframe.src =
       (win.location.protocol === "file:"
-        ? "willbuddy-preview://local/index.html#"
-        : "preview/index.html#") + token;
+        ? "willbuddy-preview://local/"+(host.dataset.engine==='libreoffice'?"pdf/":"")+"index.html#"
+        : (host.dataset.engine==='libreoffice'?"pdf/":"preview/")+"index.html#") + token;
     host.replaceChildren(note, iframe);
     stop = () => {
       disposed = true;
