@@ -1,7 +1,21 @@
-import importlib.util,json,hashlib,pathlib,plistlib,shutil,tempfile,unittest
+import importlib.util,json,hashlib,pathlib,plistlib,shutil,tempfile,unittest,sys,io,contextlib,time
 SCRIPT=pathlib.Path(__file__).resolve().parents[2]/'desktop/installer/update-app.py'
 s=importlib.util.spec_from_file_location('updater',SCRIPT);m=importlib.util.module_from_spec(s);s.loader.exec_module(m)
 class Update(unittest.TestCase):
+ def test_native_stderr_is_preserved(self):
+  with self.assertRaisesRegex(RuntimeError,'resource envelope is obsolete'):
+   m.run_native([sys.executable,'-c',"import sys;sys.stderr.write('resource envelope is obsolete');sys.exit(3)"],'test',timeout=2)
+ def test_native_timeout_stops_real_child_and_reports_progress(self):
+  out=io.StringIO();started=time.monotonic()
+  with contextlib.redirect_stdout(out),self.assertRaisesRegex(TimeoutError,'超时'):
+   m.run_native([sys.executable,'-c','import time;time.sleep(30)'],'test',timeout=.15,heartbeat=.05)
+  self.assertLess(time.monotonic()-started,3);self.assertIn('仍在执行',out.getvalue())
+ def test_original_failure_does_not_clone_or_modify(self):
+  with tempfile.TemporaryDirectory() as td:
+   app,p=self.setup_fixture(pathlib.Path(td));before={str(f.relative_to(app)):m.digest(f) for f in app.rglob('*') if f.is_file()}
+   def fail(a):raise RuntimeError('actual diagnostic')
+   with self.assertRaisesRegex(RuntimeError,'actual diagnostic'):m.apply_update(app,p,verify=fail,clone=lambda a,b:self.fail('must not clone'))
+   self.assertEqual(before,{str(f.relative_to(app)):m.digest(f) for f in app.rglob('*') if f.is_file()});self.assertEqual(list(app.parent.glob('.WillBuddy-update-*')),[])
  def setup_fixture(self,root):
   app=root/'Applications/WillBuddy.app';payload=root/'payload';app.mkdir(parents=True)
   entries=[]
