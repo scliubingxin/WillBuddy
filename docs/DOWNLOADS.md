@@ -1,3 +1,7 @@
+## 0.37.1 编辑入口和中文预览修复
+
+修复officeOpen遗漏preload造成的编辑报错，内置PDF中文映射和标准字体数据，分页状态统一WillBuddy Office。同盘安装减少第二次全量复制；全量ZIP解压/增量更新尚未解决。377核心/5相关Chromium/13打包通过，Mac原生与截图原文件仍待验收。见[截图修复范围](SCREENSHOT_FIXES_0371.md)。0.37已PR10合并main并发布；本版构建时发布待执行，以Release为准。
+
 ## WillBuddy Office 0.37.0
 
 完整Apple芯片离线包包含Python和LibreOffice。新“WillBuddy Office 编辑”窗口提供真实内核页面、选区、基础文字/格式和折叠AI侧栏，修改直接保存新版本，无需单独安装或退出后收回。基础编辑阶段，键盘IME/复杂对象和Mac原生运行仍待验收；不是完整Office替代。ad-hoc未公证。完整边界见[WILLBUDDY_OFFICE.md](WILLBUDDY_OFFICE.md)。0.36已PR9合并发布；本版最终发布状态见对应Release，旧附件不修改。
