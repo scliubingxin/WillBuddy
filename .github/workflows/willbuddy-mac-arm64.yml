@@ -22,7 +22,22 @@ jobs:
           python-version: '3.12'
       - name: Independent Office parser test dependencies (build host only)
         run: python3 -m pip install -r ../scripts/requirements-office-tests.txt
+      - name: Prepare pinned offline Python and LibreOffice (build time only)
+        shell: bash
+        run: |
+          set -euo pipefail
+          [ "$(uname -m)" = arm64 ]
+          python3 - <<'PYCODE'
+          import importlib.util, pathlib, urllib.request
+          s=importlib.util.spec_from_file_location('native','../scripts/prepare-native-runtimes.py');m=importlib.util.module_from_spec(s);s.loader.exec_module(m)
+          c=pathlib.Path('../native-cache');c.mkdir()
+          for n,(h,u) in m.PINS.items(): urllib.request.urlretrieve(u,c/n)
+          PYCODE
+          python3 -m pip download --dest ../native-cache/python-wheels --only-binary=:all: --require-hashes -r requirements-native-python.txt
+          python3 ../scripts/prepare-native-runtimes.py --cache ../native-cache --output ../native-runtimes
       - run: npm test
+        env:
+          WB_TEST_SOFFICE: ${{ github.workspace }}/native-runtimes/LibreOffice.app/Contents/MacOS/soffice
       - name: Native file-host Office preview (actual Electron, fixture documents)
         run: npm run test:preview-native
       - name: Packaging boundary tests
