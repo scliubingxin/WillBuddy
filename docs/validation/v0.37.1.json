@@ -1,0 +1,75 @@
+{
+  "version": "0.37.1",
+  "baseline": {
+    "version": "0.37.0",
+    "library_version": 40,
+    "source_contents_verified": 632,
+    "main": "b6549755cc425b9c21b36c09c097be6a693cfc90"
+  },
+  "tests": {
+    "core_pass": 377,
+    "chromium_pass": 5,
+    "packaging_pass": 17
+  },
+  "fixes": [
+    "production preload officeOpen bridge",
+    "offline CJK cmap/standard font resources",
+    "WillBuddy Office preview labels",
+    "same-volume rename installer with rollback"
+  ],
+  "pdf_regression": {
+    "old_engine_chinese_text": "",
+    "new_engine_chinese_text": "中文预览验收项目报告",
+    "dark_pixels": 2387,
+    "external_requests": 0,
+    "host_cjk_font_installed_for_test_only": true,
+    "original_private_files_available": false
+  },
+  "fixtures": [
+    "Electron IPC/approval",
+    "native editor opener for entry routes",
+    "model semantics",
+    "Keychain",
+    "Mac device number in installer transaction tests"
+  ],
+  "actual_native": [
+    "Linux LibreOfficeKit painting and manual/HTTP fixture tool update",
+    "Linux LibreOffice PDF conversion",
+    "Chromium real production page and opaque PDF iframe"
+  ],
+  "production_asar_files_exact": 148,
+  "protected_web_python_files_unchanged": 122,
+  "legacy_python_35_tests_rerun": false,
+  "offline": {
+    "version": "0.37.1",
+    "file": "/workspace/scratch/c33bcd2beeb1/outputs/WillBuddy-v0.37.1-mac-arm64-offline.zip",
+    "bytes": 483213041,
+    "sha256": "a1727e95150112431e41398f19f5cb6e04e3e9f5ce22398107565cef8785b9db",
+    "app_asar_sha256": "56be6a004ac42a8b28339567d2e4c4eeb96f52b3654d65ca4f679f6bfbf5c03d",
+    "verified_macho_binaries": 278,
+    "verified_code_pages": 93545,
+    "archive_check": {
+      "app_entries": 20727,
+      "extra_files": 5,
+      "closed_inventory": true,
+      "residual_entries": 0
+    }
+  },
+  "notarized": false,
+  "native_mac_tested": false,
+  "known_remaining": [
+    "Mac real source document/Kit/Dock/signature",
+    "whole ZIP extraction",
+    "native DMG/PKG and delta update",
+    "full IME/object Office editing"
+  ],
+  "offline_update_candidate": {
+    "file": "outputs/WillBuddy-v0.37.0-to-v0.37.1-arm64-update-candidate.zip",
+    "bytes": 7113828,
+    "sha256": "0a1c4856c0cef6d9e6b3a5f430f4484c87c8e5de8ae93bceca9d46594468b4f2",
+    "patch_files": 4,
+    "unchanged_runtime_entries": 20723,
+    "mac_native_tested": false
+  },
+  "offline_update_native_mac_tested": false
+}
