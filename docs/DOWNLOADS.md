@@ -1,3 +1,7 @@
+## WillBuddy Office 0.37.0
+
+完整Apple芯片离线包包含Python和LibreOffice。新“WillBuddy Office 编辑”窗口提供真实内核页面、选区、基础文字/格式和折叠AI侧栏，修改直接保存新版本，无需单独安装或退出后收回。基础编辑阶段，键盘IME/复杂对象和Mac原生运行仍待验收；不是完整Office替代。ad-hoc未公证。完整边界见[WILLBUDDY_OFFICE.md](WILLBUDDY_OFFICE.md)。0.36已PR9合并发布；本版最终发布状态见对应Release，旧附件不修改。
+
 ## 内置 Office 和 Python：0.36.0
 
 Apple芯片完整离线包约480MB，包含Python3.12.16、LibreOffice26.8.1.1和20个Python依赖；安装端无需npm/pip或单独LibreOffice。默认分页PDF，编辑使用内置独立原生窗口，保存退出后收回新版本。不是同面板编辑器，PDF选区未映射结构修改。应用ad-hoc未公证，未Mac/Gatekeeper验收。详见[NATIVE_OFFICE_AND_PYTHON.md](NATIVE_OFFICE_AND_PYTHON.md)。0.35已PR8发布，本版最终状态见对应Release。
