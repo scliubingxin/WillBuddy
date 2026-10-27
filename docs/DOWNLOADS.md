@@ -1,6 +1,8 @@
+仅已装0.37.0可选择小更新候选ZIP，只包含4个变更应用文件，8个文件解压。Mac原生APFS/codesign未验收，不兼容旧版或不支持克隆时停止，请使用完整包。
+
 ## 0.37.1 编辑入口和中文预览修复
 
-修复officeOpen遗漏preload造成的编辑报错，内置PDF中文映射和标准字体数据，分页状态统一WillBuddy Office。同盘安装减少第二次全量复制；全量ZIP解压/增量更新尚未解决。377核心/5相关Chromium/13打包通过，Mac原生与截图原文件仍待验收。见[截图修复范围](SCREENSHOT_FIXES_0371.md)。0.37已PR10合并main并发布；本版构建时发布待执行，以Release为准。
+修复officeOpen遗漏preload造成的编辑报错，内置PDF中文映射和标准字体数据，分页状态统一WillBuddy Office。同盘安装减少第二次全量复制；全量ZIP解压/增量更新尚未解决。377核心/5相关Chromium/17打包通过，Mac原生与截图原文件仍待验收。见[截图修复范围](SCREENSHOT_FIXES_0371.md)。0.37已PR10合并main并发布；本版构建时发布待执行，以Release为准。
 
 ## WillBuddy Office 0.37.0
 
