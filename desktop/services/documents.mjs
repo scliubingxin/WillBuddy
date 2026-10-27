@@ -1,3 +1,5 @@
+import {appendWordImage} from '../runtime/word-image.mjs';
+import {imageFromBase64} from '../src/shared/image-bytes.js';
 import { wordStructure, patchWord } from "../runtime/word-structure.mjs";
 import { uid } from "../core.mjs";
 import {
@@ -38,7 +40,7 @@ export function createDocumentService({
 }) {
   store.data.documents ??= [];
   if(!storeLocks.has(store))storeLocks.set(store,Promise.resolve());
-  const tokens = new WeakMap();
+  const tokens = new WeakMap(),imageGuards=new WeakMap();
   const lock = (fn) => {
     const p = storeLocks.get(store).then(fn);
     storeLocks.set(store,p.catch(() => {}));
@@ -132,7 +134,7 @@ export function createDocumentService({
     list: () => documentViews(store.data),
     async prepare(operation, args, signal) {
       signal?.throwIfAborted();
-      let candidate, detail;
+      let candidate, detail, imageGuard;
       if (operation === "document_create") {
         const name = checkName(args.name),
           result = await generateDocument(args.format, args.content);
@@ -180,6 +182,11 @@ export function createDocumentService({
         const d = find(args.id);
         candidate = structuredClone(d);
         detail = `将文档 ${d.name}.${d.format} 第 ${d.revision} 版的提取文本、可编辑片段坐标${d.richSource ? "与画布HTML源" : ""}发送给当前模型（不发送二进制附件）。\n${d.text.replace(/\s+/g, " ").slice(0, 400)}`;
+      } else if(operation==='document_insert_image'){
+        const prior=structuredClone(find(args.id));if(prior.format!=='docx'||prior.richSource||prior.revision!==args.expectedRevision)throw Error('仅普通DOCX支持插图，或版本不匹配；画布请先导出再导入');
+        const image=store.data.imageAttachments?.find(i=>i.id===args.imageId);if(!image)throw Error('本机图片不存在');const original=structuredClone(image),b=imageFromBase64(image.base64);if(b.length!==image.bytes||sha256(b)!==image.sha256)throw Error('图片完整性失败');
+        imageGuard=()=>{const current=store.data.imageAttachments?.find(i=>i.id===original.id);if(!current||current.sha256!==original.sha256||sha256(imageFromBase64(current.base64))!==original.sha256)throw Error('图片在审批期间变化或移除');};
+        candidate=record(prior.name,'docx',appendWordImage(Buffer.from(prior.base64,'base64'),b),prior);detail='在Word正文末尾插入本机图片：'+JSON.stringify(image.name)+'\n文档 '+prior.name+' · v'+prior.revision+'→'+candidate.revision+'\n图片SHA '+image.sha256+'\n原件及前版保留，不下载外部图片。';
       } else if (operation === "document_patch") {
         const prior = structuredClone(find(args.id));
         if (prior.format !== "docx" || prior.richSource)
@@ -217,7 +224,7 @@ export function createDocumentService({
       } else throw Error("未知文档操作");
       // Token owns immutable, host-generated candidate. Never trust a renderer-supplied receipt.
       const token = Object.freeze({ operation, detail });
-      tokens.set(token, candidate);
+      tokens.set(token, candidate);if(imageGuard)imageGuards.set(token,imageGuard);
       return token;
     },
     async perform(token, signal) {
@@ -282,7 +289,7 @@ export function createDocumentService({
           },
         };
       }
-      return save(candidate, signal);
+      const guard=imageGuards.get(token);imageGuards.delete(token);return save(candidate, signal,guard);
     },
     async importBatch(items) {
       if(!Array.isArray(items)||!items.length||items.length>32)throw Error('附件批次无效');
@@ -344,9 +351,9 @@ export function createDocumentService({
       signal?.throwIfAborted();
       return save(record(prior.name, prior.format, result, prior), signal);
     },
-    async replaceBytes(id, revision, bytes, signal) {
+    async replaceBytes(id, revision, bytes, signal, { nativeOffice = false } = {}) {
       const prior = structuredClone(find(id));
-      if (prior.richSource) throw Error("画布文档请使用Word画布编辑");
+      if (prior.richSource && !nativeOffice) throw Error("画布文档请使用Word画布编辑");
       if (prior.revision !== revision)
         throw Error("文档版本已变化，不能覆盖新版本");
       return save(
@@ -385,6 +392,7 @@ export function createDocumentService({
         name:
           current.name + (revision === current.revision ? "" : "-v" + revision),
         format: current.format,
+        revision: d.revision,
         sha256: d.sha256,
       };
     },
