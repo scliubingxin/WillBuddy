@@ -7,13 +7,13 @@ from pathlib import Path
 import struct
 
 
-def verify(data):
+def verify(data, require_adhoc=True):
     if data[:4] in [bytes.fromhex('cafebabe'),bytes.fromhex('cafebabf')]:
         wide=data[:4]==bytes.fromhex('cafebabf');count=struct.unpack_from('>I',data,4)[0];pages=0
         for i in range(count):
             if wide:off,size=struct.unpack_from('>QQ',data,8+i*32+8)
             else:off,size=struct.unpack_from('>II',data,8+i*20+8)
-            pages+=verify(data[off:off+size])
+            pages+=verify(data[off:off+size],require_adhoc)
         return pages
     if data[:4] not in [bytes.fromhex('cffaedfe'),bytes.fromhex('cefaedfe')]:raise ValueError('not supported little-endian Mach-O')
     pos=32 if data[:4]==bytes.fromhex('cffaedfe') else 28
@@ -35,7 +35,7 @@ def verify(data):
         if struct.unpack_from('>I',blob)[0]!=0xfade0c02:raise ValueError('invalid code directory')
         _,flags,hash_offset,_,special,slots,limit=struct.unpack_from('>7I',blob,8)
         hash_size,hash_type,_,page_log=struct.unpack_from('>4B',blob,36)
-        if not flags&2:raise ValueError('expected ad-hoc signature')
+        if require_adhoc and not flags&2:raise ValueError('expected ad-hoc signature')
         if limit>len(data):raise ValueError('code limit outside binary')
         hash_name={1:'sha1',2:'sha256',3:'sha256',4:'sha384'}.get(hash_type)
         if not hash_name:raise ValueError('unsupported hash type')

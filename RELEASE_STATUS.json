@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.35.0",
+  "version": "0.36.0",
   "checked_date": "2026-10-27",
   "source_status": "desktop_source_delivery_not_deployed",
   "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -17,7 +17,7 @@
     "offline_app_bundle_generated": true,
     "offline_architecture": "arm64",
     "minimum_macos": "12.0",
-    "signature": "ad-hoc",
+    "signature": "ad-hoc shell/Python; upstream LibreOffice preserved; overall unnotarized",
     "notarized": false,
     "streaming": "SSE text/tool deltas with JSON response compatibility; no hidden retries",
     "content_rendering": "Marked18 + DOMPurify3; bounded data-only bar/line/pie; click-to-load isolated HTTPS image/video; links use existing approved browser",
@@ -28,14 +28,14 @@
     "browser_approvals": "explicit volatile exact-run/exact-origin consent; revoke/release; CLI/documents stay per-operation",
     "native_confirmations": "bounded summary; AbortSignal+60s timeout+emergency cancellation; no parentless Mac dialogs",
     "document_delivery": "trusted run-linked binary cards; reply/workspace export routes to actual Office bytes; chat export explicitly Markdown",
-    "document_editor": "imported DOCX targeted run text/bold/italic editing; original parts retained, complex paragraphs read-only; existing GenOffice canvas retained",
+    "document_editor": "Bundled LibreOffice separate native window; private copy, approval, CAS, history; not inline LibreOfficeKit",
     "genoffice": "bundled Apache-2.0 HTML→DOCX engine subset, pinned 342abce; local Word canvas and md/html conversion; full suite not embedded",
     "spreadsheet_formulas": "pure JS bounded 7-function evaluator; A1/cross-sheet dependencies; live preview + independent main recalculation and real XLSX typed caches; unsupported formulas/derived objects fail closed",
     "word_paragraphs": "bounded top-level plain body paragraph insertAfter/deleteParagraph; pPr/first rPr retention; anchored revision approval, undo before save; complex/style/section/range protection",
-    "office_preview": "Bundled docx-preview 0.4.1, PPTX renderer1.4.0, bounded XML grid+SSF0.11.2; opaque sandbox; no external app or network; static compatibility limits",
+    "office_preview": "Bundled LibreOffice -> bounded PDF -> isolated offline PDF.js; source development JS retained",
     "external_genoffice_ui": false,
     "preview_transport": "fixed immutable Office/media/HTML custom-protocol resources; Office engine/media SHA validation; opaque frames; new HTML native adapter not runtime-verified this iteration",
-    "preview_timeout": "5s component boot / 15s render, phase-specific errors and manual fresh-token reload",
+    "preview_timeout": "5s boot;60s conversion;95s render deadline",
     "preview_lifecycle": "same scope/id/revision keeps connected frame; chrome-only reconciliation; close/switch/version disposes; no cross-document cache",
     "spreadsheet_preview_images": "worksheet relationship-bound one/two/absolute cell anchor positioning; bounded raster decode; no gallery/orphan media; crop/rotation unsupported",
     "chat_rich_media": "bundled opaque iframe classic script + SHA manifest; per-frame one-shot token/source; 5s/15s timeouts; anonymous CORS/no-referrer; no autoplay; unchanged-message redraw retains current media",
@@ -56,7 +56,10 @@
     "capability_presets": "12 skills:4 MIT pinned public/8 independent workflows;8 official HTTP MCP templates;no automatic network or execution",
     "word_selection": "imported DOCX single paragraph text or whole simple table; trusted source validation and patch bounds; native approval unchanged",
     "xlsx_text_patch": "literal shared/inline text only; unchanged OOXML parts byte-identical; no recalculation",
-    "skill_runtime": "Actual Node/baseline installed Python subprocess;120s64KiB;private verified resources;fresh per-action approval and output import;not OS sandbox/full SDK"
+    "skill_runtime": "Actual Node/baseline installed Python subprocess;120s64KiB;private verified resources;fresh per-action approval and output import;not OS sandbox/full SDK",
+    "bundled_python": "3.12.16+20261026;20 locked offline wheels",
+    "bundled_libreoffice": "26.8.1.1 original upstream bytes/signatures retained",
+    "word_images": "selected local PNG approved ordinary DOCX append with revision/imageSHA guards"
   },
   "validation": {
     "report": "docs/validation/v0.34.0.json"
@@ -98,5 +101,11 @@
     "download_sha_crc_verified": true
   },
   "documentation_policy": "product README only; version/test/limits in downloads and release pages",
-  "github_hotfix_publication": "0.33 merged/published;0.34 build-time pending publication"
+  "github_hotfix_publication": "0.33 merged/published;0.34 build-time pending publication",
+  "previous_public_release": {
+    "version": "0.35.0",
+    "main": "19b54fe40eb6cbf2730ca5fd96d5fb2b4d8b85dc",
+    "pr": 8
+  },
+  "current_publication": "pending at build time; final branch/PR/main/tag/asset verification on Release"
 }

@@ -1,3 +1,4 @@
+import {bundledExecutable} from './bundled-runtime.mjs';
 import { spawn } from 'node:child_process';
 import { homedir } from 'node:os';
 import path from 'node:path';
@@ -14,6 +15,8 @@ export function commandEnvironment(source=process.env) {
   env.ELECTRON_RUN_AS_NODE='1';return env;
 }
 async function resolveExecutable(executable) {
+  if(['python','python3','python3.12'].includes(executable)){const builtin=await bundledExecutable('python');if(builtin)return builtin;}
+
   if(executable==='node'&&process.versions.electron)return process.execPath;
   if(path.isAbsolute(executable)){await access(executable,constants.X_OK);return executable;}
   if(executable.includes('/')||executable.includes('\\'))throw new Error('程序路径请使用绝对路径');

@@ -111,7 +111,7 @@ Apple 芯片离线应用包内置 Electron、Chromium、Node 和文档处理组�
 ## 常见问题
 
 **需要另外安装 Office、GenOffice 或 npm 吗？**  
-应用内置文档处理与预览组件，使用这些内置能力无需另装上述软件。Git、Python、Codex CLI、Ollama 等可选外部工具需要按使用场景自行准备。
+应用内置文档处理与预览组件，使用这些内置能力无需另装上述软件。Python 和 LibreOffice 随 Apple 芯片离线包内置；Git、Codex CLI、Ollama 等可选外部工具按使用场景自行准备。
 
 **可以全面替代 Office 吗？**  
 目前适合基础文档生成、定向修改和重复操作；复杂排版、完整公式兼容、图表编辑和任意文件的保真往返仍有限。详见各项文档支持范围。
@@ -156,6 +156,8 @@ WillBuddy is a desktop AI workspace for Apple Silicon Macs. Bring your own compa
 
 Skills 技能库可从预置目录添加常用工作流；MCP页选择官方服务模板，按需填写自己的密钥，再批准测试与绑定。[预置能力用法](docs/PRESET_CAPABILITIES.md)。
 
-在导入Word的预览中选择文字或整表，可附加到对话，让AI在选区范围内修改；简单文字也可直接编辑并保存新版本。详见[Office选区与原件修改](docs/OFFICE_SELECTION.md)。
+源码开发预览保留Word文字/整表选区与AI定向修改；安装版LibreOffice分页预览的选区映射尚待适配，编辑可用内置原生窗口并收回新版本。详见[Office选区与原件修改](docs/OFFICE_SELECTION.md)。
 
-含代码的Skill可经批准运行Node/Python脚本并回收真实文档成果；可从预置目录添加预算脚本。Node随应用内置，Python与外部依赖按需准备。[Skill代码运行用法](docs/SKILL_RUNTIME.md)。
+含代码的Skill可经批准运行Node/Python脚本并回收真实文档成果；可从预置目录添加预算脚本。Node、Python和常用文档依赖随Apple芯片离线包内置；未列入依赖锁的模块按需准备。[Skill代码运行用法](docs/SKILL_RUNTIME.md)。
+
+Apple 芯片离线包内置 Python 和 LibreOffice，可在本机分页查看 Office 文档，并打开内置原生编辑窗口；保存退出后收回为文档新版本，无需另装 LibreOffice。

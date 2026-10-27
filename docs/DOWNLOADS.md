@@ -1,3 +1,7 @@
+## 内置 Office 和 Python：0.36.0
+
+Apple芯片完整离线包约480MB，包含Python3.12.16、LibreOffice26.8.1.1和20个Python依赖；安装端无需npm/pip或单独LibreOffice。默认分页PDF，编辑使用内置独立原生窗口，保存退出后收回新版本。不是同面板编辑器，PDF选区未映射结构修改。应用ad-hoc未公证，未Mac/Gatekeeper验收。详见[NATIVE_OFFICE_AND_PYTHON.md](NATIVE_OFFICE_AND_PYTHON.md)。0.35已PR8发布，本版最终状态见对应Release。
+
 # 2026-10-27 · 0.35.0 Skill实际代码运行
 
 从权威0.34/v37重新获取并核验584内容文件。执行环境重置丢失早期未保存候选后，全部从正式基线恢复重做，不沿用旧测试结论。

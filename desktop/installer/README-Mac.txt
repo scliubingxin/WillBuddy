@@ -9,7 +9,9 @@ WillBuddy Apple 芯片版 · 免依赖离线应用包
 也可双击 Install-WillBuddy.command，确认后安装到当前用户的 ~/Applications。
 升级前请从应用菜单彻底退出旧版；仅关闭窗口不等于退出。
 
-不需要 Node.js、npm、pnpm，不执行在线依赖安装，也不需要开发工具。
+已内置 Electron/Node、Python 3.12、LibreOffice Apple 芯片版及常用 Python 文档依赖；使用这些能力无需另装软件或下载 npm/pip 依赖。Git、Codex CLI、Ollama 等仍为可选外部工具。
+Office 默认使用 LibreOffice 转换为本机分页预览；编辑打开包内独立原生窗口。保存并退出该窗口，再点“收回编辑结果”生成新版本。不是在预览页内嵌完整编辑器。
+应用当前为 ad-hoc 签名，未公证，未通过 Mac 真机验收；不移除隔离标记或关闭系统安全保护。
 模型请求需要互联网或你已启动的本地模型服务。
 
 签名与首次启动：
