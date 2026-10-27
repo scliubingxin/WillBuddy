@@ -1,0 +1,50 @@
+{
+  "version": "0.37.2",
+  "date": "2026-10-28",
+  "baseline": {
+    "library_version": 42,
+    "source_sha256": "f7322ba6abed8fd9a070c47a81f077e6df4187be37b7fb5e48561f205252ac8e",
+    "content_files": 649
+  },
+  "tests": {
+    "core": 379,
+    "real_chromium": 3,
+    "packaging": 20,
+    "failed": 0
+  },
+  "actual_integration": "Linux LibreOfficeKit -> production canvas -> manual v2 -> local HTTP model fixture -> native selected edit v3 -> Store reload; save pending/success/IPC failure/retry, Enter/ShiftEnter/IME synthetic event, no repeated native read approval",
+  "fixtures": [
+    "Electron IPC",
+    "native approvals",
+    "model semantics",
+    "Keychain"
+  ],
+  "protected_web_python_sha_unchanged": 122,
+  "production_asar_exact": 148,
+  "app": {
+    "bytes": 483213472,
+    "sha256": "d3b548d30c3de60a2575ee90f00e9bf82f2c1f35e7d8c8dfc63ca5729410afd2",
+    "asar_sha256": "d6ab66935a8c1a1210117d78e71c636ffaa462f623714b7bd334b4bd032415d5",
+    "mach_o": 278,
+    "code_pages": 93545,
+    "app_entries": 20727,
+    "extra_files": 5,
+    "symlinks": 47,
+    "residual": 0,
+    "tamper_negative_passed": true
+  },
+  "unverified": [
+    "Mac original CJK document/font rendering",
+    "Mac native save/IME",
+    "native deep strict codesign/Gatekeeper/install speed",
+    "real paid model"
+  ],
+  "not_implemented": [
+    "font/size/border AI editing",
+    "undo-redo availability UX",
+    "Finder file association",
+    "full Office fidelity",
+    "general auto updater"
+  ],
+  "publication": "pending at build time"
+}
