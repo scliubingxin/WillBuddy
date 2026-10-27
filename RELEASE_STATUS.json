@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.37.0",
+  "version": "0.37.1",
   "checked_date": "2026-10-27",
   "source_status": "desktop_source_delivery_not_deployed",
   "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -62,7 +62,7 @@
     "word_images": "selected local PNG approved ordinary DOCX append with revision/imageSHA guards",
     "office_workspace": "LibreOfficeKit native pixels/selection/basic edits and document-scoped model loop; automatic revision save; Mac not run"
   },
-  "validation": "docs/validation/v0.37.0.json",
+  "validation": "docs/validation/v0.37.1.json",
   "rea": {
     "version": "6.7.0",
     "dmg_inventory": "root_hash_observed",
@@ -84,33 +84,40 @@
     "web_desktop_shared_core": false
   },
   "current_iteration": {
-    "version": "0.37.0",
+    "version": "0.37.1",
     "date": "2026-10-27",
-    "status": "validated_source_and_arm64_candidate_github_pending_at_build",
-    "previous_main": "f4445a5bdc19466464a590432437c1e5ddca74d0",
-    "report": "docs/validation/v0.37.0.json",
+    "status": "validated_candidate_github_pending_at_build",
+    "previous_main": "b6549755cc425b9c21b36c09c097be6a693cfc90",
+    "report": "docs/validation/v0.37.1.json",
     "native_mac_tested": false
   },
   "github_last_published": {
-    "version": "0.36.0",
-    "main": "f4445a5bdc19466464a590432437c1e5ddca74d0",
-    "pr": "https://github.com/scliubingxin/WillBuddy/pull/9",
-    "release": "https://github.com/scliubingxin/WillBuddy/releases/tag/v0.36.0-preview",
-    "source_files_sha_verified": 613,
+    "version": "0.37.0",
+    "main": "b6549755cc425b9c21b36c09c097be6a693cfc90",
+    "pr": "https://github.com/scliubingxin/WillBuddy/pull/10",
+    "source_files_sha_verified": 633,
     "download_sha_crc_verified": true
   },
   "documentation_policy": "product README only; version/test/limits in downloads and release pages",
-  "github_hotfix_publication": "0.36 merged/published;0.37 build-time pending",
+  "github_hotfix_publication": "0.37 merged/published;0.37.1 build-time pending",
   "previous_public_release": {
-    "version": "0.36.0",
-    "pr": 9,
-    "main": "f4445a5bdc19466464a590432437c1e5ddca74d0"
+    "version": "0.37.0",
+    "main": "b6549755cc425b9c21b36c09c097be6a693cfc90",
+    "pr": "https://github.com/scliubingxin/WillBuddy/pull/10",
+    "source_files_sha_verified": 633,
+    "download_sha_crc_verified": true
   },
   "current_publication": "pending at build time; final branch/PR/main/tag/asset verification on Release",
   "previous_published": {
-    "version": "0.36.0",
-    "pr": 9,
-    "main": "f4445a5bdc19466464a590432437c1e5ddca74d0"
+    "version": "0.37.0",
+    "main": "b6549755cc425b9c21b36c09c097be6a693cfc90",
+    "pr": "https://github.com/scliubingxin/WillBuddy/pull/10",
+    "source_files_sha_verified": 633,
+    "download_sha_crc_verified": true
   },
-  "github_current_version": "pending branch/PR/main/Release at build time; see final Release"
+  "github_current_version": "pending branch/PR/main/Release at build time; see final Release",
+  "installation_fix_candidate": {
+    "status": "included, 13 filesystem/packaging tests passed; native Mac unverified",
+    "guide": "docs/SCREENSHOT_FIXES_0371.md"
+  }
 }
