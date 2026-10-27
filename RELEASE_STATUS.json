@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.37.1",
-  "checked_date": "2026-10-27",
-  "source_status": "desktop_source_delivery_not_deployed",
+  "version": "0.37.2",
+  "checked_date": "2026-10-28",
+  "source_status": "validated_code_native_mac_unverified",
   "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
   "desktop": {
     "electron": "42.0.0",
@@ -60,7 +60,9 @@
     "bundled_python": "3.12.16+20261026;20 locked offline wheels",
     "bundled_libreoffice": "26.8.1.1 original upstream bytes/signatures retained",
     "word_images": "selected local PNG approved ordinary DOCX append with revision/imageSHA guards",
-    "office_workspace": "LibreOfficeKit native pixels/selection/basic edits and document-scoped model loop; automatic revision save; Mac not run"
+    "office_workspace": "LibreOfficeKit native pixels/selection/basic edits and document-scoped model loop; automatic revision save; Mac not run",
+    "version": "0.37.2",
+    "validation": "docs/validation/v0.37.2.json"
   },
   "validation": "docs/validation/v0.37.1.json",
   "rea": {
@@ -109,15 +111,33 @@
   },
   "current_publication": "pending at build time; final branch/PR/main/tag/asset verification on Release",
   "previous_published": {
-    "version": "0.37.0",
-    "main": "b6549755cc425b9c21b36c09c097be6a693cfc90",
-    "pr": "https://github.com/scliubingxin/WillBuddy/pull/10",
-    "source_files_sha_verified": 633,
-    "download_sha_crc_verified": true
+    "version": "0.37.1",
+    "main": "27bd38f6b43806fb702c62ec4586426730b8190a",
+    "pr": "https://github.com/scliubingxin/WillBuddy/pull/11"
   },
   "github_current_version": "pending branch/PR/main/Release at build time; see final Release",
   "installation_fix_candidate": {
-    "status": "included, 17 filesystem/packaging tests; exact 0.37 offline update candidate added; native Mac unverified",
-    "guide": "docs/SCREENSHOT_FIXES_0371.md"
+    "status": "r2 diagnostic retained; Mac codesign/performance still unresolved; no new small updater for 0.37.2",
+    "guide": "docs/UPDATE_REPAIR_R2.md"
+  },
+  "office_interaction": {
+    "status": "379 core, 3 Chromium, 20 packaging pass; native Mac unverified",
+    "guide": "docs/OFFICE_INTERACTION_0372.md",
+    "mac_cjk_fixed": false,
+    "native_mac_tested": false,
+    "explicit_send_version_selection_guard": true,
+    "ai_write_approval_retained": true
+  },
+  "offline_delivery_0372": {
+    "bytes": 483213472,
+    "sha256": "d3b548d30c3de60a2575ee90f00e9bf82f2c1f35e7d8c8dfc63ca5729410afd2",
+    "asar_sha256": "d6ab66935a8c1a1210117d78e71c636ffaa462f623714b7bd334b4bd032415d5",
+    "mach_o": 278,
+    "code_pages": 93545,
+    "app_entries": 20727,
+    "extra_files": 5,
+    "symlinks": 47,
+    "residual": 0,
+    "tamper_negative_passed": true
   }
 }
