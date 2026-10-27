@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.36.0",
+  "version": "0.37.0",
   "checked_date": "2026-10-27",
   "source_status": "desktop_source_delivery_not_deployed",
   "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
@@ -59,18 +59,17 @@
     "skill_runtime": "Actual Node/baseline installed Python subprocess;120s64KiB;private verified resources;fresh per-action approval and output import;not OS sandbox/full SDK",
     "bundled_python": "3.12.16+20261026;20 locked offline wheels",
     "bundled_libreoffice": "26.8.1.1 original upstream bytes/signatures retained",
-    "word_images": "selected local PNG approved ordinary DOCX append with revision/imageSHA guards"
+    "word_images": "selected local PNG approved ordinary DOCX append with revision/imageSHA guards",
+    "office_workspace": "LibreOfficeKit native pixels/selection/basic edits and document-scoped model loop; automatic revision save; Mac not run"
   },
-  "validation": {
-    "report": "docs/validation/v0.34.0.json"
-  },
+  "validation": "docs/validation/v0.37.0.json",
   "rea": {
     "version": "6.7.0",
     "dmg_inventory": "root_hash_observed",
     "javascript_analysis": "partial_host_process_ownership_blocked",
     "report": "docs/REA_FINDINGS.md"
   },
-  "notes": "Offline12 skills/8 MCP templates; actual installation, encrypted user configuration, discovery/binding and controlled import budgets.",
+  "notes": "13 Skills/8 MCP templates retained; embedded LibreOfficeKit basic Office and document-scoped AI; see validation",
   "architecture": {
     "guide": "docs/ARCHITECTURE.md",
     "layers": [
@@ -85,27 +84,33 @@
     "web_desktop_shared_core": false
   },
   "current_iteration": {
-    "version": "0.35.0",
+    "version": "0.37.0",
     "date": "2026-10-27",
     "status": "validated_source_and_arm64_candidate_github_pending_at_build",
-    "previous_main": "292207f4f6e051fdf21c908a0ce2c983f3b4aef3",
-    "report": "docs/validation/v0.35.0.json",
+    "previous_main": "f4445a5bdc19466464a590432437c1e5ddca74d0",
+    "report": "docs/validation/v0.37.0.json",
     "native_mac_tested": false
   },
   "github_last_published": {
-    "version": "0.33.0",
-    "main": "3367fc758479006e4e0faa8ec22746d85ea45408",
-    "pr": "https://github.com/scliubingxin/WillBuddy/pull/6",
-    "release": "https://github.com/scliubingxin/WillBuddy/releases/tag/v0.33.0-preview",
-    "source_files_sha_verified": 580,
+    "version": "0.36.0",
+    "main": "f4445a5bdc19466464a590432437c1e5ddca74d0",
+    "pr": "https://github.com/scliubingxin/WillBuddy/pull/9",
+    "release": "https://github.com/scliubingxin/WillBuddy/releases/tag/v0.36.0-preview",
+    "source_files_sha_verified": 613,
     "download_sha_crc_verified": true
   },
   "documentation_policy": "product README only; version/test/limits in downloads and release pages",
-  "github_hotfix_publication": "0.33 merged/published;0.34 build-time pending publication",
+  "github_hotfix_publication": "0.36 merged/published;0.37 build-time pending",
   "previous_public_release": {
-    "version": "0.35.0",
-    "main": "19b54fe40eb6cbf2730ca5fd96d5fb2b4d8b85dc",
-    "pr": 8
+    "version": "0.36.0",
+    "pr": 9,
+    "main": "f4445a5bdc19466464a590432437c1e5ddca74d0"
   },
-  "current_publication": "pending at build time; final branch/PR/main/tag/asset verification on Release"
+  "current_publication": "pending at build time; final branch/PR/main/tag/asset verification on Release",
+  "previous_published": {
+    "version": "0.36.0",
+    "pr": 9,
+    "main": "f4445a5bdc19466464a590432437c1e5ddca74d0"
+  },
+  "github_current_version": "pending branch/PR/main/Release at build time; see final Release"
 }
