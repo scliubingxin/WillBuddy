@@ -1,0 +1,58 @@
+{
+  "version": "0.37.0",
+  "baseline": {
+    "version": "0.36.0",
+    "library_version": 39,
+    "content_files_verified": 612,
+    "public_main": "f4445a5bdc19466464a590432437c1e5ddca74d0"
+  },
+  "tests": {
+    "core": 376,
+    "core_pass": 376,
+    "chromium": 6,
+    "chromium_pass": 6,
+    "packaging": 10,
+    "packaging_pass": 10,
+    "logs": [
+      "v0.37.0-tests.txt"
+    ]
+  },
+  "actual_integration": [
+    "Linux native LibreOfficeKit Word pixels/selection/paste/autosave",
+    "Linux native XLSX parts, single-cell and bounded TSV-as-HTML range write",
+    "Linux native PPTX pixels/part switch",
+    "Production Chromium native canvas/manual v2/HTTP model selection tool/native v3/history reload",
+    "actual cancellation, audit and document-save fault boundaries"
+  ],
+  "fixtures": [
+    "Electron IPC/window permissions, native approval, model semantics and OS Keychain"
+  ],
+  "native_mac_tested": false,
+  "workbuddy_libreoffice_backend_confirmed": false,
+  "upstream_binaries_modified": false,
+  "protected_web_python_files_unchanged": 122,
+  "legacy_python_35_tests_rerun": false,
+  "production_asar_files_exact": 144,
+  "offline": {
+    "bytes": 479903166,
+    "sha256": "cb8d1a7a6f83d6c1e39a6514f03ab6c3d0e87148ab2bc2ab188de8dd05e4ace1",
+    "asar": "627cf5d6279ff35e6ef5fcfeab0e41f28331b5bc049efbdc1c6a2b6802ecdb17",
+    "entries": 20727,
+    "macho": 278,
+    "pages": 93545
+  },
+  "signature": "ad-hoc outer/Python; upstream LibreOffice preserved; no notarization/Gatekeeper validation",
+  "tamper_code_page_rejected": true,
+  "closed_zip_inventory": true,
+  "residual_entries": 0,
+  "environment_limits": [
+    "No macOS runtime",
+    "No real paid model",
+    "No full IME/complex object/Office-WPS pixel verification"
+  ],
+  "next": [
+    "Mac actual Kit start/selection/save/signature validation",
+    "Keyboard/Chinese IME and object/style editing",
+    "Excel formula and PPT editor compatibility"
+  ]
+}
