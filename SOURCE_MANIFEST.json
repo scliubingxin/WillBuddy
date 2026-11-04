@@ -1,16 +1,16 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.37.1",
-  "packaged_date": "2026-10-27",
+  "version": "0.37.2",
+  "packaged_date": "2026-10-28",
   "provenance": "Complete validated source snapshot; Git commits and deployment are tracked separately",
-  "base_source_commit_sha": "b6549755cc425b9c21b36c09c097be6a693cfc90",
+  "base_source_commit_sha": "27bd38f6b43806fb702c62ec4586426730b8190a",
   "release_status": {
     "schema_version": 2,
     "brand": "WillBuddy",
-    "version": "0.37.1",
-    "checked_date": "2026-10-27",
-    "source_status": "desktop_source_delivery_not_deployed",
+    "version": "0.37.2",
+    "checked_date": "2026-10-28",
+    "source_status": "validated_code_native_mac_unverified",
     "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
     "desktop": {
       "electron": "42.0.0",
@@ -67,7 +67,9 @@
       "bundled_python": "3.12.16+20261026;20 locked offline wheels",
       "bundled_libreoffice": "26.8.1.1 original upstream bytes/signatures retained",
       "word_images": "selected local PNG approved ordinary DOCX append with revision/imageSHA guards",
-      "office_workspace": "LibreOfficeKit native pixels/selection/basic edits and document-scoped model loop; automatic revision save; Mac not run"
+      "office_workspace": "LibreOfficeKit native pixels/selection/basic edits and document-scoped model loop; automatic revision save; Mac not run",
+      "version": "0.37.2",
+      "validation": "docs/validation/v0.37.2.json"
     },
     "validation": "docs/validation/v0.37.1.json",
     "rea": {
@@ -116,16 +118,34 @@
     },
     "current_publication": "pending at build time; final branch/PR/main/tag/asset verification on Release",
     "previous_published": {
-      "version": "0.37.0",
-      "main": "b6549755cc425b9c21b36c09c097be6a693cfc90",
-      "pr": "https://github.com/scliubingxin/WillBuddy/pull/10",
-      "source_files_sha_verified": 633,
-      "download_sha_crc_verified": true
+      "version": "0.37.1",
+      "main": "27bd38f6b43806fb702c62ec4586426730b8190a",
+      "pr": "https://github.com/scliubingxin/WillBuddy/pull/11"
     },
     "github_current_version": "pending branch/PR/main/Release at build time; see final Release",
     "installation_fix_candidate": {
-      "status": "included, 17 filesystem/packaging tests; exact 0.37 offline update candidate added; native Mac unverified",
-      "guide": "docs/SCREENSHOT_FIXES_0371.md"
+      "status": "r2 diagnostic retained; Mac codesign/performance still unresolved; no new small updater for 0.37.2",
+      "guide": "docs/UPDATE_REPAIR_R2.md"
+    },
+    "office_interaction": {
+      "status": "379 core, 3 Chromium, 20 packaging pass; native Mac unverified",
+      "guide": "docs/OFFICE_INTERACTION_0372.md",
+      "mac_cjk_fixed": false,
+      "native_mac_tested": false,
+      "explicit_send_version_selection_guard": true,
+      "ai_write_approval_retained": true
+    },
+    "offline_delivery_0372": {
+      "bytes": 483213472,
+      "sha256": "d3b548d30c3de60a2575ee90f00e9bf82f2c1f35e7d8c8dfc63ca5729410afd2",
+      "asar_sha256": "d6ab66935a8c1a1210117d78e71c636ffaa462f623714b7bd334b4bd032415d5",
+      "mach_o": 278,
+      "code_pages": 93545,
+      "app_entries": 20727,
+      "extra_files": 5,
+      "symlinks": 47,
+      "residual": 0,
+      "tamper_negative_passed": true
     }
   },
   "files": [
@@ -166,13 +186,13 @@
     },
     {
       "path": "ITERATION_LOG.md",
-      "bytes": 190169,
-      "sha256": "3c26ca2c29e0e7a5d4e2ffd1a1440f0faaa141ebea99bd922730632cbf5be900"
+      "bytes": 194664,
+      "sha256": "81c4a906fb011fef69987159e03fe930148ea36adc55b76c32078940e104a403"
     },
     {
       "path": "ITERATION_PLAN.md",
-      "bytes": 79659,
-      "sha256": "91c3ce338a54a68a80e829628f5e5bb2c96baf70895471ac78aa7ba6f2cd1fe2"
+      "bytes": 84154,
+      "sha256": "5ec8a1dfa9bd7325baa197e0cc7128d6ae5ac0fd1216d682f4c2e2f17f8a1f08"
     },
     {
       "path": "OPENWORKBUDDY_REFERENCE.md",
@@ -191,8 +211,8 @@
     },
     {
       "path": "RELEASE_STATUS.json",
-      "bytes": 9761,
-      "sha256": "9e6fa98d472adbc09725d54cb27731cdb1c72786e632193ef25608c3dd2990e0"
+      "bytes": 10449,
+      "sha256": "a46c7471abc01d2f40e3351d24461ac8e97e87fbc21ca2497a1c92173af87095"
     },
     {
       "path": "SELF_TEST_MATRIX.md",
@@ -706,8 +726,8 @@
     },
     {
       "path": "desktop/installer/Apply-WillBuddy-Update.command",
-      "bytes": 875,
-      "sha256": "a9bdd979c36222e24c4735837048518da550d441ba92be644b6ab46f837cec9b"
+      "bytes": 1372,
+      "sha256": "e2a61f0469f99b0d6a4cbd8a892583f0f4754690a1a728ca158e0a1c25e594eb"
     },
     {
       "path": "desktop/installer/Install-WillBuddy.command",
@@ -726,8 +746,8 @@
     },
     {
       "path": "desktop/installer/update-app.py",
-      "bytes": 4358,
-      "sha256": "8a861d1ac7852a23caeb44a260774f6f0d8d93bd1406861adaa1b1b88f670bb9"
+      "bytes": 5945,
+      "sha256": "5dd7bd38cf82180f3e8d67991f8d50d4215db9c91c3f1629b71fa6745869e28d"
     },
     {
       "path": "desktop/main/approval.mjs",
@@ -802,12 +822,12 @@
     {
       "path": "desktop/package-lock.json",
       "bytes": 288408,
-      "sha256": "e3dc5f09e45be1da8c3b2b1ba9263c19ed38d1644641a018b733a83050754843"
+      "sha256": "1d3034dc6b47d4eb5216e442a68e124883329a85dfaeb5197d4b4e689bcc470b"
     },
     {
       "path": "desktop/package.json",
       "bytes": 3522,
-      "sha256": "4d89ece3ce1a63c88f2568a0eefe9e356c460fa3ee797120e705e08a4d08f6c7"
+      "sha256": "7d998444e393f3bb38006ee8452f3b76bee64f672cd5ed77d603b59941c83a17"
     },
     {
       "path": "desktop/preload.cjs",
@@ -1126,8 +1146,8 @@
     },
     {
       "path": "desktop/services/office-chat.mjs",
-      "bytes": 4657,
-      "sha256": "596ae5144cd5e11c22ba509ba83db4b013c5bd1e44ed5923d8f67838414d41ea"
+      "bytes": 4729,
+      "sha256": "cd37480b954b05f615d2ca3d1663c34b1742c46248af75262028a3e40b7f4d4b"
     },
     {
       "path": "desktop/services/office-workspace.mjs",
@@ -1206,18 +1226,18 @@
     },
     {
       "path": "desktop/src/office/index.html",
-      "bytes": 3141,
-      "sha256": "2749122a2a5a8cbc0ba0c1c1aa4fd1beb22320000b805a0d25ea40bb1fe13431"
+      "bytes": 3261,
+      "sha256": "cb86dcace936dff9a507b61556a1d96b721f9ee8efef28fb52552e9740404cf7"
     },
     {
       "path": "desktop/src/office/office.css",
-      "bytes": 3135,
-      "sha256": "e8e6e755fb5a11e084a7207d88ecf54e4ca557ba664b23df0b0d7ec38224d325"
+      "bytes": 3248,
+      "sha256": "e417380cc1fb89c347912af1a8d795f4bb2c24ec6e77bc556d7a05be3554f0e6"
     },
     {
       "path": "desktop/src/office/office.js",
-      "bytes": 5019,
-      "sha256": "0a3f43cccfbcb306542f21d33feb05b627d606d547211581958a4f1e19fdfc87"
+      "bytes": 5910,
+      "sha256": "f7675908bee517c39e9442adefc4d56f2d8eb2307e3608612acb71238c64285d"
     },
     {
       "path": "desktop/src/pdf/PDF-MANIFEST.json",
@@ -1531,8 +1551,8 @@
     },
     {
       "path": "desktop/tests/acceptance/office-kit-live.mjs",
-      "bytes": 5568,
-      "sha256": "8a6821a59e23f60f2583ca756b3ce4cc56d8a0951475f0e0915f68a3cdf5fb7f"
+      "bytes": 6813,
+      "sha256": "fb8b4df5ca4966e1e0d9d5d2165b945adbd6eaa4f31fe966cb87a3124fe86f09"
     },
     {
       "path": "desktop/tests/acceptance/office-preview-live.mjs",
@@ -1786,8 +1806,8 @@
     },
     {
       "path": "desktop/tests/office-chat.test.mjs",
-      "bytes": 6437,
-      "sha256": "ccf8fad06098b7f64f9688f73e4ed7474704f5e982e4ad21b12c2f89efa0d4f2"
+      "bytes": 7485,
+      "sha256": "45cfbf33bf5de95b84ed14cb6a253c1cad2dc27d6104a8d2085db9c4300cabed"
     },
     {
       "path": "desktop/tests/office-kit.test.mjs",
@@ -1931,8 +1951,8 @@
     },
     {
       "path": "docs/DOWNLOADS.md",
-      "bytes": 21596,
-      "sha256": "2b85a0a7a1ab122a313ac719ff22543e896f47283fec838fc15d8d61f944bbf5"
+      "bytes": 23039,
+      "sha256": "6f458e0cb497bf04407ea16d68f96ccb33b0a0623fa54f475c276c9e3492c1fb"
     },
     {
       "path": "docs/DURABLE_COMMANDS.md",
@@ -2000,6 +2020,11 @@
       "sha256": "ca8491c0f4a3cb8d1efa67ac5926d45d7bfa1af451311019184af84cc5e214bb"
     },
     {
+      "path": "docs/OFFICE_INTERACTION_0372.md",
+      "bytes": 1972,
+      "sha256": "23e1f9a6344a7543d7bc8fef2c8c352dd66266ffbcf1a67b58ad521cb459014c"
+    },
+    {
       "path": "docs/OFFICE_PREVIEW.md",
       "bytes": 3174,
       "sha256": "a97ae4bfe71b7349327a9035e678cf40dc6fb3ebda243847012187d8f85425e0"
@@ -2046,13 +2071,13 @@
     },
     {
       "path": "docs/QUICK_GAPS.md",
-      "bytes": 36688,
-      "sha256": "c077c91bb25d3b3ee90854190b4c4f3fd094ee9bfbe2d0180dd747b620fc05a2"
+      "bytes": 38131,
+      "sha256": "fe99340bd8b788c8d5fee3d1a1f24852e0e6809fc985be9cafe1836f5fbbce92"
     },
     {
       "path": "docs/REA_FINDINGS.md",
-      "bytes": 11843,
-      "sha256": "a83e000343ecbcf877bc3b90856b2ae00282dad018c83a8825b26b1f9f90ce77"
+      "bytes": 13286,
+      "sha256": "aa66866de6f1fd06db3c7ba081c86834e4e31ae06c537944ae2dfb84cecf5819"
     },
     {
       "path": "docs/SCREENSHOT_ALIGNMENT.md",
@@ -2095,6 +2120,11 @@
       "sha256": "1875c5470809c1d7838eccc8d077c122fa86815a8ec83fb1cc54e7517f09b45e"
     },
     {
+      "path": "docs/UPDATE_REPAIR_R2.md",
+      "bytes": 1781,
+      "sha256": "876be1d668a57684f675e659b9abbc344d1f6d072b538bec9d55bb414a5c560b"
+    },
+    {
       "path": "docs/WEB_README_ORIGINAL.md",
       "bytes": 9761,
       "sha256": "d52db3f461f1f93df36cba5bcc4212932f22979697b2a63422cd83f919aaf675"
@@ -2106,8 +2136,8 @@
     },
     {
       "path": "docs/WILLBUDDY_OFFICE.md",
-      "bytes": 4887,
-      "sha256": "a0c03b97c3e5ef126f2186afd70dc2c360f97b00c11f9ca10d053af531721728"
+      "bytes": 5141,
+      "sha256": "a66655e7c0e9fe61b641f5703bc4a6f155ce5cc2dd72b6b5a105caefdf0da1fd"
     },
     {
       "path": "docs/WORD_PARAGRAPHS.md",
@@ -2428,6 +2458,16 @@
       "path": "docs/validation/v0.37.1.json",
       "bytes": 2408,
       "sha256": "2b61c793d34b0e4d5691a974246ccaadc2a1b04a6f8b9378dbe202632941f883"
+    },
+    {
+      "path": "docs/validation/v0.37.2-tests.txt",
+      "bytes": 41833,
+      "sha256": "78d3e9b0e6d311320501eef2619338f20b1a598b80d5dd9303a7576432a99afe"
+    },
+    {
+      "path": "docs/validation/v0.37.2.json",
+      "bytes": 1532,
+      "sha256": "4b6a42e18edd397f9b928d7f3d1377a00d7e6c89b74ec0e2167a77d90bd1f969"
     },
     {
       "path": "docs/validation/v0.5.0.json",
@@ -2767,7 +2807,7 @@
     {
       "path": "scripts/package-desktop-source.py",
       "bytes": 3741,
-      "sha256": "7d948f2ef5a38c7660ccd42eeed1dcfaecb6a12e1dee28a383d1bc23dae777ac"
+      "sha256": "a021080020ac05180c8ed25abce49d1270bbc44e5558a48ad22e1a90092d9113"
     },
     {
       "path": "scripts/package-mac-update.py",
@@ -2797,7 +2837,7 @@
     {
       "path": "scripts/repackage-native-mac.py",
       "bytes": 4591,
-      "sha256": "c557de890fc73f0f7d65c97d151dc2b1c63f1956a8a23739494e301521384e1e"
+      "sha256": "aa68483da64dfd05f151e884b17d680c1933ff9031dbaa2107bb52a23664b892"
     },
     {
       "path": "scripts/requirements-office-tests.txt",
@@ -2831,8 +2871,8 @@
     },
     {
       "path": "scripts/tests/test_mac_update.py",
-      "bytes": 3214,
-      "sha256": "856c1678c0834b962bd3e0bf2885420013a5ad79193794b32239dbbf63e6b517"
+      "bytes": 4485,
+      "sha256": "1de4c2ecce3dd3291cef1ecc6c6fa960ef4377a51adeecb31a922c7c94af6b56"
     },
     {
       "path": "scripts/tests/test_offline_bundle.py",

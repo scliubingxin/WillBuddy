@@ -6,7 +6,7 @@ import argparse,hashlib,json,plistlib,shutil,subprocess,struct,importlib.util
 from pathlib import Path
 from offline_bundle import validate_archive,inventory,write_archive,capture_staging_paths,verify_staging_paths
 ROOT=Path(__file__).resolve().parent.parent
-BASE_SHA='cb8d1a7a6f83d6c1e39a6514f03ab6c3d0e87148ab2bc2ab188de8dd05e4ace1'
+BASE_SHA='a1727e95150112431e41398f19f5cb6e04e3e9f5ce22398107565cef8785b9db'
 def digest(p):
  h=hashlib.sha256()
  with p.open('rb') as f:
@@ -23,7 +23,7 @@ def main():
  stage.mkdir(mode=0o700,parents=True)
  pkg=module('native_pack',ROOT/'scripts/package-offline-mac.py');pkg.extract_runtime(a.base,stage)
  app=stage/'WillBuddy.app';resources=app/'Contents/Resources';prior=json.loads((stage/'OFFLINE-MANIFEST.json').read_text());metadata=json.loads((ROOT/'desktop/package.json').read_text());version=metadata['version']
- if prior['version']!='0.37.0' or prior['architecture']!='arm64':raise ValueError('base version/architecture mismatch')
+ if prior['version']!='0.37.1' or prior['architecture']!='arm64':raise ValueError('base version/architecture mismatch')
  info=app/'Contents/Info.plist';d=plistlib.loads(info.read_bytes());d.update(CFBundleVersion=version,CFBundleShortVersionString=version);info.write_bytes(plistlib.dumps(d))
  source=stage/'app-source';source.mkdir()
  for name in ['main.mjs','preload.cjs','office-preload.cjs','core.mjs','src','runtime','assets','main','services']:

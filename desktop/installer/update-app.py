@@ -1,7 +1,27 @@
 #!/usr/bin/env python3
 """Apply a bounded, exact-base offline application patch. No downloads or pip."""
-import hashlib,json,os,plistlib,shutil,stat,subprocess,sys,tempfile,re
+import hashlib,json,os,plistlib,shutil,stat,subprocess,sys,tempfile,re,time
 from pathlib import Path
+sys.dont_write_bytecode=True
+def progress(message):print(time.strftime('%H:%M:%S')+' '+message,flush=True)
+def run_native(args,label,timeout=90,heartbeat=5):
+ # codesign's actual stderr is essential evidence; an exit code does not prove writes.
+ # Keep logs outside the signed application, never add diagnostic files to it.
+ with tempfile.TemporaryFile() as output:
+  started=time.monotonic()
+  progress(label+' 开始（最长 '+str(timeout)+' 秒）')
+  with subprocess.Popen(args,stdout=output,stderr=output) as proc:
+   while True:
+    remaining=timeout-(time.monotonic()-started)
+    if remaining<=0:
+     proc.kill();proc.wait()
+     output.seek(0);detail=output.read(65536).decode('utf-8','replace')
+     raise TimeoutError(label+' 超时，已停止；未跳过安全检查。\n'+detail)
+    try:code=proc.wait(timeout=min(heartbeat,remaining));break
+    except subprocess.TimeoutExpired:progress(label+' 仍在执行，已用 '+str(round(time.monotonic()-started))+' 秒')
+   output.seek(0);detail=output.read(65536).decode('utf-8','replace')
+   if code:raise RuntimeError(label+' 失败，退出码 '+str(code)+'。以下为系统原始诊断（不能据此推断应用被写入）：\n'+detail)
+  progress(label+' 通过，用时 '+str(round(time.monotonic()-started,1))+' 秒')
 PATCH_PATHS=frozenset({'Contents/Info.plist','Contents/MacOS/Electron','Contents/Resources/app.asar','Contents/_CodeSignature/CodeResources'})
 def digest(p):
  h=hashlib.sha256()
@@ -12,10 +32,10 @@ def regular(p):
  if not stat.S_ISREG(p.lstat().st_mode):raise ValueError('补丁/应用文件不是普通文件')
 def info(app):
  regular(app/'Contents/Info.plist');return plistlib.loads((app/'Contents/Info.plist').read_bytes())
-def verify_native(app):subprocess.run(['/usr/bin/codesign','--verify','--deep','--strict',str(app)],check=True)
+def verify_native(app):run_native(['/usr/bin/codesign','--verify','--deep','--strict','--verbose=2',str(app)],'签名检查 '+str(app))
 def clone_native(app,target):
  # APFS clone: no runtime content copy. Refuse rather than silently perform a slow copy.
- subprocess.run(['/bin/cp','-cR',str(app),str(target)],check=True)
+ run_native(['/bin/cp','-cR',str(app),str(target)],'APFS 克隆',timeout=30)
 def apply_update(app,payload,verify=verify_native,clone=clone_native,commit=os.replace):
  app=Path(app);payload=Path(payload)
  if app.is_symlink() or not app.is_dir():raise ValueError('应用路径无效或是符号链接')
@@ -31,10 +51,11 @@ def apply_update(app,payload,verify=verify_native,clone=clone_native,commit=os.r
  for e in entries:
   p=payload/'patch'/e['path'];regular(p)
   if p.stat().st_size!=e['bytes'] or not 0<e['bytes']<=20*1024**2 or e['mode'] not in [0o644,0o755] or digest(p)!=e['sha256']:raise ValueError('补丁文件摘要/大小/权限校验失败')
- base_guard();verify(app)
+ progress('1/4 校验补丁和原应用版本');base_guard()
+ progress('2/4 检查原应用签名；失败时不会创建候选或替换应用');verify(app)
  stage=Path(tempfile.mkdtemp(prefix='.WillBuddy-update-',dir=app.parent));candidate=stage/'WillBuddy.app';backup=stage/'previous.app';committed=False
  try:
-  clone(app,candidate)
+  progress('3/4 克隆并应用四个文件');clone(app,candidate)
   for e in entries:
    p=candidate/e['path'];regular(p);data=(payload/'patch'/e['path']).read_bytes()
    if hashlib.sha256(data).hexdigest()!=e['sha256']:raise ValueError('补丁读取期间变化')
@@ -44,7 +65,7 @@ def apply_update(app,payload,verify=verify_native,clone=clone_native,commit=os.r
    os.chmod(temp,e['mode']);os.replace(temp,p)
   i=info(candidate)
   if i.get('CFBundleIdentifier')!='com.actwill.desktop' or i.get('CFBundleShortVersionString')!=m['version']:raise ValueError('目标应用身份/版本不符')
-  verify(candidate);base_guard()
+  progress('4/4 检查候选签名；此阶段失败不表示原应用签名已坏');verify(candidate);base_guard()
   commit(app,backup)
   try:commit(candidate,app)
   except BaseException:
