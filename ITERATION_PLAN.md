@@ -1,3 +1,256 @@
+## 2026-11-02 · 0.37.19 PPT选中文字字号与字色
+
+## 2026-11-04 · 0.37.22 PPT选区手动编辑
+
+用户实测反馈字体恢复；沿用0.37.21字体配置。PPT新增选中文字后载入编辑框、修改、保存和取消路径，绑定原生选区及sequence，写前持久审计，保存时校验文本与既有直接格式；迟到选区、审计失败和错误输出不发布。仅唯一普通单段文字选区，不是完整PPT编辑器；真实Mac原文档尚未验收。见docs/PPT_MANUAL_EDIT_03722.md。
+
+
+## 0.37.21 中文字体候选
+
+Office Kit 进程在 macOS 使用独立 Fontconfig 文件，读取系统、公共、用户及 LibreOffice 自带字体目录，缓存放在私有任务目录，不修改应用签名包或文档。编辑与 PDF 预览共用该进程。Linux 字体配置及真实引擎测试支持该方案；尚未在 Apple 芯片 Mac 或用户原文档验收，不能承诺已解决 Mac 方框。详细证据与局限见 docs/MAC_FONT_CANDIDATE_03721.md。
+
+
+## 2026-11-04 · 0.37.20 视口滚动与受限文件搜索
+
+Office 画布增加纵向滚轮与可拖动滚动条，切页归顶并按内核视口坐标映射点击；帮助文字折叠，避免固定栏遮住文档。已授权目录内的系统 find 仅允许明确的只读表达式自动执行，保留审计；Shell、删除、未知命令仍逐次审批，不能以“非删除”假设安全。Mac 的中文方框和预览缺字尚未定位或验收。见 docs/OFFICE_VIEWPORT_AND_CLI_03720.md。
+
+
+新增 office_format_presentation，标准模型工具循环实际设置当前唯一普通单段文本框同格式选区的字号/字色，不改文字。无Electron核心复用逐字输出验收，主机与worker双层固定参数/页面选区守卫，逐次批准/持久审计/取消/CAS和每请求一次修改额度保持；未实际修改或格式不符不提交，手动保存不能绕验收。详见[实现与验证](docs/PPT_DIRECT_FORMAT_03719.md)及validation/v0.37.19。Mac/付费模型/IME/原生签名未验收，安装慢未解决。GitHub历史审批额度提示Nov2 07:24恢复，本轮凌晨未到时点不重试或换路线；长期发布授权有效。下一轮Mac优先，否则受控PPT编辑或选区上下文，持续办公目标未完成。
+
+## 2026-11-01 · 0.37.18 PPT选词替换直接格式验收
+
+扩展无Electron PPT核心，核实际保存文件已知字号/粗斜体/下划线/字色/适用脚本字体与对齐，允许run拆合；混合选区/复杂效果目标调用native前拒绝。文字正确但格式丢失不能发布，显式save不能绕验收，私有草稿修正后可手动重试。沿原审批/审计/选区/版本/取消与一次修改额度，不是新增AI设置PPT格式或完整OOXML保真。详见[实现与验证](docs/PPT_FORMAT_RECEIPT_03718.md)及validation/v0.37.18。Mac/付费模型/IME/原生签名未验收，安装慢未解决；GitHub额度Nov2前不绕过，长期发布授权保留。下一轮先Mac原文档验收，否则受控PPT直接格式编辑/选区上下文，避免只写说明队列。
+
+## 2026-11-01 · 0.37.17 Word整表指定外边
+
+office_table_grid新增可选edges仅修改完整唯一未合并表的指定外围边，省略仍保持原全部网格。内部线与未选外边、padding/文字及非目标部件保留；单边不是每格同名边，start/end为逻辑方向。复用无Electron核心与审批/审计/版本/取消/CAS及同session预加载重载，审批明示清空原生Undo/Redo、前5持久版本保留。详见[实现与验收](docs/OFFICE_PERIMETER_03717.md)及validation/v0.37.17。Mac/真实付费模型/IME/原生签名未验收，安装慢未解决；GitHub额度Nov2前不绕过，长期授权继续。下一轮先Mac原文档验收，否则复杂PPT文字保护或受控Office编辑，不只做说明队列。
+
+## 2026-11-01 · 0.37.16 Word完整表格全部网格
+
+新增office_table_grid与无Electron的OOXML核心：仅整个Word包唯一正文顶层表格的完整选区，设置全部实线含内横/竖线；保留文字、直接格式、padding和非目标部件。候选经真实Kit预加载/画面与全部件SHA核验后CAS提交，在同一session自动换worker，审批明示清空原生Undo/Redo栈、前版保留。初始化/候选漂移/拒绝/取消/审计/磁盘失败保留旧版，文档服务新增提交guard支持关闭期间写前写后检查/回滚。不是失败UNO网格原型换名放行；多表、部分、合并、嵌套和复杂目标保守拒绝。详见[实现与验收](docs/OFFICE_TABLE_GRID_03716.md)和validation/v0.37.16。保留原Web/Python、白蓝logo、旧身份及所有旧能力。Mac/付费模型/IME/原生签名和复杂Office保真仍待验收，安装慢未解决，GitHub额度提示Nov2当前不绕过，长期发布授权保留。下一轮Mac优先，否则受控单边或PPT复杂文字保护，不只加说明队列。
+
+## 2026-11-01 · 0.37.15 Word格式完成与成品验收
+
+Word格式工具等待固定原生命令完成通知，新增无Electron的DOCX核验核心：选区唯一对应正文连续纯文字段落，检查全部正文/页眉页脚段落文字保持，并逐片段验证请求的西文/东亚字体、字号、字色与底纹，允许原生拆run。原生未执行/部分执行/缺属性均不能发布；调用前保留dirty和验收器，手动save不能绕过，最后异步查询后再检查取消/版本，worker独立核expectedSelection。跨段全选旧能力保留，复杂/歧义选区保守拒绝，非全OOXML/字形保真。首轮错误与复测见[实现与验收](docs/OFFICE_WORD_RECEIPT_03715.md)及validation/v0.37.15。保留原Web/Python122文件、白蓝logo和旧身份。Mac/付费模型/IME、签名安装、安装速度仍未验收或未解决；GitHub此前额度提示Nov2，不重试或换路线，长期发布授权保留。下一轮Mac优先，否则Word网格/单边或复杂PPT文字保护；不只写介绍队列。
+
+## 2026-10-31 · 0.37.14 Excel原生单格受控公式
+
+新增office_set_formula，单格同表算术/七函数数值结果，复用既有AST/依赖核心与原生受控定位写入；保存前核验全工作簿数据/公式及全部公式缓存，保留审批/审计/CAS/一次修改额度/错误阻断和草稿验收重试。独立布尔/文本、外链、跨表、循环、错误、共享数组/图表/合并等拒绝。没有放开常量或通用粘贴公式。449核心完整串行/9新增公式/11最终Chromium/26打包通过。首轮CJK UI失误复测通过但根因未知，保留失败记录，不称稳定性已修。详见[实现与验收](docs/OFFICE_NATIVE_FORMULA_03714.md)。Mac/付费模型/IME未验收、未公证，安装慢未解决；GitHub额度提示Nov2不绕过，长期授权保留。下一轮Mac优先，否则Word网格或PPT复杂文字；不只改说明队列。
+
+## 2026-10-31 · 0.37.13 PPT精确文字选区与替换
+
+PPT普通单段文本框双击/全选后可用固定方向键与Shift精确选词；现有office_replace_selection绑定真实文字类型/页面/sequence，审批与持久审计后再检查，保存前核验真实PPTX所有页形状顺序/类型和段落文字，只允许唯一目标子串变化。重复词、分组/表格/域/链接/多段拒绝；no-op与显式保存重试受同一验收器保护。440核心完整串行/10真实Chromium/26打包通过。见[实现与验收](docs/OFFICE_PPT_SELECTION_03713.md)。不是完整对象/格式无损/IME；Mac和付费模型未验收。保留旧能力与Web/Python、白蓝logo/旧身份，安装慢未解决。GitHub额度提示Nov2，未重试或绕过，长期授权保留。下一轮Mac优先，否则Word网格/受控公式或PPT复杂文字。
+
+
+## 2026-10-31 · 0.37.12 Excel选区真实格式
+
+新增office_format_cells，真实内核修改当前矩形的字号/字色/底色；保存前核验XLSX目标样式及全工作簿单元格数据/公式不变，精确十进制比较，主题tint/条件格式/目标富文本/共享数组公式保守拒绝。原生范围/审批/持久审计/CAS/输出失败草稿重试保护保持，checkCells供新旧工具共用。433核心/最终9格式/9Chromium/26打包通过。见[实现与验收](docs/OFFICE_CELL_FORMAT_03712.md)。Mac/付费模型/IME未验收，ad-hoc未公证、安装慢和复杂保真未解决。GitHub仍受Nov2恢复的审批额度阻塞，本轮不绕过、未上传PR合并发布；长期授权有效。下一轮Mac优先，否则PPT选区/Word网格/受控公式。
+
+## 2026-10-31 · 0.37.11 Excel原样文本常量
+
+现有office_update_cells新增显式{text:...}，真实原生写入和XLSX字符串类型/精确值核验，保留前导零/日期样式/公式样式文字；普通字符串规则保留，不能执行公式。完整矩阵预检/审批/审计/CAS和失败草稿重试保护沿用。首次空文本被原生写成单引号已被核验拦截并修正，不降低非空类型断言。见[实现与验收](docs/OFFICE_LITERAL_TEXT_03711.md)及validation/v0.37.11记录。原Web/Python、白蓝logo和旧身份不变。Mac/付费模型/IME未验收、ad-hoc未公证、安装慢未解决；GitHub额度提示Nov2，当前不绕过、未新发布。下一轮先Mac或Excel精确格式/PPT选区。
+## 2026-10-30 · 0.37.10 真实Excel选区常量更新
+
+新增office_update_cells，绑定原生part/地址/光标/HTML矩形指纹，强制同尺寸单行常量矩阵，逐次审批/审计/CAS与真实XLSX输出验收；通用AI粘贴不再可扩展Excel选区。真实HTTP模型夹具→LinuxKit→独立openpyxl核验区域/样式/范围外公式重算；原生no-op或错误输出无法经显式save绕过，模型“成功”不能覆盖工具失败。修复真实Redo用例暴露的保存先于动作完成时序，以原生通知+真实历史栈状态验证后保存。419核心/最终12相关/8Chromium/26打包通过。Mac/付费模型/IME未验收，原生字体行高规范化仍有边界，ad-hoc未公证，安装耗时未解决。详见[实现及验收](docs/OFFICE_CELLS_03710.md)。GitHub额度提示Nov2恢复，当前未重试，无上传/PR/main/Release。保存以最终交付回执为准。
+
+## 2026-10-30 · 0.37.9 精确选区文字与背景颜色
+
+新增office_format_selection的fontColor/backgroundColor，固定原生Word选区颜色/字符底纹，两层RGB参数校验，保留原生审批/审计/CAS/单次额度；精确TARGET生产UI→实际HTTP模型夹具→真实LinuxKit→独立DOCX只改选词验证，411核心/7Chromium/26打包通过。网格原型独立DOCX断言未达到指定颜色/线宽，已撤回，外框仍清内部线。Mac/真实付费模型/IME/安装速度未验收或未解决，ad-hoc未公证。详见[实现与验收](docs/OFFICE_SELECTION_COLORS_0379.md)。下一轮Mac真实链路或Word网格/单边与ExcelPPT受控编辑。GitHub审批额度提示Nov2恢复，当前不绕过，无新上传/PR/main/Release。
+
+
+最终离线核验：483219295字节，SHA4728e067d4ddf214c5d49edbffdfc16e5ef3d52e1b7afa38ced380b47cc6048b；ASAR6b1044e93f341ec8e28e32f84cf504aeec91233549e43cfb9b8e12d4744cf131与153生产文件及最小package逐字节一致，无hostpyc；278可运行MachO/93545代码页，20727应用条目+5配套/47链接，零残留/闭合CRC/实际Electron页篡改负例通过。相比0.37.7载体仅Info.plist/Electron/app.asar/CodeResources四条目改变，Python/LO原字节/模式/链接不变。407核心/6Chromium/26打包通过后生成完整源码；权威替换将使用本轮观察的expected_current_version=46保护，是否保存和远端回读成功以包外最终回执为准，不预写成功。GitHub仍无本轮上传/PR/main/Release。
+
+# WillBuddy 0.37.8 · 共用Office内核导出PDF
+
+## 实际变化
+
+从当前权威0.37.6/v46重取678内容SHA，并从已保存0.37.7候选重取684内容SHA后接续。保留0.37.7真实Word键盘选区，不从旧main或scratch退回旧代码。
+
+Apple芯片安装版的Office预览改用同一LibreOfficeKit适配器，编辑和PDF转换共用main中的officeRuntime工厂及runtime/office-kit.mjs。新增无Electron的runtime/office-pdf.mjs，真实读取私有DOCX/XLSX/PPTX副本，经固定saveAs(pdf)写到私有output/document.pdf，再经服务读取上限、PDF头和文档版本核验，交给原有离线PDF.js分页。没有截图代替PDF或XML文本代替渲染，没有新增占位入口；生产成果“预览”直接使用新链路。原CLI转换保留为没有配置pdfRuntime的显式开发/兼容路径，安装版Kit失败不会自动重放/改走CLI。原独立窗口编辑、历史、文档AI、字体/外框和所有其他能力保留。
+
+worker只允许无参数export_pdf，固定目录/文件/格式；拒绝额外路径参数，不暴露任意导出路径/UNO/脚本。主服务仍最多2个预览、整体60秒（覆盖准备/运行时解析/启动/导出/回读），16MiB输出；PDF页数/像素仍受原renderer限制。16MiB为导出后回读门禁，并非OS磁盘配额。输入沿原ZIP/XML/宏/外链/4MiB门禁，最高宏安全私有profile，无共享cookies/账号或TCP监听。程序仍以当前OS账号运行，非OS沙箱。
+
+startOfficeKit新增AbortSignal与closed生命周期：启动前及复制worker后重查取消，等待ready或执行期间取消会杀掉自有进程、拒绝挂起请求并等待退出；预览适配器对迟到runtime/driver也立即拒绝并关闭迟到driver，停止/超时/退出不发布成功PDF，也不自动重试。成功后同样结束临时worker。新增PDF回读后的当前版本/SHA和取消再检查，避免读取期间并发改动返回旧结果。无持久数据迁移、新安装依赖或第三方许可变化。
+
+## 证据与上轮阻塞边界
+
+本轮全新取回源码后，**未修改前**的原生CLI三格式用例通过（19.2秒），之前的XLSX→PDF卡住在当前环境未复现。因此不能把它归因为确定的源码缺陷，也不能宣称旧CLI卡住根因已修。strace诊断因PTRACE_TRACEME Operation not permitted被宿主阻止，未提权绕过。新Kit导出路径真实成功；选择共用内核是本轮实际架构/功能增量，不是把旧失败测试删除或改成跳过。
+
+407项核心完整串行通过，原CLI三格式测试保留并通过；新增7项PDF/生命周期测试单独通过。真实LinuxKit输出Word、两表Excel、两页PPT的PDF，pdftotext独立核对两表文字/600/900和两张幻灯片，原文档bytes/revision不变、私有任务目录清空。另验证双容量/取消释放、迟到driver只关闭不导出、版本漂移/非法PDF/链接输出拒绝、真实已ready Kit取消退出、无ready协议进程夹具的启动取消/超时无活进程遗留、预取消不启动、退出时runtime迟到不启动。启动未ready测试为真实进程协议夹具，不是Mac或LibreOffice初始化卡住的实测。
+
+6条真实Chromium路径通过：新生产文档页→双表Excel→真实Kit PDF两页→opaque分页/提取文字→服务提交v2后重开真实750而非600、额外网络0、子帧无原生桥；保留精准选词→HTTP模型夹具→真实Kit→DOCX字体、CJK字体、Undo/Redo、Word外框及离线CID中文PDF回归。首次新PDF测试locator(details)匹配两页而报严格模式错误，改为读取全部页文字后重跑6条通过，没有放宽内容断言或声称修复生产问题。26项打包与真实文件系统事务测试通过。122个原Web/Python保护文件SHA不变，旧35Python执行器未改未重跑。
+
+真实传输/进程/二进制文档/PDF与生产浏览器执行，模型语义/原生IPC/审批/Keychain仍夹具。LinuxLibreOfficeDev26.8.0.0.alpha0 build2c87e51eeaa2b413ff4ae097b2705eea1995d8e5不同Mac包26.8.1.1；无Mac原生Kit初始化/签名/Gatekeeper/字体/IME或真实付费模型验收。不把PDF.js中文资源回归等同原生Kit字形修复，不保证复杂Office任意保真或完整Office替代。
+
+## 交付、参考与下一轮
+
+离线构建使用已逐字节/页/清单核验的0.37.7候选ZIP作为静态运行时载体，固定SHA084c3d65b12304b4f0240f180f8733e26db205eda3f2cc11a43c5efe66b478ef；这不把历史失败候选追认为已发布版本。应用源码完全更新为0.37.8，原Python/LO运行时逐项保留，只有完整静态/ASAR/闭合ZIP检查通过才交付。仍ad-hoc未公证，没有新小更新/DMG/PKG，安装耗时和历史异常截断临时副本来源未解决，不要求为提速反复重装。最终构建摘要见validation/v0.37.8.json，保存回读以包外最终回执为准。
+
+2026-10-30复查Quick官方系统工具页 https://docs.aws.amazon.com/quick/latest/userguide/system-tools-desktop.html 及 https://quick.aws.com/sn ，REA复用已有公开包部分静态证据，无新Amazon原生运行结论。LibreOfficeKit转换/固定C API参考 https://docs.libreoffice.org/libreofficekit.html 及 https://docs.libreoffice.org/desktop/html/init_8cxx.html ，不复制分发上游实现/资产。
+
+GitHub只读main仍27bd38f6b43806fb702c62ec4586426730b8190a，0.37.2分支0ce607437ef2c7814b295b43ec7b4ccd3c0b4a42。此前创建PR自动审批服务额度故障提示Nov2恢复；本轮未到时点，按用户要求不重试、不改插件/CLI绕过。长期每轮通过后分支/PR/main/Release授权有效，无新确认要求；本轮无GitHub上传/PR/main/tag/Release，不假造链接。
+
+下一轮优先Mac原始codesign stderr/内置Python和Kit真实预览/编辑/IME/实际模型验收；无机器继续Word内部网格/单边和Excel/PPT受控选区编辑。跨Web完整业务核心、OAuth/stdio、自主并行任务组、完整Office对象/图表/修订和OS隔离仍差距。旧CLI未复现并不消除稳定性调查，保留原失败记录，不删除失败候选或旧下载。
+
+实际代码变更：desktop/main.mjs共用officeRuntime；runtime/office-kit.mjs取消/退出、runtime/office-kit/worker.py固定export_pdf；services/libreoffice.mjs预览分支/全程时限/回读guard；新增runtime/office-pdf.mjs、tests/office-pdf.test.mjs、tests/acceptance/office-pdf-kit-live.mjs；package/lock版本、scripts/repackage-native-mac.py载体pin及日志/差距/下载/发布/验证记录。README保持产品重点，品牌/白蓝主题/旧加密身份不改。
+
+
+---
+
+
+## 最终候选状态（2026-10-30）
+
+最终完整串行核心399/400，唯一未过为既有native-office的XLSX/PPTX转PDF用例：独立诊断确认XLSX先卡住，60秒生产转换超时；默认PDF/显式calc_pdf_Export各20秒诊断也超时，禁OpenCL+svp未解决。独立PPTX默认/显式转换实际3.0/1.9秒成功，不把组合测试失败说成PPTX也已证实卡住。原因未定位，不放宽时限或跳过用例，不把失败改成通过。首次并行验证397/400（另有新字号断言与既有CLI短时限断言），最终隔离复测这两项通过；不声称其并行稳定性根因已修。
+
+新增5项选区核心、4条真实Chromium唯一路径（最终重复按键修正后又重跑导航1条）、26项打包通过。完成arm64候选483218919字节，SHA084c3d65b12304b4f0240f180f8733e26db205eda3f2cc11a43c5efe66b478ef；ASAR a7cf5d6d56da93e63b79027768327fd38f7933204a159ef9f2b5d8ab2daea1b8与152生产文件及最小package逐字节一致；278MachO/93545页、20727应用条目+5配套、47链接、零残留/闭合CRC/实际Electron页篡改负例通过。仅Info.plist/Electron/app.asar/CodeResources四条目不同，Python/LO原字节模式链接不变。122原Web/Python保护文件不变，旧35执行器未改未重跑。没有更换运行时、放宽签名或隔离。
+
+因此仅保存0.37.7完整候选源码和arm64候选，**不替换正式权威0.37.6/v46，不声称本轮完整通过或发布**。下一轮必须重新读取当时权威，再取本候选保留键盘增量，先定位XLSX原生CLI PDF阻塞，缺少Mac目标机器的签名/字体/IME/真实模型边界继续明确。GitHub仍待此前自动审批额度提示Nov2恢复，不重试/换路线；长期每轮通过后发布授权保留。源码保存与回读以包外最终回执为准。
+
+# WillBuddy 0.37.7 · Word键盘选区与局部AI格式修改
+
+从权威0.37.6/v46重新获取，678内容文件逐SHA核验后开发。没有从旧scratch或GitHub旧main回退源码。
+
+## 实际变化
+
+Word画布支持方向键、Home/End及Shift/Ctrl修饰：光标定位、扩展文字选区、到行首尾/文首尾，再通过现有“AI编辑选区”进行替换或字体/字号修改。点击画布会获得键盘焦点，焦点边框为品牌蓝；输入框内的方向键仍编辑输入框。文字输入仍使用下方输入框，不是完整原生键盘输入或中文IME集成。尚无光标自动跨屏滚动/PageUp/PageDown；长文定位后需手动上一屏/下一屏。Mac Cmd/Option导航尚未映射；未声称Mac实际快捷键已验收。
+
+新纯共享office-navigation.js定义六种导航键。主服务只接收key/shift/control（及桥接op），Python worker再次验证格式、精确字段与布尔值，固定映射VCL键码，charCode始终0、成对发KEYINPUT/KEYUP；不接收任意数字键码、文字、Delete、Enter、任意UNO或路径。只支持DOCX，Excel/PPT拒绝。UI忽略isComposing/keyCode229、Alt/Meta，最多16个尚未完成导航请求，超出的重复按键丢弃；服务仍串行执行并核对当前版本/30分钟许可。不是OS沙箱或全局键盘钩子。
+
+每次导航推进sequence，使先前AI资料/选区凭证失效；没有正文修改时不标dirty、不创建revision或撤销记录。实际AI修改继续沿用逐动作原生审批、持久审计、真实选区与revision/SHA检查和CAS，保存新版本，前版保留。旧字体、表格外框（会清内部线）、Undo/Redo与其他能力保持。
+
+## 验证与边界
+
+新增核心检查：非法键/修饰键/组合输入拒绝；真实LinuxKit从文首移动7字、Shift选6字得到TARGET；导航不落新revision/undo，格式工具只将TARGET设22pt，独立python-docx核对完整原文和选区外非22pt，旧凭证失效；排队时真实外部提交新revision阻断下一导航；worker独立拒绝伪造字段；Excel不发Word键事件。
+
+新增生产Chromium路径：等待真实画布就绪、点击获得焦点、同一事件轮40次重复键只受理16个、精准选词→Enter→真实本机HTTP模型夹具→真实LinuxKit→导出DOCX独立检查→刷新保留文档聊天；组合输入/未支持Delete不改变选区，AI输入框方向键不改变文档sequence。首次重复键测试没有等待初始画布绘制，错误假设已执行鼠标三事件，已改为等待真实parts/画面后测试，不称生产Bug修复。
+
+首轮全量回归与构建/其他原生验收同时进行时为397/400：既有Office转PDF超时、新选区字号断言失败、既有CLI短时限日志截断断言失败；原因未确定，选区单项诊断重跑通过，不把它当并行压力已通过或已定位原因。最终测试与构建结果见validation/v0.37.7.json及-tests.txt；没有通过前不声称完整回归通过。
+
+原生Electron IPC/审批/Keychain和模型语义仍为夹具；真实HTTP传输、LibreOfficeKit进程与DOCX字节是真实执行。LinuxLODev26.8alpha不同Mac包26.8.1.1。未Mac原生启动/键盘/CJK字形/IME、真实付费模型或Office/WPS保真验收。未引入安装依赖、数据模式或字体，没有修改许可、旧身份、白蓝logo、原Web/Python。
+
+## 打包、发布与下一步
+
+arm64离线构建固定已验0.37.6基包SHA e3b239241f2e8173c33df46c88dd7514a931d827d8134f041e2e74445a0ad352，使用/tmp私有0700独立输入输出、解压精确树与所有签名/代码页/闭合ZIP门禁。仍ad-hoc未公证，代码页不替代Mac codesign深严格/Gatekeeper；安装解压慢和历史异常临时副本根因未解决，无新小更新，不要求用户为提速重复全量重装。
+
+GitHub只读并发核对main仍27bd38f6b43806fb702c62ec4586426730b8190a、0.37.2分支0ce607437ef2c7814b295b43ec7b4ccd3c0b4a42。此前CreatePR自动审批额度故障提示Nov2恢复，当前未到时点，按用户要求不重试、不改插件或CLI绕过；无本轮上传/PR/main/tag/Release。用户长期每轮发布授权持续有效，不需重问。恢复后补齐已验证版本，不将失败0.37.3 app候选当正式发布。
+
+Quick复查官方系统工具页 https://docs.aws.amazon.com/quick/latest/userguide/system-tools-desktop.html ，REA复用已有公开安装包部分静态证据，无新Amazon原生运行结论。完整跨Web业务核心、OAuth/stdio、自主并行组、语义知识索引、完整Office键盘/IME、复杂对象与网格边框仍差距。下一轮先Mac原始codesign stderr/实际原文档字体与模型安装验收；缺机器继续Word内部网格线/独立单边及精确选择后的Excel/PPT受控编辑。
+
+原生键定义只读依据（不复制分发上游实现）：
+- https://raw.githubusercontent.com/LibreOffice/core/master/offapi/com/sun/star/awt/Key.idl
+- https://raw.githubusercontent.com/LibreOffice/core/master/include/vcl/keycodes.hxx
+- https://github.com/LibreOffice/core/blob/master/include/LibreOfficeKit/LibreOfficeKit.hxx
+
+实际代码变更：desktop/src/shared/office-navigation.js（新）、src/office/office.js/index.html/office.css、services/office-workspace.mjs、runtime/office-kit/worker.py、tests/office-navigation.test.mjs（新）、tests/acceptance/office-navigation-live.mjs（新）、package/lock版本、scripts/repackage-native-mac.py基包pin；以及验证、计划/日志/差距/REA/下载和发布状态。README保持产品用途，不堆版本或测试计数。
+
+
+---
+
+
+最终arm64离线ZIP483218125字节，SHA e3b239241f2e8173c33df46c88dd7514a931d827d8134f041e2e74445a0ad352；ASAR a5fd8419a48c8a049afc1f40ed5c5ae3ecf1a5b89238949663155d88fc9e28ae与151生产文件+最小package逐字节一致。278MachO/93545页、20727应用+5配套/47链接、零残留/闭合CRC/真实Electron代码页篡改负例通过。与0.37.5仅Info.plist/Electron/app.asar/CodeResources四条目变更，全部Python/LO原字节模式链接保持。初次构建在新增最后异步查询后并发保护之前生成，不作为交付；最终新私有目录重建并重跑395核心/3Chromium。仍ad-hoc未公证，无Mac codesign深严格/Gatekeeper/原生启动与安装性能结论；无新小更新。源码/权威保存回读按最终包外回执记录，本文为构建时快照。
+
+# WillBuddy 0.37.6 · Word表格外框样式
+
+从当前权威0.37.5/v45重新获取，全部672内容文件SHA核验后开发。保留原西文/东亚字体与字号、真实撤销重做、双任务、旧加密身份与白蓝logo；没有更改原Web/Python或第三方许可。
+
+新增runtime/office-table-outline.mjs无Electron参数核心和office_table_outline标准模型工具，接现有Office独立文档对话与共享执行名额。选中简单矩形Word表格区域后，发送诸如“蓝色1.5pt实线外框，四边内边距3pt，清内部线”。颜色#RRGGBB；线宽0.5–3pt/0.25步长；padding须显式0–12pt/0.5步长。它是外框预设，会清除该区域内部线并设置四边内边距，不是全部网格线或任意单边/虚线编辑；工具说明和原生审批完整展示这些变化。普通文字不适用。没有新占位按钮，通过现有文档AI对话实际执行。
+
+worker从原生getTextSelection(text/html)读取当前真实选区，仅解析HTML结构，不执行脚本或加载资产；256000字节、单一表格、最多30行16列200格；拒绝合并、嵌套、不规则矩形、多表和正文混选。仅返回行列与私有SHA指纹，原HTML不发给模型/前端/审计。模型仅看到行列摘要，不能指定路径或UNO命令。Word表格内连续“全选”，直到选区栏显示“表格区域”，再交给AI；单次可能只选择单元格文字，不能假称已经整表选中。
+
+主机与Python双层参数校验；当前revision/SHA/sequence、选区文字与HTML指纹分别在审批前、审批后、持久审计后重新核对；最后一次异步原生查询返回后，再检查取消、文档修订及30分钟许可。worker发固定.uno:BorderOuter前再核指纹，不暴露任意UNO/CLI/文件接口。与替换/字体工具共用每轮一次修改额度。保存新revision保留原件和前版，使用已有真实撤销/重做。外部并发改变、拒绝、取消或审计失败不发边框命令。LO原生保存会重新序列化OOXML，不称ZIP字节无损或任意复杂对象全保真。
+
+实验证据：初次尝试Calc相关SetBorderStyle及InnerBorder参数，虽然未抛异常，但独立DOCX检查没有所需颜色/线宽，未交付。核对Writer执行分支后改固定BorderOuter，仅交付已验证的外框预设；不把失败实验称已实现全部网格线。实现依据只读核查上游sw/source/uibase/shells/basesh.cxx SID_ATTR_BORDER_OUTER与svx/sdi/svx.sdi：
+https://raw.githubusercontent.com/LibreOffice/core/master/sw/source/uibase/shells/basesh.cxx
+https://raw.githubusercontent.com/LibreOffice/core/master/svx/sdi/svx.sdi
+没有复制分发上游代码或资产。
+
+395核心最终串行完整通过（新增6项）；6项外框测试单独重跑通过；3条真实Chromium通过；26打包与文件系统事务测试通过。实际本机HTTP模型夹具→真实LinuxKit→真实DOCX，python-docx/lxml独立核对2×2中英文表格原文保持、0078CB外框/12八分之一pt=1.5pt、60twips=3pt内边距和内部线清除；原v1字节仍可取回，Store/文档独立聊天重载保持，后续真实undo产生v3。新拒绝测试包括普通非空文字选区、旧指纹、拒绝/取消/审计磁盘失败、worker伪造参数、真实合并/嵌套/32行超限选区；最后一次选区查询期间真实外部文档提交v2后，边框原生命令0次/dirty false。生产页面选区→Enter→HTTP工具循环→原生样式v2→二进制导出独立检查→刷新对话，另回归CJK字体和撤销重做真实页面。审批/IPC/模型语义/Keychain仍夹具；没有Mac原生编辑/字形/IME/付费模型验收，Linux开发内核不等于Mac包内26.8.1.1。
+
+实际修改：desktop/runtime/office-kit/worker.py、services/office-workspace.mjs、services/office-chat.mjs、src/office/office.js/index.html；新增runtime/office-table-outline.mjs、tests/office-table-outline.test.mjs、tests/acceptance/office-outline-live.mjs；package/lock版本、脚本基包pin及验收/计划/日志/差距/下载状态。README仍只产品重点。无新最终用户依赖或数据模式，原Web/Python122保护文件SHA不变，旧35Python执行器测试未改未重跑。
+
+Quick官方系统工具文档2026-10-29复查：https://docs.aws.amazon.com/quick/latest/userguide/system-tools-desktop.html 。REA复用既有公开安装包部分静态证据，没有新增Amazon原生运行结论。完整跨Web核心、OAuth/stdio、自主并行任务组、语义索引、Office完整键盘/IME与复杂网格/对象编辑仍有差距。
+
+GitHub只读并发核对main仍27bd38f6b43806fb702c62ec4586426730b8190a，0.37.2分支0ce607437ef2c7814b295b43ec7b4ccd3c0b4a42。用户长期发布授权有效，但此前CreatePR自动审批服务额度故障提示Nov2恢复，本轮未到恢复时点，没有重试/改插件或CLI路线绕过；无0.37.6上传/PR/main/tag/Release。此前0.37.1已发布，待恢复补齐验证版，不将候选保存当公开发布。
+
+下一轮优先Mac原始codesign错误、当前原文档字体/模型与安装验收。缺机器推进真实内部网格线/独立单边样式与精确字符格式/ExcelPPT选择，避免继续只堆说明或队列。安装耗时和早期截断临时副本来源仍未解决，不宣称根治、不要求为提速反复重装；保留签名与隔离门禁。
+
+---
+
+
+最终离线构建：483216299字节，SHA256 1aba94bb84cdc4c2d3688eba1d7c5a69538c2475c9088c32a0c47ee87c1a9baf；ASAR70c1d2a67b83380b8a585c7c3a864a8a3759b9baddf6ee6a10096a47f36febe4与150生产文件及最小package逐字节一致。278可运行MachO/93545代码页、20727应用条目+5配套、47链接、闭合CRC/零残留和实际Electron页篡改负例通过。与0.37.4仅Info.plist/Electron/app.asar/CodeResources四条目不同，Python/LO全部原字节/模式/链接保留；内置依赖安装端不需npm/pip。本轮完整构建通过，仍ad-hoc未公证、无Mac深严格资源密封/Gatekeeper/安装运行结论；不是安装提速或历史异常临时副本根因已解决，没有新小更新。源码/权威保存与回读按包外最终结果记录；本文件是构建时快照。
+
+# WillBuddy 0.37.5 · 内核真实撤销/重做状态
+
+从权威0.37.4/v44重新获取，666内容文件逐SHA核验后接续，不依赖旧scratch。保留西文/东亚字体/字号、逐次原生AI审批、版本SHA/sequence/CAS、双任务、旧身份和白蓝logo，原Web/Python不改。
+
+新增共享纯模块desktop/src/shared/office-history.js，主机服务和页面只接受0至100万整数的undo/redo计数。worker通过固定getCommandValues(.uno:UndoCount/.uno:RedoCount)向真正LibreOfficeKit撤销管理器查询；不从聊天记录/文档revision推测历史。空返回、不支持、无效和超限计数都作为未知禁用，不伪造可撤销能力，无任意UNO扩展。
+
+按钮初始和执行中禁用，每次真实画面快照后更新可用状态与步数提示；服务在串行执行队列内重新查询，worker发出Undo/Redo前再次检查。空/未知历史拒绝，不增加sequence、不设dirty、不写新revision。手改/模型修改后沿原新版本保存，撤销/重做同样发布新revision，保留旧成果。新编辑清空原生redo分支；刷新窗口仍查询当前会话，关闭重开文档内核历史为空，不跨重启重放撤销。计数表示内核动作，不等于AI请求次数，一次多属性字体修改可能产生多个可撤销动作。
+
+撤销已在内核执行但落盘失败时仍保留dirty草稿，不能称已成功保存；重新快照显示当前原生redo状态，显式保存重试成功后才提交新revision。任何界面操作错误后历史按钮先禁用，直到下一次成功快照。历史属于当前进程，不新增数据库模式或安装依赖。
+
+本轮389核心完整串行通过（新增4项）、16项相关单独通过、2项真实Chromium、26项打包/事务测试通过。新增真实Kit测试覆盖初始空栈/拒绝空命令、写入→undo→redo真实正文与revision、undo后新编辑清redo、关闭重开清历史；注入驱动验证未知/伪造状态和排队操作不发命令；真实内核undo后注入磁盘失败保留草稿/旧持久版并可手动保存重试。生产Chromium页面真实写入v2→按钮可用→undo原文v3→刷新→redo改文v4，未调用模型；另回归真实本机HTTP模型夹具→CJK字体原生修改链路。审批/IPC/模型语义/Keychain仍夹具，LinuxLODev26.8alpha不同于包内Mac26.8.1.1，无Mac/真实付费模型/CJK像素/IME验收。
+
+实现依据为上游desktop/source/lib/init.cxx getUndoOrRedoCount与doc_getCommandValues，固定查询直接返回SfxUndoManager计数：https://raw.githubusercontent.com/LibreOffice/core/master/desktop/source/lib/init.cxx 。本轮只读检查，不复制分发上游实现。Quick官方系统工具文档2026-10-29复查：https://docs.aws.amazon.com/quick/latest/userguide/system-tools-desktop.html ，REA复用已有公开包部分静态证据，没有新增Amazon原生运行结论。自主并行子任务、语义资料索引、跨Web完整业务核心、OAuth/stdio、表格边框与复杂Office对象/输入法仍有差距。
+
+本轮实际修改：desktop/runtime/office-kit/worker.py、services/office-workspace.mjs、src/office/office.js和index.html；新增src/shared/office-history.js、tests/office-history.test.mjs、tests/acceptance/office-history-live.mjs；scripts/repackage-native-mac.py固定当前已验0.37.4基包SHA；package/lock版本和迭代/验收记录。README保持产品内容，不堆版本计数。
+
+GitHub用户长期发布授权仍有效。但此前CreatePR自动审批服务额度故障提示2026-11-02恢复，当前未到恢复时点，不换接口/插件/CLI绕过。本轮公开只读核对main仍27bd38f6b43806fb702c62ec4586426730b8190a、0.37.2分支0ce607437ef2c7814b295b43ec7b4ccd3c0b4a42；没有0.37.5上传/PR/main/标签/Release。待额度恢复补齐验证版发布，不把候选保存称发布。
+
+下一轮优先真实Mac签名原始stderr、当前字体/模型与安装验证；缺目标机器继续Word表格边框、精确字符格式与Excel/PPT受控编辑。安装耗时、原先截断临时副本来源仍未定位，不宣称解决，不要求为提速重复全量重装；保持隔离和签名门禁。
+
+---
+
+
+本轮最终构建核对：干净0.37.4 arm64 ZIP483215507字节，SHA3470dcff2fddb3ad27c7fe0ea9e6f9d0237af7ac0f8b07443ab69c1190a43a8a；ASAR fd0922c1300ca4958f0e58746b478e25615c80e9b94961ae0d9a4b1c104a3470，与149生产文件及最小package逐字节一致，无宿主字节码。278可运行MachO/93545代码页、20727应用条目+5配套、47链接、零残留、闭合CRC、实际Electron页篡改负例拒绝。与0.37.2比较仅Info.plist/Electron/app.asar/CodeResources四条目改变，全部Python/LO运行时条目字节/模式/链接不变。首次带开发字节码包不交付，仅当前干净包有效。仍ad-hoc未公证；页哈希不替代Mac codesign深严格资源封印/Gatekeeper/安装/字体显示验收。不把本轮隔离目录构建通过称先前临时副本根因或安装速度已修；没有新小更新，用户无需为提速反复重装。
+public只读并发核对main仍27bd38f6b43806fb702c62ec4586426730b8190a（0.37.1），0.37.2分支0ce607437ef2c7814b295b43ec7b4ccd3c0b4a42。没有本轮0.37.4 GitHub上传/PR/Release；此前自动审批额度故障未到恢复时间，不绕过。保存与权威expected43更新按包外最终回执记录；本文件是构建时快照。
+
+# 0.37.4 · Word选区东亚字体与审计后取消保护
+
+从权威0.37.2/v43（653内容SHA）及最新0.37.3-r1候选（662内容SHA）重新获取核验后接续；保留西文字体/字号及构建输入校验，不回退候选代码。新增office_format_selection.fontNameAsian，映射固定.uno:CharFontNameCJK及CharFontNameCJK.FamilyName参数。fontName仍仅表示西文字体；统一中西文时须显式分别指定。仅DOCX当前真实非空选区，80字符字体名和控制/路径字符限制、主机与Python双校验、逐次原生确认、sequence/revision/SHA、写前持久审计与CAS及一次任务一次修改额度保持。新增审计返回后取消/版本/30分钟许可检查，取消时不再向内核发格式命令。
+
+验证实际OOXML写入eastAsia，不等于安装/捆绑字体，不保证目标Mac已安装所选字体，不宣称所有中文方框已修复。没有分发微软雅黑或新字体，没有改LibreOffice上游/原许可。Office侧栏说明新增中西文字体区分，没加占位按钮；手工字体工具栏/表格边框/撤销可用状态/Finder关联仍待做。
+
+本轮385核心测试串行完整通过，14相关测试单独通过；新增3项涵盖Asian参数边界、真实本机HTTP模型夹具→真实LinuxKit→DOCX独立python-docx/lxml校验eastAsia=Noto Sans CJK SC、西文Liberation Serif/15pt不变且中英文原文保持、审计期间取消原生命令0次且不产生revision。2条真实Chromium通过：新增生产Office窗口选区→Enter发送→实际HTTP工具调用→Kit写东亚字体→新revision/导出独立校验→刷新对话保持；既有手工/模型替换/保存/失败重试回归。原生IPC/审批/模型语义仍夹具，LinuxLODev26.8alpha不等于Mac26.8.1.1。首次全量并行测试有内核退出/等待超时，未确定根因；最终按test-concurrency=1完整385项通过，不把串行结果泛称无限并行负载已验收。首次新文本断言未考虑既有提取器按run加换行，改为容忍提取换行，独立DOCX原始text join检查没有放宽。
+
+26项打包/文件系统故障测试通过。新生产源码复制过滤__pycache__/*.pyc/*.pyo；仅应用自有源码过滤，不删除既有原厂Python/LO载荷。首次隔离包完整签名/页哈希/CRC过后，ASAR检查发现本轮py_compile的宿主字节码缓存，不作为最终交付；增加缓存过滤和负例后重建。本轮使用/tmp新0700临时构建目录，沿0.37.3-r1独立输入输出与所有清单/代码页/LO字节门禁，未清残留后重算、未去隔离或跳签名。工作区此前截断临时副本来源仍未知，不把一次隔离成功称根因已修。
+
+官方协议参照：https://raw.githubusercontent.com/LibreOffice/core/master/svx/sdi/svx.sdi（本轮只读核对CharFontNameCJK定义；未复制分发源码）。Quick继续复用REA既有部分静态证据，无新Amazon运行结论。原Web/Python122保护文件保持，旧35Python执行器未改未重跑，无新生产依赖，身份/白蓝logo/原业务不变。
+
+实际代码变更：desktop/runtime/office-format.mjs、runtime/office-kit/worker.py；services/office-workspace.mjs、office-chat.mjs；src/office/index.html；tests/office-format.test.mjs、office-chat.test.mjs及新增acceptance/office-cjk-live.mjs；scripts/offline_bundle.py、package-offline-mac.py、tests/test_native_repackage.py；版本/验证/迭代记录。签名和Mac原生中文/IME/实际付费模型仍未验收。下一轮优先Mac原始codesign日志与原文档字体/真实模型验收，然后表格边框、撤销状态与精确选区编辑，不停在说明或队列。
+
+GitHub0.37.2版本分支已上传但此前创建PR遇自动审批额度故障，提示恢复时点未到。本轮不重试或换接口绕过，没有0.37.4 PR/main/Release。用户持续发布授权有效，阻塞来自审批服务，不再套用历史未授权边界。
+
+# 2026-10-29 · 0.37.3-r1 构建输入完整性检查
+
+本轮重新读取权威0.37.2/v43（653内容SHA）及已保存0.37.3候选（658内容SHA），保留所有实际字体/字号功能；本轮不新增Office编辑能力，不把旧功能计作新增。
+
+已修改scripts/repackage-native-mac.py：解压后立即核对整个应用的路径集合、逐文件SHA/大小/执行位/符号链接，任何额外、缺失或改变即拒绝，早于Info.plist/ASAR修改和签名。签名改为独立输入树与全新输出树，拒绝重叠或已有输出；签后重查输入完全不变、输出路径闭合。并非删残留、跳签名或排除运行时校验。只有完整通过原有代码页/上游LO字节/闭合ZIP门禁才允许发布。
+
+事实证据：基线ZIP Framework为182559840字节，SHA307eb07de8401c8917239abd7bfd52284f7154ff30a3673f93af04179eb78f9e；本轮解出原文件仍相同。单独诊断副本rcodesign签名通过44224代码页验证，完整Framework单独签名也未报解析错误，不代表Mac codesign/Gatekeeper。整包新目录在本次整包签名命令执行前出现额外.Electron Framework.*文件，其内容为原文件截断前缀；基线ZIP无该条目。新增前置检查在第二个新目录成功拒绝，签名器未启动。来源/写入进程未知，不归因用户应用写入、pyc或上游运行时损坏。独立输出签名路径未进入完整真实整包验收，仅单元故障测试覆盖，不能称已解决竞态或安装慢。
+
+25项打包/真实文件系统及故障测试通过（新增5项）；382核心全量重跑通过。新5测试：解压字节/模式/链接/额外路径异常、不同输入输出保留输入、重叠/已有输出拒绝、签名器篡改输入或输出额外文件拒绝、已知残留签名前拒绝。实际签名CLI在测试中注入，明确不是Mac原生验收。原生产模块与上一份0.37.3候选逐SHA相同，122原Web/Python保护文件未改，旧35Python执行器未改未重跑；不重复跑未改变的Chromium交互测试，上一轮1项结论只作历史记录。
+
+没有0.37.3离线应用包、没有PR/main/Release；正式权威仍0.37.2/v43，不覆盖不完整候选。GitHub0.37.2此前审批额度故障仍未到提示恢复时点，本轮不重试或换路线绕过。签名/完整ZIP/Mac安装与原生CJK仍阻塞。新版源码候选r1保留，下一轮先查临时前缀文件来源、在Mac原生验证严格签名，再推进eastAsia字体/表格边框/撤销状态等Office主线。Quick继续复用既有REA部分静态证据，无新增Amazon运行结论。
+
+
+最终检查：20项打包/更新器测试通过。两次独立私有目录完整离线重建均在rcodesign签Electron Framework临时文件时失败：binary parsing error: type is too big (171409408)，各次临时输入长度不同，根因未确定。未删除残留后重算清单，未绕过签名或修改Python/LO，不放行任何0.37.3应用包。最终ASAR/完整ZIP/MachO页/完整资源清单未通过本轮构建，不能借用0.37.2结果。保存0.37.3完整源码候选，不覆盖正式权威0.37.2/v43。下一轮应先复现临时文件解析并核对原始已签输入与临时输出，不能无证据重签或关安全机制。
+实际修改：desktop/runtime/office-format.mjs（新）；desktop/runtime/office-kit/worker.py；desktop/services/office-workspace.mjs、office-chat.mjs；desktop/src/office/index.html；desktop/tests/office-format.test.mjs（新）、office-chat.test.mjs；desktop/package.json、package-lock.json；scripts/package-desktop-source.py、repackage-native-mac.py；迭代/差距/REA/下载/验证与发布状态文档。原Web/Python122保护文件SHA不变，无新生产依赖；旧35Python执行器未改未重跑。
+
+# 0.37.3 Word选区字体与字号
+
+从权威0.37.2/v43重取653内容文件逐SHA核验。实际新增office_format_selection模型工具：Word当前真实选区→单独原生确认→持久审计→固定UNO字体/字号命令→真实DOCX新版本/CAS。与文字替换共用每请求最多一次修改额度，不能混改两次；不开放任意UNO命令或参数。主服务与Python worker两层校验字体名80字符、无控制字符/路径字符，字号6–96pt、0.5pt步长；审批前后核选区/版本，过30分钟授权拒绝。审计不记录选区或参数正文。
+
+本轮验证到的是西文字体属性ascii/hAnsi与字号。未设置eastAsia；不是中文字体或缺字修复，不捆绑微软雅黑等商业字体，不保证目标机器已安装指定字体。仅DOCX；Excel/PPT格式、表格边框、撤销状态、Finder关联和原生LO欢迎品牌仍待做。常规手工工具栏未新增字体输入框，仅现有Office AI对话可调用真实工具。
+
+382项核心测试通过（较0.37.2新增3）；15项相关测试单独通过。实际本机HTTP模型夹具→真实LinuxLibreOfficeKit→保存DOCX→独立python-docx校验全部非空run字体Liberation Serif、18.5pt、文字保持，旧版保留。拒绝/旧选区/取消/审计磁盘失败不发布新revision。首次原型使用错误UNO参数名，独立DOCX断言失败拦下；按LibreOffice官方FontController参数CharFontName.FamilyName/FontHeight.Height修正后全部重测通过，不把命令回执当修改成功。1项生产Chromium真Kit手改/模型选区替换/保存/历史回归通过。IPC/审批/模型语义仍夹具；LinuxLODev26.8alpha不等于Mac包内26.8.1.1，未Mac/真实付费模型验收。
+
+官方参数参考：https://docs.libreoffice.org/android/html/FontController_8java_source.html
+Quick沿用docs/REA_FINDINGS.md既有公开包部分静态证据，无新Amazon运行结论。距完整Office替代仍有中文字体、复杂格式/对象、键盘IME与Mac安装签名差距。
+
+GitHub0.37.2分支0ce6074已654文件逐SHA核验，但创建PR被自动审批额度故障阻塞，main仍0.37.1；本轮不重试或换路线绕过。用户持续发布授权有效，不缺权限确认。0.37.3新发布尚未执行，无新Release链接；安装故障、全量解压耗时未解决，不要求用户为提速重装。下一轮先Mac签名原始stderr/原文档CJK证据，再东亚字体与表格边框定向编辑。
+
+
 # 0.37.2 Office交互修复
 
 从权威0.37.1/v42重取649源码SHA核验后恢复实现。保存按钮显示进度与版本/时间、失败明确报错可重试；Enter发送/ShiftEnter换行/IME组合不误发；移除常规技术内核文字。用户点击发送明确同意当前文档正文/选区给当前模型，文档ID/revision/SHA/sequence精确绑定，排队内容变化拒绝；AI选区修改保留逐动作审批/审计/CAS。不是全任务/全盘默认授权。合入已保存r2更新器诊断，仍未解决Mac签名故障/解压慢。
