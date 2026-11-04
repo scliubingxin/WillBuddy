@@ -106,7 +106,8 @@ else {
         store.data.executions ??= [];
         const convertDocument=createDocumentConverter({createDriver:signal=>createConversionBrowser({BrowserWindow,session,signal})});
         toolRuntime = new ToolRuntime({ store, browser, approve, notify: notifyRuntime, convertDocument,beforeCli:(args,policy)=>projects?.validate(args,policy) });
-        if(runtimeRoot()){await bundledExecutable('python');await bundledExecutable('office');libreoffice=createLibreOffice({documents:toolRuntime.documents,directory:path.join(store.dir,'office-runtime'),executable:()=>bundledExecutable('office'),approve,notify:notifyRuntime});}
+        const officeRuntime=async()=>({python:await bundledExecutable('python'),officeDirectory:path.dirname(await bundledExecutable('office'))});
+        if(runtimeRoot()){await bundledExecutable('python');await bundledExecutable('office');libreoffice=createLibreOffice({documents:toolRuntime.documents,directory:path.join(store.dir,'office-runtime'),executable:()=>bundledExecutable('office'),pdfRuntime:officeRuntime,approve,notify:notifyRuntime});}
         genoffice=createGenOfficeBridge({documents:toolRuntime.documents,approve});
         recoverInterruptedWork(store.data);
         commands = createCommandService({ store, active, executeTool, notify: notifyRuntime });
@@ -124,7 +125,7 @@ else {
         register('imageRemove',async p=>{await images.remove(p.id);return view();});
         conversations = createConversationService({ approve, models, secrets:mcpSecrets, images, queue:runs, store, active, key, view, executeTool, releaseToolGrants:id=>toolRuntime.browserPermissions.release(id), notify: notifyRuntime,notifyStream:event=>{if(win&&!win.isDestroyed())win.webContents.send('actwill:stream',event);} });
         if(runtimeRoot()){
-            const kit=createOfficeWorkspace({documents:toolRuntime.documents,directory:path.join(store.dir,'office-kit'),runtime:async()=>({python:await bundledExecutable('python'),officeDirectory:path.dirname(await bundledExecutable('office'))}),approve,notify:notifyRuntime,audit:async event=>{const prev=store.data.executions;store.data.executions=[event,...prev.filter(e=>e.id!==event.id)].slice(0,300);try{await store.save();}catch(e){store.data.executions=prev;throw e;}notifyRuntime();}});
+            const kit=createOfficeWorkspace({documents:toolRuntime.documents,directory:path.join(store.dir,'office-kit'),runtime:officeRuntime,approve,notify:notifyRuntime,audit:async event=>{const prev=store.data.executions;store.data.executions=[event,...prev.filter(e=>e.id!==event.id)].slice(0,300);try{await store.save();}catch(e){store.data.executions=prev;throw e;}notifyRuntime();}});
             const officeChat=createOfficeChat({store,kit,models,key,approve,queue:runs,notify:notifyRuntime});
             officeWindows=createOfficeWindows({BrowserWindow,ipcMain,here,kit,chat:officeChat,models,documents:toolRuntime.documents});
             register('officeOpen',p=>officeWindows.open(p.id,p.revision));

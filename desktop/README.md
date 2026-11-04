@@ -110,3 +110,5 @@ Skill运行示例在 `examples/skills/office-runtime/`；修改后运行 `python
 可从已验证0.36原始离线包升级构建（仅开发主机）：`python3 scripts/repackage-native-mac.py --base BASE_ZIP --work-dir NEW_PRIVATE_DIR --output OUTPUT_ZIP --signing-tool RCODESIGN`。脚本固定校验base SHA，保留原厂LO全部文件字节、重签外壳/Python并检查所有代码页/封闭ZIP/链接/执行位；base不是安装端下载依赖。最终仍需Mac codesign/Gatekeeper/启动验收。
 
 PDF预览构建：node scripts/vendor-pdf-preview.mjs 固定读取锁定pdfjs-dist，将CMap和标准字体离线内联，禁止运行时下载。开发中文PDF验收需要宿主可用CJK字体，原始图文档的字体兼容需目标Mac验收。0.37.1 repackage-native-mac.py已固定已验0.37完整app base SHA，保留上游运行时字节。
+
+安装版PDF预览和Office编辑共用runtime/office-kit.mjs；PDF核心为runtime/office-pdf.mjs。新增验证 `node --test tests/office-pdf.test.mjs`，生产UI `CHROME_PATH=... node --test tests/acceptance/office-pdf-kit-live.mjs`。原CLI显式开发路径测试继续保留。参见[内核导出与生命周期](../docs/OFFICE_PDF_RUNTIME_0378.md)。
