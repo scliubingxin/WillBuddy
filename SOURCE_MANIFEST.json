@@ -1,16 +1,16 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.37.2",
-  "packaged_date": "2026-10-28",
+  "version": "0.37.26",
+  "packaged_date": "2026-11-11",
   "provenance": "Complete validated source snapshot; Git commits and deployment are tracked separately",
-  "base_source_commit_sha": "27bd38f6b43806fb702c62ec4586426730b8190a",
+  "base_source_commit_sha": "0ce607437ef2c7814b295b43ec7b4ccd3c0b4a42",
   "release_status": {
     "schema_version": 2,
     "brand": "WillBuddy",
-    "version": "0.37.2",
-    "checked_date": "2026-10-28",
-    "source_status": "validated_code_native_mac_unverified",
+    "version": "0.37.26",
+    "checked_date": "2026-11-11",
+    "source_status": "office_comprehensive_work_in_progress_not_release",
     "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
     "desktop": {
       "electron": "42.0.0",
@@ -21,7 +21,7 @@
       "tool_runtime": "agent_loop+native_approval+browser_snapshot_ref_click_fill+cli+document_create_read_edit + document_write/document_convert + document_patch",
       "product_name": "WillBuddy",
       "theme": "White #FFFFFF canvas; logo blue #0078CB primary; restrained logo red",
-      "offline_app_bundle_generated": true,
+      "offline_app_bundle_generated": false,
       "offline_architecture": "arm64",
       "minimum_macos": "12.0",
       "signature": "ad-hoc shell/Python; upstream LibreOffice preserved; overall unnotarized",
@@ -35,7 +35,7 @@
       "browser_approvals": "explicit volatile exact-run/exact-origin consent; revoke/release; CLI/documents stay per-operation",
       "native_confirmations": "bounded summary; AbortSignal+60s timeout+emergency cancellation; no parentless Mac dialogs",
       "document_delivery": "trusted run-linked binary cards; reply/workspace export routes to actual Office bytes; chat export explicitly Markdown",
-      "document_editor": "Bundled LibreOffice separate native window; private copy, approval, CAS, history; not inline LibreOfficeKit",
+      "document_editor": "WillBuddy Office separate document window; embedded LibreOfficeKit via private worker, basic selected text/font/outline edits and native history; not complete Office/IME",
       "genoffice": "bundled Apache-2.0 HTML→DOCX engine subset, pinned 342abce; local Word canvas and md/html conversion; full suite not embedded",
       "spreadsheet_formulas": "pure JS bounded 7-function evaluator; A1/cross-sheet dependencies; live preview + independent main recalculation and real XLSX typed caches; unsupported formulas/derived objects fail closed",
       "word_paragraphs": "bounded top-level plain body paragraph insertAfter/deleteParagraph; pPr/first rPr retention; anchored revision approval, undo before save; complex/style/section/range protection",
@@ -68,10 +68,24 @@
       "bundled_libreoffice": "26.8.1.1 original upstream bytes/signatures retained",
       "word_images": "selected local PNG approved ordinary DOCX append with revision/imageSHA guards",
       "office_workspace": "LibreOfficeKit native pixels/selection/basic edits and document-scoped model loop; automatic revision save; Mac not run",
-      "version": "0.37.2",
-      "validation": "docs/validation/v0.37.2.json"
+      "version": "0.37.19",
+      "validation": "docs/validation/v0.37.19.json",
+      "keyboard_navigation": "DOCX only fixed Arrow/Home/End plus Shift/Control; charCode zero; bounded UI repeat backlog; no raw key injection, text input or native IME",
+      "office_pdf": "Installed: shared Kit adapter/fixed private PDF export; 60s whole operation, cancellation during startup/export/readback; no CLI fallback. Legacy explicit CLI path retained.",
+      "office_table_grid": "optional explicit logical perimeter edges;omission retains full grid;unique whole unmerged table;approved reload clears native history",
+      "ppt_selection_format": "office_format_presentation: unique simple single-paragraph current text selection;size6-96 half pt/RGB;known styles/text preservation receipt",
+      "office_viewport": "native tile vertical wheel and range pan; user screenshots Chinese glyph issue still unresolved on Mac",
+      "cli_approvals": "narrow read-only system find automatically allowed after workspace authorization and persisted audit; shell and other commands require approval",
+      "offline_app_bundle_sha256": "22deb81809c7e783c835879f71c55bcd8fadde0bba251162979fb3f86fbf7f98",
+      "github_status": "publishing pending",
+      "office_fonts": "User reports prior font candidate resolves screenshot issue; scope of actual user document and system font coverage not independently verified",
+      "office_manual_selection": "PPT selected plain text manual edit with selection sequence, audit, native verification and preserved revisions; bounded single paragraph",
+      "model_rounds": "Explicit per-model limit 1–96; missing value retains agent limit; no implicit replay",
+      "legacy_model_settings": "Staged legacy configuration with serialized writes, failed encryption and save rollback",
+      "office_pdf_export": "Native-save-dialog export DOCX/XLSX/PPTX via LibreOffice preview conversion, revision and PDF SHA check; Linux real PPTX test",
+      "latest_candidate_change": "Excel image rotation and flip output verification; Linux Kit tests passed; native Mac and current offline build pending"
     },
-    "validation": "docs/validation/v0.37.1.json",
+    "validation": "docs/validation/v0.37.19.json",
     "rea": {
       "version": "6.7.0",
       "dmg_inventory": "root_hash_observed",
@@ -92,37 +106,26 @@
       ],
       "web_desktop_shared_core": false
     },
-    "current_iteration": {
-      "version": "0.37.1",
-      "date": "2026-10-27",
-      "status": "validated_candidate_github_pending_at_build",
-      "previous_main": "b6549755cc425b9c21b36c09c097be6a693cfc90",
-      "report": "docs/validation/v0.37.1.json",
-      "native_mac_tested": false
-    },
+    "current_iteration": "PPT standard model tool sets selected text fontSize/fontColor through real Kit;actual PPTX format/text receipt before CAS;single mutation quota and approval retained",
     "github_last_published": {
-      "version": "0.37.0",
-      "main": "b6549755cc425b9c21b36c09c097be6a693cfc90",
-      "pr": "https://github.com/scliubingxin/WillBuddy/pull/10",
-      "source_files_sha_verified": 633,
-      "download_sha_crc_verified": true
+      "version": "0.37.1",
+      "main": "27bd38f6b43806fb702c62ec4586426730b8190a",
+      "pr": "https://github.com/scliubingxin/WillBuddy/pull/11"
     },
     "documentation_policy": "product README only; version/test/limits in downloads and release pages",
-    "github_hotfix_publication": "0.37 merged/published;0.37.1 build-time pending",
+    "github_hotfix_publication": "0.37.1 merged/published;0.37.2 branch uploaded;0.37.4-0.37.7 local deliveries only",
     "previous_public_release": {
-      "version": "0.37.0",
-      "main": "b6549755cc425b9c21b36c09c097be6a693cfc90",
-      "pr": "https://github.com/scliubingxin/WillBuddy/pull/10",
-      "source_files_sha_verified": 633,
-      "download_sha_crc_verified": true
+      "version": "0.37.1",
+      "main": "27bd38f6b43806fb702c62ec4586426730b8190a",
+      "pr": "https://github.com/scliubingxin/WillBuddy/pull/11"
     },
-    "current_publication": "pending at build time; final branch/PR/main/tag/asset verification on Release",
+    "current_publication": "not attempted: Nov2 03:xx still before prior safe-browser quota retry Nov2 07:24;standing user authorization remains",
     "previous_published": {
       "version": "0.37.1",
       "main": "27bd38f6b43806fb702c62ec4586426730b8190a",
       "pr": "https://github.com/scliubingxin/WillBuddy/pull/11"
     },
-    "github_current_version": "pending branch/PR/main/Release at build time; see final Release",
+    "github_current_version": "0.37.19 not uploaded/PR/main/tag/Release;read-only main27bd38f remains0.37.1;no alternate write route",
     "installation_fix_candidate": {
       "status": "r2 diagnostic retained; Mac codesign/performance still unresolved; no new small updater for 0.37.2",
       "guide": "docs/UPDATE_REPAIR_R2.md"
@@ -145,7 +148,702 @@
       "extra_files": 5,
       "symlinks": 47,
       "residual": 0,
-      "tamper_negative_passed": true
+      "tamper_negative_passed": true,
+      "scope": "previous baseline package only, not this candidate"
+    },
+    "office_format_0373": {
+      "tool": "office_format_selection",
+      "scope": "DOCX real selected Latin font properties and size",
+      "core_tests": 382,
+      "chromium_related": 1,
+      "east_asian_font": false,
+      "native_mac_tested": false,
+      "publication": "blocked by prior automatic approval review quota; not attempted",
+      "offline_build": "two clean builds rejected by rcodesign Electron Framework temporary Mach-O parse; no app delivery",
+      "authority_replaced": false
+    },
+    "build_input_guard_0373r1": {
+      "packaging_tests": 25,
+      "core_tests_rerun": 382,
+      "offline_bundle_generated": false,
+      "authority_replaced": false,
+      "pre_sign_gate_rejected": true,
+      "unknown_writer": true,
+      "input_output_separation_full_build_tested": false,
+      "scope": "historical failed workspace candidate; guard retained; current private tmp build passed"
+    },
+    "office_cjk_0374": {
+      "fontName": "Latin",
+      "fontNameAsian": "eastAsia CJK",
+      "core_tests": 385,
+      "related_tests": 14,
+      "chromium_tests": 2,
+      "packaging_tests": 26,
+      "audit_cancel_guard": true,
+      "mac_native_tested": false,
+      "fonts_bundled": false,
+      "publication": "blocked by prior review quota; not attempted",
+      "full_app_verified": true
+    },
+    "offline_delivery_0374": {
+      "bytes": 483215507,
+      "sha256": "3470dcff2fddb3ad27c7fe0ea9e6f9d0237af7ac0f8b07443ab69c1190a43a8a",
+      "asar_sha256": "fd0922c1300ca4958f0e58746b478e25615c80e9b94961ae0d9a4b1c104a3470",
+      "production_asar_exact": 149,
+      "mach_o": 278,
+      "code_pages": 93545,
+      "app_entries": 20727,
+      "extra_files": 5,
+      "symlinks": 47,
+      "closed_inventory": true,
+      "tamper_negative": true,
+      "runtime_entries_changed": 0
+    },
+    "office_history_0375": {
+      "native_counts": true,
+      "queued_and_worker_guard": true,
+      "persistent_undo_stack": false,
+      "core_passed": 389,
+      "related_passed": 16,
+      "chromium_passed": 2,
+      "packaging_tests_passed": 26,
+      "mac_native_tested": false,
+      "paid_model_tested": false
+    },
+    "offline_delivery_0375": {
+      "bytes": 483216299,
+      "sha256": "1aba94bb84cdc4c2d3688eba1d7c5a69538c2475c9088c32a0c47ee87c1a9baf",
+      "asar_sha256": "70c1d2a67b83380b8a585c7c3a864a8a3759b9baddf6ee6a10096a47f36febe4",
+      "production_asar_exact": 150,
+      "mach_o": 278,
+      "code_pages": 93545,
+      "app_entries": 20727,
+      "extra_files": 5,
+      "closed_inventory": true,
+      "zero_residuals": true,
+      "tamper_negative": true,
+      "changed_app_entries_from_0374": [
+        "WillBuddy.app/Contents/Info.plist",
+        "WillBuddy.app/Contents/MacOS/Electron",
+        "WillBuddy.app/Contents/Resources/app.asar",
+        "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+      ],
+      "runtime_entries_changed": 0
+    },
+    "office_table_outline_0376": {
+      "scope": "Word rectangular table selection outline; clear inner lines; explicit padding",
+      "core_passed": 395,
+      "related_passed": 6,
+      "chromium_passed": 3,
+      "packaging_tests_passed": 26,
+      "mac_native_tested": false,
+      "paid_model_tested": false
+    },
+    "offline_delivery_0376": {
+      "bytes": 483218125,
+      "sha256": "e3b239241f2e8173c33df46c88dd7514a931d827d8134f041e2e74445a0ad352",
+      "asar_sha256": "a5fd8419a48c8a049afc1f40ed5c5ae3ecf1a5b89238949663155d88fc9e28ae",
+      "production_asar_exact": 151,
+      "mach_o": 278,
+      "code_pages": 93545,
+      "app_entries": 20727,
+      "extra_files": 5,
+      "symlinks": 47,
+      "closed_inventory": true,
+      "zero_residuals": true,
+      "tamper_negative": true,
+      "runtime_entries_changed": 0
+    },
+    "office_navigation_0377": {
+      "guide": "docs/OFFICE_KEYBOARD_SELECTION_0377.md",
+      "keys": [
+        "ArrowDown",
+        "ArrowUp",
+        "ArrowLeft",
+        "ArrowRight",
+        "Home",
+        "End"
+      ],
+      "shift_control": true,
+      "max_pending_ui": 16,
+      "native_mac_tested": false,
+      "native_ipc_approval_model_semantics": "fixtures",
+      "core_tests": {
+        "passed": 399,
+        "failed": 1,
+        "total": 400,
+        "concurrency": 1,
+        "complete_regression_pass": false,
+        "failure": "tests/native-office.test.mjs XLSX/PPTX PDF test: XLSX conversion timed_out after 60s"
+      },
+      "first_core_run": {
+        "pass": 397,
+        "fail": 3,
+        "total": 400,
+        "failures": [
+          "native-office PDF timeout",
+          "selected Word font output assertion",
+          "CLI short deadline truncation assertion"
+        ]
+      },
+      "chromium_related": 4,
+      "packaging_tests": 26,
+      "authority_replaced": false,
+      "diagnostic": {
+        "word": "passed in full core",
+        "xlsx": "failed: production 60s timeout; diagnostic bare and explicit calc_pdf_Export also time out; SAL_DISABLE_OPENCL=1 and svp did not fix",
+        "pptx": "separate direct CLI bare/explicit filter succeeded ~3.0/1.9s; full grouped test stops at XLSX"
+      }
+    },
+    "offline_delivery_0377": {
+      "asar_source_files": 152,
+      "minimal_package": true,
+      "protected_files": 122,
+      "tamper_negative": true,
+      "bytes": 483218919,
+      "sha256": "084c3d65b12304b4f0240f180f8733e26db205eda3f2cc11a43c5efe66b478ef",
+      "app_asar_sha256": "a7cf5d6d56da93e63b79027768327fd38f7933204a159ef9f2b5d8ab2daea1b8",
+      "mach_o": 278,
+      "code_pages": 93545,
+      "app_entries": 20727,
+      "symlinks": 47,
+      "changed_app_entries": [
+        "WillBuddy.app/Contents/Info.plist",
+        "WillBuddy.app/Contents/MacOS/Electron",
+        "WillBuddy.app/Contents/Resources/app.asar",
+        "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+      ],
+      "runtime_entries_unchanged": true,
+      "crc": true,
+      "signature": "ad-hoc shell/Python and preserved upstream LO; unnotarized",
+      "native_mac_tested": false,
+      "extra_files": 5,
+      "residual": 0
+    },
+    "office_pdf_0378": {
+      "core": 407,
+      "related": 7,
+      "chromium": 6,
+      "packaging": 26,
+      "legacy_cli_this_run": "unchanged baseline and full core passed; previous failure not reproduced, root cause unknown",
+      "guide": "docs/OFFICE_PDF_RUNTIME_0378.md",
+      "native_mac_tested": false,
+      "legacy_failed_candidate_preserved": true
+    },
+    "offline_delivery_0378": {
+      "production_files_asar_exact": 153,
+      "minimal_package": true,
+      "host_pyc_absent": true,
+      "electron_page_tamper_rejected": true,
+      "bytes": 483219295,
+      "sha256": "4728e067d4ddf214c5d49edbffdfc16e5ef3d52e1b7afa38ced380b47cc6048b",
+      "asar_sha256": "6b1044e93f341ec8e28e32f84cf504aeec91233549e43cfb9b8e12d4744cf131",
+      "mach_o": 278,
+      "code_pages": 93545,
+      "app_entries": 20727,
+      "extra_files": 5,
+      "symlinks": 47,
+      "zero_residuals": true,
+      "closed_crc": true,
+      "changed_app_entries": [
+        "WillBuddy.app/Contents/Info.plist",
+        "WillBuddy.app/Contents/MacOS/Electron",
+        "WillBuddy.app/Contents/Resources/app.asar",
+        "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+      ],
+      "runtime_unchanged": true
+    },
+    "authority_writeback": "planned expected57 guarded replacement;actual final save/readback receipt separate",
+    "office_colors_0379": {
+      "core": 411,
+      "chromium": 7,
+      "packaging": 26,
+      "guide": "docs/OFFICE_SELECTION_COLORS_0379.md",
+      "grid": "prototype rejected by independent DOCX evidence; not shipped",
+      "native_mac_tested": false
+    },
+    "offline_delivery_0379": {
+      "production_files_asar_exact": 153,
+      "minimal_package": true,
+      "host_pyc_absent": true,
+      "electron_page_tamper_rejected": true,
+      "bytes": 483219407,
+      "sha256": "647ac93e22a8e0b8aae98335945558e44c2e5abc3b69993f2e1e9ae68c7833ac",
+      "asar_sha256": "866ef2b82745337fc8e1be485289fa91ed51d2de840a1969ea1ba6a31e563a75",
+      "mach_o": 278,
+      "code_pages": 93545,
+      "app_entries": 20727,
+      "extra_files": 5,
+      "symlinks": 47,
+      "zero_residuals": true,
+      "closed_crc": true,
+      "changed_app_entries": [
+        "WillBuddy.app/Contents/Info.plist",
+        "WillBuddy.app/Contents/MacOS/Electron",
+        "WillBuddy.app/Contents/Resources/app.asar",
+        "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+      ],
+      "runtime_unchanged": true
+    },
+    "office_cells_03710": {
+      "guide": "docs/OFFICE_CELLS_03710.md",
+      "core": 419,
+      "related": 12,
+      "chromium": 8,
+      "packaging": 26,
+      "native_mac_tested": false,
+      "model_semantics": "fixture",
+      "scope": "exact native Calc rectangle,strings only,constant input,not arbitrary formulas or perfect OOXML roundtrip"
+    },
+    "offline_delivery_03710": {
+      "production_files_asar_exact": 154,
+      "minimal_package": true,
+      "host_pyc_absent": true,
+      "electron_page_tamper_rejected": true,
+      "bytes": 483223518,
+      "sha256": "2a5e5cb61100db9d5cc3510ec83cf91a6733ed11a211fe81080870e465420b50",
+      "asar_sha256": "198f5fed7b59ad04b947c2f63453c80e0c0261bd5cd5648fd1cc1f9cae2d86cb",
+      "mach_o": 278,
+      "code_pages": 93545,
+      "app_entries": 20727,
+      "extra_files": 5,
+      "symlinks": 47,
+      "zero_residuals": true,
+      "closed_crc": true,
+      "changed_app_entries": [
+        "WillBuddy.app/Contents/Info.plist",
+        "WillBuddy.app/Contents/MacOS/Electron",
+        "WillBuddy.app/Contents/Resources/app.asar",
+        "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+      ],
+      "runtime_unchanged": true,
+      "signature": "ad-hoc shell/Python;upstream LO preserved;unnotarized",
+      "mac_native_tested": false
+    },
+    "office_literal_03711": {
+      "guide": "docs/OFFICE_LITERAL_TEXT_03711.md",
+      "core": 424,
+      "chromium": 8,
+      "packaging": 26,
+      "native_mac_tested": false,
+      "model_semantics": "fixture",
+      "scope": "exact native Calc rectangle;explicit text objects preserve type and content;not formulas or perfect OOXML roundtrip"
+    },
+    "offline_delivery_03711": {
+      "version": "0.37.11",
+      "bytes": 483224055,
+      "sha256": "9c520e74cea62e3f895540dc7fda4948f301a2617c30ff1c6330f4c005753f5c",
+      "mach_o": 278,
+      "code_pages": 93545,
+      "app_entries": 20727,
+      "extra_files": 5,
+      "symlinks": 47,
+      "changed_app_entries": [
+        "WillBuddy.app/Contents/Info.plist",
+        "WillBuddy.app/Contents/MacOS/Electron",
+        "WillBuddy.app/Contents/Resources/app.asar",
+        "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+      ],
+      "runtime_unchanged": true,
+      "closed_crc": true,
+      "electron_page_tamper_rejected": true,
+      "mac_native_tested": false,
+      "production_files_asar_exact": 154,
+      "minimal_package": true,
+      "host_pyc_absent": true,
+      "asar_sha256": "c0f825feea184e9304333e30ce9d994779aa421a8dac2311d3c6142d45fbf6b3",
+      "zero_residuals": true
+    },
+    "office_cell_format_03712": {
+      "guide": "docs/OFFICE_CELL_FORMAT_03712.md",
+      "core": 433,
+      "format_related_final": 9,
+      "chromium": 9,
+      "packaging": 26,
+      "native_mac_tested": false,
+      "model_semantics": "fixture",
+      "scope": "native Calc rectangle;explicit size/RGB font/fill;real XLSX style/content/formula validation;not full fidelity"
+    },
+    "offline_delivery_03712": {
+      "version": "0.37.12",
+      "bytes": 483226544,
+      "sha256": "df398c7c02547a676a2245fa15955b7392790be98e0089d91be4a6e690625048",
+      "mach_o": 278,
+      "code_pages": 93545,
+      "app_entries": 20727,
+      "extra_files": 5,
+      "symlinks": 47,
+      "changed_app_entries": [
+        "WillBuddy.app/Contents/Info.plist",
+        "WillBuddy.app/Contents/MacOS/Electron",
+        "WillBuddy.app/Contents/Resources/app.asar",
+        "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+      ],
+      "runtime_unchanged": true,
+      "zero_residuals": true,
+      "closed_crc": true,
+      "electron_page_tamper_rejected": true,
+      "mac_native_tested": false,
+      "production_files_asar_exact": 155,
+      "minimal_package": true,
+      "host_pyc_absent": true,
+      "asar_sha256": "63fdb45a53727956f01d84ca71e24d1931b2b035bcff80a37445a471248a64bb"
+    },
+    "office_presentation_03713": {
+      "keyboard": "fixed six text navigation keys; native text selection required; reset on mouse/part/commands",
+      "scope": "PPT ordinary top-level single-paragraph text box; unique selected substring on current slide",
+      "verification": "all slide order, ordered shape kinds and paragraph text; generated shape IDs may renumber",
+      "limits": "50 slides/2000 shape IDs/100000 text chars;600 replacement;no groups/tables/links/fields/multiline",
+      "core_passed": 440,
+      "chromium": 10,
+      "packaging_tests": 26,
+      "mac_native_tested": false
+    },
+    "offline_delivery_03713": {
+      "version": "0.37.13",
+      "bytes": 483229339,
+      "sha256": "fefb67eb65b08ff64ee25a4b97f0682299231a5d0f25499b081e651256837be4",
+      "mach_o": 278,
+      "code_pages": 93545,
+      "app_entries": 20727,
+      "extra_files": 5,
+      "closed_inventory": true,
+      "residual_entries": 0,
+      "symlinks": 47,
+      "changed_app_entries": [
+        "WillBuddy.app/Contents/Info.plist",
+        "WillBuddy.app/Contents/MacOS/Electron",
+        "WillBuddy.app/Contents/Resources/app.asar",
+        "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+      ],
+      "runtime_unchanged": true,
+      "zero_residuals": true,
+      "closed_crc": true,
+      "electron_page_tamper_rejected": true,
+      "mac_native_tested": false,
+      "production_files_asar_exact": 156,
+      "minimal_package": true,
+      "host_pyc_absent": true,
+      "asar_sha256": "240b17ef936b952941e4abfcfbaddabd0b89ac732ea12e826c4a07d998df0620"
+    },
+    "office_formula_03714": {
+      "tool": "office_set_formula",
+      "single_cell_only": true,
+      "same_sheet_only": true,
+      "numeric_result_max_abs": 9007199254740991,
+      "functions": [
+        "SUM",
+        "AVERAGE",
+        "MIN",
+        "MAX",
+        "COUNT",
+        "IF",
+        "ROUND"
+      ],
+      "no_external_names_or_functions": true,
+      "same_mutation_approval_audit_cas_guard": true,
+      "receipt": "exact workbook constants/formulas; independent all formula numeric caches; integer exact, noninteger bounded ULP tolerance",
+      "limits": "400 ASCII chars/200 tokens/10000 referenced cells per formula;128cols5000rows;10 sheets5000 stored cells1000formulas100000 work budget;no shared-array/chart/merged/complex formulas",
+      "core": 449,
+      "chromium": 11,
+      "mac_native_tested": false,
+      "packaging_tests": 26,
+      "first_ui_cjk_failure": "final full repeat11pass;baseline/control pass;root unknown;not a fixed-stability claim"
+    },
+    "offline_delivery_03714": {
+      "version": "0.37.14",
+      "bytes": 483234600,
+      "sha256": "a7a0e355d8360fdb434208e329aed0e8d9a3b74dfc1aeb53b3b37bda68b1a87c",
+      "mach_o": 278,
+      "code_pages": 93545,
+      "app_entries": 20727,
+      "extra_files": 5,
+      "closed_inventory": true,
+      "residual_entries": 0,
+      "symlinks": 47,
+      "changed_app_entries": [
+        "WillBuddy.app/Contents/Info.plist",
+        "WillBuddy.app/Contents/MacOS/Electron",
+        "WillBuddy.app/Contents/Resources/app.asar",
+        "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+      ],
+      "runtime_unchanged": true,
+      "zero_residuals": true,
+      "closed_crc": true,
+      "electron_page_tamper_rejected": true,
+      "mac_native_tested": false,
+      "production_files_asar_exact": 157,
+      "minimal_package": true,
+      "host_pyc_absent": true,
+      "asar_sha256": "9ddbb5e861ffb44b47335c9963198873aa9e235c8f5df7325d01dd31e0505989"
+    },
+    "office_word_receipt_03715": {
+      "properties": [
+        "fontName",
+        "fontNameAsian",
+        "fontSize",
+        "fontColor",
+        "backgroundColor"
+      ],
+      "scope": "unique contiguous simple main-document paragraph text; native run splitting supported",
+      "receipt": "main/header/footer paragraph text and order; requested direct properties on every selected character",
+      "completion": "per-command fixed-name native completion; boolean false alone never establishes success",
+      "draft": "set verifier before native; partial failure/manual save cannot bypass receipt",
+      "limits": "2000 paragraphs/100000 text/12000 selection; complex targets and ambiguous text rejected; no inherited styles/layout/glyph/whole OOXML guarantee",
+      "mac_native_tested": false,
+      "core": 453,
+      "chromium": 12,
+      "packaging_tests": 26
+    },
+    "offline_delivery_03715": {
+      "version": "0.37.15",
+      "bytes": 483236512,
+      "sha256": "a516de81b28d37ebff5dae6d70cf304ac9fa6190b958da8776bf1e2f7c42dfc1",
+      "mach_o": 278,
+      "code_pages": 93545,
+      "app_entries": 20727,
+      "extra_files": 5,
+      "closed_inventory": true,
+      "symlinks": 47,
+      "changed_app_entries": [
+        "WillBuddy.app/Contents/Info.plist",
+        "WillBuddy.app/Contents/MacOS/Electron",
+        "WillBuddy.app/Contents/Resources/app.asar",
+        "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+      ],
+      "runtime_unchanged": true,
+      "zero_residuals": true,
+      "closed_crc": true,
+      "electron_page_tamper_rejected": true,
+      "mac_native_tested": false,
+      "production_files_asar_exact": 158,
+      "minimal_package": true,
+      "host_pyc_absent": true,
+      "asar_sha256": "c078da2c71580d5d9f4ef18fbff5d5f61a774d024baa5fdc9111a7ba201ae447"
+    },
+    "office_table_grid_03716": {
+      "tool": "office_table_grid",
+      "core": 462,
+      "chromium": 13,
+      "new_tests": 9,
+      "packaging": 26,
+      "same_session_reload": true,
+      "native_history_reset": true,
+      "mac_native_tested": false
+    },
+    "offline_delivery_03716": {
+      "version": "0.37.16",
+      "bytes": 483239961,
+      "sha256": "7edba54d9cfca6cd29284a8b0ce35fa182cbaaf1ddeb29be685037208546a181",
+      "mach_o": 278,
+      "code_pages": 93545,
+      "independent_all_macho_pages": true,
+      "app_entries": 20727,
+      "extra_files": 5,
+      "closed_inventory": true,
+      "symlinks": 47,
+      "changed_app_entries": [
+        "WillBuddy.app/Contents/Info.plist",
+        "WillBuddy.app/Contents/MacOS/Electron",
+        "WillBuddy.app/Contents/Resources/app.asar",
+        "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+      ],
+      "runtime_unchanged": true,
+      "zero_residuals": true,
+      "closed_crc": true,
+      "electron_page_tamper_rejected": true,
+      "mac_native_tested": false,
+      "production_files_asar_exact": 159,
+      "minimal_package": true,
+      "host_pyc_absent": true,
+      "asar_sha256": "acd017227bc5170424b86959ca3e1989fa029ffe381af5c6855d853602f0241e"
+    },
+    "office_perimeter_03717": {
+      "tool": "office_table_grid.edges",
+      "core": 466,
+      "chromium": 14,
+      "new_tests": 4,
+      "related": 13,
+      "packaging": 26,
+      "native_history_reset": true,
+      "mac_native_tested": false
+    },
+    "offline_delivery_03717": {
+      "version": "0.37.17",
+      "bytes": 483240717,
+      "sha256": "c7f5198fe2e8f17aa7eded5121f48b1c1030600a08507fd3ec1b8f3117315593",
+      "mach_o": 278,
+      "code_pages": 93545,
+      "app_entries": 20727,
+      "extra_files": 5,
+      "closed_inventory": true,
+      "symlinks": 47,
+      "changed_app_entries": [
+        "WillBuddy.app/Contents/Info.plist",
+        "WillBuddy.app/Contents/MacOS/Electron",
+        "WillBuddy.app/Contents/Resources/app.asar",
+        "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+      ],
+      "runtime_unchanged": true,
+      "zero_residuals": true,
+      "closed_crc": true,
+      "electron_page_tamper_rejected": true,
+      "mac_native_tested": false,
+      "asar_sha256": "97102c9c7315b69f26d1afd54b573a9453cf66ebcb801a12ce754f49a98efa2d",
+      "production_files_asar_exact": 159,
+      "minimal_package": true,
+      "host_pyc_absent": true
+    },
+    "previous_delivery_03716": {
+      "full_app_library_save": "two explicit transfer_failed;no Library ID",
+      "recovery_checkpoint": "libfile_961a82721aec8191b7414d1b81043e93",
+      "base": "libfile_0b9f5b618c888191b3262111e99ac605",
+      "scope": "checkpoint readback restored exact complete app;not installer/update"
+    },
+    "office_ppt_format_03718": {
+      "tool": "office_replace_selection",
+      "core": 472,
+      "chromium": 15,
+      "new_tests": 6,
+      "related": 13,
+      "packaging": 26,
+      "mac_native_tested": false
+    },
+    "offline_delivery_03718": {
+      "version": "0.37.18",
+      "bytes": 483242150,
+      "sha256": "e365aa9d15e1a9f988c5ffbbc7e4daa63124f5ae1c60cc7dcf69d010ceaf4d27",
+      "mach_o": 278,
+      "code_pages": 93545,
+      "app_entries": 20727,
+      "extra_files": 5,
+      "closed_inventory": true,
+      "symlinks": 47,
+      "changed_app_entries": [
+        "WillBuddy.app/Contents/Info.plist",
+        "WillBuddy.app/Contents/MacOS/Electron",
+        "WillBuddy.app/Contents/Resources/app.asar",
+        "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+      ],
+      "runtime_unchanged": true,
+      "zero_residuals": true,
+      "closed_crc": true,
+      "electron_page_tamper_rejected": true,
+      "mac_native_tested": false,
+      "asar_sha256": "01c2f6c822bfaa4081553f1207b75b4f4189bfeedaa2ece0fc7e87f1de60e4a0",
+      "production_files_asar_exact": 159,
+      "minimal_package": true,
+      "host_pyc_absent": true
+    },
+    "previous_delivery_03718": {
+      "full_app_library_save": "two explicit transfer_failed;no whole-app Library ID",
+      "recovery_checkpoint": "libfile_eec14c625f0c8191a62067e462f4a1ab",
+      "recovery_sha256": "882ba2d4a6678388a8a5ce096afe7a89f9b1f96244517c576b035387604649a3",
+      "scope": "remote checkpoint+exact.15 base actually restored complete483242150byte app;not installer/update"
+    },
+    "office_ppt_direct_format_03719": {
+      "tool": "office_format_presentation",
+      "properties": [
+        "fontSize",
+        "fontColor"
+      ],
+      "scope": "unique same-style simple single-paragraph current PPT text selection;fixed native commands plus per-character output receipt",
+      "core": 478,
+      "chromium": 16,
+      "new_tests": 6,
+      "related": 19,
+      "packaging": 26,
+      "mac_native_tested": false
+    },
+    "offline_delivery_03719": {
+      "version": "0.37.19",
+      "bytes": 483243002,
+      "sha256": "31eca8de40974cd6ef8f6339f13e34a7060f3d7332dbc660df6cab59de5bb510",
+      "mach_o": 278,
+      "code_pages": 93545,
+      "app_entries": 20727,
+      "extra_files": 5,
+      "closed_inventory": true,
+      "symlinks": 47,
+      "changed_app_entries": [
+        "WillBuddy.app/Contents/Info.plist",
+        "WillBuddy.app/Contents/MacOS/Electron",
+        "WillBuddy.app/Contents/Resources/app.asar",
+        "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+      ],
+      "runtime_unchanged": true,
+      "zero_residuals": true,
+      "closed_crc": true,
+      "electron_page_tamper_rejected": true,
+      "mac_native_tested": false,
+      "asar_sha256": "37166f172f8e3e0238b5d1358d257f4682dafca0aa51f1fbfc9ab6b7865c9235",
+      "production_files_asar_exact": 159,
+      "minimal_package": true,
+      "host_pyc_absent": true
+    },
+    "office_work_checkpoint_20261106": {
+      "source_candidate_only": true,
+      "notes": "Word inline picture checks; Excel bounded manual matrix and workbook content guards; offline dependency/UI and Mac verification incomplete",
+      "core_office_regression_passed": 116,
+      "excel_specialized_passed": 16,
+      "preload_tsv_passed": 2,
+      "packaging_passed": 26,
+      "full_regression_passed": false,
+      "mac_native_tested": false,
+      "app_built": false,
+      "github_released": false,
+      "manual_excel_literal_text": true,
+      "real_browser_ui_tested": false,
+      "packaging_and_diagnostic_passed": 28,
+      "stress_seconds_minimum": 1800,
+      "stress_rounds": 153,
+      "stress_failed_rounds": 5,
+      "stress_passed": false,
+      "web_protected_files_unchanged": 122
+    },
+    "office_crop_checkpoint_20261106": {
+      "candidate_only": true,
+      "ppt_picture_source_crop_guard": true,
+      "native_rounding_observed": true,
+      "crop_loss_blocks_publish": true,
+      "stress_failure_observed": true,
+      "stress_root_cause_known": false,
+      "full_regression_passed": false,
+      "mac_native_tested": false,
+      "app_built": false,
+      "github_released": false
+    },
+    "excel_media_work_checkpoint_20261106": {
+      "candidate_only": true,
+      "native_linux_test": true,
+      "excel_tests_passed": 18,
+      "external_reference_negative_test": true,
+      "anchor_or_crop_verified": false,
+      "mac_native_tested": false,
+      "full_regression_passed": false,
+      "app_built": false,
+      "github_released": false,
+      "worksheet_ordered_image_identity_verified": true,
+      "image_anchor_verified": false,
+      "image_start_anchor_verified": true,
+      "image_size_crop_verified": false,
+      "packaging_tests_passed": 28,
+      "same_cell_image_size_verified": true,
+      "cross_cell_size_verified": false,
+      "cross_cell_end_marker_guard": true,
+      "cross_cell_equivalence_supported": false,
+      "source_crop_guard": true,
+      "browser_runtime_test_passed": false,
+      "browser_runtime_blocker": "missing jsdom",
+      "command_queue_tests_passed": 14,
+      "final_office_combined_passed": 56,
+      "older_baseline_stress": {
+        "rounds": 111,
+        "failures": 0,
+        "seconds": 1694.7,
+        "completed_30min": false,
+        "matches_final_code": false
+      }
     }
   },
   "files": [
@@ -186,13 +884,13 @@
     },
     {
       "path": "ITERATION_LOG.md",
-      "bytes": 194664,
-      "sha256": "81c4a906fb011fef69987159e03fe930148ea36adc55b76c32078940e104a403"
+      "bytes": 263148,
+      "sha256": "465758e483f8623d15e57f4d5bbe4fe2dbb7dd85624bb342f83d113a2823024a"
     },
     {
       "path": "ITERATION_PLAN.md",
-      "bytes": 84154,
-      "sha256": "5ec8a1dfa9bd7325baa197e0cc7128d6ae5ac0fd1216d682f4c2e2f17f8a1f08"
+      "bytes": 142360,
+      "sha256": "6874fcae92bc47edf975339cf57da7817431562d02554e2e42364282f5eb5ac3"
     },
     {
       "path": "OPENWORKBUDDY_REFERENCE.md",
@@ -211,8 +909,8 @@
     },
     {
       "path": "RELEASE_STATUS.json",
-      "bytes": 10449,
-      "sha256": "a46c7471abc01d2f40e3351d24461ac8e97e87fbc21ca2497a1c92173af87095"
+      "bytes": 36904,
+      "sha256": "fa68f22bf3b387dd4a149d27eb864df2b930ab7df60c2611f3db33845445dd30"
     },
     {
       "path": "SELF_TEST_MATRIX.md",
@@ -691,8 +1389,8 @@
     },
     {
       "path": "desktop/README.md",
-      "bytes": 7674,
-      "sha256": "6892d7911661903ff474d69fbcf029f377a11ee48d722245648906306e299c69"
+      "bytes": 8033,
+      "sha256": "b5b31ab9d285a5147014b850a30c7e93a7f74c755623c2ff115b328a8cb2d323"
     },
     {
       "path": "desktop/assets/app.icns",
@@ -761,8 +1459,8 @@
     },
     {
       "path": "desktop/main/document-files.mjs",
-      "bytes": 2231,
-      "sha256": "7b957303487e4df2557a7eaffbd98a9df3e0ae6b7f7c3c11340a14656c2f1daf"
+      "bytes": 2451,
+      "sha256": "4dcbf9fae8524535be245ffe9c060f4a736245a7689b9fde4fccdfc961a4810a"
     },
     {
       "path": "desktop/main/genoffice.mjs",
@@ -791,8 +1489,13 @@
     },
     {
       "path": "desktop/main/office-windows.mjs",
-      "bytes": 2488,
-      "sha256": "b704ff391a31db517dbd38e173f46c256689320bb742bbc4105e185f9622a9dd"
+      "bytes": 3108,
+      "sha256": "8cb508e02ef91adc53d7ce2f80f12ffe6fcb643669fe8e96c4a855edf5828a2f"
+    },
+    {
+      "path": "desktop/main/pdf-export.mjs",
+      "bytes": 1668,
+      "sha256": "0f07f8f1e7ea830c0a8af0b03b4589a05baa0cb936e9df647f6fa8a0f1645a05"
     },
     {
       "path": "desktop/main/preview-navigation.mjs",
@@ -811,28 +1514,33 @@
     },
     {
       "path": "desktop/main.mjs",
-      "bytes": 24920,
-      "sha256": "68c58741baeb3cda0c6c0495ed31a6821f345d12fd808e8e9919ab23409b0595"
+      "bytes": 24372,
+      "sha256": "ade452dfdc365ae676bc79ee4de80a3320387da3f525bd4620aa49dadf2692e0"
     },
     {
       "path": "desktop/office-preload.cjs",
-      "bytes": 522,
-      "sha256": "b9e3487b61062359376c9cda5c8c8ff54ae350e9bc2c42c195f08626346aed86"
+      "bytes": 582,
+      "sha256": "fe264d9a8cccc6e5028051f116bff97864af5353cc5be3e471bd319fb1a2a2b6"
     },
     {
       "path": "desktop/package-lock.json",
-      "bytes": 288408,
-      "sha256": "1d3034dc6b47d4eb5216e442a68e124883329a85dfaeb5197d4b4e689bcc470b"
+      "bytes": 288410,
+      "sha256": "89a28fe746c00e9c92ab24c50eb72b08c44282fe87f057f1fa3bcc8b5888cb30"
     },
     {
       "path": "desktop/package.json",
-      "bytes": 3522,
-      "sha256": "7d998444e393f3bb38006ee8452f3b76bee64f672cd5ed77d603b59941c83a17"
+      "bytes": 3523,
+      "sha256": "017a56c6f783d82e79f524ab1ec227ec174075a079690249e92248ac582c0db3"
+    },
+    {
+      "path": "desktop/ppt-probe.mjs",
+      "bytes": 2152,
+      "sha256": "862c06fa297df70832b2df0df8d74920dd3359ec230f8a0dd9d7e81d7af1baef"
     },
     {
       "path": "desktop/preload.cjs",
-      "bytes": 1707,
-      "sha256": "52d61c8240ee4c50794d2341b5786e8ec69ae86c5f0491ba4ffe9c7a711d047c"
+      "bytes": 1727,
+      "sha256": "4cb57d1d456841de34bb0089b599a995f588642a527e3c5622d42158ef3fc1ac"
     },
     {
       "path": "desktop/python-wheels.lock.json",
@@ -846,8 +1554,8 @@
     },
     {
       "path": "desktop/runtime/agent.mjs",
-      "bytes": 11660,
-      "sha256": "f3983f99cc6e7205e801b25b6e5edd97df20f91d82e41f84d9b437ab51591517"
+      "bytes": 11900,
+      "sha256": "07c5e7dd456bc269d336fd203b2f6543b661e87e220995a9e8d62f754843848e"
     },
     {
       "path": "desktop/runtime/browser-dom.mjs",
@@ -886,8 +1594,8 @@
     },
     {
       "path": "desktop/runtime/command.mjs",
-      "bytes": 6580,
-      "sha256": "14fb23bf0794a0482262eadad06d54577f9f3edb9fcdf0817ee42d0dd9ceacca"
+      "bytes": 7969,
+      "sha256": "ffcba528dff53e51f0beec10e891e36f396e3567ca1094d5516c2994907e5190"
     },
     {
       "path": "desktop/runtime/conversion-sanitizer.js",
@@ -926,13 +1634,38 @@
     },
     {
       "path": "desktop/runtime/model-policy.mjs",
-      "bytes": 2681,
-      "sha256": "dd666cb6a8fb863eb5e5da54b575768a453a4c131f4d43c8b4942926b0c42af8"
+      "bytes": 2936,
+      "sha256": "20033608657f16de4e3363c71fa45e747c197dba557b78cf6e7e3dc2e8468d0e"
     },
     {
       "path": "desktop/runtime/model-stream.mjs",
       "bytes": 8309,
       "sha256": "406c4a9f0119590e03d7d790496065212515e74866c3391e7c3f7782fda2a085"
+    },
+    {
+      "path": "desktop/runtime/office-cell-format.mjs",
+      "bytes": 8027,
+      "sha256": "5cef051515bb1964c4a1158e62fe5b0e11b02c046f2341529d02b8405ba395d4"
+    },
+    {
+      "path": "desktop/runtime/office-cells.mjs",
+      "bytes": 20708,
+      "sha256": "ddc8a0642280aea9246a3d0ca0b8a7185df8d396e942b0edae8a69c12816af2e"
+    },
+    {
+      "path": "desktop/runtime/office-fonts.mjs",
+      "bytes": 1358,
+      "sha256": "20fc63eb7c453b88708b450101fb97842e864f7605100881a656d3304cdbc3ca"
+    },
+    {
+      "path": "desktop/runtime/office-format.mjs",
+      "bytes": 1961,
+      "sha256": "0884365db1dc4889a29868f0c47b335fbeff485bc56b960e42f8e97651e13db7"
+    },
+    {
+      "path": "desktop/runtime/office-formula.mjs",
+      "bytes": 7017,
+      "sha256": "8b3c6bd938b671b3c37a6f9d204e50881a28211f15e34771743e9c642e4edf3a"
     },
     {
       "path": "desktop/runtime/office-kit/ABI.json",
@@ -946,13 +1679,38 @@
     },
     {
       "path": "desktop/runtime/office-kit/worker.py",
-      "bytes": 6310,
-      "sha256": "c3941c27e0f7fef2ed6c8cc95eab80aba4b759341938cdf68521a3095ae68bfa"
+      "bytes": 25232,
+      "sha256": "31e5e261ebda739cc3cc6585aeef1a4a6ba11917636ff95b6ae150bb9ef977eb"
     },
     {
       "path": "desktop/runtime/office-kit.mjs",
-      "bytes": 2493,
-      "sha256": "d2f92ef3be34db7e088c84ba2b6a35e95b4dd66d58e750314d17f1d484e0210f"
+      "bytes": 3067,
+      "sha256": "5a08c67ea7d2e26a0f802ac5a52954e921eb76175e3e7be831ac46da0f08d780"
+    },
+    {
+      "path": "desktop/runtime/office-pdf.mjs",
+      "bytes": 1323,
+      "sha256": "cdd746c7bbb007de32bf4112b44d38d801160ed47edee74c187bbada876f088c"
+    },
+    {
+      "path": "desktop/runtime/office-presentation.mjs",
+      "bytes": 15458,
+      "sha256": "874fa80777a5de36df1460018456b713748f1e9611a4978b61a2e650c5e2b5ba"
+    },
+    {
+      "path": "desktop/runtime/office-table-grid.mjs",
+      "bytes": 7675,
+      "sha256": "8dc7d180eef008e990ff29591197e48e3fe76fef3bb9b6876089dbcd85be7a7d"
+    },
+    {
+      "path": "desktop/runtime/office-table-outline.mjs",
+      "bytes": 1406,
+      "sha256": "2cd31a34c090cf45a87b66b6e0953eb5d6e3758e68608639ffcaa47150fb0ab2"
+    },
+    {
+      "path": "desktop/runtime/office-word-format.mjs",
+      "bytes": 14014,
+      "sha256": "16ef9e5cb3d8cb47796636958b6cab38fdc1c606d323591ee13f5b85714f1e44"
     },
     {
       "path": "desktop/runtime/presets/NOTICE.txt",
@@ -1006,8 +1764,8 @@
     },
     {
       "path": "desktop/runtime/tools.mjs",
-      "bytes": 9458,
-      "sha256": "72b709d43232b030835b8b6510a9b9f3e8ce6d3059ecc5726d1f467c490d24d7"
+      "bytes": 9754,
+      "sha256": "e395ca9e8c9210f573f82af8d4765d484f837fa3c2bb816a47c79ada87afcf02"
     },
     {
       "path": "desktop/runtime/vendor/GENOFFICE-MANIFEST.json",
@@ -1096,8 +1854,8 @@
     },
     {
       "path": "desktop/services/conversation.mjs",
-      "bytes": 18774,
-      "sha256": "fd618a4243e61ae0706cc0eee62454920df525c1081cb4258de282691fff5921"
+      "bytes": 18796,
+      "sha256": "86b3987ffd42b17a1dd8d2e9c914c55712676feaccc7ace1ff9e976a0fd1dbeb"
     },
     {
       "path": "desktop/services/document-selection.mjs",
@@ -1106,8 +1864,8 @@
     },
     {
       "path": "desktop/services/documents.mjs",
-      "bytes": 17871,
-      "sha256": "b60a2f3b352e44c8e674ba4b32310e4b770573ae2499a46737ee1ac42f6f370c"
+      "bytes": 17984,
+      "sha256": "b70f71bec3c8797c567d877bdef67b1c54949710287cb12126d72919963dcd36"
     },
     {
       "path": "desktop/services/file-preview.mjs",
@@ -1130,9 +1888,14 @@
       "sha256": "ca0ae95174431732fa23524b00a32177d52d512c06eb0efecfe22130c7d9849c"
     },
     {
+      "path": "desktop/services/legacy-model-settings.mjs",
+      "bytes": 1788,
+      "sha256": "a2ef7a05b6d4a42d930858d1ace539eb360e7cdd2ccd8dd5941d47cfd43e7eef"
+    },
+    {
       "path": "desktop/services/libreoffice.mjs",
-      "bytes": 6100,
-      "sha256": "b54f68fddc6f1f1e3fac9741a4e945982b3a97a86ae0dee9d54b534c623e0b1f"
+      "bytes": 6417,
+      "sha256": "c449a59555e88b5e2cebc13339557cf0a65cc015ea5c9fc10bd7d22ab152fad5"
     },
     {
       "path": "desktop/services/mcp-access.mjs",
@@ -1141,18 +1904,18 @@
     },
     {
       "path": "desktop/services/models.mjs",
-      "bytes": 5075,
-      "sha256": "399368332deb987091ae26fdea34b71875a2a5c2317cee0c02e7e61bc5c5675f"
+      "bytes": 5580,
+      "sha256": "c14328941bcc711047a9f05d79321584c3493347813f910bb88a221e447a8461"
     },
     {
       "path": "desktop/services/office-chat.mjs",
-      "bytes": 4729,
-      "sha256": "cd37480b954b05f615d2ca3d1663c34b1742c46248af75262028a3e40b7f4d4b"
+      "bytes": 10088,
+      "sha256": "ae9fe581830d0938b78542fb130bd9fa7cb6a382636829b5ff58cff3d9bfe810"
     },
     {
       "path": "desktop/services/office-workspace.mjs",
-      "bytes": 8593,
-      "sha256": "cf01c851988f9981193e026e780f355ae29e72381ef26d8872fec05783ced201"
+      "bytes": 29777,
+      "sha256": "3f7a1c0b1a04dc99275ec4c111b5b8c9d78eef51a32ee2e715e960ae4af0bc60"
     },
     {
       "path": "desktop/services/recovery.mjs",
@@ -1181,8 +1944,8 @@
     },
     {
       "path": "desktop/src/app.js",
-      "bytes": 78613,
-      "sha256": "c99831899c767b30ac09c0170ad38085c5bf3aeb57584e9b0db19cad9ced438d"
+      "bytes": 79619,
+      "sha256": "e33326ea92ab0082412520402d00ecfccf3e373882cafd61808b7496e9747a60"
     },
     {
       "path": "desktop/src/assets/logo.png",
@@ -1226,18 +1989,18 @@
     },
     {
       "path": "desktop/src/office/index.html",
-      "bytes": 3261,
-      "sha256": "cb86dcace936dff9a507b61556a1d96b721f9ee8efef28fb52552e9740404cf7"
+      "bytes": 5096,
+      "sha256": "286a9b1920e1fea93bc386bc363d8a7c82294a79af5d1a7bfdc3c2c5af6952bc"
     },
     {
       "path": "desktop/src/office/office.css",
-      "bytes": 3248,
-      "sha256": "e417380cc1fb89c347912af1a8d795f4bb2c24ec6e77bc556d7a05be3554f0e6"
+      "bytes": 3662,
+      "sha256": "6b9fb70537fea8c1cd19efe6c83d3ee18bfda897f5053e7c00bcd9fda053b798"
     },
     {
       "path": "desktop/src/office/office.js",
-      "bytes": 5910,
-      "sha256": "f7675908bee517c39e9442adefc4d56f2d8eb2307e3608612acb71238c64285d"
+      "bytes": 12331,
+      "sha256": "c7a40d91779658f7b8e27d21ddff45db3955b71e70cdc2f33e66901d465ad1b2"
     },
     {
       "path": "desktop/src/pdf/PDF-MANIFEST.json",
@@ -1330,6 +2093,21 @@
       "sha256": "0dceb53e19340c7fc6436fa01515374c9a7345450f771cb975785620ef676fb0"
     },
     {
+      "path": "desktop/src/shared/office-history.js",
+      "bytes": 443,
+      "sha256": "ba8b3dd0bb562bcee287623a35ccda37b6702d72a68d79364255cef2428ce473"
+    },
+    {
+      "path": "desktop/src/shared/office-navigation.js",
+      "bytes": 1368,
+      "sha256": "b0063b60d4f456c9ab215c5ecf784bf1fad20006b32a3ba3a50a2e19af800996"
+    },
+    {
+      "path": "desktop/src/shared/office-tsv.js",
+      "bytes": 1057,
+      "sha256": "5c67d77b22d64572d2adc48ec36299b262b6bd432bd1f83d631d4840b14b5724"
+    },
+    {
       "path": "desktop/src/styles.css",
       "bytes": 23794,
       "sha256": "1a178055f6909c7124150291301142deffb9cc0253287a0173b654c25185faf2"
@@ -1376,8 +2154,8 @@
     },
     {
       "path": "desktop/src/ui/documents.js",
-      "bytes": 4845,
-      "sha256": "cf7177cd4ddcb8db86a9d7251a7914df5893deb86b41bcf608357b4a01ef2713"
+      "bytes": 5061,
+      "sha256": "d21f50f9907e493af66957f43629eb64340ca144046f0008d64134c31aee4770"
     },
     {
       "path": "desktop/src/ui/html-preview.js",
@@ -1406,8 +2184,8 @@
     },
     {
       "path": "desktop/src/ui/models.js",
-      "bytes": 5923,
-      "sha256": "c720e41f8acff97505c14fc1fcbcf036e6285afa71797f1781d76dd14bc3fc21"
+      "bytes": 6005,
+      "sha256": "1173fed25aa1aca1f0197d12be1adcedb72575f13ae624bb38a3ce059f171b03"
     },
     {
       "path": "desktop/src/ui/office-preview.js",
@@ -1446,8 +2224,8 @@
     },
     {
       "path": "desktop/src/ui/workspace.js",
-      "bytes": 11627,
-      "sha256": "0db732d331ba04c84ebb13067896d26f2ea70705f7f41a08ca81e8635cf3a6ae"
+      "bytes": 11720,
+      "sha256": "49a866b92f2b0bce773f452decc46d35471d838ecb209c2cf75ab01fa4770272"
     },
     {
       "path": "desktop/src/vendor/MANIFEST.json",
@@ -1545,14 +2323,99 @@
       "sha256": "e5483fea751d74ffa417d8677969706e0ad6145db351e1c9df1eb7c006664ebd"
     },
     {
+      "path": "desktop/tests/acceptance/office-cell-format-live.mjs",
+      "bytes": 5287,
+      "sha256": "de25bb2a05c3770a9eeb013b84db27037e7073e2ecfe2be22e9216f7e22f6bcf"
+    },
+    {
+      "path": "desktop/tests/acceptance/office-cells-live.mjs",
+      "bytes": 5083,
+      "sha256": "6323383d9270f51e1bf0cfb5c8ee1da6566050bc01b56dcc43f967b2d73fe9a7"
+    },
+    {
+      "path": "desktop/tests/acceptance/office-cjk-live.mjs",
+      "bytes": 4924,
+      "sha256": "c612a74b5cab3cc918024f15ee561f0fdc6565ea0d85b31744f8bf06c59fbf81"
+    },
+    {
+      "path": "desktop/tests/acceptance/office-colors-live.mjs",
+      "bytes": 6194,
+      "sha256": "3e42a341a3d152c9939a7672b8f3c640d014d8eed3d8df128813479dc89ebe7a"
+    },
+    {
       "path": "desktop/tests/acceptance/office-entry-live.mjs",
       "bytes": 4622,
       "sha256": "8f380cdcb350326d4db364e42ac4ff1a2647838323a8889c07ad067382e64464"
     },
     {
+      "path": "desktop/tests/acceptance/office-formula-live.mjs",
+      "bytes": 5155,
+      "sha256": "663a11e1a99c40a8f784b327585ab871d359119190eec41e0a3ec50c22c4bb91"
+    },
+    {
+      "path": "desktop/tests/acceptance/office-grid-live.mjs",
+      "bytes": 5426,
+      "sha256": "27659d072f633f4a7c1831c8cfc37a72aa433725e443c0b201edb00b7b1944d3"
+    },
+    {
+      "path": "desktop/tests/acceptance/office-history-live.mjs",
+      "bytes": 4058,
+      "sha256": "3ffd2f5aacba98a2767b3c448067a33b17734a7e6be8da7921e30310699433bb"
+    },
+    {
       "path": "desktop/tests/acceptance/office-kit-live.mjs",
       "bytes": 6813,
       "sha256": "fb8b4df5ca4966e1e0d9d5d2165b945adbd6eaa4f31fe966cb87a3124fe86f09"
+    },
+    {
+      "path": "desktop/tests/acceptance/office-literal-live.mjs",
+      "bytes": 5362,
+      "sha256": "8063fc966eb52be16d29310b4145fdabdb7dc547e9194224496d9a02db312484"
+    },
+    {
+      "path": "desktop/tests/acceptance/office-manual-selection-live.mjs",
+      "bytes": 2847,
+      "sha256": "e9b4711e009a58d49c29e9a712023fd98e3c2e4578c13f9113c0a3bacac6ffcf"
+    },
+    {
+      "path": "desktop/tests/acceptance/office-navigation-live.mjs",
+      "bytes": 6000,
+      "sha256": "d0dae4e3ef0a074113481e435e7fb8e7476b3d27276f7486a5f99b08a7e728e8"
+    },
+    {
+      "path": "desktop/tests/acceptance/office-outline-live.mjs",
+      "bytes": 5221,
+      "sha256": "ed0e112b747f7e8a756f764502077c2d2fd6e0145c77c2a188478ac933206b05"
+    },
+    {
+      "path": "desktop/tests/acceptance/office-pdf-kit-live.mjs",
+      "bytes": 4140,
+      "sha256": "28c409fead8e24d9e7ed21f98623d9a7f4f9c9eecbc1056c85e41940a4862ccd"
+    },
+    {
+      "path": "desktop/tests/acceptance/office-perimeter-live.mjs",
+      "bytes": 5685,
+      "sha256": "9f17c84ce3be0247cb663e1d515d17de8bd87a93b8ce93576c3caf81292ec3d8"
+    },
+    {
+      "path": "desktop/tests/acceptance/office-ppt-direct-format-live.mjs",
+      "bytes": 6163,
+      "sha256": "9f73c8a1f93206be6994c35357f5e2c1aa5816ebd9e2f6959460457a248d5338"
+    },
+    {
+      "path": "desktop/tests/acceptance/office-ppt-format-live.mjs",
+      "bytes": 5931,
+      "sha256": "38a02e7932f333c36ed850091576de8d2773f6c31171a22a1ac3b6cb0669a4b4"
+    },
+    {
+      "path": "desktop/tests/acceptance/office-presentation-live.mjs",
+      "bytes": 5650,
+      "sha256": "17fa3fd701770558547fe0b7df5f758608a4b4f4687708d0938af018fff9bfba"
+    },
+    {
+      "path": "desktop/tests/acceptance/office-presentation-manual-live.mjs",
+      "bytes": 5276,
+      "sha256": "3dde739d93cae25236475b802bbbafcd2e8d40f77237658d54c8f049e215101d"
     },
     {
       "path": "desktop/tests/acceptance/office-preview-live.mjs",
@@ -1563,6 +2426,16 @@
       "path": "desktop/tests/acceptance/office-selection-live.mjs",
       "bytes": 7351,
       "sha256": "5eeaa27a0ae6c502f2325c20aa02875958269165360a3ee843c119bbde0b0d09"
+    },
+    {
+      "path": "desktop/tests/acceptance/office-viewport-live.mjs",
+      "bytes": 3424,
+      "sha256": "af5421e3adf88ea745d65a6746a82d36933f7ecb27e7c4ae1b01e025064325b8"
+    },
+    {
+      "path": "desktop/tests/acceptance/office-word-format-live.mjs",
+      "bytes": 5236,
+      "sha256": "0347a35f3a90675a299aaf1f5b42a5cf5a7b1db0b5ce5b0183b20e061ae7492f"
     },
     {
       "path": "desktop/tests/acceptance/pdf-cjk-live.mjs",
@@ -1675,6 +2548,11 @@
       "sha256": "e5ae8b5d4203349f4d6f06d2215c5ad39c3915af51b4fa982fce0b59825b65b4"
     },
     {
+      "path": "desktop/tests/cli-auto-find.test.mjs",
+      "bytes": 2795,
+      "sha256": "34aebf063a09f53ac63da96caf7d8ebde04deb1adbab5c10bd8cb649783f2789"
+    },
+    {
       "path": "desktop/tests/code-projects.test.mjs",
       "bytes": 6224,
       "sha256": "235e0e508102c5588e5a7212445ba8c9a8979a54e3d4a7d6133b7a7f4945ad3e"
@@ -1745,6 +2623,11 @@
       "sha256": "7db83b594b46c04c25161c31819942f6f57b9ccc2980dd4d0c04d0e0cb1a0132"
     },
     {
+      "path": "desktop/tests/helpers/ppt-style.mjs",
+      "bytes": 750,
+      "sha256": "aa1a78bdaffea577e5f86e9fd3bb056cdf00066e73764d2f6b69f2267d7a2b9b"
+    },
+    {
       "path": "desktop/tests/helpers/word-fixture.mjs",
       "bytes": 2497,
       "sha256": "bc692f85d64d2cdde0e75c7ccbc830b31c0fbe34253afafd60a51c24e12f1f75"
@@ -1786,8 +2669,8 @@
     },
     {
       "path": "desktop/tests/models.test.mjs",
-      "bytes": 11082,
-      "sha256": "da581f7461f963bbf645f5d50bb22fb46022a4447892c53bc52ef4a5f3cde605"
+      "bytes": 15387,
+      "sha256": "28dbc59d5dc0e209861d1df935a6109b3acd6117476cc1495a621f48e3f487f3"
     },
     {
       "path": "desktop/tests/native/preview-electron.mjs",
@@ -1805,14 +2688,99 @@
       "sha256": "b08f7db3c26daf1120d517bb9db32c9a6b26f11b6dbc50d0d151c64b04c12ba4"
     },
     {
+      "path": "desktop/tests/office-cell-format.test.mjs",
+      "bytes": 9473,
+      "sha256": "2b7384e965430bf6b6ed078d199949cedbf731a4d78f98f9cad52038e0a4a3cb"
+    },
+    {
+      "path": "desktop/tests/office-cells.test.mjs",
+      "bytes": 25125,
+      "sha256": "3d99d5f29d396cd4377743f0bf10ce525a8d554d1164e83f06f045fa67a90bc2"
+    },
+    {
       "path": "desktop/tests/office-chat.test.mjs",
-      "bytes": 7485,
-      "sha256": "45cfbf33bf5de95b84ed14cb6a253c1cad2dc27d6104a8d2085db9c4300cabed"
+      "bytes": 16920,
+      "sha256": "20edd6d74ff8c8aa83e67ec2bc346cb86f9597d1fc83e788b4321e69f3fdebfb"
+    },
+    {
+      "path": "desktop/tests/office-colors.test.mjs",
+      "bytes": 4876,
+      "sha256": "23540714535e6cccc5c5b348545f283291c0e1b3375e8553d4a03eea850435b8"
+    },
+    {
+      "path": "desktop/tests/office-discard-ui.test.mjs",
+      "bytes": 3499,
+      "sha256": "2ab825778e36e043182dcca4275826c8874f263be488fc8cd275c010d7fe65fc"
+    },
+    {
+      "path": "desktop/tests/office-discard.test.mjs",
+      "bytes": 5469,
+      "sha256": "b9b15df843a609833f1b5e512caf5a0b24aa4850d9cb02885a39875634db159f"
+    },
+    {
+      "path": "desktop/tests/office-fonts.test.mjs",
+      "bytes": 2260,
+      "sha256": "901464d15be741407ba30d96a9d8201bcae9d7bc06a7a5092932dcba41a513a8"
+    },
+    {
+      "path": "desktop/tests/office-format.test.mjs",
+      "bytes": 1348,
+      "sha256": "0fef9ad6cff18d03bb89051ccabe5f31644eb398ffb9039ac8b3a222d61e5b7d"
+    },
+    {
+      "path": "desktop/tests/office-formula.test.mjs",
+      "bytes": 9320,
+      "sha256": "2063701deefa3087146b2cf816fe2832f62772a8b40ef04f59282a53c763a1d9"
+    },
+    {
+      "path": "desktop/tests/office-history.test.mjs",
+      "bytes": 5113,
+      "sha256": "bfb445805b28813ec13091d45d6ffad0fc7b7484cb793ac3d0900a5e4532b7d4"
     },
     {
       "path": "desktop/tests/office-kit.test.mjs",
       "bytes": 5253,
       "sha256": "85454138f411cf2a20fec9cf0db5e16a37a374160e8c7118bbea5031da10b88e"
+    },
+    {
+      "path": "desktop/tests/office-literal.test.mjs",
+      "bytes": 4938,
+      "sha256": "f849d79effd6eb5c66e298e502a9d47ebf06e6456684539479cb634c44634fa0"
+    },
+    {
+      "path": "desktop/tests/office-manual-cells-flow.test.mjs",
+      "bytes": 3239,
+      "sha256": "4bc7ca6daaf8f1965c5b01d76df033b0fb0364cff3e044f382839b0ecf01f583"
+    },
+    {
+      "path": "desktop/tests/office-manual-cells-ui.test.mjs",
+      "bytes": 2763,
+      "sha256": "8f2bcbab0a94262ab2f0deeba4259d2707a3c7d60178975285e62e8d14418581"
+    },
+    {
+      "path": "desktop/tests/office-manual-word-flow.test.mjs",
+      "bytes": 3360,
+      "sha256": "92b04591346431ca09d13abdee60108e3c440183fae9435431673a466e9333a4"
+    },
+    {
+      "path": "desktop/tests/office-navigation.test.mjs",
+      "bytes": 6444,
+      "sha256": "3b24109db04d7cbc9c0b82e59f3e112aa59a890d2e45a24a0309e7bdda50a646"
+    },
+    {
+      "path": "desktop/tests/office-pdf.test.mjs",
+      "bytes": 7288,
+      "sha256": "4f3236e40fb90b04f3b871bf6759783fd17a70a9d1e9d568c39ed62e56928aeb"
+    },
+    {
+      "path": "desktop/tests/office-preload.test.mjs",
+      "bytes": 1075,
+      "sha256": "6ab8d14b447eeeaf24f3275b6c33222bde71ad1c21da998f0f719140400cfaeb"
+    },
+    {
+      "path": "desktop/tests/office-presentation.test.mjs",
+      "bytes": 33043,
+      "sha256": "32818ec0489a5792eff93eeef051cc966e7f7b8289780b383aadcb25315f9bae"
     },
     {
       "path": "desktop/tests/office-preview.test.mjs",
@@ -1825,14 +2793,54 @@
       "sha256": "6ac5a6af9a9c90e73d20b6b742eb5a42b2939a99cf0cd28bbbc294f652e8738e"
     },
     {
+      "path": "desktop/tests/office-table-grid.test.mjs",
+      "bytes": 18173,
+      "sha256": "f4093448ab24eb2cc0c806ef8238cfbfd115a689d35bb02689d09f1a0eaa66f2"
+    },
+    {
+      "path": "desktop/tests/office-table-outline.test.mjs",
+      "bytes": 9369,
+      "sha256": "39136b5237450272d505852c95c09e405d95ba9ff22b2755e6b9addb9858c979"
+    },
+    {
+      "path": "desktop/tests/office-tsv.test.mjs",
+      "bytes": 855,
+      "sha256": "7aa5f4e1af0fdb11dc583c7da0dded0675c15d4c53219c80448a752f2eb28106"
+    },
+    {
       "path": "desktop/tests/office-window.test.mjs",
-      "bytes": 2173,
-      "sha256": "3b01c714a84aeb96bc91a6f7646be4914d37729862f7502c45206c42778f8b42"
+      "bytes": 3064,
+      "sha256": "a565b2212775fe5e1b035bd97ec77300682cbe565d6c75e92ca5ef0f1b32c0de"
+    },
+    {
+      "path": "desktop/tests/office-word-cross-selection.test.mjs",
+      "bytes": 5224,
+      "sha256": "d3c36cd7d2b947c5510494679dc8f4678463324127bccad0fbc30f2a07a01bf4"
+    },
+    {
+      "path": "desktop/tests/office-word-format.test.mjs",
+      "bytes": 7823,
+      "sha256": "d435d65db6cde63ee75de153a17a8c14d8a1654c631ad69204de1f82cb542579"
+    },
+    {
+      "path": "desktop/tests/office-word-media.test.mjs",
+      "bytes": 6455,
+      "sha256": "69354ebc64e1a38c879db1e1d2c78b40321f956eb467e1358b01c2b0b066ff6b"
+    },
+    {
+      "path": "desktop/tests/office-word-preserve-styles.test.mjs",
+      "bytes": 4696,
+      "sha256": "48a7e2df5edab5bc46b548a7af42e02e8986f922ad4e4bf5cc02b3e9cb731464"
     },
     {
       "path": "desktop/tests/office-workspace.test.mjs",
       "bytes": 3575,
       "sha256": "080de13c089bf7f69c4d35bdd2711ddad072d5ca742826a8bf0d4a24ad02d366"
+    },
+    {
+      "path": "desktop/tests/pdf-export.test.mjs",
+      "bytes": 3894,
+      "sha256": "f4b9be5c9beffcee32384394b81010a975d764d2c050682f828751d37ebf57bb"
     },
     {
       "path": "desktop/tests/preload-office.test.mjs",
@@ -1930,6 +2938,11 @@
       "sha256": "ab15c91d8cd2bf2a47fd1cb9d03ceb5f4c2fcd4d9fd965795bc3a731bcd93857"
     },
     {
+      "path": "docs/BUILD_INPUT_GUARD_0373R1.md",
+      "bytes": 2600,
+      "sha256": "c0f49f27e19e780891a22c6342d7b947845ebf7380d710a8c6f49b4bffc03acb"
+    },
+    {
       "path": "docs/CHAT_ATTACHMENTS.md",
       "bytes": 3388,
       "sha256": "5c7daf05ba7cb93fec9a5de4cd084d8b5dc249f899c8e42793eeffce62383393"
@@ -1951,8 +2964,8 @@
     },
     {
       "path": "docs/DOWNLOADS.md",
-      "bytes": 23039,
-      "sha256": "6f458e0cb497bf04407ea16d68f96ccb33b0a0623fa54f475c276c9e3492c1fb"
+      "bytes": 54037,
+      "sha256": "b575b70b3be92786287429231a3d5f58fee658db8c9824141bd489e6bced3baf"
     },
     {
       "path": "docs/DURABLE_COMMANDS.md",
@@ -2010,9 +3023,24 @@
       "sha256": "96b5c2ddf1c3a6527671a9738fe14dd0b79fca6f800390954a3087197fb6efd8"
     },
     {
+      "path": "docs/MAC_FONT_CANDIDATE_03721.md",
+      "bytes": 1458,
+      "sha256": "411a1f8205cffc4a70a490fb00a98ee6529a74d675725e42adc02d0430768528"
+    },
+    {
       "path": "docs/MCP_AUTHENTICATION.md",
       "bytes": 6417,
       "sha256": "48809925c1f839b1a096db83090277e87ba178c8dfa3886affd72432dfb6e6ee"
+    },
+    {
+      "path": "docs/MODEL_ROUNDS_03723.md",
+      "bytes": 1545,
+      "sha256": "4a28825c1d9cb97081b4b557e663bc13c22cbdcfb5f9e00c52b1a0f00aca4c2b"
+    },
+    {
+      "path": "docs/MODEL_SETTINGS_TRANSACTION_03724.md",
+      "bytes": 1756,
+      "sha256": "31d1fb4fb603cf6b8b93e0e1e8307476165a9ad9915d8707b3358979bec9b0fd"
     },
     {
       "path": "docs/NATIVE_OFFICE_AND_PYTHON.md",
@@ -2020,9 +3048,79 @@
       "sha256": "ca8491c0f4a3cb8d1efa67ac5926d45d7bfa1af451311019184af84cc5e214bb"
     },
     {
+      "path": "docs/OFFICE_CELLS_03710.md",
+      "bytes": 8711,
+      "sha256": "f81e1cfac2176fa9c20262473d6907945902f99800e8fa3ab656c91fc6f22ae3"
+    },
+    {
+      "path": "docs/OFFICE_CELL_FORMAT_03712.md",
+      "bytes": 7129,
+      "sha256": "d06b21db13a049becfc2dc915d223c192062b750a1d3cf45e2f388fa6426d5ca"
+    },
+    {
+      "path": "docs/OFFICE_CJK_FORMAT_0374.md",
+      "bytes": 5150,
+      "sha256": "066be632bca767702728440692f36f9d8221038c3b05d3879b5ba5df722724e3"
+    },
+    {
+      "path": "docs/OFFICE_COMPREHENSIVE_WORK_IN_PROGRESS.md",
+      "bytes": 27586,
+      "sha256": "e5be1bb4a92f9bb50e8a63558387f04e08c1a30c765e0279122167963607228e"
+    },
+    {
+      "path": "docs/OFFICE_FORMAT_0373.md",
+      "bytes": 3630,
+      "sha256": "78b24d83561110716803c2abdfcd69a093d1631d4ee449f19c39b44e52afe730"
+    },
+    {
+      "path": "docs/OFFICE_HISTORY_0375.md",
+      "bytes": 4992,
+      "sha256": "2facc2aff29f55d001b5b26a89fdb3b2d2f53869dc8d74100e2b941f90df6a70"
+    },
+    {
       "path": "docs/OFFICE_INTERACTION_0372.md",
       "bytes": 1972,
       "sha256": "23e1f9a6344a7543d7bc8fef2c8c352dd66266ffbcf1a67b58ad521cb459014c"
+    },
+    {
+      "path": "docs/OFFICE_KEYBOARD_SELECTION_0377.md",
+      "bytes": 7382,
+      "sha256": "4d4946c0c1a66a1177ff265584811bf97229285fa0c7a2e0e04b327a758b5595"
+    },
+    {
+      "path": "docs/OFFICE_LITERAL_TEXT_03711.md",
+      "bytes": 5245,
+      "sha256": "d2710725293e2caa1aa3b30a2033850dd63338542088a7bbad0df22432191536"
+    },
+    {
+      "path": "docs/OFFICE_NATIVE_FORMULA_03714.md",
+      "bytes": 8197,
+      "sha256": "aaf79e024074421cbe9b49d6f76a7f555c079750af7b2006d50be1c0bd124009"
+    },
+    {
+      "path": "docs/OFFICE_PDF_EXPORT_03725.md",
+      "bytes": 1795,
+      "sha256": "032d4ba082bd8a3bfcd3454a0912c8732c957d87bdf391b63bfd6dec20a7c640"
+    },
+    {
+      "path": "docs/OFFICE_PDF_EXPORT_GUARDS_03726.md",
+      "bytes": 1473,
+      "sha256": "7c73da5a6e86b66d9c84096c12d7fac15213ce4a4ab3031fb594f88c7e5618eb"
+    },
+    {
+      "path": "docs/OFFICE_PDF_RUNTIME_0378.md",
+      "bytes": 7327,
+      "sha256": "5876eccdb387421e5353399255d4c031c5277dc6565df30bb0d7ea669b55bc07"
+    },
+    {
+      "path": "docs/OFFICE_PERIMETER_03717.md",
+      "bytes": 4962,
+      "sha256": "852db622a23272d1dd3ecb983ba68966f7840c47cf76cd01c638776602acc171"
+    },
+    {
+      "path": "docs/OFFICE_PPT_SELECTION_03713.md",
+      "bytes": 5409,
+      "sha256": "4ff7b4fab6c660e0b54be092f3e137d1dac3fc0a0562171489a9d44bc9371a78"
     },
     {
       "path": "docs/OFFICE_PREVIEW.md",
@@ -2033,6 +3131,31 @@
       "path": "docs/OFFICE_SELECTION.md",
       "bytes": 4341,
       "sha256": "6fc58840430d0e8adf6d4ac0cfab59434d38302900e9adbed71cc4319da42b43"
+    },
+    {
+      "path": "docs/OFFICE_SELECTION_COLORS_0379.md",
+      "bytes": 5660,
+      "sha256": "212637637c9fc4d33545a461c729d072ebb0e1596922b9b00496713848e0ffbc"
+    },
+    {
+      "path": "docs/OFFICE_TABLE_GRID_03716.md",
+      "bytes": 6447,
+      "sha256": "2a93edc33c954eb3138678d0e3efaaa4d02878170b618d19e19b3279796d9782"
+    },
+    {
+      "path": "docs/OFFICE_TABLE_OUTLINE_0376.md",
+      "bytes": 6164,
+      "sha256": "496ff29e2b09242991ee24532bfa6ebfb4a9776498b93ceb863d83e15dcf3b49"
+    },
+    {
+      "path": "docs/OFFICE_VIEWPORT_AND_CLI_03720.md",
+      "bytes": 1206,
+      "sha256": "05b4cf3e203555670d3429fd44885010b98275be8412c69463af250803c6a27b"
+    },
+    {
+      "path": "docs/OFFICE_WORD_RECEIPT_03715.md",
+      "bytes": 4723,
+      "sha256": "72cbfc98eb95c0eb8d197a55ef71782bfbeb6932c8cb12847df8866923cd805b"
     },
     {
       "path": "docs/OFFICE_WORKSPACE.md",
@@ -2048,6 +3171,21 @@
       "path": "docs/PERSISTENT_KNOWLEDGE_INDEX.md",
       "bytes": 5863,
       "sha256": "ec83c775e2f14cf04e444526df3b05cbb54071a140a402bc128c0cb7e8780a17"
+    },
+    {
+      "path": "docs/PPT_DIRECT_FORMAT_03719.md",
+      "bytes": 3580,
+      "sha256": "c146475c3529fe69afe93d43934ebca97e19749ef5413d1e4efa621b5877b3c9"
+    },
+    {
+      "path": "docs/PPT_FORMAT_RECEIPT_03718.md",
+      "bytes": 6149,
+      "sha256": "e28ba23cc8258194077aa26fb844e838a663b501a5de7a1cab00e1eb2abc8a4e"
+    },
+    {
+      "path": "docs/PPT_MANUAL_EDIT_03722.md",
+      "bytes": 1146,
+      "sha256": "96e5ec39d5d6dd21ddfffc4dbac42a7aaacee573cb29de402415d86388d7ac88"
     },
     {
       "path": "docs/PRESET_CAPABILITIES.md",
@@ -2071,13 +3209,13 @@
     },
     {
       "path": "docs/QUICK_GAPS.md",
-      "bytes": 38131,
-      "sha256": "fe99340bd8b788c8d5fee3d1a1f24852e0e6809fc985be9cafe1836f5fbbce92"
+      "bytes": 67396,
+      "sha256": "3f2c82cb52bfe2021d86c12937821a68b64f71a4e4cae212bc78f9f448fbeabe"
     },
     {
       "path": "docs/REA_FINDINGS.md",
-      "bytes": 13286,
-      "sha256": "aa66866de6f1fd06db3c7ba081c86834e4e31ae06c537944ae2dfb84cecf5819"
+      "bytes": 34900,
+      "sha256": "aec731ea042493a87fbafe2019de87d07f19242ce2893bc439b415206a6cc265"
     },
     {
       "path": "docs/SCREENSHOT_ALIGNMENT.md",
@@ -2203,6 +3341,391 @@
       "path": "docs/rea/quick-preload-summary.json",
       "bytes": 2357,
       "sha256": "239ff0a8daa8d9a0f690b7aba6a978bf411d8725409c229ab6ff655033f0abfc"
+    },
+    {
+      "path": "docs/validation/office-30min-core-tests.txt",
+      "bytes": 12083,
+      "sha256": "65070ece4ac9395274484dd536c738a9db4aac0e10ad127a0de54ad5f55bc9c0"
+    },
+    {
+      "path": "docs/validation/office-30min-pack-tests.txt",
+      "bytes": 1134,
+      "sha256": "085906df78b2174ff6d80ee792f5c13d6c16893f9de61901ef91894b1edf34a8"
+    },
+    {
+      "path": "docs/validation/office-30min-web-protected.txt",
+      "bytes": 53,
+      "sha256": "b9d7c96a7fa4b71ace0decabba777e5807289ae2480cff116f4ab6e103f660c7"
+    },
+    {
+      "path": "docs/validation/office-canvas-typing-work-tests.txt",
+      "bytes": 3669,
+      "sha256": "3d8a56ec891a619e6eb64820d11dc43341d5311b4a1da4678bc6039762410ced"
+    },
+    {
+      "path": "docs/validation/office-checkpoint-browser-cli-blocked.txt",
+      "bytes": 2676,
+      "sha256": "21eddc608922cefe6435f3a11ea2394b63b4d30403ce24a5d4c3c0e0efee1638"
+    },
+    {
+      "path": "docs/validation/office-checkpoint-cli-tests.txt",
+      "bytes": 1405,
+      "sha256": "b9b5f4cec8bcb533f9d5fcb48e20f655f7ba60c6fd8032aeb5b4856be952a71b"
+    },
+    {
+      "path": "docs/validation/office-comprehensive-regression-2.txt",
+      "bytes": 11016,
+      "sha256": "b285d9547bfcb06fc934cb633179d49e6595aca0c1935c61e1bfb7c1ceb49385"
+    },
+    {
+      "path": "docs/validation/office-controller-latest-tests.txt",
+      "bytes": 487,
+      "sha256": "c55fd878882d45f3e2ba7d416e10e1cf28fb3b3f2845c0e7ef5b4b4facdebdcc"
+    },
+    {
+      "path": "docs/validation/office-cross-work-tests.txt",
+      "bytes": 3957,
+      "sha256": "bcdb9bad34272f935be041c7b2c2109a5b7454f6f7b813103b8c0742e91e3728"
+    },
+    {
+      "path": "docs/validation/office-dependencies-offline-failure.txt",
+      "bytes": 481,
+      "sha256": "8cb462cc2833ac0a78e72a7936a77e951e1f0854fd4c1c7c052d437eb6296b72"
+    },
+    {
+      "path": "docs/validation/office-discard-bridge-tests.txt",
+      "bytes": 306,
+      "sha256": "548dd5588494c2636d6339f7892ae9707053ac5580ef0706409fc2473ccc189d"
+    },
+    {
+      "path": "docs/validation/office-discard-clean-tests.txt",
+      "bytes": 588,
+      "sha256": "a06012b7d710e8f88e6059d3cfb9098a7b30381578dabfbd7f94a5044d33f90b"
+    },
+    {
+      "path": "docs/validation/office-discard-controller-tests.txt",
+      "bytes": 206,
+      "sha256": "fa7b08f7c0d752aa3371187de8194fdd54d918676b7462347970b0ec21da2ec3"
+    },
+    {
+      "path": "docs/validation/office-discard-recovery-tests.txt",
+      "bytes": 701,
+      "sha256": "4729b0fc1fe4ff02223b4c534013724019b692d0ac727e73023a2fae63836888"
+    },
+    {
+      "path": "docs/validation/office-discard-stop-tests.txt",
+      "bytes": 983,
+      "sha256": "e298cf78fa53a22df20ed3b0728d7b1dd62d4e07184133c6834741946cadc45b"
+    },
+    {
+      "path": "docs/validation/office-excel-bridge-tests.txt",
+      "bytes": 293,
+      "sha256": "22f842e44b8ede542cd803658cb032794614c9b3887f2169b175fdc9cff0b4d1"
+    },
+    {
+      "path": "docs/validation/office-excel-content-guards-tests.txt",
+      "bytes": 1847,
+      "sha256": "24ca33954088613f8bd0a8ae6fa37e3d326b926b67ecf9bff4916af89f91b18b"
+    },
+    {
+      "path": "docs/validation/office-excel-controller-fixture.txt",
+      "bytes": 205,
+      "sha256": "c7effead6365d4020460354153ecafbaf876587b82aad8103341d8d3ca09b87f"
+    },
+    {
+      "path": "docs/validation/office-excel-controller-refine-native.txt",
+      "bytes": 217,
+      "sha256": "0c1bc249390eabc999fb7292572fb074c19b9d8c722994b91610f09c7ee3d2bb"
+    },
+    {
+      "path": "docs/validation/office-excel-controller-refine-tests.txt",
+      "bytes": 396,
+      "sha256": "b8be858036d134cbff9a0adcfd6be8d784444dc9da24df6923670d215000bdca"
+    },
+    {
+      "path": "docs/validation/office-excel-core-first-tests.txt",
+      "bytes": 4223,
+      "sha256": "0c1ce27138441c44dc8877cf552fac3c673be1a4c44d09930211841d273fdd99"
+    },
+    {
+      "path": "docs/validation/office-excel-fixed-audit-test.txt",
+      "bytes": 246,
+      "sha256": "af75b6474e5fc236d56890d8729935d972fbabf64f01338d2d893961e583fc67"
+    },
+    {
+      "path": "docs/validation/office-excel-forced-diagnostic.txt",
+      "bytes": 1430,
+      "sha256": "b2c1ca067ce541510b0fd5fba0b36b8c55339ec5a037c524e6d3a31f85509959"
+    },
+    {
+      "path": "docs/validation/office-excel-formula-retry-tests.txt",
+      "bytes": 1137,
+      "sha256": "66425bfb867d02476d94f5347913065efbc16d6c308849fac53d379ba4e9aed2"
+    },
+    {
+      "path": "docs/validation/office-excel-image-anchor-pack-tests.txt",
+      "bytes": 1149,
+      "sha256": "4f06dc14c7932d828c232b1ca80f4cdaa8ab2a872cc7bebff06dd29693349f6b"
+    },
+    {
+      "path": "docs/validation/office-excel-image-anchor-tests.txt",
+      "bytes": 2066,
+      "sha256": "d60e9737da1526a419382553fb1e243acfba79be30872f3368fb22ea437f56ee"
+    },
+    {
+      "path": "docs/validation/office-excel-image-crop-final-tests.txt",
+      "bytes": 2063,
+      "sha256": "c96131e53a8ffbc5ca5dfbaae53782b8af16c9968ff8a4ea73d795d28a36ca72"
+    },
+    {
+      "path": "docs/validation/office-excel-image-crop-tests.txt",
+      "bytes": 2066,
+      "sha256": "c6ddfd47cd02ac0f5091386d313081aab12e2f61b6ea5c81841a6a33732cf15f"
+    },
+    {
+      "path": "docs/validation/office-excel-image-cross-observation.txt",
+      "bytes": 969,
+      "sha256": "8bf6d668f07920dfc5c0c7141ab1687a2b638818ef991d2cbcbbc83bda363d47"
+    },
+    {
+      "path": "docs/validation/office-excel-image-end-tests.txt",
+      "bytes": 2064,
+      "sha256": "2f7af2e2e4c5279bbf7807211655e84a5488b116d335a600955bce2b23f83052"
+    },
+    {
+      "path": "docs/validation/office-excel-image-reference-tests.txt",
+      "bytes": 2066,
+      "sha256": "62c1219d722e5d75628e1cb5b27f23b841d0daff274374a86b9b939c71ee5075"
+    },
+    {
+      "path": "docs/validation/office-excel-image-size-tests.txt",
+      "bytes": 2068,
+      "sha256": "4591627f4d2bacfc2bb334a3a67f45b3b1c0ac1887a9bc0f9515e5b840f6704e"
+    },
+    {
+      "path": "docs/validation/office-excel-isolated-60.txt",
+      "bytes": 951,
+      "sha256": "7c37ebc952666db4666dc675b221c84438f90c10f5c6a3dbe8ca7e21c3362ad1"
+    },
+    {
+      "path": "docs/validation/office-excel-literal-tests.txt",
+      "bytes": 2138,
+      "sha256": "77540e8acd5acf842f1c86a5a1530921966240edddd1eb239d37956d4134ce3e"
+    },
+    {
+      "path": "docs/validation/office-excel-media-boundary-tests.txt",
+      "bytes": 212,
+      "sha256": "b328f67b87cf92c73912f3b6d8224e2f77196e10d77855cc7d2b7ac036a6edd1"
+    },
+    {
+      "path": "docs/validation/office-excel-media-full-tests.txt",
+      "bytes": 2062,
+      "sha256": "eb1cbafc7350407ad99d6602e4fad2b4a600c65363d23ed565b96f58fea45ec4"
+    },
+    {
+      "path": "docs/validation/office-excel-native-controller-fixture.txt",
+      "bytes": 218,
+      "sha256": "d0f360a84ac9c71c41addcc83893cd0fb4183f0788c25d38d614f9d673cbec20"
+    },
+    {
+      "path": "docs/validation/office-final-combined-tests.txt",
+      "bytes": 6026,
+      "sha256": "53e9b6454f24ae00ad15fe7fc1b23c4dc524df30fefa7719108792c5929d598d"
+    },
+    {
+      "path": "docs/validation/office-full-new-ppt-tests.txt",
+      "bytes": 419,
+      "sha256": "1b37bc3e78229d75ff5052c243891d2071ca115ea7fad0c7abd5404c797c3f39"
+    },
+    {
+      "path": "docs/validation/office-full-ppt-final-tests.txt",
+      "bytes": 2705,
+      "sha256": "dfdbc3dcca8b9d533becc516f309d3f7f68545126a568f9d09382f5b59a89857"
+    },
+    {
+      "path": "docs/validation/office-full-ppt-tests.txt",
+      "bytes": 4184,
+      "sha256": "a89a3fd54c84ba20cf22e492d78fc770ceca94225d8de03ca3e2a6a6cfc235dd"
+    },
+    {
+      "path": "docs/validation/office-image-transform-20261111-pack.txt",
+      "bytes": 1134,
+      "sha256": "a7c9fd3eebcbe051bc8970f734a917989c0d09145d397dde37c301dc9dd3dbe4"
+    },
+    {
+      "path": "docs/validation/office-image-transform-20261111-tests.txt",
+      "bytes": 6013,
+      "sha256": "fba7d3c82b67d9eda95e7388f2283cf734f7114de3bcbc55166233c0960fe68b"
+    },
+    {
+      "path": "docs/validation/office-integrated-pack-current.txt",
+      "bytes": 1132,
+      "sha256": "b11028d2c1f4bca2eced7daf0aafd0e8c5d4e644d2c6375ad2a4259872692081"
+    },
+    {
+      "path": "docs/validation/office-integrated-regression-current.txt",
+      "bytes": 10510,
+      "sha256": "7bedda551dea7fcc685d4af93bd7c7592db37616ffaae3108fad29a0b2c70335"
+    },
+    {
+      "path": "docs/validation/office-manual-delete-work-tests.txt",
+      "bytes": 2880,
+      "sha256": "0330a4e6815972a21279941259fcaf017fbe963f9db0883f97f60a7c13c44388"
+    },
+    {
+      "path": "docs/validation/office-pack-latest-tests.txt",
+      "bytes": 1134,
+      "sha256": "075c227109ed870f8e1bdd85afe11b8b75fa705aee2ff85a6bdf8b3747ea1cb7"
+    },
+    {
+      "path": "docs/validation/office-pack-latest.txt",
+      "bytes": 1132,
+      "sha256": "2fe28a617a3af3ae657709854e876063b6a5e1afc7075e0d085fab55d60d5b8f"
+    },
+    {
+      "path": "docs/validation/office-picture-integrity-tests.txt",
+      "bytes": 3764,
+      "sha256": "3417ad7dfeff2d66ad7cd27897b25c4640d5c12840f359cd19945bbff7a77afc"
+    },
+    {
+      "path": "docs/validation/office-picture-pack-tests.txt",
+      "bytes": 1132,
+      "sha256": "1e78feb1b9a4e624a83b20959a3ef45e0968404bcde357fbcd5c6c162e939579"
+    },
+    {
+      "path": "docs/validation/office-picture-placement-work-tests.txt",
+      "bytes": 3767,
+      "sha256": "cc233cbd52241f286dfef1618038ffd6050dab6eb5ad6579bb307b64995db3d0"
+    },
+    {
+      "path": "docs/validation/office-placement-work-tests.txt",
+      "bytes": 2777,
+      "sha256": "c18bdc60bafaad2a541cae171c3239040fe10c7354446b2e15d4dc3de5bf71da"
+    },
+    {
+      "path": "docs/validation/office-ppt-crop-boundary-tests.txt",
+      "bytes": 224,
+      "sha256": "cb88ea5bed303bb32b55180e0bdb37ec92c40a5c12b4ee447ede55945b757a0d"
+    },
+    {
+      "path": "docs/validation/office-ppt-crop-full-tests.txt",
+      "bytes": 3276,
+      "sha256": "108c39cb61eaeaa3100966c7bbb45318c85d8e256c28b673609cf6d3a2d64882"
+    },
+    {
+      "path": "docs/validation/office-ppt-crop-rounding-observation.txt",
+      "bytes": 865,
+      "sha256": "56987eb13fc3cf6c981726644d163dc3f922117aa2e8c356d262a3c144798cfa"
+    },
+    {
+      "path": "docs/validation/office-regression-latest-working.txt",
+      "bytes": 11691,
+      "sha256": "b430900319fd99b4974cbbed31a23dc4dae07cf66f7055a4c89708ac41cca390"
+    },
+    {
+      "path": "docs/validation/office-selected-paste-work-tests.txt",
+      "bytes": 3058,
+      "sha256": "961b8231c96900d63096752eaf612196091bd3dc3c192eb94925b7e55668bf0c"
+    },
+    {
+      "path": "docs/validation/office-stress-30min-progress.txt",
+      "bytes": 9808,
+      "sha256": "55764454a307a56a9d984b669d00ddfa0552723ea2aad7fc7b81756d3e94165c"
+    },
+    {
+      "path": "docs/validation/office-stress-30min.jsonl",
+      "bytes": 36068,
+      "sha256": "f968ae537add8382c40365da077e1e9be466460a73c1d8f086069ec4ebe0b7f3"
+    },
+    {
+      "path": "docs/validation/office-word-ai-pack-tests.txt",
+      "bytes": 1132,
+      "sha256": "9e6bea95446bbad9fe0fd3c2d737d523c533b1502cd03008f79db5905351bbdb"
+    },
+    {
+      "path": "docs/validation/office-word-ai-receipt-tests.txt",
+      "bytes": 6017,
+      "sha256": "264c92dbd0f8aad49189aec52a9ecf3e3f4794839d8a75009b8ba14f4568a2c3"
+    },
+    {
+      "path": "docs/validation/office-word-ai-tool-final-tests.txt",
+      "bytes": 1369,
+      "sha256": "167c04c0848dd8352aa03f88d298622dc31ae56b6b5e60868d4ef5d37b2df059"
+    },
+    {
+      "path": "docs/validation/office-word-controller-native.txt",
+      "bytes": 205,
+      "sha256": "b918a8217e2948fd23b9929ad20f829e0a84aa526e05a0781c52efe9a552a505"
+    },
+    {
+      "path": "docs/validation/office-word-cross-pack-tests.txt",
+      "bytes": 1132,
+      "sha256": "3bc1f8a9179d69e62fd5a51cdc7bb7db8a1691c6a92dddb1689534e0d7433077"
+    },
+    {
+      "path": "docs/validation/office-word-cross-selection-tests.txt",
+      "bytes": 4767,
+      "sha256": "0c57f35a9607eb32824f0b0f5bf112a219ea5f2cd23b521f24bbbc8b5686c6eb"
+    },
+    {
+      "path": "docs/validation/office-word-delete-pack-tests.txt",
+      "bytes": 1132,
+      "sha256": "a0bfa67b566277f35da06937b99b5c9a299f00f024c18d53923c8127ee5100f2"
+    },
+    {
+      "path": "docs/validation/office-word-delete-tests.txt",
+      "bytes": 4582,
+      "sha256": "6914ac61810c7f4f71bd7d9696057925eb1700a7c8b65186adc6f8d44d9c965e"
+    },
+    {
+      "path": "docs/validation/office-word-manual-pack-tests.txt",
+      "bytes": 1132,
+      "sha256": "71ebc2855cbef2d68f70c13ef6eb328f7a8800e6fd95e1ee36c2043623ffad86"
+    },
+    {
+      "path": "docs/validation/office-word-manual-selection-tests.txt",
+      "bytes": 4486,
+      "sha256": "7ef6b559acea81917f39ae5b44c95dc7a7b6a3153c389f61efa6906698edb8cf"
+    },
+    {
+      "path": "docs/validation/office-word-media-format-tests.txt",
+      "bytes": 1530,
+      "sha256": "a6103448d273777d9d3213dec1149cbcc810973e440b1a13ab95b7b40b02b2cb"
+    },
+    {
+      "path": "docs/validation/office-word-media-pack-tests.txt",
+      "bytes": 1132,
+      "sha256": "2805362b3bb96d5cabe445ebb612d6e6a6d886ed882eedc01f054c9420de9422"
+    },
+    {
+      "path": "docs/validation/office-word-media-tests.txt",
+      "bytes": 6410,
+      "sha256": "77010667826ac665e462cdfb388b4400f8e6a9bf5a748a2aa1d8e850e003a70e"
+    },
+    {
+      "path": "docs/validation/office-word-multiline-bounds-tests.txt",
+      "bytes": 498,
+      "sha256": "f9db7962ee71ecaefaf92705bf2c645abb52536807c09b658c7005b4ee643f5f"
+    },
+    {
+      "path": "docs/validation/office-word-multiline-pack-tests.txt",
+      "bytes": 1132,
+      "sha256": "1244df231011330196f5f556454d9dbd01c250e69bed02154b58dfc2da15084f"
+    },
+    {
+      "path": "docs/validation/office-word-multiline-tests.txt",
+      "bytes": 6226,
+      "sha256": "ff8a5905c8772fdf6fc5df192618af22875dfc098e33e7bfb9f34a6b74db86d8"
+    },
+    {
+      "path": "docs/validation/office-word-uniform-style-tests.txt",
+      "bytes": 314,
+      "sha256": "473a051c89908759a579516f7958f763ae274d1d91cc8b674aa248fc591a3ba5"
+    },
+    {
+      "path": "docs/validation/office-word-unselected-style-tests.txt",
+      "bytes": 2759,
+      "sha256": "58130a8f6c0b55da46cd7c7b8dd9c0d89649bafe2863ee3a2869a40a84427abb"
     },
     {
       "path": "docs/validation/v0.10.0.json",
@@ -2460,6 +3983,536 @@
       "sha256": "2b61c793d34b0e4d5691a974246ccaadc2a1b04a6f8b9378dbe202632941f883"
     },
     {
+      "path": "docs/validation/v0.37.10-boundaries.txt",
+      "bytes": 1430,
+      "sha256": "0d1eba0fe255a6e44aff7f38dd0f9a550e728d3556a89529006cc3a1990f8b29"
+    },
+    {
+      "path": "docs/validation/v0.37.10-changed-files.json",
+      "bytes": 1077,
+      "sha256": "d1f5e3e1806e2dc0a867387f0c9f97fddb128961c60ef497ae2d3bd80229ab34"
+    },
+    {
+      "path": "docs/validation/v0.37.10-first-tests.txt",
+      "bytes": 44602,
+      "sha256": "9d57051ce9f2bebee1c2de9a484e92f51a1a70d450595be3e9949e9a66f4b8be"
+    },
+    {
+      "path": "docs/validation/v0.37.10-first-ui.txt",
+      "bytes": 1969,
+      "sha256": "aab764c9bd5b5c90f967b7cce32d4f16be21c2f6bf51806f628d7884eca7a899"
+    },
+    {
+      "path": "docs/validation/v0.37.10-offline.json",
+      "bytes": 829,
+      "sha256": "4983b0ef50c959da0a6b2df144c4155748f675490ab1ff29b4a650452d51747e"
+    },
+    {
+      "path": "docs/validation/v0.37.10-packaging.txt",
+      "bytes": 1132,
+      "sha256": "54f85b99ab99608dafe5844208e8c50e46a6cd616fbf4ba822e86915cbba5f38"
+    },
+    {
+      "path": "docs/validation/v0.37.10-tests.txt",
+      "bytes": 43889,
+      "sha256": "a35a84e3b5fff5276748533ce94e9de7c09b7ffd2daa101705a8002ddf70e80c"
+    },
+    {
+      "path": "docs/validation/v0.37.10-ui.txt",
+      "bytes": 1115,
+      "sha256": "4abf5ce08508928639cd1b638d8af0a28d1fbac234ac84c70603cb351289a4a0"
+    },
+    {
+      "path": "docs/validation/v0.37.10.json",
+      "bytes": 1983,
+      "sha256": "f81ee5bace99e19df0663df844c26619ed92e02564cc8024a92f1314c0e02651"
+    },
+    {
+      "path": "docs/validation/v0.37.11-changed-files.json",
+      "bytes": 3461,
+      "sha256": "cd6f4f055d5edac3686bfe4e9121742fe83813aba1fb36a3bed93e598f828542"
+    },
+    {
+      "path": "docs/validation/v0.37.11-first-literal.txt",
+      "bytes": 1340,
+      "sha256": "93cbc28459f1381ede6306bf0cf40d120809ef23190923bd7bb4352b8a5997a1"
+    },
+    {
+      "path": "docs/validation/v0.37.11-offline.json",
+      "bytes": 781,
+      "sha256": "689bd8904b63f2ab6040bdf1f0ec0d48d3e8414b9feb21e35dad5d1c920a1608"
+    },
+    {
+      "path": "docs/validation/v0.37.11-packaging.txt",
+      "bytes": 1132,
+      "sha256": "53a8f43252a072e85f141eff9033cda73a26890512d85354ae456e0187328b59"
+    },
+    {
+      "path": "docs/validation/v0.37.11-tests.txt",
+      "bytes": 44380,
+      "sha256": "166fdc1296c6f3be8cdd1331b1e0b47fd58f83703f22dd5dc35549712958060f"
+    },
+    {
+      "path": "docs/validation/v0.37.11-ui.txt",
+      "bytes": 1119,
+      "sha256": "bdf68b455cc53be143dfe82a9b2dc0ca4abde208a1071d2d5f0ad927123767b2"
+    },
+    {
+      "path": "docs/validation/v0.37.11.json",
+      "bytes": 2682,
+      "sha256": "6356f920cd3810e9e28a542b3abd1d72a66ec51a9cd9639504feb969e9d5ec84"
+    },
+    {
+      "path": "docs/validation/v0.37.12-changed-files.json",
+      "bytes": 3562,
+      "sha256": "365eb949b89e3afd6f372f05a75b2a2a3c58f851752c12f66c9d8662a8f6dcb0"
+    },
+    {
+      "path": "docs/validation/v0.37.12-first-format.txt",
+      "bytes": 2243,
+      "sha256": "005b1e79c687c02a418cab2616851ac4cc156d3452be122d856cc17435a08709"
+    },
+    {
+      "path": "docs/validation/v0.37.12-format-tests.txt",
+      "bytes": 1092,
+      "sha256": "fc8959b3d9dbbcb0ae0ca4b376c0aee40899a2ce4407137ef0609e86ce7c0fad"
+    },
+    {
+      "path": "docs/validation/v0.37.12-offline.json",
+      "bytes": 780,
+      "sha256": "1a11a9a7f33a467f465e7329c9f02ae4be385ced83397d31852ac497d9aa19bc"
+    },
+    {
+      "path": "docs/validation/v0.37.12-packaging.txt",
+      "bytes": 1132,
+      "sha256": "0403fd416a6e84f159a6e5f7d8fd91df69031b4af5ffb292af83010e51a22c9a"
+    },
+    {
+      "path": "docs/validation/v0.37.12-tests.txt",
+      "bytes": 45349,
+      "sha256": "76d91f06f3db498c3524fcc2e9a1b3b803d6fa945db03c9316067e9b8e66f0e8"
+    },
+    {
+      "path": "docs/validation/v0.37.12-ui.txt",
+      "bytes": 1231,
+      "sha256": "52d782a401603d082b3537fda1d69e0f37006d07eafe852ebc32707a627e54da"
+    },
+    {
+      "path": "docs/validation/v0.37.12.json",
+      "bytes": 2277,
+      "sha256": "3f28f3207593f5b24a5bd30682ff14ada663569fe398714f6e65d9211b8289dd"
+    },
+    {
+      "path": "docs/validation/v0.37.13-changed-files.json",
+      "bytes": 1206,
+      "sha256": "8634ce846ee6a2a2dda216b645067e231161ff3d537cc0fef61c0ff6935241fe"
+    },
+    {
+      "path": "docs/validation/v0.37.13-first-ppt-tests.txt",
+      "bytes": 749,
+      "sha256": "b746076b730f25fbf4a972b986abbfdc959038c9e685c2fd18a0be93938d119e"
+    },
+    {
+      "path": "docs/validation/v0.37.13-offline.json",
+      "bytes": 834,
+      "sha256": "e1399faa15cb0f8a0166eadc8deb51706ac0a01c46d9515deca6f173bf937ad7"
+    },
+    {
+      "path": "docs/validation/v0.37.13-packaging.txt",
+      "bytes": 1132,
+      "sha256": "755fe8ebd365f8469c08259b384814b799a922d13ccca39a355f44a13d66a94e"
+    },
+    {
+      "path": "docs/validation/v0.37.13-prototype.json",
+      "bytes": 493,
+      "sha256": "8d815d603711e7bcb2a40f08150b1673bd11515c70ae9a99f7d2a1d367705df7"
+    },
+    {
+      "path": "docs/validation/v0.37.13-tests.txt",
+      "bytes": 46131,
+      "sha256": "963ac4b370f64ec2ec6538388a3f5217c269aa4cfd1399874d6700c9b8e78810"
+    },
+    {
+      "path": "docs/validation/v0.37.13-ui.txt",
+      "bytes": 1349,
+      "sha256": "3fe92ae2193174ada957c7c726849df660c3210a256e66102926f6e1ad1a1caf"
+    },
+    {
+      "path": "docs/validation/v0.37.13.json",
+      "bytes": 2508,
+      "sha256": "cdc179c8e04d2791c5927e98cd0a54615ff6e94d2b16ebd52fd71f746d0938a6"
+    },
+    {
+      "path": "docs/validation/v0.37.14-baseline-cjk.txt",
+      "bytes": 232,
+      "sha256": "0f05c9b97ac3f337e6cda8576fa51c0698da6cf587eb5b731d55141954659679"
+    },
+    {
+      "path": "docs/validation/v0.37.14-boolean-diag.txt",
+      "bytes": 919,
+      "sha256": "7cc42b5af2fd5fd861af4be9f194e339bc3a8774deefe2428098e8c578cc894a"
+    },
+    {
+      "path": "docs/validation/v0.37.14-changed-files.json",
+      "bytes": 1511,
+      "sha256": "b846fc96ca97dab5e1383a41e97cc7bcf9aa6abf225cf1ab5374f8fab9d196b2"
+    },
+    {
+      "path": "docs/validation/v0.37.14-cjk-repeat.txt",
+      "bytes": 231,
+      "sha256": "507f6b6f9d358a8e7ec2957195cba1cdc1aa96ca2e38fa12686ef3c58d29a70f"
+    },
+    {
+      "path": "docs/validation/v0.37.14-first-core.txt",
+      "bytes": 47841,
+      "sha256": "c8d5ac571b6bb4afe457a1939451a04e648c144610d216cc3232d74a18c22e84"
+    },
+    {
+      "path": "docs/validation/v0.37.14-first-formula.txt",
+      "bytes": 2360,
+      "sha256": "80fac56608e0304d2ae774b397f423ef0eaf741e2bd7456343484a23548dc90c"
+    },
+    {
+      "path": "docs/validation/v0.37.14-first-ui.txt",
+      "bytes": 3371,
+      "sha256": "dc0db10ed4ecb5902bb2662a1a483f97114d4ee2190a82de254bd20f551950b4"
+    },
+    {
+      "path": "docs/validation/v0.37.14-formula-tests.txt",
+      "bytes": 1138,
+      "sha256": "5c0d1a6305fe95476143d3399facba0e53231a31165f704aa37ef7dbe55abd8d"
+    },
+    {
+      "path": "docs/validation/v0.37.14-offline.json",
+      "bytes": 834,
+      "sha256": "e2ca6b84abce45e86f059dea909c97d2090af33866a69ad79deba4882de5a518"
+    },
+    {
+      "path": "docs/validation/v0.37.14-packaging.txt",
+      "bytes": 1132,
+      "sha256": "2532766bce83fb091331d15599e9749c8a5540fe52e9e3deae5241421690bacb"
+    },
+    {
+      "path": "docs/validation/v0.37.14-second-core.txt",
+      "bytes": 47696,
+      "sha256": "0b773a7ce519c3a9d23b6dad33d2749ddc255345c525448c64cd838bcd54f85b"
+    },
+    {
+      "path": "docs/validation/v0.37.14-tests.txt",
+      "bytes": 47111,
+      "sha256": "bd584b95c78a9d1c40083bd27abfa26dde5ccb6dddae33d2a1dadd3890514fea"
+    },
+    {
+      "path": "docs/validation/v0.37.14-ui.txt",
+      "bytes": 1475,
+      "sha256": "5eaab5a6408713c6e47c5e209c409198d1f019d9babe11c67a5d633bc4d0d59c"
+    },
+    {
+      "path": "docs/validation/v0.37.14.json",
+      "bytes": 3236,
+      "sha256": "7d996f48fcaad0fca780c55055cafaf30eeb9eced57bc4471eaeab87937296dd"
+    },
+    {
+      "path": "docs/validation/v0.37.15-build.txt",
+      "bytes": 14782,
+      "sha256": "c9b132c483ee94266b9ef760c6596a242b2064dea712d872f426d6e678022169"
+    },
+    {
+      "path": "docs/validation/v0.37.15-changed-files.json",
+      "bytes": 1062,
+      "sha256": "0c29112ec42ab071d08f85014f812c14938ff25823a4febcc7511c019be5c6c1"
+    },
+    {
+      "path": "docs/validation/v0.37.15-first-tests.txt",
+      "bytes": 52236,
+      "sha256": "0315a961a71f6cbf0a96f58646d58df564bf0a7e5ca22597d27e0edefce28a9b"
+    },
+    {
+      "path": "docs/validation/v0.37.15-first-ui.txt",
+      "bytes": 1604,
+      "sha256": "b2c0b6498cc0d883c417b2ca2c916c044c0556bae917e9438c0ba5fe63697d06"
+    },
+    {
+      "path": "docs/validation/v0.37.15-first-word-tests.txt",
+      "bytes": 573,
+      "sha256": "3962eb0d49ff45ce2b4b86d39568cc2d79054fce14972f6c240d9eeda8a769b0"
+    },
+    {
+      "path": "docs/validation/v0.37.15-github.txt",
+      "bytes": 146,
+      "sha256": "0b0e92a9c5ef259b88c581cb9ec88d3dca9a5a82a26966ac8fc5e402521855fa"
+    },
+    {
+      "path": "docs/validation/v0.37.15-offline.json",
+      "bytes": 809,
+      "sha256": "ed97a5227328485486e169a3e9d3c487df79548bef9df9d4576963b931b7270f"
+    },
+    {
+      "path": "docs/validation/v0.37.15-packaging.txt",
+      "bytes": 1132,
+      "sha256": "6c8e9c10bf508896059ad96a58c55af6f771295400c1eba53ca1a29815ca124a"
+    },
+    {
+      "path": "docs/validation/v0.37.15-related-tests.txt",
+      "bytes": 2064,
+      "sha256": "75eb00963669ee2ff799c3445cffab4583d4aa8960625cd4c1f229570de76036"
+    },
+    {
+      "path": "docs/validation/v0.37.15-tests.txt",
+      "bytes": 47551,
+      "sha256": "f3f4d185f9246f788405415b35fcae8cf8aaca48b658066482f0e4d3a9916723"
+    },
+    {
+      "path": "docs/validation/v0.37.15-ui.txt",
+      "bytes": 1605,
+      "sha256": "471f27609cf9a470e2cdd7a803e90e28990d93bfb1dff14e026881f46a3588f0"
+    },
+    {
+      "path": "docs/validation/v0.37.15.json",
+      "bytes": 3074,
+      "sha256": "ba27b0e72d4869684eea7fd83a416e4189668a83a0d6cc0cb396183d93a7b194"
+    },
+    {
+      "path": "docs/validation/v0.37.16-before-header-tests.txt",
+      "bytes": 48553,
+      "sha256": "bcc65bed23bd33714cea64aa930a0135f810726289d7d3ae1c51c74bfd4a367e"
+    },
+    {
+      "path": "docs/validation/v0.37.16-build.txt",
+      "bytes": 14872,
+      "sha256": "cb885ac10b10fb520eb196bdf124b38043fd6c83e28b5767eb8605dde9242a35"
+    },
+    {
+      "path": "docs/validation/v0.37.16-changed-files.json",
+      "bytes": 1222,
+      "sha256": "21df8a801d1cdc718c3ab6b6cd11807611c36855fbac0bbaf502c651c88885c3"
+    },
+    {
+      "path": "docs/validation/v0.37.16-first-grid-tests.txt",
+      "bytes": 2385,
+      "sha256": "315fb06b4b3c1ab8108f90f44e2a43e46aadb1ff7f89966d5edfedeaf0afdda7"
+    },
+    {
+      "path": "docs/validation/v0.37.16-first-ui.txt",
+      "bytes": 129,
+      "sha256": "d74922001bf36435fa958a31682b693c35be00f7b462775a00d6375ab32b0a8f"
+    },
+    {
+      "path": "docs/validation/v0.37.16-github.txt",
+      "bytes": 146,
+      "sha256": "0b0e92a9c5ef259b88c581cb9ec88d3dca9a5a82a26966ac8fc5e402521855fa"
+    },
+    {
+      "path": "docs/validation/v0.37.16-grid-tests.txt",
+      "bytes": 1130,
+      "sha256": "e203c4a9b74b0c8f1df82e7ef184f2c5426cf5f09e3d0dbc13aa33dc56c1731d"
+    },
+    {
+      "path": "docs/validation/v0.37.16-grid-ui.txt",
+      "bytes": 246,
+      "sha256": "a9164e80b2e94d0abfa2e73491a549a4dadc645a29eb76596681fe2fa12c8abc"
+    },
+    {
+      "path": "docs/validation/v0.37.16-offline.json",
+      "bytes": 848,
+      "sha256": "b1a0700ba110677d00fe620518be1506bd3ae3b61a2fcc27b32fe75e845ebf58"
+    },
+    {
+      "path": "docs/validation/v0.37.16-packaging.txt",
+      "bytes": 1132,
+      "sha256": "f88180d9097710f1e262e32818c3061a51dad086e6c90016ead4d1b615cccdb7"
+    },
+    {
+      "path": "docs/validation/v0.37.16-scope-notes.txt",
+      "bytes": 1275,
+      "sha256": "e74dde2a053dfdf3872b269a576754350aeff923f04d2d39f2cb57e73c4534cc"
+    },
+    {
+      "path": "docs/validation/v0.37.16-second-grid-tests.txt",
+      "bytes": 1632,
+      "sha256": "fd089f7d5246b948df16ef0ec4f98e2dfff598f07c9d95cc87dc41fec2c9c8d6"
+    },
+    {
+      "path": "docs/validation/v0.37.16-tests.txt",
+      "bytes": 48667,
+      "sha256": "cd4d5fc451bf0e6441e6abd8fe976b1bcbcd2f1110a2a0f182450b8d59c1e6d5"
+    },
+    {
+      "path": "docs/validation/v0.37.16-ui.txt",
+      "bytes": 1735,
+      "sha256": "3a81460c504ed1a3c9ae0041832f379cf96209991cd52a7cc97773035752a4f9"
+    },
+    {
+      "path": "docs/validation/v0.37.16.json",
+      "bytes": 3583,
+      "sha256": "9493b0c9b70079d52e34afcea4b5bf059b080896ed533e030b5d29d0c7a1b6d2"
+    },
+    {
+      "path": "docs/validation/v0.37.17-build.txt",
+      "bytes": 14608,
+      "sha256": "ca5cca4b843dc5f83df5a710ea83b9f18999c056c2e74a2b135b980e6f2b5b8b"
+    },
+    {
+      "path": "docs/validation/v0.37.17-changed-files.json",
+      "bytes": 924,
+      "sha256": "b2542985515b118b086e6424a9299f7e046930266642c6a84b62e4c923216d28"
+    },
+    {
+      "path": "docs/validation/v0.37.17-first-related-tests.txt",
+      "bytes": 6602,
+      "sha256": "312c23475c4349cc0988febbb1f81022a1d2166c10afe4d9c1ddf0357d947535"
+    },
+    {
+      "path": "docs/validation/v0.37.17-first-ui.txt",
+      "bytes": 128,
+      "sha256": "0df104f7b749b421a054f24a2bab90d39dc3ad59f990495898797d2e0784bd33"
+    },
+    {
+      "path": "docs/validation/v0.37.17-offline.json",
+      "bytes": 663,
+      "sha256": "ea58d84f2d2533c942aca36c79629fa9a837a0b0f8beaa6e502d38d93cd0957b"
+    },
+    {
+      "path": "docs/validation/v0.37.17-packaging.txt",
+      "bytes": 4970,
+      "sha256": "a0c44b02c70078eca577e01437a198e306fe0f7fa860a7d6ff968d527bbb6bae"
+    },
+    {
+      "path": "docs/validation/v0.37.17-related-tests.txt",
+      "bytes": 1605,
+      "sha256": "cde2bd09e8e8de4cecb41a9a33eac7679aaa7c9496df733553c07a638873d600"
+    },
+    {
+      "path": "docs/validation/v0.37.17-tests.txt",
+      "bytes": 49050,
+      "sha256": "b748e69d03aa33d549bc9a1c8d420206d0ce5659b7e8e949e7708d0ca78c09e8"
+    },
+    {
+      "path": "docs/validation/v0.37.17-ui.txt",
+      "bytes": 1864,
+      "sha256": "c37e12c4fb18b7efa947ed4bed8dd8035e5e1033250b4668e293e7b64c741975"
+    },
+    {
+      "path": "docs/validation/v0.37.17.json",
+      "bytes": 3124,
+      "sha256": "b976c918617996698bbfc66442274b620dc4e7525263bf19c77732c9b6827cfb"
+    },
+    {
+      "path": "docs/validation/v0.37.18-build.txt",
+      "bytes": 14608,
+      "sha256": "87f00ac3eaf8b1760cbd3a93f911efe4905b14ab3eb6d2c4b9c532b2973e2b8c"
+    },
+    {
+      "path": "docs/validation/v0.37.18-changed-files.json",
+      "bytes": 1029,
+      "sha256": "d22755ce809f92128a776c38f171b3182c2649eaaf1b723dd4de12f059e89ec8"
+    },
+    {
+      "path": "docs/validation/v0.37.18-first-related-probe.txt",
+      "bytes": 2931,
+      "sha256": "a64c7aae8ef2ed59911c33daafe66f5814863ef6825a626dec9a7575efe24f6b"
+    },
+    {
+      "path": "docs/validation/v0.37.18-first-related-tests.txt",
+      "bytes": 2587,
+      "sha256": "fb281779fa5944c0c12a3177e88aa665507cd3310b79dda2a87e5b9dd6ab4ec4"
+    },
+    {
+      "path": "docs/validation/v0.37.18-first-tests.txt",
+      "bytes": 50688,
+      "sha256": "b2b6bc48b28713a2c8a840db433cba153c0f2812fec780148f31381a1cb98bc9"
+    },
+    {
+      "path": "docs/validation/v0.37.18-first-ui.txt",
+      "bytes": 113,
+      "sha256": "aaca1f2dd755eee12681f476744a296c88948c8452e3a5d5213205b28bd070f5"
+    },
+    {
+      "path": "docs/validation/v0.37.18-offline.json",
+      "bytes": 663,
+      "sha256": "5a6d5810d2a443e5e078f7882fcaf5212e99b7aa634df01b808bb69962ca8cdc"
+    },
+    {
+      "path": "docs/validation/v0.37.18-packaging.txt",
+      "bytes": 4970,
+      "sha256": "42ed7b32e2757328ed462ad4118340e49724ac92ddaae6354b0f0c9fa2d07f51"
+    },
+    {
+      "path": "docs/validation/v0.37.18-related-tests.txt",
+      "bytes": 1538,
+      "sha256": "ae838c6726c439725855ec09fca08347dcfc06eb0bb88ee84287a7f43e102c39"
+    },
+    {
+      "path": "docs/validation/v0.37.18-tests.txt",
+      "bytes": 49817,
+      "sha256": "d5dcc9ce276e43b7d56c9eb90e3a00d1dc315a5192ef37f75bb7b526c65527b8"
+    },
+    {
+      "path": "docs/validation/v0.37.18-ui.txt",
+      "bytes": 4292,
+      "sha256": "ef3f13f779d5ff32d430ae29bd6d25938404f92e0a79cb9d5d41e4b7a038aee7"
+    },
+    {
+      "path": "docs/validation/v0.37.18.json",
+      "bytes": 3502,
+      "sha256": "965916c44419f918203be787052ffb6a6f901684ca76acbc725befde2779e720"
+    },
+    {
+      "path": "docs/validation/v0.37.19-asar.json",
+      "bytes": 95,
+      "sha256": "bbac771de105356a3d3553ff4cedf4d36176bc508c51c07a675a5107e82b090e"
+    },
+    {
+      "path": "docs/validation/v0.37.19-build.txt",
+      "bytes": 14579,
+      "sha256": "905432c58824a1d3eb821b43931fdd5f4dfc15cd81bf63329a19f5e7d074de65"
+    },
+    {
+      "path": "docs/validation/v0.37.19-changed-files.json",
+      "bytes": 999,
+      "sha256": "6ea336e9fe1c8ad42f0513054df4a6f30c30ddcf3da5c070fd5856430ab1eb55"
+    },
+    {
+      "path": "docs/validation/v0.37.19-long-selection.txt",
+      "bytes": 1371,
+      "sha256": "12cd1965c9e8a448dc437a30612ea0edd5c863c72adc8e73e092980958a2a26b"
+    },
+    {
+      "path": "docs/validation/v0.37.19-offline.json",
+      "bytes": 809,
+      "sha256": "0b2c94d441ce9ef1222c1b425f2452f624e13aa2eefef5643d020e081510d87b"
+    },
+    {
+      "path": "docs/validation/v0.37.19-packaging.txt",
+      "bytes": 4970,
+      "sha256": "fdc8375f2a7d9a465efbc042e097acbd172b5388a19dd89b8621bb66cf110511"
+    },
+    {
+      "path": "docs/validation/v0.37.19-related-tests-final.txt",
+      "bytes": 2200,
+      "sha256": "5cd0d75d25a12aa66f7998a3c75221470c7c12b611cdb989e55515e54249daa0"
+    },
+    {
+      "path": "docs/validation/v0.37.19-related-tests.txt",
+      "bytes": 2204,
+      "sha256": "3db4cd819974ce4de610f113f85b8d1d25b012246f80f37d8685622962cbc2c2"
+    },
+    {
+      "path": "docs/validation/v0.37.19-tests.txt",
+      "bytes": 50397,
+      "sha256": "6bf65c93ff32279a4e4521a148afa8496e24b4662df81e31d4e68fd39e5374ae"
+    },
+    {
+      "path": "docs/validation/v0.37.19-ui.txt",
+      "bytes": 4550,
+      "sha256": "6e7599bab3d5e9eb9787267db1166b95bc8c295f1a6e6d92acbf9beb895db906"
+    },
+    {
+      "path": "docs/validation/v0.37.19.json",
+      "bytes": 3798,
+      "sha256": "ecf12d0fc62b0f37b84a52ac0462acdaef743c0a8fc1ec1e4a8ae1811958494a"
+    },
+    {
       "path": "docs/validation/v0.37.2-tests.txt",
       "bytes": 41833,
       "sha256": "78d3e9b0e6d311320501eef2619338f20b1a598b80d5dd9303a7576432a99afe"
@@ -2468,6 +4521,266 @@
       "path": "docs/validation/v0.37.2.json",
       "bytes": 1532,
       "sha256": "4b6a42e18edd397f9b928d7f3d1377a00d7e6c89b74ec0e2167a77d90bd1f969"
+    },
+    {
+      "path": "docs/validation/v0.37.20-build.txt",
+      "bytes": 14290,
+      "sha256": "5e72b3b5b205c8509de62c84bb09198cc568ef3200130c14fbdbb3d74470da8d"
+    },
+    {
+      "path": "docs/validation/v0.37.20-cli-tests.txt",
+      "bytes": 369,
+      "sha256": "81e4718bec7380cd28d8b1b4a88d9f28b8221a439a309a145813359dcb9d9a52"
+    },
+    {
+      "path": "docs/validation/v0.37.20-core-final.txt",
+      "bytes": 50687,
+      "sha256": "d767d0142afb5dbe13fa744dd5fbaa41c8092db69dc9432ebf7dcf31873e66aa"
+    },
+    {
+      "path": "docs/validation/v0.37.20-office-regression.txt",
+      "bytes": 2242,
+      "sha256": "7ce01b2725a89c103992f518534a283076d478093f01746dbe7ba84f7442a4e1"
+    },
+    {
+      "path": "docs/validation/v0.37.20-packaging.txt",
+      "bytes": 4970,
+      "sha256": "c9636eb0870ef914493e22c39c834a72d2f580ced1a94fe0d3bb898c595c09dd"
+    },
+    {
+      "path": "docs/validation/v0.37.20-tests.txt",
+      "bytes": 50422,
+      "sha256": "221ce23f17300c70e1e690076e207c0a2801a9d9b7e0ee5d863f2ab515d252c1"
+    },
+    {
+      "path": "docs/validation/v0.37.20-viewport-final.txt",
+      "bytes": 423,
+      "sha256": "fd9a172e1d2b1e6a2ed96bde2e609499f55f804f61dacbfc725296975076903c"
+    },
+    {
+      "path": "docs/validation/v0.37.20-viewport-first.txt",
+      "bytes": 2521,
+      "sha256": "5707c133f9f63e0c4e1f14c0531c2a3142ad052efc28b01c0cb0de1272018d12"
+    },
+    {
+      "path": "docs/validation/v0.37.20-viewport-second.txt",
+      "bytes": 1063,
+      "sha256": "a5a8185e608f4ba91bf23f80feded7ebfc2a4679e9e763cc488c710a78830c37"
+    },
+    {
+      "path": "docs/validation/v0.37.20.json",
+      "bytes": 844,
+      "sha256": "8b6c00e84db10cd60ef385f64ac8296abe1a36f4d14f6972aa3fad590ae52625"
+    },
+    {
+      "path": "docs/validation/v0.37.21-candidate-core.txt",
+      "bytes": 50876,
+      "sha256": "62bf93958a20a4a0213075b8a52ab799492d82161ae72c0342d81da813b3232c"
+    },
+    {
+      "path": "docs/validation/v0.37.21-candidate-packaging.txt",
+      "bytes": 4970,
+      "sha256": "3d14283a26a7bf49cb2fab84428de4460ca5f6a7b5671b1eb919b9ebc8a58fad"
+    },
+    {
+      "path": "docs/validation/v0.37.21-font-build.txt",
+      "bytes": 14292,
+      "sha256": "2c098694b4c01b66ea8bae9f863f66f5d5efa35d91053ecb1027d26dbb054796"
+    },
+    {
+      "path": "docs/validation/v0.37.21-font-candidate-tests.txt",
+      "bytes": 706,
+      "sha256": "e2d5d61f81f755c8909ee66d573cfcc54f8aac439505e56c5c3e847dc6a5eaf3"
+    },
+    {
+      "path": "docs/validation/v0.37.21-font-candidate.json",
+      "bytes": 1001,
+      "sha256": "3af13b87001ba9c77d833c92a8f2a013be7566bb8dc0717e48bd2c4c9da72cf2"
+    },
+    {
+      "path": "docs/validation/v0.37.21-portable-test.txt",
+      "bytes": 304,
+      "sha256": "bd6c2c81ec95c7604245ae6d610a5aee0405021c14399215547fe7f493380daa"
+    },
+    {
+      "path": "docs/validation/v0.37.22-build.txt",
+      "bytes": 14343,
+      "sha256": "611dcda0adc74726aac65fc84d23b2c9ee1cec937b68a1c07873bd1b4e2fb6bf"
+    },
+    {
+      "path": "docs/validation/v0.37.22-core.txt",
+      "bytes": 51052,
+      "sha256": "f78fd053b7403ff93334c8afbf00d39c107c92f40dbc76cc79f7e10b698f12d0"
+    },
+    {
+      "path": "docs/validation/v0.37.22-packaging.txt",
+      "bytes": 1132,
+      "sha256": "2439b0d5a7ce5531bd529a88148cecc3a71437fdeb374aaae9d7de9031237d37"
+    },
+    {
+      "path": "docs/validation/v0.37.22-target-final.txt",
+      "bytes": 2510,
+      "sha256": "ee91c8f61986b42310db163c92301d846fdcef0f0bc4fc58efbbd2475c7b5169"
+    },
+    {
+      "path": "docs/validation/v0.37.22-target-tests.txt",
+      "bytes": 3952,
+      "sha256": "a827b407c98f9d0ac419bf7c3cbbaa1c282a054014de7a64a6e47b3adc6c3afa"
+    },
+    {
+      "path": "docs/validation/v0.37.22-ui-native.txt",
+      "bytes": 219,
+      "sha256": "bf4b872001b2e327708c6819486770e6de8146d67a2f0c8d2a2fbb6f62992b46"
+    },
+    {
+      "path": "docs/validation/v0.37.22-ui.txt",
+      "bytes": 231,
+      "sha256": "abf86b52c2c44ed8015ed0cc74a153374fe7ca28b9fd48d7505c77ae130a8630"
+    },
+    {
+      "path": "docs/validation/v0.37.22.json",
+      "bytes": 543,
+      "sha256": "88bb01d300ebb0de2088af007e85a6077edad9fe29d76160b7662d991205db6d"
+    },
+    {
+      "path": "docs/validation/v0.37.23-core.txt",
+      "bytes": 59671,
+      "sha256": "ce440aac6abb04b821aa51caeccf6f2baca08b658dff750571fd7fdf85a2c3db"
+    },
+    {
+      "path": "docs/validation/v0.37.23-model-tests.txt",
+      "bytes": 1779,
+      "sha256": "dff7e867a2df148120f4b9276a58a8127965ad52474ff4c0c17f7bca3ca0f87d"
+    },
+    {
+      "path": "docs/validation/v0.37.24-packaging.txt",
+      "bytes": 1132,
+      "sha256": "ec8f428d7cbfad45b2e0f266d599d61b832759da621f4a86871edb1732f2a535"
+    },
+    {
+      "path": "docs/validation/v0.37.24-targeted.txt",
+      "bytes": 4558,
+      "sha256": "14c69957186c767e594ceb973c4120fc8faec0025158089713e56e4cfa46d00a"
+    },
+    {
+      "path": "docs/validation/v0.37.25-packaging.txt",
+      "bytes": 1132,
+      "sha256": "89649c5d597f5ce4bc5fe4fe31087be2a350612d5470ef34315b0c1c6ad73fcd"
+    },
+    {
+      "path": "docs/validation/v0.37.25-targeted.txt",
+      "bytes": 4758,
+      "sha256": "e70f1c76b5a4f5c2227ef13113f50c787e4061064f556d328b349fdadeb931b7"
+    },
+    {
+      "path": "docs/validation/v0.37.26-packaging.txt",
+      "bytes": 1132,
+      "sha256": "6b8e6c355ce128dc1231f6fb01125c911cae532974be260bc94765ee795d2275"
+    },
+    {
+      "path": "docs/validation/v0.37.26-targeted.txt",
+      "bytes": 4869,
+      "sha256": "33fcc7e7931b17e7d026db16ca87152baec84941262d8990b58c946c63e35042"
+    },
+    {
+      "path": "docs/validation/v0.37.3-r1-tests.txt",
+      "bytes": 42607,
+      "sha256": "dd296724fe8329f25bbe3da441691f9b364325329eb0a84a4c775dceb2e20bf5"
+    },
+    {
+      "path": "docs/validation/v0.37.3-r1.json",
+      "bytes": 943,
+      "sha256": "9d2501e2cf3ae1a3f7a30ae363951f90db34fbf00c7cca5b9dacb7959029b36c"
+    },
+    {
+      "path": "docs/validation/v0.37.3-tests.txt",
+      "bytes": 43403,
+      "sha256": "8d8c7ec0d8f8d4ca84d500bd34892f28eca1043895281a62151fe4dd74fc3223"
+    },
+    {
+      "path": "docs/validation/v0.37.3.json",
+      "bytes": 940,
+      "sha256": "3fe86c2cce8179d6833a819207847fff55291914ca2d3e5e5a5d83db38994436"
+    },
+    {
+      "path": "docs/validation/v0.37.4-tests.txt",
+      "bytes": 44041,
+      "sha256": "f49ebfffd2a41fc22e10589670c48bc0bcb1513fd066b29e87277f3419481194"
+    },
+    {
+      "path": "docs/validation/v0.37.4.json",
+      "bytes": 1244,
+      "sha256": "0e6c5d6f4b60c05e37037b694ac5ce4b55daadbf8e2aceb87f00620632aa2468"
+    },
+    {
+      "path": "docs/validation/v0.37.5-tests.txt",
+      "bytes": 43941,
+      "sha256": "eedc00b8dd1a31bcb78629722a455752f5c0e8dca1c704051b993b97655db785"
+    },
+    {
+      "path": "docs/validation/v0.37.5.json",
+      "bytes": 1183,
+      "sha256": "f4a955be26a8f1bdb4664caa1b4b9adde8de4c66d31400f61e3e8d70fa64e806"
+    },
+    {
+      "path": "docs/validation/v0.37.6-tests.txt",
+      "bytes": 43717,
+      "sha256": "511558a089bda21c70486fcca0152c727cf12f879bcda16f6eb89c7f87a74ff1"
+    },
+    {
+      "path": "docs/validation/v0.37.6.json",
+      "bytes": 1052,
+      "sha256": "166de277406c9a21e5b892d74d16d295fbac15e8a738fa6aaa6b4cfee9270ef4"
+    },
+    {
+      "path": "docs/validation/v0.37.7-tests.txt",
+      "bytes": 47462,
+      "sha256": "d611e13b115092215b0725952c323db9a039b034f92544cd3db07c395857ddb2"
+    },
+    {
+      "path": "docs/validation/v0.37.7.json",
+      "bytes": 2536,
+      "sha256": "dfb7c9477cb05a4a902af91acda1ef9c26af5845dbc836751893e3fba19fe663"
+    },
+    {
+      "path": "docs/validation/v0.37.8-tests.txt",
+      "bytes": 46511,
+      "sha256": "830efea5c4ade23b6f26c8e1f4b7dcb78f99ee4d96e1ca5513e612936f804b19"
+    },
+    {
+      "path": "docs/validation/v0.37.8.json",
+      "bytes": 2027,
+      "sha256": "e70def14bba87c46b986dca734024ed4735a5b58c26f3231d1f581a5c7a556bb"
+    },
+    {
+      "path": "docs/validation/v0.37.9-changed-files.json",
+      "bytes": 902,
+      "sha256": "e383b59e2e58a447ae45a78086a21cc9a8d8bf063f1f80a826b6a8a5238e757f"
+    },
+    {
+      "path": "docs/validation/v0.37.9-offline.json",
+      "bytes": 727,
+      "sha256": "828cc652086aac5ec305836ae3469ddbade1cba728b222cbb3a820afb52d9d52"
+    },
+    {
+      "path": "docs/validation/v0.37.9-packaging.txt",
+      "bytes": 1132,
+      "sha256": "2496025b3a20ecd4296672f78e6b804ef68244458f065fd747a51d8022300d5b"
+    },
+    {
+      "path": "docs/validation/v0.37.9-tests.txt",
+      "bytes": 42965,
+      "sha256": "717818892618b22431a978ec7e03f600b8864cd4f39e342776ac108971a93b5c"
+    },
+    {
+      "path": "docs/validation/v0.37.9-ui.txt",
+      "bytes": 992,
+      "sha256": "388775d62706d396827267be4d7237e4fb3f409c41de85ea5442d02cf858af27"
+    },
+    {
+      "path": "docs/validation/v0.37.9.json",
+      "bytes": 1993,
+      "sha256": "5d87b41fa80bd7a7aaeff2e285fb8f72766bd18f2c799e3f7ac7a3a853d72442"
     },
     {
       "path": "docs/validation/v0.5.0.json",
@@ -2801,13 +5114,13 @@
     },
     {
       "path": "scripts/offline_bundle.py",
-      "bytes": 6322,
-      "sha256": "d3287606f1f067573e77e6f3eac1ed157690b7692ed825e9056eb94934cb01e3"
+      "bytes": 6639,
+      "sha256": "37d51fb3dbea7e3bc86ee4cee71d0b8ca09278b9d967ea5e12df5d38b2e33bc5"
     },
     {
       "path": "scripts/package-desktop-source.py",
       "bytes": 3741,
-      "sha256": "a021080020ac05180c8ed25abce49d1270bbc44e5558a48ad22e1a90092d9113"
+      "sha256": "dbdafa1f7b0509635d9761976a6d0dec3ac1eb8f3716991c75ca7a2cebf655fa"
     },
     {
       "path": "scripts/package-mac-update.py",
@@ -2816,8 +5129,8 @@
     },
     {
       "path": "scripts/package-offline-mac.py",
-      "bytes": 11729,
-      "sha256": "b524cf9b4678b607705a7df693c2c562a032876921264591116afc26c3b7193e"
+      "bytes": 11748,
+      "sha256": "7c7c1b49903a217dc6be73bf9357aa8886c0b28154425b09f33040fe80680492"
     },
     {
       "path": "scripts/package-source.mjs",
@@ -2836,8 +5149,8 @@
     },
     {
       "path": "scripts/repackage-native-mac.py",
-      "bytes": 4591,
-      "sha256": "aa68483da64dfd05f151e884b17d680c1933ff9031dbaa2107bb52a23664b892"
+      "bytes": 6129,
+      "sha256": "789129d5360810a322f90e4fea5dbc792bf191f2918ef4067f54e2b72c78e483"
     },
     {
       "path": "scripts/requirements-office-tests.txt",
@@ -2865,6 +5178,11 @@
       "sha256": "df86ebfc27d2f00860036658e933ac0ddd7b5f6879aa5d51218f0863c7e1fb60"
     },
     {
+      "path": "scripts/stress-office.py",
+      "bytes": 2536,
+      "sha256": "a16cadbc57a4d8f97211ebf0f73adead5cf633caecb759b236009f98a08cbb21"
+    },
+    {
       "path": "scripts/tests/test_fast_install.py",
       "bytes": 1768,
       "sha256": "af8fe2f0af2272947e016f2e8d42269d1a1592f324c80ef355a2144bd3b6da4f"
@@ -2873,6 +5191,16 @@
       "path": "scripts/tests/test_mac_update.py",
       "bytes": 4485,
       "sha256": "1de4c2ecce3dd3291cef1ecc6c6fa960ef4377a51adeecb31a922c7c94af6b56"
+    },
+    {
+      "path": "scripts/tests/test_native_repackage.py",
+      "bytes": 4213,
+      "sha256": "020eba8bf42bdc79896500e9a669cbcca785b5c6a310030bbbe775f146938916"
+    },
+    {
+      "path": "scripts/tests/test_office_stress.py",
+      "bytes": 1383,
+      "sha256": "015abffd72f1ac188adc7f410afae3440c13131ed930e181d6909b3c309fbffc"
     },
     {
       "path": "scripts/tests/test_offline_bundle.py",
