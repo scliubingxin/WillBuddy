@@ -2,7 +2,7 @@ import {checkServicePolicy} from './project-service-policy.mjs';
 import {createBrowserPermissions} from './browser-permissions.mjs';
 import { createDocumentService } from '../services/documents.mjs';
 import { uid } from '../core.mjs';
-import { prepareCommand, runCommand, commandJson } from './command.mjs';
+import { prepareCommand, runCommand, commandJson, isReadOnlyFind } from './command.mjs';
 
 export class ToolRuntime {
     constructor({ store, browser, approve, notify = () => {}, convertDocument, beforeCli }) {
@@ -43,7 +43,8 @@ export class ToolRuntime {
                 : readScope ? JSON.stringify(readScope, null, 2) + '\n将读取当前页正文；对话发起的读取会将正文发给模型。' : String(args.url);
             const browserScope = this.browserPermissions.scope(name,args,{runId,readScope,prepared});
             const remembered = this.browserPermissions.has(browserScope);
-            const decision = (manual && name === 'browser_open') || remembered ? true
+            const autoFind = name === 'cli_execute' && !projectService && await isReadOnlyFind(command);
+            const decision = (manual && name === 'browser_open') || remembered || autoFind ? true
                 : await this.approve(title,detail,signal,{browserScope});
             const allowed = decision === true || (browserScope && decision?.allowed === true);
             if (!allowed) {
@@ -53,7 +54,7 @@ export class ToolRuntime {
             }
             this.browserPermissions.check(browserScope);
             if(browserScope && decision?.browserTask === true) this.browserPermissions.allow(browserScope);
-            record.authorization = remembered ? 'browser_task_origin' : browserScope && decision?.browserTask ? 'browser_task_origin_granted' : 'once';
+            record.authorization = autoFind ? 'read_only_find' : remembered ? 'browser_task_origin' : browserScope && decision?.browserTask ? 'browser_task_origin_granted' : 'once';
             if(browserScope) record.authorizationScope = {runId:browserScope.runId,origin:browserScope.origin};
             signal?.throwIfAborted();
             if (readScope && this.browser.list().find(w => w.id === args.id)?.url !== readScope.url) throw new Error('审批期间网页地址发生变化，请重新确认');
@@ -71,6 +72,7 @@ export class ToolRuntime {
                 await this.beforeCli?.(args,projectService);
                 const checked = await prepareCommand(this.store.data.folders, args);
                 if (checked.cwd !== command.cwd || checked.executable !== command.executable) throw new Error('工作目录或程序路径在审批期间发生变化，请重新执行');
+                if (autoFind && !await isReadOnlyFind(checked)) throw new Error('只读搜索条件发生变化，请重新确认');
                 if(projectService)checked.timeoutMs=projectService.maxDurationMs;
                 const persistence = new AbortController();
                 const commandSignal = signal ? AbortSignal.any([signal, persistence.signal]) : persistence.signal;
