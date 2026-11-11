@@ -4,9 +4,9 @@ Build-time only. Reject unknown base bytes; never download on the installation h
 """
 import argparse,hashlib,json,plistlib,shutil,subprocess,struct,importlib.util
 from pathlib import Path
-from offline_bundle import validate_archive,inventory,write_archive,capture_staging_paths,verify_staging_paths
+from offline_bundle import copy_source_tree, validate_archive,inventory,write_archive,capture_staging_paths,verify_staging_paths
 ROOT=Path(__file__).resolve().parent.parent
-BASE_SHA='a1727e95150112431e41398f19f5cb6e04e3e9f5ce22398107565cef8785b9db'
+BASE_SHA='a516de81b28d37ebff5dae6d70cf304ac9fa6190b958da8776bf1e2f7c42dfc1'
 def digest(p):
  h=hashlib.sha256()
  with p.open('rb') as f:
@@ -15,26 +15,48 @@ def digest(p):
 def module(name,file):
  s=importlib.util.spec_from_file_location(name,file);m=importlib.util.module_from_spec(s);s.loader.exec_module(m);return m
 
+def verify_expected_tree(stage,app,entries):
+ expected={e['path']:e for e in entries}
+ actual={e['path']:e for e in inventory(stage,app)}
+ if actual.keys()!=expected.keys():raise ValueError('extracted runtime paths differ from verified archive: added='+repr(sorted(actual.keys()-expected.keys()))+' missing='+repr(sorted(expected.keys()-actual.keys())))
+ for name,e in expected.items():
+  if actual[name]!=e:raise ValueError('extracted runtime bytes, symlink or mode differ from verified archive: '+name)
+ return True
+
+def sign_new_bundle(signing_tool,source_app,output_app,entitlements,run=subprocess.run):
+ source_app=source_app.resolve();output_app=output_app.resolve()
+ if source_app==output_app or source_app.is_relative_to(output_app) or output_app.is_relative_to(source_app):raise ValueError('signing input and output must be disjoint')
+ if output_app.exists():raise ValueError('signing output already exists')
+ expected=capture_staging_paths(source_app)
+ before=inventory(source_app.parent,source_app)
+ run([str(signing_tool.resolve()),'sign','--exclude','Contents/Resources/runtimes/LibreOffice.app','--exclude','Contents/Resources/runtimes/LibreOffice.app/**','--entitlements-xml-file',str(entitlements),str(source_app),str(output_app)],check=True)
+ if inventory(source_app.parent,source_app)!=before:raise ValueError('signer modified its read-only input tree')
+ verify_staging_paths(output_app,expected)
+ return expected
+
 def main():
  p=argparse.ArgumentParser();p.add_argument('--base',type=Path,required=True);p.add_argument('--work-dir',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--signing-tool',type=Path,required=True);a=p.parse_args()
  if digest(a.base)!=BASE_SHA:raise ValueError('unknown native base bundle SHA')
  validate_archive(a.base);stage=a.work_dir.resolve()
  if stage.exists():raise ValueError('choose a new private work directory')
  stage.mkdir(mode=0o700,parents=True)
- pkg=module('native_pack',ROOT/'scripts/package-offline-mac.py');pkg.extract_runtime(a.base,stage)
- app=stage/'WillBuddy.app';resources=app/'Contents/Resources';prior=json.loads((stage/'OFFLINE-MANIFEST.json').read_text());metadata=json.loads((ROOT/'desktop/package.json').read_text());version=metadata['version']
- if prior['version']!='0.37.1' or prior['architecture']!='arm64':raise ValueError('base version/architecture mismatch')
+ pkg=module('native_pack',ROOT/'scripts/package-offline-mac.py');input_stage=stage/'signing-input';input_stage.mkdir(mode=0o700)
+ pkg.extract_runtime(a.base,input_stage)
+ app=input_stage/'WillBuddy.app';resources=app/'Contents/Resources';prior=json.loads((input_stage/'OFFLINE-MANIFEST.json').read_text());metadata=json.loads((ROOT/'desktop/package.json').read_text());version=metadata['version']
+ if prior['version']!='0.37.15' or prior['architecture']!='arm64':raise ValueError('base version/architecture mismatch')
+ verify_expected_tree(input_stage,app,prior['files'])
  info=app/'Contents/Info.plist';d=plistlib.loads(info.read_bytes());d.update(CFBundleVersion=version,CFBundleShortVersionString=version);info.write_bytes(plistlib.dumps(d))
  source=stage/'app-source';source.mkdir()
  for name in ['main.mjs','preload.cjs','office-preload.cjs','core.mjs','src','runtime','assets','main','services']:
   f=ROOT/'desktop'/name
-  if f.is_dir():shutil.copytree(f,source/name)
+  if f.is_dir():copy_source_tree(f,source/name)
   else:shutil.copy2(f,source/name)
  (source/'package.json').write_text(json.dumps({k:metadata[k] for k in ['name','productName','version','description','author','license','type','main']},indent=2)+'\n')
  subprocess.run(['node',str(ROOT/'desktop/node_modules/@electron/asar/bin/asar.js'),'pack',str(source),str(resources/'app.asar')],check=True)
- expected=capture_staging_paths(app)
- subprocess.run([str(a.signing_tool.resolve()),'sign','--exclude','Contents/Resources/runtimes/LibreOffice.app','--exclude','Contents/Resources/runtimes/LibreOffice.app/**','--entitlements-xml-file',str(ROOT/'desktop/installer/entitlements.mac.plist'),str(app)],check=True)
- verify_staging_paths(app,expected)
+ signed_app=stage/'WillBuddy.app'
+ expected=sign_new_bundle(a.signing_tool,app,signed_app,ROOT/'desktop/installer/entitlements.mac.plist')
+ app=signed_app;resources=app/'Contents/Resources'
+ for name in ['ELECTRON-LICENSE.txt','LICENSES.chromium.html']:shutil.copy2(input_stage/name,stage/name)
  for e in prior['files']:
   if '/runtimes/LibreOffice.app/' in e['path'] and 'sha256' in e:
    if digest(stage/e['path'])!=e['sha256']:raise ValueError('upstream LibreOffice bytes changed')
