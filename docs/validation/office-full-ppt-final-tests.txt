@@ -1,0 +1,32 @@
+✔ PPT receipt requires unique bounded simple single-paragraph text and preserves every slide text (175.488557ms)
+✔ real PPT native keyboard selects one word; AI replacement saves exact text and all other slides (1106.91826ms)
+✔ PPT arrows outside text edit and after page change never move shapes; worker validates expected text (530.330932ms)
+✔ PPT cancellation during running audit blocks native paste and leaves revision clean (726.541235ms)
+✔ PPT refused approval and stale sequence cannot dispatch native replacement (798.177278ms)
+✔ PPT native no-op cannot publish or bypass receipt using manual save (881.020216ms)
+✔ PPT native edit with disk failure keeps checked draft and can explicitly retry save (912.635399ms)
+✔ PPT receipt checks explicit fontsize bold italic underline RGB and applicable Latin font even when text is correct (109.415054ms)
+✔ PPT equivalent split runs pass while mixed selected direct styles are refused before mutation (50.745389ms)
+✔ PPT paragraph defaults are resolved and changed explicit alignment is rejected (57.675518ms)
+✔ PPT unsupported effects and foreign namespace run payloads fail preflight with no native paste (740.975228ms)
+✔ real styled PPT selection preserves explicit style after native replacement and Store reload (1192.894984ms)
+✔ native output with right text but changed format cannot publish or bypass using manual save (1225.996649ms)
+✔ real PPT selected word format changes size and color only; original text and other runs survive (1953.958443ms)
+✔ PPT direct format input and receipt reject empty unknown invalid geometry color mixed or complex targets (232.626591ms)
+✔ PPT size-only and color-only requests each keep the other known property (3719.557041ms)
+✔ PPT format refusal stale sequence native bad args and page drift send no format command (856.480682ms)
+✔ PPT format cancellation or audit disk failure blocks native mutation before dirty flag (1656.124043ms)
+✔ PPT format native no-op cannot publish or use manual save; real changed draft retries after disk failure (2364.490669ms)
+✔ manual selected PPT editing verifies output and rejects stale selections without extra approval (852.444822ms)
+✔ manual selection edit audit failure blocks native mutation (757.523575ms)
+✔ PPT single-paragraph selection in a multi-paragraph shape preserves other paragraphs and slides (59.244674ms)
+✔ real PPT edit within multi-paragraph shape saves other paragraphs and slides (1226.935414ms)
+✔ long manual PPT replacement remains bounded while AI limit remains 600 (1289.913724ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 23776.009754

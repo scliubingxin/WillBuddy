@@ -1,0 +1,27 @@
+✔ actual HTTP model tool replaces real native selection; chat and revision persist (543.865442ms)
+✔ missing explicit document send consent rejects before any context read (0.599551ms)
+✔ stale selection and concurrent document revision are rejected by native workspace (407.204606ms)
+✔ cancellation interrupts actual waiting model request without publishing native edits (373.742177ms)
+✔ audit persistence failure blocks native AI write before paste (434.210131ms)
+✔ document disk failure retains explicit retryable draft and does not claim a saved revision (464.989675ms)
+✔ forged identity and stale selection reject before queue (0.550076ms)
+✔ queued selection drift rejects before reading context or sending model (0.483977ms)
+✔ actual HTTP font tool changes real Word run properties without replacing text (610.875514ms)
+✔ font approval denial, stale selection, cancellation and audit failure publish no revision (1018.714849ms)
+✔ actual HTTP CJK font tool writes eastAsia independently and preserves mixed selection text (772.617395ms)
+✔ cancellation during durable format audit never reaches native format dispatch (499.87725ms)
+✔ worker rejects malformed colors and extra properties without changing undo history (457.632372ms)
+✔ color denial, stale selection, cancellation during audit and audit fault never dispatch native changes (1701.268199ms)
+✔ real native colors survive disk retry, reload and undo without replacing original text (657.220903ms)
+✔ Word receipt accepts split runs and rejects no-op, missing CJK run, wrong size, altered text and ambiguous selections (189.714533ms)
+✔ no-op output and explicit save cannot publish a false Word format success (511.396061ms)
+✔ partial native format failure keeps checked draft; mismatched manual save and new format are blocked (454.897609ms)
+✔ cancellation during final Word snapshot after durable audit dispatches no native format (451.079499ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10064.09109

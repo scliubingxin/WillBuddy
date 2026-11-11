@@ -1,0 +1,51 @@
+{
+  "version": "0.37.8",
+  "authority_base_version": 46,
+  "authority_content_hashes_verified": 678,
+  "candidate_source_hashes_verified": 684,
+  "candidate_keyboard_increment_preserved": true,
+  "core": {
+    "passed": 407,
+    "failed": 0,
+    "concurrency": 1,
+    "skipped": 0
+  },
+  "related_new": 7,
+  "chromium": 6,
+  "packaging_tests": 26,
+  "baseline_cli_before_change": "passed19.2s; previous XLSX timeout not reproduced, root cause unknown",
+  "native_linux_kit": true,
+  "startup_before_ready_cancellation": "real never-ready protocol process fixture; not native Mac initialization",
+  "ipc_approval_keychain_model_semantics": "fixtures",
+  "mac_native_tested": false,
+  "paid_model_tested": false,
+  "legacy_python_35": "unchanged/not rerun",
+  "protected_web_python_files": 122,
+  "full_app_check": {
+    "production_files_asar_exact": 153,
+    "minimal_package": true,
+    "host_pyc_absent": true,
+    "electron_page_tamper_rejected": true,
+    "bytes": 483219295,
+    "sha256": "4728e067d4ddf214c5d49edbffdfc16e5ef3d52e1b7afa38ced380b47cc6048b",
+    "asar_sha256": "6b1044e93f341ec8e28e32f84cf504aeec91233549e43cfb9b8e12d4744cf131",
+    "mach_o": 278,
+    "code_pages": 93545,
+    "app_entries": 20727,
+    "extra_files": 5,
+    "symlinks": 47,
+    "zero_residuals": true,
+    "closed_crc": true,
+    "changed_app_entries": [
+      "WillBuddy.app/Contents/Info.plist",
+      "WillBuddy.app/Contents/MacOS/Electron",
+      "WillBuddy.app/Contents/Resources/app.asar",
+      "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+    ],
+    "runtime_unchanged": true
+  },
+  "publication": "not attempted: prior auto approval service quota retry after Nov2; standing authorization valid",
+  "linux_kit_version": "LibreOfficeDev26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+  "mac_runtime_version": "26.8.1.1; no native run conclusion",
+  "next": "Mac raw codesign stderr, installed Kit/Python PDF/edit/IME and paid model; then internal table grid/individual edges and Excel/PPT controlled selection"
+}

@@ -1,0 +1,27 @@
+✔ PPT receipt requires unique bounded simple single-paragraph text and preserves every slide text (111.404895ms)
+✔ real PPT native keyboard selects one word; AI replacement saves exact text and all other slides (789.434513ms)
+✔ PPT arrows outside text edit and after page change never move shapes; worker validates expected text (398.951365ms)
+✔ PPT cancellation during running audit blocks native paste and leaves revision clean (536.124198ms)
+✔ PPT refused approval and stale sequence cannot dispatch native replacement (563.75234ms)
+✔ PPT native no-op cannot publish or bypass receipt using manual save (597.87627ms)
+✔ PPT native edit with disk failure keeps checked draft and can explicitly retry save (603.7399ms)
+✔ PPT receipt checks explicit fontsize bold italic underline RGB and applicable Latin font even when text is correct (64.123966ms)
+✔ PPT equivalent split runs pass while mixed selected direct styles are refused before mutation (42.563435ms)
+✔ PPT paragraph defaults are resolved and changed explicit alignment is rejected (36.101957ms)
+✔ PPT unsupported effects and foreign namespace run payloads fail preflight with no native paste (438.039975ms)
+✔ real styled PPT selection preserves explicit style after native replacement and Store reload (843.481578ms)
+✔ native output with right text but changed format cannot publish or bypass using manual save (761.855147ms)
+✔ real PPT selected word format changes size and color only; original text and other runs survive (664.253971ms)
+✔ PPT direct format input and receipt reject empty unknown invalid geometry color mixed or complex targets (77.427849ms)
+✔ PPT size-only and color-only requests each keep the other known property (1337.907394ms)
+✔ PPT format refusal stale sequence native bad args and page drift send no format command (561.937596ms)
+✔ PPT format cancellation or audit disk failure blocks native mutation before dirty flag (970.565364ms)
+✔ PPT format native no-op cannot publish or use manual save; real changed draft retries after disk failure (1227.557652ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10799.977798

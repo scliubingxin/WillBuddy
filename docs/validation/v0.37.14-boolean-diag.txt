@@ -1,0 +1,18 @@
+✖ seven supported functions, comparison, percent and absolute refs compute across native save rounds (2949.497059ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3109.327467
+
+✖ failing tests:
+
+test at desktop/tests/office-formula.test.mjs:24:1
+✖ seven supported functions, comparison, percent and absolute refs compute across native save rounds (2949.497059ms)
+  Error: Formula B2<B3: 原生公式计算结果不一致：C2 DIAG {"value":1,"expectedValue":true,"type":"number","expectedType":"boolean"}
+      at verify (file:///workspace/scratch/08fe4388c223/work3714/muyun-ai/desktop/runtime/office-formula.mjs:56:20)
+      at save (file:///workspace/scratch/08fe4388c223/work3714/muyun-ai/desktop/services/office-workspace.mjs:19:519)
+      at async file:///workspace/scratch/08fe4388c223/work3714/muyun-ai/desktop/services/office-workspace.mjs:49:502

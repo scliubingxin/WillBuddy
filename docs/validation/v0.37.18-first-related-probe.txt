@@ -1,0 +1,46 @@
+✔ PPT receipt requires unique bounded simple single-paragraph text and preserves every slide text (280.497513ms)
+✖ real PPT native keyboard selects one word; AI replacement saves exact text and all other slides (844.129859ms)
+✔ PPT arrows outside text edit and after page change never move shapes; worker validates expected text (625.5964ms)
+✔ PPT cancellation during running audit blocks native paste and leaves revision clean (775.356649ms)
+✔ PPT refused approval and stale sequence cannot dispatch native replacement (769.848413ms)
+✔ PPT native no-op cannot publish or bypass receipt using manual save (949.915841ms)
+✖ PPT native edit with disk failure keeps checked draft and can explicitly retry save (834.28815ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 5
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5377.443349
+
+✖ failing tests:
+
+test at tests/office-presentation.test.mjs:17:1
+✖ real PPT native keyboard selects one word; AI replacement saves exact text and all other slides (844.129859ms)
+  Error: PPT保存文字格式与原文不一致（cs），未发布新版本
+      at formatReceipt (file:///workspace/scratch/08fe4388c223/work3718/muyun-ai/desktop/runtime/office-presentation.mjs:23:90)
+      at file:///workspace/scratch/08fe4388c223/work3718/muyun-ai/desktop/runtime/office-presentation.mjs:57:274
+      at save (file:///workspace/scratch/08fe4388c223/work3718/muyun-ai/desktop/services/office-workspace.mjs:21:519)
+      at async file:///workspace/scratch/08fe4388c223/work3718/muyun-ai/desktop/services/office-workspace.mjs:42:475
+
+test at tests/office-presentation.test.mjs:29:1
+✖ PPT native edit with disk failure keeps checked draft and can explicitly retry save (834.28815ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /disk failure/. Input:
+  
+  'Error: PPT保存文字格式与原文不一致（cs），未发布新版本'
+  
+      at async TestContext.<anonymous> (file:///workspace/scratch/08fe4388c223/work3718/muyun-ai/desktop/tests/office-presentation.test.mjs:29:263)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: PPT保存文字格式与原文不一致（cs），未发布新版本
+        at formatReceipt (file:///workspace/scratch/08fe4388c223/work3718/muyun-ai/desktop/runtime/office-presentation.mjs:23:90)
+        at file:///workspace/scratch/08fe4388c223/work3718/muyun-ai/desktop/runtime/office-presentation.mjs:57:274
+        at save (file:///workspace/scratch/08fe4388c223/work3718/muyun-ai/desktop/services/office-workspace.mjs:21:519)
+        at async file:///workspace/scratch/08fe4388c223/work3718/muyun-ai/desktop/services/office-workspace.mjs:42:475,
+    expected: /disk failure/,
+    operator: 'rejects',
+    diff: 'simple'
+  }

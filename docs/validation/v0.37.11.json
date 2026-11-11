@@ -1,0 +1,76 @@
+{
+  "version": "0.37.11",
+  "date": "2026-10-31",
+  "baseline": {
+    "authority": "libfile_816eb4b584e48191b46648e150fb6749",
+    "observed_version": 49,
+    "source": "0.37.10",
+    "verified_content_files": 712
+  },
+  "core": {
+    "passed": 424,
+    "failed": 0,
+    "concurrency": 1
+  },
+  "chromium": {
+    "passed": 8,
+    "scope": "production HTML+real local HTTP model fixture+real LinuxKit; native IPC/approval and model semantics fixture"
+  },
+  "packaging_tests": 26,
+  "literal_text": {
+    "host_and_worker_preflight": true,
+    "real_saved_xlsx_type_value_validation": true,
+    "leading_zero_date_formula_like_apostrophe_spaces": true,
+    "empty_clear": true,
+    "no_formula_execution_tool": true,
+    "manual_save_retry_guard": true
+  },
+  "first_attempt": {
+    "new_tests": "4/5; literal empty wrongly became apostrophe; verifier rejected; fixed worker empty path",
+    "core_before_fix": "423/424, same empty case",
+    "final_nonempty_type_assertion_not_weakened": true
+  },
+  "limits": [
+    "Mac native unverified",
+    "paid model semantics unverified",
+    "IME/Word-WPS pixel unverified",
+    "not OS sandbox",
+    "not full formulas/format editor",
+    "complex OOXML roundtrip and installation speed unresolved"
+  ],
+  "external_docs": "Quick/LibreOffice official web fetch/search failed this run; reused existing REA partial static evidence, no new Amazon runtime conclusion",
+  "github": {
+    "main_readonly": "27bd38f6b43806fb702c62ec4586426730b8190a",
+    "branch_0372": "0ce607437ef2c7814b295b43ec7b4ccd3c0b4a42",
+    "writes": false,
+    "reason": "prior automatic approval quota retry Nov2; not reached; no bypass"
+  },
+  "authority_writeback": "planned expected49, final result separate delivery receipt",
+  "offline": {
+    "version": "0.37.11",
+    "bytes": 483224055,
+    "sha256": "9c520e74cea62e3f895540dc7fda4948f301a2617c30ff1c6330f4c005753f5c",
+    "mach_o": 278,
+    "code_pages": 93545,
+    "app_entries": 20727,
+    "extra_files": 5,
+    "symlinks": 47,
+    "changed_app_entries": [
+      "WillBuddy.app/Contents/Info.plist",
+      "WillBuddy.app/Contents/MacOS/Electron",
+      "WillBuddy.app/Contents/Resources/app.asar",
+      "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+    ],
+    "runtime_unchanged": true,
+    "closed_crc": true,
+    "electron_page_tamper_rejected": true,
+    "mac_native_tested": false,
+    "production_files_asar_exact": 154,
+    "minimal_package": true,
+    "host_pyc_absent": true,
+    "asar_sha256": "c0f825feea184e9304333e30ce9d994779aa421a8dac2311d3c6142d45fbf6b3",
+    "zero_residuals": true
+  },
+  "protected_web_python_files": 122,
+  "original_python_executor_35": "unchanged/not rerun"
+}

@@ -1,0 +1,56 @@
+{
+  "version": "0.37.9",
+  "authority_base_version": 47,
+  "authority_content_hashes_verified": 690,
+  "core": {
+    "passed": 411,
+    "failed": 0,
+    "skipped": 0,
+    "concurrency": 1
+  },
+  "new_core": 4,
+  "related": 6,
+  "chromium": 7,
+  "packaging_tests": 26,
+  "native_linux_kit": true,
+  "production_ui": "precise TARGET text+background colors; real HTTP model fixture/native Kit/DOCX python-docx; outside text unchanged; refresh kept chat",
+  "grid_prototype": "native success receipt did not yield required real DOCX border colors/width; withdrawn",
+  "ipc_approval_keychain_model_semantics": "fixtures",
+  "mac_native_tested": false,
+  "paid_model_tested": false,
+  "legacy_python_35": "unchanged/not rerun",
+  "protected_files": 122,
+  "protected_sha_unchanged": true,
+  "github": "no new mutation; prior CreatePR approval quota error says Nov2; no bypass",
+  "offline": {
+    "production_files_asar_exact": 153,
+    "minimal_package": true,
+    "host_pyc_absent": true,
+    "electron_page_tamper_rejected": true,
+    "bytes": 483219407,
+    "sha256": "647ac93e22a8e0b8aae98335945558e44c2e5abc3b69993f2e1e9ae68c7833ac",
+    "asar_sha256": "866ef2b82745337fc8e1be485289fa91ed51d2de840a1969ea1ba6a31e563a75",
+    "mach_o": 278,
+    "code_pages": 93545,
+    "app_entries": 20727,
+    "extra_files": 5,
+    "symlinks": 47,
+    "zero_residuals": true,
+    "closed_crc": true,
+    "changed_app_entries": [
+      "WillBuddy.app/Contents/Info.plist",
+      "WillBuddy.app/Contents/MacOS/Electron",
+      "WillBuddy.app/Contents/Resources/app.asar",
+      "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+    ],
+    "runtime_unchanged": true
+  },
+  "asar_extraction_anomaly": {
+    "extra": "src/pdf/.engine.js.kzUlkt",
+    "bytes": 2097152,
+    "exact_source_prefix": true,
+    "present_in_original_asar": false,
+    "verification": "direct original ASAR header/file bytes exact; failed extraction directory retained, no deletion/reinventory",
+    "writer_process": "unknown"
+  }
+}

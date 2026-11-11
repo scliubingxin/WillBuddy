@@ -1,0 +1,785 @@
+✔ agent capabilities are bounded typed registries, not arbitrary executable or credential configuration (4.511502ms)
+✔ workspace persists profile with knowledge/skill/tool/MCP and rolls back on disk failure (22.810567ms)
+✔ tool schemas and execution both enforce per-agent allowlist; unknown calls never reach runtime (0.662588ms)
+✔ skills load on demand, body stays out of system prompt/audit; profile edits invalidate active sessions (6.782692ms)
+✔ knowledge retrieval is agent-scoped, approved, source/revision anchored, and honors denial (41.720224ms)
+✔ MCP discovery denial and disk failure cause zero network calls (4.099681ms)
+✔ MCP client rejects redirects, malformed IDs, unsupported schemas and oversized replies without retry (9.483187ms)
+✔ real HTTP model → skill → approved knowledge → MCP SSE result → model acceptance, with session cleanup (114.311578ms)
+✔ MCP schema/cursor limits and wrong protocol versions fail closed (3.029707ms)
+✔ MCP call denial, long parameters, profile deletion and cancellation never execute a remote action (7.241362ms)
+✔ MCP active HTTP request observes abort without implicit retry (11.083816ms)
+✔ active native dialog receives AbortSignal, cancels and releases queued work (13.259831ms)
+✔ emergency cancellation closes active and cancels queued requests without late acceptance (1.675338ms)
+✔ timeout cancels a hung adapter and never treats a late Allow as approval (15.914601ms)
+✔ missing parent fails closed and task consent is explicit, never the default (1.44389ms)
+✔ browser grant exact origin/run, known cross-origin target, revoke and completion boundaries (0.644031ms)
+✔ runtime reuses browser consent only in same run/site; CLI remains individual approval (1.700866ms)
+✔ revocation during persistence blocks an automatically authorized browser action (0.429707ms)
+✔ oversized approval never opens an off-screen native sheet; Word approval uses human summary (71.705826ms)
+✔ navigation during body read cannot return another origin under old consent (0.969837ms)
+node:internal/modules/package_json_reader:331
+  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+        ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'jsdom' imported from /workspace/scratch/08fe4388c223/work/muyun-ai/desktop/tests/browser-dom.test.mjs
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:331:9)
+    at packageResolve (node:internal/modules/esm/resolve:784:25)
+    at moduleResolve (node:internal/modules/esm/resolve:873:18)
+    at defaultResolve (node:internal/modules/esm/resolve:1006:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:705:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:725:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:763:56)
+    at #resolve (node:internal/modules/esm/loader:687:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:607:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:276:33) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.22.1
+✖ tests/browser-dom.test.mjs (82.950067ms)
+node:internal/modules/package_json_reader:331
+  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+        ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'jsdom' imported from /workspace/scratch/08fe4388c223/work/muyun-ai/desktop/tests/browser-runtime.test.mjs
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:331:9)
+    at packageResolve (node:internal/modules/esm/resolve:784:25)
+    at moduleResolve (node:internal/modules/esm/resolve:873:18)
+    at defaultResolve (node:internal/modules/esm/resolve:1006:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:705:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:725:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:763:56)
+    at #resolve (node:internal/modules/esm/loader:687:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:607:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:276:33) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.22.1
+✖ tests/browser-runtime.test.mjs (87.670965ms)
+✔ imports actual MD and ZIP with frontmatter, resources and opaque binary assets without executing scripts (14.572754ms)
+✔ rejects traversal, case duplicates, extra roots, missing entry, huge expansion and malformed metadata before import (150.617591ms)
+✔ symlink ZIP and CRC corruption are rejected (0.931281ms)
+✔ library metadata omits bodies, imports persist, duplicate/failed writes roll back (14.600164ms)
+✔ agent binds registry IDs, rejects missing/disabled/duplicate capabilities and protects referenced deletion (10.044087ms)
+✔ bound skills load resources only on demand, cannot read another package, disable invalidates active session (14.304047ms)
+✔ native Skill picker ignores renderer paths; cancel, missing parent and symlink fail safely (3.630194ms)
+✔ MCP save does not connect; probe approval/actual discovery/cancel/edited-target checks and rollback (21.046153ms)
+✔ actual HTTP model uses uploaded Skill + resource and shared MCP ID in ReAct loop (109.985678ms)
+✔ MCP probe cancellation aborts in-flight discovery and clears pending state (7.622699ms)
+✔ MCP edit during native approval prevents even initial discovery network (4.882394ms)
+✖ agent editor binds installed skills without a second skill configuration form (1.480143ms)
+node:internal/modules/package_json_reader:331
+  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+        ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'jsdom' imported from /workspace/scratch/08fe4388c223/work/muyun-ai/desktop/tests/capability-presets.test.mjs
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:331:9)
+    at packageResolve (node:internal/modules/esm/resolve:784:25)
+    at moduleResolve (node:internal/modules/esm/resolve:873:18)
+    at defaultResolve (node:internal/modules/esm/resolve:1006:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:705:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:725:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:763:56)
+    at #resolve (node:internal/modules/esm/loader:687:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:607:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:276:33) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.22.1
+✖ tests/capability-presets.test.mjs (75.258493ms)
+✔ ZIP keeps nested paths and decodes real Office/text, lists unsupported without pretending understanding (96.938692ms)
+✔ ZIP refuses traversal, Windows paths, absolute paths, normalization collisions and symlinks (2.197451ms)
+✔ ZIP rejects count, inflated sizes, CRC corruption, encrypted and unsupported-only archives (382.248023ms)
+✔ ZIP reports file and text budgets without claiming excluded text (39.01377ms)
+✔ ZIP accepts actual input over4MiB while Office input stays4MiB (741.171217ms)
+✔ batch import validates all before atomic save and rolls back disk failure (3.398746ms)
+✔ ZIP source code is decoded as inert text and never executed (0.754723ms)
+✔ chat attachments verify actual bytes, reject forged metadata, duplicate, removed and changed copies (6.461522ms)
+✔ chat attachment collection has explicit count and total text limits (9.949363ms)
+✔ plain conversation sends explicitly attached body without tool mode and does not resend on next question (8.511353ms)
+✔ queued document deletion or target model change blocks model invocation (5.656095ms)
+✔ real DOCX XLSX PPTX bytes yield actual body text for attachment questions (214.615574ms)
+✔ empty extracted attachment fails instead of claiming image/OCR understanding (1.538979ms)
+node:internal/modules/package_json_reader:331
+  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+        ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'jsdom' imported from /workspace/scratch/08fe4388c223/work/muyun-ai/desktop/tests/chat-media.test.mjs
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:331:9)
+    at packageResolve (node:internal/modules/esm/resolve:784:25)
+    at moduleResolve (node:internal/modules/esm/resolve:873:18)
+    at defaultResolve (node:internal/modules/esm/resolve:1006:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:705:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:725:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:763:56)
+    at #resolve (node:internal/modules/esm/loader:687:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:607:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:276:33) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.22.1
+✖ tests/chat-media.test.mjs (111.501122ms)
+✔ native ZIP reads over4MiB, rejects32MiB overflow and symlinks; Office stays bounded (23.401276ms)
+✔ automatic find is restricted to fixed system executable and read-only expressions at authorized cwd (9.258972ms)
+✔ actual scoped find runs without a prompt and records authorization; shell and destructive find still require approval (27.277742ms)
+✔ code ZIP preserves complete source and binary assets, identifies scripts without execution or 32-document truncation (13.417958ms)
+✔ code manifests reject ambiguity, traversal, dependency folders and malformed package data; Python has explicit venv/install/entry steps (1.719408ms)
+✔ import is inert and durable; real npm install and Node start run in staged directory through approved audit queue (907.842082ms)
+✔ denial, disk failure and modified/symlink source never start a process (28.818555ms)
+✔ project cancellation kills real running process; restart does not replay a project command (244.951717ms)
+✔ Python project creates a real venv, installs an empty requirements file and executes real entry (2713.392731ms)
+✔ queue accepts duplicate IDs once, executes real Node once, persists events/output across reload (72.961587ms)
+✔ FIFO shares capacity with chats/tasks; queued cancel never requests approval (48.240052ms)
+✔ restart pauses queued work and interrupts claims without automatic replay (4.259494ms)
+✔ retry requires current revision and fresh approval; duplicate/fork retries do not duplicate effects (85.774829ms)
+✔ running cancellation remains available from reloaded persisted state (56.244927ms)
+✔ queued commands recheck revoked grants before approval/execution (13.916696ms)
+✔ failed acceptance/claim persistence never approves or launches (3.272515ms)
+✔ running state must persist after approval before a real child may spawn (12.536874ms)
+✔ partial output checkpoint survives recovery before process completion (47.649002ms)
+✔ output checkpoint disk failure stops child and records failure (53.719489ms)
+✔ forget retains execution audit/history and refuses live jobs (46.030588ms)
+✔ queue validates argv/grants and bounds pending requests (29.831236ms)
+✔ cancellation while approval is open cannot execute after dialog later accepts (14.402301ms)
+✔ two simultaneous queue claims occupy capacity before persistence and third waits (26.289829ms)
+node:internal/modules/package_json_reader:331
+  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+        ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'jsdom' imported from /workspace/scratch/08fe4388c223/work/muyun-ai/desktop/tests/composer-menu.test.mjs
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:331:9)
+    at packageResolve (node:internal/modules/esm/resolve:784:25)
+    at moduleResolve (node:internal/modules/esm/resolve:873:18)
+    at defaultResolve (node:internal/modules/esm/resolve:1006:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:705:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:725:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:763:56)
+    at #resolve (node:internal/modules/esm/loader:687:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:607:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:276:33) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.22.1
+✖ tests/composer-menu.test.mjs (69.390518ms)
+✔ atomic persistence survives reload and serializes overlapping writes (14.000135ms)
+✔ grants cannot escape directory via traversal or symlinks and revoke immediately (8.624372ms)
+✔ file list omits hidden and dependency trees; unsupported and large files rejected (5.811199ms)
+✔ model endpoint permits local Ollama and disallows credential URLs and insecure remote (0.711939ms)
+✔ model sends exact messages and key; records usage; rejects failures and empty replies (42.265553ms)
+✔ daily schedule advances local calendar day (0.279962ms)
+✔ conversion creates a separate Word with source revision receipt and retains original bytes (53.850391ms)
+✔ conversion refuses a source edited while awaiting approval (21.119295ms)
+✔ rich Word write persists revision and rejects stale concurrent edits (23.435476ms)
+✔ rich write to non-canvas import is refused rather than silently rebuilding original layout (30.294888ms)
+✔ denied rich write does not save a document and audits exclude HTML source (14.427469ms)
+✔ conversion disk failure rolls back candidate; successful Word write becomes a trusted chat card (14.283546ms)
+✔ unsupported formats, empty source and cancelled request do not create a conversion browser (0.594856ms)
+✔ timeout rejects even a delayed driver factory and closes its late browser (20.917727ms)
+✔ Electron conversion adapter isolates session, denies permissions, URLs, popups and Node access (2.029419ms)
+✔ rich source is returned only by approved document_read and never retained in tool audit (25.745768ms)
+✔ paragraph editor targets one of identical paragraphs, retains other content and rejects forged coordinates (143.086792ms)
+✔ source editor can replace entire Markdown/HTML including empty text, never executes it (0.739048ms)
+✔ cell editor keeps typed constants and stores equals-prefixed values literally (11.600385ms)
+✔ editor save rejects denied, stale and disk-failed changes with original bytes retained (145.338654ms)
+✔ document cards require trusted successful run-linked tool receipts, never prose IDs or unrelated runs (0.529349ms)
+✔ GenOffice handoff uses an isolated copy and imports verified edited bytes as a new revision (81.359837ms)
+✔ GenOffice denial does not launch; invalid bytes and stale destination cannot replace an Office document (80.48006ms)
+✔ GenOffice handoff rejects symlink substitution instead of reading it (20.491775ms)
+✔ real docx generation, inspection and editing (104.687984ms)
+✔ real xlsx generation, inspection and editing (17.464201ms)
+✔ real pptx generation, inspection and editing (63.950971ms)
+✔ real md generation, inspection and editing (0.358779ms)
+✔ real html generation, inspection and editing (0.291279ms)
+✔ independent Python Office parsers open real generated and edited packages (437.593489ms)
+✔ edits preserve untouched ZIP parts, paragraph run styles and tables (51.137205ms)
+✔ read-only imported source, optimistic revisions, one-shot approvals, durable restart and conflict (6.913923ms)
+✔ denial, cancellation, and failed persistence do not create document versions; audits hide content (1.988949ms)
+✔ model tool loop creates, reads and modifies an actual Word document (48.471018ms)
+✔ package limits reject duplicate paths, traversal, external relationships, DTD, macro/embedded payloads and CRC corruption (85.199647ms)
+✔ invalid specs, missing replacements, invalid cells and unsupported formula workbook updates fail closed (11.253224ms)
+✔ bounded native import and staged export preserve selected original until publication; retained versions export exact bytes (23.142444ms)
+✔ two concurrent document creations persist both without replacing each other (0.496801ms)
+✔ actual HTTP model protocol completes create/read/edit receipts through real Office tools (100.054049ms)
+node:internal/modules/package_json_reader:331
+  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+        ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'jsdom' imported from /workspace/scratch/08fe4388c223/work/muyun-ai/desktop/tests/html-preview.test.mjs
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:331:9)
+    at packageResolve (node:internal/modules/esm/resolve:784:25)
+    at moduleResolve (node:internal/modules/esm/resolve:873:18)
+    at defaultResolve (node:internal/modules/esm/resolve:1006:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:705:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:725:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:763:56)
+    at #resolve (node:internal/modules/esm/loader:687:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:607:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:276:33) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.22.1
+✖ tests/html-preview.test.mjs (75.092651ms)
+✔ large input header is accepted before native decoding; stored normalized limit remains independently bounded (1.807382ms)
+✔ native adapter scales full image proportionally and retries PNG byte budget; decoder failure never persists (2.206871ms)
+✔ eight distinct images can be selected; ninth rejected and ordinary view contains no pixels (3.411194ms)
+✔ image metadata stays byte-free; normalized PNG persists and reload verifies original bytes (17.254934ms)
+✔ invalid format, huge bytes and forged pixel sizes fail before decoder (3.397914ms)
+✔ import/remove disk failures roll back, concurrent imports serialize; used history images cannot disappear (4.707723ms)
+✔ missing/tampered/duplicate/too many selections rejected without sending pixels (3.058735ms)
+✔ native picker cancel, no-parent and symlink reject; normalization bounds and no renderer paths (3.805014ms)
+✔ vision payload only on explicit current-run consent; historical pictures not silently resent (13.990986ms)
+✔ model target change before a vision request fails closed, no fallback provider (5.657172ms)
+node:internal/modules/package_json_reader:331
+  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+        ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'jsdom' imported from /workspace/scratch/08fe4388c223/work/muyun-ai/desktop/tests/knowledge-evidence.test.mjs
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:331:9)
+    at packageResolve (node:internal/modules/esm/resolve:784:25)
+    at moduleResolve (node:internal/modules/esm/resolve:873:18)
+    at defaultResolve (node:internal/modules/esm/resolve:1006:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:705:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:725:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:763:56)
+    at #resolve (node:internal/modules/esm/loader:687:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:607:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:276:33) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.22.1
+✖ tests/knowledge-evidence.test.mjs (80.991911ms)
+✔ inverted index reduces scored chunks while preserving exact scan ranking/text/coordinates (110.173843ms)
+✔ index survives Store reload and is actually reused without a separate text-read route (25.595434ms)
+✔ CJK/fullwidth/Latin infix/single-character/astral Unicode results match the original scanner (9.61392ms)
+✔ revision/SHA or extracted text changes rebuild; removed documents are pruned on next approved query (24.31492ms)
+✔ checksum corruption, unknown algorithm, malformed rows are rebuilt rather than trusted (55.053219ms)
+✔ large dictionaries fall back to exact full scan with an explicit uncached counter (56.440694ms)
+✔ cache history is bounded and clear removes only derived data (27.917814ms)
+✔ save failure rolls the cache field back and returns no excerpts; clear failure preserves cache (47.573153ms)
+✔ cancellation/configuration revocation before work causes no cache or excerpts (3.509665ms)
+✔ serialized concurrent approved queries merge rather than overwrite independent index entries (24.121348ms)
+✔ warm index cannot bypass document approval; late denial releases no matches (10.903719ms)
+✔ verified in-memory postings are frozen; replacement corruption still rebuilds (24.792414ms)
+✔ cancellation after cache write restores the old field on disk and releases no excerpts (25.54346ms)
+✔ aggregate serialized cache budget evicts oldest groups rather than exceed8MiB (633.046502ms)
+✔ legacy single-source envelope plus index metadata remains a complete bounded JSON result (17.487995ms)
+✔ deterministic mixed-script queries preserve full-scan results across repeated indexed lookups (40.74898ms)
+✔ Chinese phrases retrieve multiple related sources without requiring the whole query (3.811595ms)
+✔ NFKC and case folding find full-width Latin data while excerpts remain exact source bytes (0.634126ms)
+✔ long lines are chunked, late matches are found and exact line/offset citations survive (8.073071ms)
+✔ eight matching sources remain represented under the global excerpt budget (6.797338ms)
+✔ no hit is an explicit empty result, not fabricated evidence; invalid and oversized inputs reject (0.971909ms)
+✔ cross-document search uses each real document permission, returns bounded sources and hides bodies in audit (38.561632ms)
+✔ a denial after one approved document returns no partial excerpts (8.599857ms)
+✔ changing an earlier source during a later read invalidates the whole result (9.092307ms)
+✔ missing and unbound documents reject before any read; single-source envelope stays compatible (6.790829ms)
+✔ cancellation, agent revocation, forged read receipts and read failures never release excerpts (24.364707ms)
+✔ real HTTP model → multi-document Chinese retrieval → MCP quote → source-backed acceptance (126.38055ms)
+✔ JSON escaping cannot make the model observation exceed its complete-result budget (1.390004ms)
+✔ bearer syntax blocks header injection, prefixes, whitespace, short and oversized values (1.520007ms)
+✔ OS adapter refuses unavailable/basic_text and hides decrypt errors, with no plaintext fallback (0.506175ms)
+✔ persistent config encrypts token before save; state is metadata only and listing does not decrypt (14.600878ms)
+✔ leave blank preserves only same-address bearer; changed address requires reentry; none clears; test result invalidates (4.334976ms)
+✔ failed encryption or disk save rolls config back and never silently downgrades to anonymous (3.758541ms)
+✔ denied probe/discovery cannot decrypt or contact the endpoint (4.813109ms)
+✔ HTTP401/403 do not read/echo response body, refresh token, or retry (2.74212ms)
+✔ literal token echoed in tools and parse/transport errors is not released (1.66928ms)
+✔ changed credentials invalidate subsequent request and DELETE cleanup (3.637576ms)
+✔ configuration drift while HTTP is in flight withholds returned tool data (2.591826ms)
+✔ real HTTP bearer initializes/lists/calls/deletes on exact endpoint; bodies/audit/state stay credential-free (40.305999ms)
+✔ password configuration fields never prefill a saved plaintext/ciphertext token (0.267719ms)
+✔ real HTTP redirect never forwards the bearer to a second endpoint (4.731417ms)
+✔ changing credentials while approval is open prevents both decryption and first network request (5.369179ms)
+✔ credential client endpoint cannot be retargeted after construction (0.710991ms)
+✔ model profiles keep keys separate, metadata never exposes ciphertext and session keys are not persisted (3.794901ms)
+✔ auto tiers match capability and priority; fast disables thinking, extreme high; no cross-tier fallback (0.725482ms)
+✔ manual effort uses real provider-specific request fields and rejects incompatible parameters (4.946729ms)
+✔ credential changes require fresh input and revision guards reject stale editors (2.455182ms)
+✔ saved route rejects deletion, disabling and unrelated edits without silently choosing another model (0.780604ms)
+✔ failed writes roll back model config and session credential; secret adapter failure never falls back (0.937599ms)
+✔ profile model budget and capabilities fail closed before outbound request (0.528668ms)
+✔ actual Store reload preserves encrypted config, no plaintext and saves are serialized (50.228034ms)
+✔ real HTTP payload uses selected model/key and reasoning params, no arbitrary response fallback (47.998977ms)
+✔ SSE reasoning is retained only for same-run tool protocol and is not streamed as answer text (1.862358ms)
+✔ conversation route frozen before queue; two chats can use distinct profiles independently (4.483037ms)
+✔ routed conversation rejects late response after profile changes (0.736659ms)
+✔ host model secret adapter refuses plaintext backend and encrypt/decrypt failures (0.767555ms)
+✔ queued profile drift blocks outbound model call (0.472334ms)
+✔ model round limit is validated, persisted, and does not overwrite existing legacy defaults (0.691661ms)
+✔ explicit legacy model round limit allows a configured agent beyond twelve iterations (2.766276ms)
+✔ real LibreOffice PDF includes actual Word text and embedded PNG; source parts retained (1529.049736ms)
+✔ native edit uses private copy; collect requires exit and creates revision, never overwrites original (86.410007ms)
+✔ denial, original version drift, invalid PDF and cancellation fail closed (86.660199ms)
+✔ packaged Python fixed path, unsupported arch/missing payload and escaping symlink reject (8.900311ms)
+✔ real LibreOffice converts XLSX and PPTX into paginated PDFs (26077.151447ms)
+✔ editor stale original, symlink output and approval-time modified output never publish (92.597633ms)
+✔ editor output symlink is rejected before approval and original unchanged (44.329335ms)
+✔ native replacement clears obsolete canvas source and preserves prior version (68.494164ms)
+✔ image tool candidate is single-use, revision and approval-time image drift protected (211.94615ms)
+✔ cell format rejects empty, unsupported, nonfinite and malformed parameters (2.351013ms)
+✔ real native Excel format changes target styles, retains data/formulas/other sheet and previous bytes (1515.507699ms)
+✔ deny, stale selection, cancellation and audit failure dispatch no native format (3088.981178ms)
+✔ no-op output verification blocks success and explicit save; disk failure retains retryable format draft (1762.511481ms)
+✔ worker rejects extra commands, forged scope and malformed formats before native history changes (630.951951ms)
+✔ saved format verifier rejects data drift, forged formats and unrecognized formula types (375.821313ms)
+✔ preflight rejects target rich text, conditional formatting, shared formulas and oversized workbooks (292.210892ms)
+✔ preservation uses exact decimal semantics instead of rounded Number equality (207.67646ms)
+✔ revision changes during final native context query block formatting before mutation (736.694353ms)
+✔ exact rectangle and constant matrix reject overflow, formulas, controls and review excess (2.316033ms)
+✔ real native matrix updates only current rectangle, retains cell formatting/formulas/other sheet and old bytes (1274.032914ms)
+✔ denial, stale part/fingerprint, cancellation and audit failure dispatch no cell writes (3398.214915ms)
+✔ private worker rejects forged scope, formula, dimensions and extra fields before native undo changes (611.484043ms)
+✔ document failure keeps a verified retryable draft, while native no-op mismatch blocks explicit save too (1428.096652ms)
+✔ revision drift in last native context check fails before writes; merged selection is unavailable (1450.728073ms)
+✔ blank rectangle can be filled and clears remain bounded; another sheet context cannot be reused (1049.873432ms)
+✔ model final success text cannot hide a failed cell output verification (4.36242ms)
+✔ actual HTTP model tool replaces real native selection; chat and revision persist (883.351655ms)
+✔ missing explicit document send consent rejects before any context read (0.987337ms)
+✔ stale selection and concurrent document revision are rejected by native workspace (541.295834ms)
+✔ cancellation interrupts actual waiting model request without publishing native edits (609.323811ms)
+✔ audit persistence failure blocks native AI write before paste (718.44925ms)
+✔ document disk failure retains explicit retryable draft and does not claim a saved revision (414.822101ms)
+✔ forged identity and stale selection reject before queue (0.658191ms)
+✔ queued selection drift rejects before reading context or sending model (0.542401ms)
+✔ actual HTTP font tool changes real Word run properties without replacing text (604.264192ms)
+✔ font approval denial, stale selection, cancellation and audit failure publish no revision (965.034772ms)
+✔ actual HTTP CJK font tool writes eastAsia independently and preserves mixed selection text (1042.011333ms)
+✔ cancellation during durable format audit never reaches native format dispatch (556.054675ms)
+✔ worker rejects malformed colors and extra properties without changing undo history (543.079132ms)
+✔ color denial, stale selection, cancellation during audit and audit fault never dispatch native changes (1862.706183ms)
+✔ real native colors survive disk retry, reload and undo without replacing original text (683.651949ms)
+✔ private macOS fontconfig discovers system font directories and escapes unusual home paths (26.692052ms)
+✔ font config fails closed on relative and control-character paths (4.260585ms)
+✔ bounded format properties reject command injection, controls, nonnumeric and oversized sizes (3.357318ms)
+✔ east Asian font uses the same strict name boundary and is independent of Latin (0.390407ms)
+✔ RGB text and background are strict independent fixed properties (0.496144ms)
+✔ native formula grammar is bounded, normalizes ASCII and rejects external names/functions/quotes/ranges (3.869186ms)
+✔ preflight rejects cycles, errors, multicell and unsupported existing workbook formulas (221.725983ms)
+✔ real native single-cell SUM preserves data/other formulas/styles and verifies dependent cached results (977.734314ms)
+✔ refused/stale/cancelled/audit-failed formula never reaches native mutation (2563.605041ms)
+✔ no-op formula receipt cannot be bypassed by manual save; disk failure can retry checked draft (1457.506903ms)
+✔ worker independently rejects unsafe formula syntax, extra fields and false cell scope before history changes (601.321801ms)
+✔ seven supported functions, comparison, percent and absolute refs compute across native save rounds (2847.485869ms)
+✔ receipt independently rejects wrong scalar cache, wrong formula or outside data drift (949.85447ms)
+✔ final context version drift prevents formula dispatch and cannot overwrite concurrent revision (741.891857ms)
+✔ history count validation keeps unsupported, forged and oversized states disabled (1.267933ms)
+✔ real Kit undo/redo stack follows native edits, preserves durable revisions and clears redo branch (1091.221625ms)
+✔ service rechecks history inside queue and never dispatches unavailable commands (35.557978ms)
+✔ undo save failure keeps native draft and history for explicit save retry (503.701393ms)
+✔ real LibreOfficeKit renders Word, native selection and edit auto-commit; no external collection (650.791203ms)
+✔ real LibreOfficeKit opens Excel/PPT, switches parts and renders actual pixels (1109.837262ms)
+✔ approval denial never starts driver; input boundaries and original-version guard (63.911061ms)
+✔ real Calc selected cells write actual XLSX values with native engine (552.110376ms)
+✔ literal text objects are copied and bounded without arbitrary typed commands (3.779507ms)
+✔ real native literal text preserves zeroes, date and formula-like strings, spaces and apostrophes (1311.270985ms)
+✔ literal verifier rejects numeric coercion and formula execution despite equal display (236.012187ms)
+✔ worker rejects malformed literal objects before writing and keeps native history (736.82176ms)
+✔ literal native no-op cannot publish through manual save retry (843.858315ms)
+✔ Word navigation rejects arbitrary keys, raw codes, modifiers and composition events (1.551033ms)
+✔ real Kit keyboard selects a substring; formatting preserves every outside character and size (796.20378ms)
+✔ host rejects malformed navigation before worker dispatch and rechecks queued revision (68.165912ms)
+✔ native worker independently rejects bad keys and extra payload without changing selection (448.918586ms)
+✔ spreadsheet navigation never dispatches Word-only key events (13.550312ms)
+✔ real shared Kit PDF exports Word, two-sheet Calc and two-slide Impress without CLI or source mutation (1474.660965ms)
+✔ abort while runtime resolves returns promptly; a late factory is closed and never exports (3.603058ms)
+✔ abort during export closes driver, deletes private copy and releases both capacity slots (73.625686ms)
+✔ version change, invalid PDF and symlink output never return candidate bytes; no CLI fallback (187.685668ms)
+✔ real ready worker abort exits owned process; invalid PDF export payload rejects (441.145818ms)
+✔ startup cancellation and deadline kill a real never-ready protocol fixture without a live orphan (456.129282ms)
+✔ shutdown cancels pending runtime resolution before any native driver starts (34.138155ms)
+✔ PPT receipt requires unique bounded simple single-paragraph text and preserves every slide text (151.751656ms)
+✔ real PPT native keyboard selects one word; AI replacement saves exact text and all other slides (1048.133615ms)
+✔ PPT arrows outside text edit and after page change never move shapes; worker validates expected text (578.837395ms)
+✔ PPT cancellation during running audit blocks native paste and leaves revision clean (685.742227ms)
+✔ PPT refused approval and stale sequence cannot dispatch native replacement (626.949552ms)
+✔ PPT native no-op cannot publish or bypass receipt using manual save (799.212541ms)
+✔ PPT native edit with disk failure keeps checked draft and can explicitly retry save (727.252914ms)
+✔ PPT receipt checks explicit fontsize bold italic underline RGB and applicable Latin font even when text is correct (89.037089ms)
+✔ PPT equivalent split runs pass while mixed selected direct styles are refused before mutation (56.702429ms)
+✔ PPT paragraph defaults are resolved and changed explicit alignment is rejected (57.943244ms)
+✔ PPT unsupported effects and foreign namespace run payloads fail preflight with no native paste (632.727946ms)
+✔ real styled PPT selection preserves explicit style after native replacement and Store reload (987.647081ms)
+✔ native output with right text but changed format cannot publish or bypass using manual save (1075.075351ms)
+✔ real PPT selected word format changes size and color only; original text and other runs survive (1036.368481ms)
+✔ PPT direct format input and receipt reject empty unknown invalid geometry color mixed or complex targets (94.672426ms)
+✔ PPT size-only and color-only requests each keep the other known property (1686.509785ms)
+✔ PPT format refusal stale sequence native bad args and page drift send no format command (562.421173ms)
+✔ PPT format cancellation or audit disk failure blocks native mutation before dirty flag (1166.481349ms)
+✔ PPT format native no-op cannot publish or use manual save; real changed draft retries after disk failure (1568.816477ms)
+✔ manual selected PPT editing verifies output and rejects stale selections without extra approval (762.58695ms)
+✔ manual selection edit audit failure blocks native mutation (612.67901ms)
+✔ preview returns exact verified revision bytes without general-state leakage (78.790036ms)
+✔ preview rejects text formats without changing stored documents (1.101857ms)
+✔ preview sandbox has no network, native bridge or external GenOffice UI (4.387557ms)
+✔ source reconciled selection crosses runs and retains all untouched parts (216.129255ms)
+✔ whole table uses original paragraph/run anchors, refuses outside text and structural changes (52.813872ms)
+✔ stale, tampered, forged, excessive, partial outside selection fail closed (73.230243ms)
+✔ literal XLSX shared/inline rich text patch preserves formulas, style, merges and chart parts (13.997953ms)
+✔ ReAct supports more than 12 tools with explicit 96-round upper bound and cancellation (1.318897ms)
+✔ grid bounds, unique complete table, signed/complex/merged/nested targets fail closed (178.452252ms)
+✔ grid patch preserves every non-document part and content properties; receipt rejects tampering (222.154855ms)
+✔ real HTTP grid tool reloads same session, renders blue borders, preserves old bytes and native future edits (1744.629148ms)
+✔ grid refusal, stale fingerprint, cancellation and failed durable audit do not initialize replacement (3047.619084ms)
+✔ replacement init, candidate drift and document disk failure keep original session and clean candidate (3365.413801ms)
+✔ cancellation during post-initialization final native table query leaves no new revision (971.564394ms)
+✔ shutdown during document commit rolls back persisted grid and closes the replacement (1120.672029ms)
+✔ rich direct text properties, padding, headers and all non-target parts survive the exact grid patch (2180.632924ms)
+✔ a header table cannot be confused with the same-sized unique body table (1074.583897ms)
+✔ perimeter edges explicit, bounded, unique logical sides; omission remains compatible (0.657672ms)
+✔ each requested perimeter changes only boundary cells; all untouched sides and package parts remain exact (750.048711ms)
+✔ perimeter resolves only selected legacy aliases and supports one-cell and multiple-edge tables (161.924975ms)
+✔ HTTP model top-only border reloads same session; approval scope and independent DOCX verify preserved red interiors (1983.328981ms)
+✔ outline validates explicit color/width/padding, rejects extra commands and nonfinite values (1.802945ms)
+✔ actual HTTP tool loop applies real Word table outline and padding; independent DOCX and reload verify (906.093109ms)
+✔ ordinary text, stale fingerprint, refusal, cancellation and audit failure never dispatch border (3176.112658ms)
+✔ private worker rejects forged table fingerprint and invalid style before native changes (574.106441ms)
+✔ real merged, nested and over-limit table selections stay unavailable (2970.589787ms)
+✔ revision changed during final native selection query blocks border before dispatch (564.332142ms)
+✔ dedicated Office IPC binds exact owned main frame and ignores renderer session/document IDs (1.772468ms)
+✔ Word receipt accepts split runs and rejects no-op, missing CJK run, wrong size, altered text and ambiguous selections (226.980908ms)
+✔ no-op output and explicit save cannot publish a false Word format success (686.422675ms)
+✔ partial native format failure keeps checked draft; mismatched manual save and new format are blocked (534.351068ms)
+✔ cancellation during final Word snapshot after durable audit dispatches no native format (471.001603ms)
+node:internal/modules/package_json_reader:331
+  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+        ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'jsdom' imported from /workspace/scratch/08fe4388c223/work/muyun-ai/desktop/tests/office-workspace.test.mjs
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:331:9)
+    at packageResolve (node:internal/modules/esm/resolve:784:25)
+    at moduleResolve (node:internal/modules/esm/resolve:873:18)
+    at defaultResolve (node:internal/modules/esm/resolve:1006:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:705:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:725:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:763:56)
+    at #resolve (node:internal/modules/esm/loader:687:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:607:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:276:33) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.22.1
+✖ tests/office-workspace.test.mjs (72.633794ms)
+✔ production preload exposes officeOpen exactly through trusted actwill IPC (5.365007ms)
+node:internal/modules/package_json_reader:331
+  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+        ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'jsdom' imported from /workspace/scratch/08fe4388c223/work/muyun-ai/desktop/tests/preview-protocol.test.mjs
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:331:9)
+    at packageResolve (node:internal/modules/esm/resolve:784:25)
+    at moduleResolve (node:internal/modules/esm/resolve:873:18)
+    at defaultResolve (node:internal/modules/esm/resolve:1006:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:705:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:725:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:763:56)
+    at #resolve (node:internal/modules/esm/loader:687:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:607:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:276:33) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.22.1
+✖ tests/preview-protocol.test.mjs (72.540632ms)
+✔ host service policy is exact and cannot turn an install/build/test or renderer timeout into an extended execution (17.276056ms)
+✔ real service survives the ordinary requested deadline and over1MiB logs, serves HTTP, then stops with bounded newest logs and fresh-restart requirement (560.655185ms)
+✔ only one project service occupies shared capacity; another queued service does not block ordinary CLI, cancellation before approval stays inert (242.073167ms)
+✔ restart recovers queued and running services without spawning or trusting persisted process IDs (11.449086ms)
+✔ source drift during native approval blocks service spawn, and invalid work-directory grants never authorize another folder (23.568994ms)
+✔ actual missing dependency and occupied port produce fixed diagnostic hints without retries or installing anything (354.713059ms)
+✔ denial and durable-claim disk failure do not launch service processes (14.015195ms)
+✔ low-level tail mode still honors an actual deadline and ordinary CLI keeps output_limit protection (232.268027ms)
+✔ diagnostic strings are fixed data; success and arbitrary error text never become commands (0.580728ms)
+✔ service claim persistence failure prevents process launch and leaves an explicit failure record (14.154947ms)
+✔ renderer-style extra service fields on an ordinary CLI request never select tail logging or a longer timeout (125.666903ms)
+node:internal/modules/package_json_reader:331
+  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+        ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'jsdom' imported from /workspace/scratch/08fe4388c223/work/muyun-ai/desktop/tests/rendering.test.mjs
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:331:9)
+    at packageResolve (node:internal/modules/esm/resolve:784:25)
+    at moduleResolve (node:internal/modules/esm/resolve:873:18)
+    at defaultResolve (node:internal/modules/esm/resolve:1006:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:705:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:725:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:763:56)
+    at #resolve (node:internal/modules/esm/loader:687:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:607:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:276:33) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.22.1
+✖ tests/rendering.test.mjs (67.127741ms)
+✔ shared model queue persists FIFO acceptance, honors external CLI slots and cancels queued work (19.574285ms)
+✔ same ID shares completion and conflicting IDs/owners cannot overwrite running work (9.239038ms)
+✔ restart pauses queued jobs and interrupts claims; persisted IDs never recreate workers (8.555562ms)
+✔ accept/claim disk failures never reach the model and release their owner/slot (4.630082ms)
+✔ cancelled late task completion cannot save artifacts, results or completion notifications (9.24789ms)
+✔ a scheduled occurrence is deduplicated across concurrent delivery and persisted reload (4.96108ms)
+✔ conversation IDs deduplicate streamed work and reject changed prompt without extra user messages (6.364555ms)
+✔ queued conversation rechecks revoked attachment grants before contacting model/tools (8.772883ms)
+✔ workspace cannot delete or toggle queued owners; queue and scheduler payloads never contain keys (8.826613ms)
+✔ all request kinds share capacity while actual CLI child output remains available (57.84707ms)
+✔ admission owner is reserved while disk persistence is pending and no slot is overwritten (7.739296ms)
+✔ queue bounds pending admissions and times out uncompleted model work (46.294293ms)
+✔ occupied legacy slot keys cannot be overwritten by a differently named owner (7.148033ms)
+✔ future schedule is rejected and queued chats cannot be deleted before cancellation (7.415417ms)
+✔ cancel during attachment preflight cannot start a model after the read finishes (1.560396ms)
+✔ revocation while queued attachment read is awaiting prevents provider access (7.013494ms)
+✔ actual CLI captures stdout, stderr, cwd and nonzero exit (44.240604ms)
+✔ args remain literal and are not interpreted by a shell (35.101925ms)
+✔ actual CLI supports cancellation, timeout, output limit and missing executable errors (248.594902ms)
+✔ CLI preparation rejects revoked grants, traversal, invalid argument arrays; env omits API secrets (3.382488ms)
+✔ native approval denial is audited and cannot execute a CLI or open a browser (6.922259ms)
+✔ runtime executes approved CLI and returns exact output; revoke during approval blocks execution (50.1287ms)
+✔ browser validates protocols; fake Electron adapter checks remote pages have no preload or Node (1.456943ms)
+✔ agent passes tools and actual CLI results through a real HTTP model fixture across turns (75.600836ms)
+✔ agent propagates refused/failed actions, rejects unknown tools and obeys step/disabled limits (0.783528ms)
+✔ trusted IPC accepts only the exact live window, main frame and entry URL (1.945936ms)
+✔ native approval serializes dialogs and skips requests cancelled while queued (8.414137ms)
+✔ conversation service owns model/tool lifecycle and run-scoped audit context without Electron (13.382045ms)
+✔ attachment rejection and shared concurrency limits cannot leak a running slot or call the model (1.718039ms)
+✔ conversation cancellation and provider failure persist distinct final states and release slots (1.368072ms)
+✔ task service shares two persisted claims, queues overflow and fails closed on storage error (2.946365ms)
+✔ restart recovery marks running work without executing or replaying approvals (0.614188ms)
+✔ workspace mutations preserve records and reject deletion of active work or default agent (1.992626ms)
+✔ task completion persists a real service result and notifies through an injected platform adapter (0.481041ms)
+✔ real Node input/output, JSON observation, independent approval and persistent import (71.396487ms)
+✔ actual Python sibling resource execution and source SHA tampering (38.449894ms)
+✔ deny, input schema, unlisted script and corrupted package prevent execution (3.586692ms)
+✔ approval revocation and save failure do not spawn (3.137337ms)
+✔ real cancellation and output overflow preserve non-success status (552.450332ms)
+✔ symlink output and code modification fail; modified artifact cannot import (158.118181ms)
+✔ bounded JSON does not mask failure exit code or execute argument shell text (42.074621ms)
+✔ preset is executable, scoped registry requires CLI and separate artifact permission (351.0737ms)
+✔ recovery marks durable running row interrupted without replay (2.103459ms)
+node:internal/modules/package_json_reader:331
+  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+        ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'jsdom' imported from /workspace/scratch/08fe4388c223/work/muyun-ai/desktop/tests/spreadsheet-formula.test.mjs
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:331:9)
+    at packageResolve (node:internal/modules/esm/resolve:784:25)
+    at moduleResolve (node:internal/modules/esm/resolve:873:18)
+    at defaultResolve (node:internal/modules/esm/resolve:1006:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:705:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:725:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:763:56)
+    at #resolve (node:internal/modules/esm/loader:687:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:607:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:276:33) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.22.1
+✖ tests/spreadsheet-formula.test.mjs (77.182485ms)
+node:internal/modules/package_json_reader:331
+  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+        ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'jsdom' imported from /workspace/scratch/08fe4388c223/work/muyun-ai/desktop/tests/spreadsheet-images.test.mjs
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:331:9)
+    at packageResolve (node:internal/modules/esm/resolve:784:25)
+    at moduleResolve (node:internal/modules/esm/resolve:873:18)
+    at defaultResolve (node:internal/modules/esm/resolve:1006:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:705:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:725:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:763:56)
+    at #resolve (node:internal/modules/esm/loader:687:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:607:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:276:33) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.22.1
+✖ tests/spreadsheet-images.test.mjs (66.90292ms)
+✔ real HTTP stream exposes Chinese Markdown before completion and preserves split UTF-8, usage and CRLF (38.818217ms)
+✔ SSE tool fragments assemble by index, then real Node CLI runs only after the completed frame (64.845219ms)
+✔ JSON-only compatible providers deliver once; non-stream callers continue sending stream:false (3.830562ms)
+✔ truncated, malformed, length-limited or explicit-error streams fail and never execute incomplete tools (2.238268ms)
+✔ stream size limit and disabled-tool mode fail closed (4.490508ms)
+✔ conversation persists one final message, ordered events and tool-round prelude without duplicate final text (4.54664ms)
+✔ real HTTP cancellation retains a persisted partial message and does not replay or complete the request (12.692311ms)
+✔ SSE supports bare CR and multiline data fields without treating comments as content (1.307393ms)
+node:internal/modules/package_json_reader:331
+  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+        ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'jsdom' imported from /workspace/scratch/08fe4388c223/work/muyun-ai/desktop/tests/ui.test.mjs
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:331:9)
+    at packageResolve (node:internal/modules/esm/resolve:784:25)
+    at moduleResolve (node:internal/modules/esm/resolve:873:18)
+    at defaultResolve (node:internal/modules/esm/resolve:1006:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:705:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:725:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:763:56)
+    at #resolve (node:internal/modules/esm/loader:687:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:607:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:276:33) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.22.1
+✖ tests/ui.test.mjs (91.656062ms)
+✔ bound skills are actually read before first model call, cached once and config changes invalidate them (3.641823ms)
+✔ task can finish after its own approved attachment edit, but rejects unrelated external changes (34.342026ms)
+✔ JSON and SSE length stops preserve text, expose continuation safely, never execute incomplete tools (7.003652ms)
+node:internal/modules/package_json_reader:331
+  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+        ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'jsdom' imported from /workspace/scratch/08fe4388c223/work/muyun-ai/desktop/tests/word-paragraphs.test.mjs
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:331:9)
+    at packageResolve (node:internal/modules/esm/resolve:784:25)
+    at moduleResolve (node:internal/modules/esm/resolve:873:18)
+    at defaultResolve (node:internal/modules/esm/resolve:1006:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:705:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:725:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:763:56)
+    at #resolve (node:internal/modules/esm/loader:687:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:607:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:276:33) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.22.1
+✖ tests/word-paragraphs.test.mjs (82.903064ms)
+node:internal/modules/package_json_reader:331
+  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+        ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'jsdom' imported from /workspace/scratch/08fe4388c223/work/muyun-ai/desktop/tests/word-structure.test.mjs
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:331:9)
+    at packageResolve (node:internal/modules/esm/resolve:784:25)
+    at moduleResolve (node:internal/modules/esm/resolve:873:18)
+    at defaultResolve (node:internal/modules/esm/resolve:1006:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:705:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:725:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:763:56)
+    at #resolve (node:internal/modules/esm/loader:687:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:607:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:276:33) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.22.1
+✖ tests/word-structure.test.mjs (100.293325ms)
+node:internal/modules/package_json_reader:331
+  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+        ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'jsdom' imported from /workspace/scratch/08fe4388c223/work/muyun-ai/desktop/tests/workspace.test.mjs
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:331:9)
+    at packageResolve (node:internal/modules/esm/resolve:784:25)
+    at moduleResolve (node:internal/modules/esm/resolve:873:18)
+    at defaultResolve (node:internal/modules/esm/resolve:1006:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:705:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:725:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:763:56)
+    at #resolve (node:internal/modules/esm/loader:687:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:607:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:276:33) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.22.1
+✖ tests/workspace.test.mjs (90.786754ms)
+ℹ tests 391
+ℹ suites 0
+ℹ pass 374
+ℹ fail 17
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 142872.65502
+
+✖ failing tests:
+
+test at tests/browser-dom.test.mjs:1:1
+✖ tests/browser-dom.test.mjs (82.950067ms)
+  'test failed'
+
+test at tests/browser-runtime.test.mjs:1:1
+✖ tests/browser-runtime.test.mjs (87.670965ms)
+  'test failed'
+
+test at tests/capability-library.test.mjs:482:1
+✖ agent editor binds installed skills without a second skill configuration form (1.480143ms)
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'jsdom' imported from /workspace/scratch/08fe4388c223/work/muyun-ai/desktop/tests/capability-library.test.mjs
+      at Object.getPackageJSONURL (node:internal/modules/package_json_reader:331:9)
+      at packageResolve (node:internal/modules/esm/resolve:784:25)
+      at moduleResolve (node:internal/modules/esm/resolve:873:18)
+      at defaultResolve (node:internal/modules/esm/resolve:1006:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:705:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:725:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:763:56)
+      at #resolve (node:internal/modules/esm/loader:687:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:607:35)
+      at node:internal/modules/esm/loader:636:32 {
+    code: 'ERR_MODULE_NOT_FOUND'
+  }
+
+test at tests/capability-presets.test.mjs:1:1
+✖ tests/capability-presets.test.mjs (75.258493ms)
+  'test failed'
+
+test at tests/chat-media.test.mjs:1:1
+✖ tests/chat-media.test.mjs (111.501122ms)
+  'test failed'
+
+test at tests/composer-menu.test.mjs:1:1
+✖ tests/composer-menu.test.mjs (69.390518ms)
+  'test failed'
+
+test at tests/html-preview.test.mjs:1:1
+✖ tests/html-preview.test.mjs (75.092651ms)
+  'test failed'
+
+test at tests/knowledge-evidence.test.mjs:1:1
+✖ tests/knowledge-evidence.test.mjs (80.991911ms)
+  'test failed'
+
+test at tests/office-workspace.test.mjs:1:1
+✖ tests/office-workspace.test.mjs (72.633794ms)
+  'test failed'
+
+test at tests/preview-protocol.test.mjs:1:1
+✖ tests/preview-protocol.test.mjs (72.540632ms)
+  'test failed'
+
+test at tests/rendering.test.mjs:1:1
+✖ tests/rendering.test.mjs (67.127741ms)
+  'test failed'
+
+test at tests/spreadsheet-formula.test.mjs:1:1
+✖ tests/spreadsheet-formula.test.mjs (77.182485ms)
+  'test failed'
+
+test at tests/spreadsheet-images.test.mjs:1:1
+✖ tests/spreadsheet-images.test.mjs (66.90292ms)
+  'test failed'
+
+test at tests/ui.test.mjs:1:1
+✖ tests/ui.test.mjs (91.656062ms)
+  'test failed'
+
+test at tests/word-paragraphs.test.mjs:1:1
+✖ tests/word-paragraphs.test.mjs (82.903064ms)
+  'test failed'
+
+test at tests/word-structure.test.mjs:1:1
+✖ tests/word-structure.test.mjs (100.293325ms)
+  'test failed'
+
+test at tests/workspace.test.mjs:1:1
+✖ tests/workspace.test.mjs (90.786754ms)
+  'test failed'

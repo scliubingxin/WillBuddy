@@ -1,0 +1,36 @@
+✔ PPT receipt requires unique bounded simple single-paragraph text and preserves every slide text (192.26091ms)
+✔ real PPT native keyboard selects one word; AI replacement saves exact text and all other slides (1592.667212ms)
+✔ PPT arrows outside text edit and after page change never move shapes; worker validates expected text (548.611875ms)
+✔ PPT cancellation during running audit blocks native paste and leaves revision clean (907.038525ms)
+✔ PPT refused approval and stale sequence cannot dispatch native replacement (732.480332ms)
+✔ PPT native no-op cannot publish or bypass receipt using manual save (942.179824ms)
+✔ PPT native edit with disk failure keeps checked draft and can explicitly retry save (971.725815ms)
+✔ PPT receipt checks explicit fontsize bold italic underline RGB and applicable Latin font even when text is correct (117.155321ms)
+✔ PPT equivalent split runs pass while mixed selected direct styles are refused before mutation (73.946977ms)
+✖ PPT paragraph defaults are resolved and changed explicit alignment is rejected (34.298531ms)
+✔ PPT unsupported effects and foreign namespace run payloads fail preflight with no native paste (798.274026ms)
+✔ real styled PPT selection preserves explicit style after native replacement and Store reload (1185.14053ms)
+✔ native output with right text but changed format cannot publish or bypass using manual save (1367.814159ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 12
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9744.458384
+
+✖ failing tests:
+
+test at tests/office-presentation.test.mjs:46:1
+✖ PPT paragraph defaults are resolved and changed explicit alignment is rejected (34.298531ms)
+  Error: PPT段落属性重复
+      at paragraphStyle (file:///workspace/scratch/08fe4388c223/work3718/muyun-ai/desktop/runtime/office-presentation.mjs:16:52)
+      at Array.map (<anonymous>)
+      at file:///workspace/scratch/08fe4388c223/work3718/muyun-ai/desktop/runtime/office-presentation.mjs:51:116
+      at Array.map (<anonymous>)
+      at deck (file:///workspace/scratch/08fe4388c223/work3718/muyun-ai/desktop/runtime/office-presentation.mjs:42:14)
+      at presentationTextVerifier (file:///workspace/scratch/08fe4388c223/work3718/muyun-ai/desktop/runtime/office-presentation.mjs:60:15)
+      at TestContext.<anonymous> (file:///workspace/scratch/08fe4388c223/work3718/muyun-ai/desktop/tests/office-presentation.test.mjs:47:384)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
