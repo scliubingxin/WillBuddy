@@ -1,3 +1,4 @@
+import {exportDocumentPdf} from './main/pdf-export.mjs';
 import {createOfficeWorkspace} from './services/office-workspace.mjs';
 import {createOfficeChat} from './services/office-chat.mjs';
 import {createOfficeWindows} from './main/office-windows.mjs';
@@ -7,6 +8,7 @@ import {resolveDocumentSelection} from './services/document-selection.mjs';
 import {selectionPatches} from './runtime/word-selection.mjs';
 import {capabilityPresets} from './runtime/capability-presets.mjs';
 import {createCodeProjects} from './services/code-projects.mjs';
+import {createLegacyModelSettings} from './services/legacy-model-settings.mjs';
 import {createModelService} from './services/models.mjs';
 import {createModelSecretCodec} from './main/model-secrets.mjs';
 import {parseChatUpload} from './runtime/chat-archive.mjs';
@@ -42,7 +44,7 @@ import { spawn } from 'node:child_process';
 import { ToolRuntime } from './runtime/tools.mjs';
 import { chooseUserDataDirectory } from './runtime/identity.mjs';
 import { BrowserService } from './runtime/browser.mjs';
-import { Store, uid, listGranted, readGranted, modelEndpoint } from './core.mjs';
+import { Store, uid, listGranted, readGranted } from './core.mjs';
 protocol.registerSchemesAsPrivileged([previewScheme]);
 const here = path.dirname(fileURLToPath(import.meta.url));
 let win, store, sessionKey = '', runner, closing = false, tick, shortcutReady = false;
@@ -106,7 +108,8 @@ else {
         store.data.executions ??= [];
         const convertDocument=createDocumentConverter({createDriver:signal=>createConversionBrowser({BrowserWindow,session,signal})});
         toolRuntime = new ToolRuntime({ store, browser, approve, notify: notifyRuntime, convertDocument,beforeCli:(args,policy)=>projects?.validate(args,policy) });
-        if(runtimeRoot()){await bundledExecutable('python');await bundledExecutable('office');libreoffice=createLibreOffice({documents:toolRuntime.documents,directory:path.join(store.dir,'office-runtime'),executable:()=>bundledExecutable('office'),approve,notify:notifyRuntime});}
+        const officeRuntime=async()=>({python:await bundledExecutable('python'),officeDirectory:path.dirname(await bundledExecutable('office'))});
+        if(runtimeRoot()){await bundledExecutable('python');await bundledExecutable('office');libreoffice=createLibreOffice({documents:toolRuntime.documents,directory:path.join(store.dir,'office-runtime'),executable:()=>bundledExecutable('office'),pdfRuntime:officeRuntime,approve,notify:notifyRuntime});}
         genoffice=createGenOfficeBridge({documents:toolRuntime.documents,approve});
         recoverInterruptedWork(store.data);
         commands = createCommandService({ store, active, executeTool, notify: notifyRuntime });
@@ -124,9 +127,9 @@ else {
         register('imageRemove',async p=>{await images.remove(p.id);return view();});
         conversations = createConversationService({ approve, models, secrets:mcpSecrets, images, queue:runs, store, active, key, view, executeTool, releaseToolGrants:id=>toolRuntime.browserPermissions.release(id), notify: notifyRuntime,notifyStream:event=>{if(win&&!win.isDestroyed())win.webContents.send('actwill:stream',event);} });
         if(runtimeRoot()){
-            const kit=createOfficeWorkspace({documents:toolRuntime.documents,directory:path.join(store.dir,'office-kit'),runtime:async()=>({python:await bundledExecutable('python'),officeDirectory:path.dirname(await bundledExecutable('office'))}),approve,notify:notifyRuntime,audit:async event=>{const prev=store.data.executions;store.data.executions=[event,...prev.filter(e=>e.id!==event.id)].slice(0,300);try{await store.save();}catch(e){store.data.executions=prev;throw e;}notifyRuntime();}});
+            const kit=createOfficeWorkspace({documents:toolRuntime.documents,directory:path.join(store.dir,'office-kit'),runtime:officeRuntime,approve,notify:notifyRuntime,audit:async event=>{const prev=store.data.executions;store.data.executions=[event,...prev.filter(e=>e.id!==event.id)].slice(0,300);try{await store.save();}catch(e){store.data.executions=prev;throw e;}notifyRuntime();}});
             const officeChat=createOfficeChat({store,kit,models,key,approve,queue:runs,notify:notifyRuntime});
-            officeWindows=createOfficeWindows({BrowserWindow,ipcMain,here,kit,chat:officeChat,models,documents:toolRuntime.documents});
+            officeWindows=createOfficeWindows({BrowserWindow,ipcMain,here,kit,chat:officeChat,models,documents:toolRuntime.documents,dialog});
             register('officeOpen',p=>officeWindows.open(p.id,p.revision));
         }
         tasks = createTaskService({ models, queue:runs, notify:notifyRuntime, store, active, key, view, notifyCompleted: task => {
@@ -150,39 +153,8 @@ else {
         register('mcpCancelTest',p=>{capabilityLibrary.cancelProbe(p.id);return true;});
         register('clearKnowledgeIndex',async()=>{await sharedKnowledgeIndex(store).clear();return true;});
         register('state', () => view());
-        register('settings', async (p) => {
-            if (active.size || runs.hasPending())
-                throw new Error('请等待当前请求结束再修改模型');
-            if (p.baseUrl)
-                modelEndpoint(p.baseUrl);
-            const s = store.data.settings;
-            if (p.baseUrl)
-                s.baseUrl = text(p.baseUrl, 500);
-            if (p.model)
-                s.model = text(p.model, 200);
-            if (p.name)
-                s.name = text(p.name, 100);
-            if (p.clearKey) {
-                delete s.encryptedKey;
-                sessionKey = '';
-            }
-            if (typeof p.apiKey === 'string' && p.apiKey) {
-                if (p.apiKey.length > 2000)
-                    throw new Error('密钥过长');
-                if (p.persistKey) {
-                    if (!safeStorage.isEncryptionAvailable() || safeStorage.getSelectedStorageBackend?.() === 'basic_text')
-                        throw new Error('系统钥匙串不可用，请取消“加密保存密钥”后仅在本次运行使用');
-                    s.encryptedKey = safeStorage.encryptString(p.apiKey).toString('base64');
-                    sessionKey = '';
-                }
-                else {
-                    sessionKey = p.apiKey;
-                    delete s.encryptedKey;
-                }
-            }
-            await store.save();
-            return view();
-        });
+        const updateLegacySettings=createLegacyModelSettings({store,safeStorage,getSessionKey:()=>sessionKey,setSessionKey:value=>{sessionKey=value;},isBusy:()=>active.size>0||runs.hasPending()});
+        register('settings',async p=>{await updateLegacySettings(p);return view();});
         register('pickFolder', async () => {
             const result = await dialog.showOpenDialog(win, { title: '选择授权给 WillBuddy 的文件夹', properties: ['openDirectory'] });
             if (!result.canceled) {
@@ -251,6 +223,7 @@ else {
             const source=result.filePaths[0],bytes=await readDocumentSource(source);
             return toolRuntime.documents.importFile(path.basename(source,path.extname(source)),path.extname(source).slice(1).toLowerCase(),bytes);
         });
+        register('documentExportPdf',async p=>exportDocumentPdf({id:p.id,revision:p.revision,documents:toolRuntime.documents,office:libreoffice,chooseDestination:async defaultPath=>{const result=await dialog.showSaveDialog(win,{title:'导出为 PDF',defaultPath,filters:[{name:'PDF',extensions:['pdf']}]});return result.canceled?null:result.filePath;},writeDestination:writeDocumentDestination}));
         register('documentExport', async p => {
             const selected=toolRuntime.documents.bytes(p.id,p.revision);
             const result=await dialog.showSaveDialog(win,{title:'导出文档',defaultPath:selected.name.replace(/[\\/:*?"<>|]/g,'_')+'.'+selected.format,filters:[{name:selected.format.toUpperCase(),extensions:[selected.format]}]});
