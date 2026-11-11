@@ -1,0 +1,16 @@
+TAP version 13
+# Subtest: Office native viewport scrolls and drags to uncovered content, resets on slide change and keeps pointer coordinates
+ok 1 - Office native viewport scrolls and drags to uncovered content, resets on slide change and keeps pointer coordinates
+  ---
+  duration_ms: 780.139523
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1146.428337

@@ -1,0 +1,37 @@
+{
+  "version": "0.37.4",
+  "authority_base_version": 43,
+  "candidate_base": "0.37.3-r1",
+  "baseline_source_hashes_verified": [
+    653,
+    662
+  ],
+  "core": {
+    "passed": 385,
+    "concurrency": 1,
+    "initial_parallel_errors": "native engine exit/wait timeout; root cause not determined"
+  },
+  "related": 14,
+  "chromium": 2,
+  "packaging_tests": 26,
+  "independent_output": "actual HTTP fixture -> LinuxKit -> DOCX python-docx/lxml eastAsia property, Latin font+15pt and mixed text preserved",
+  "mac_native_tested": false,
+  "real_paid_model_tested": false,
+  "full_app_check": {
+    "bytes": 483215507,
+    "sha256": "3470dcff2fddb3ad27c7fe0ea9e6f9d0237af7ac0f8b07443ab69c1190a43a8a",
+    "asar_sha256": "fd0922c1300ca4958f0e58746b478e25615c80e9b94961ae0d9a4b1c104a3470",
+    "production_asar_exact": 149,
+    "mach_o": 278,
+    "code_pages": 93545,
+    "app_entries": 20727,
+    "extra_files": 5,
+    "symlinks": 47,
+    "closed_inventory": true,
+    "tamper_negative": true,
+    "runtime_entries_changed": 0
+  },
+  "protected_web_python_sha_unchanged": 122,
+  "prior_workspace_residual_root_cause": "still unknown; current tmp separate input/output build passed",
+  "publication": "not attempted; existing review quota failure"
+}

@@ -1,0 +1,17 @@
+✔ native formula grammar is bounded, normalizes ASCII and rejects external names/functions/quotes/ranges (3.55812ms)
+✔ preflight rejects cycles, errors, multicell and unsupported existing workbook formulas (220.91358ms)
+✔ real native single-cell SUM preserves data/other formulas/styles and verifies dependent cached results (875.150231ms)
+✔ refused/stale/cancelled/audit-failed formula never reaches native mutation (2351.131104ms)
+✔ no-op formula receipt cannot be bypassed by manual save; disk failure can retry checked draft (1299.909714ms)
+✔ worker independently rejects unsafe formula syntax, extra fields and false cell scope before history changes (527.769865ms)
+✔ seven supported functions, comparison, percent and absolute refs compute across native save rounds (2631.790865ms)
+✔ receipt independently rejects wrong scalar cache, wrong formula or outside data drift (795.828896ms)
+✔ final context version drift prevents formula dispatch and cannot overwrite concurrent revision (646.636147ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9539.791979

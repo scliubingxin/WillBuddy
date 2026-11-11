@@ -1,0 +1,10 @@
+✔ Word selection edit preserves known formatting outside selected text (3157.693971ms)
+✔ uniform selected Word formatting survives real replacement and altered output is rejected (2510.592067ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5908.88673

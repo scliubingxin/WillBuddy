@@ -1,0 +1,65 @@
+{
+  "version": "0.37.12",
+  "date": "2026-10-31",
+  "baseline": {
+    "authority": "libfile_816eb4b584e48191b46648e150fb6749",
+    "observed_version": 50,
+    "version": "0.37.11",
+    "verified_content_files": 722
+  },
+  "core": {
+    "passed": 433,
+    "failed": 0,
+    "concurrency": 1
+  },
+  "format_final": 9,
+  "chromium": {
+    "passed": 9,
+    "scope": "production page+real local HTTP model fixture+real LinuxKit;IPC/approval/Keychain/model semantics fixture"
+  },
+  "packaging_tests": 26,
+  "protected_web_python": 122,
+  "original_python35": "unchanged/not rerun",
+  "new": "bounded native Excel fontSize/fontColor/backgroundColor and saved XLSX styles+workbook content/formula verification",
+  "limits": [
+    "No Mac/paid model/IME/pixel validation",
+    "not arbitrary OOXML roundtrip",
+    "conditional worksheet/target rich text/shared-array formulas refused",
+    "10 sheets/5000 stored cells",
+    "not OS sandbox",
+    "installation slow unresolved"
+  ],
+  "first_attempt": "service fixture full context was mistakenly collected as format fields;explicit destructuring fixed;model/worker extra-field gates remain",
+  "github": {
+    "main": "27bd38f6b43806fb702c62ec4586426730b8190a",
+    "branch_0372": "0ce607437ef2c7814b295b43ec7b4ccd3c0b4a42",
+    "writes": false,
+    "reason": "prior CreatePR auto-review quota until Nov2;no bypass"
+  },
+  "authority_writeback": "planned expected50;final receipt separate",
+  "offline": {
+    "version": "0.37.12",
+    "bytes": 483226544,
+    "sha256": "df398c7c02547a676a2245fa15955b7392790be98e0089d91be4a6e690625048",
+    "mach_o": 278,
+    "code_pages": 93545,
+    "app_entries": 20727,
+    "extra_files": 5,
+    "symlinks": 47,
+    "changed_app_entries": [
+      "WillBuddy.app/Contents/Info.plist",
+      "WillBuddy.app/Contents/MacOS/Electron",
+      "WillBuddy.app/Contents/Resources/app.asar",
+      "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+    ],
+    "runtime_unchanged": true,
+    "zero_residuals": true,
+    "closed_crc": true,
+    "electron_page_tamper_rejected": true,
+    "mac_native_tested": false,
+    "production_files_asar_exact": 155,
+    "minimal_package": true,
+    "host_pyc_absent": true,
+    "asar_sha256": "63fdb45a53727956f01d84ca71e24d1931b2b035bcff80a37445a471248a64bb"
+  }
+}
