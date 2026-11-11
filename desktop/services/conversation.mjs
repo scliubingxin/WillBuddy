@@ -68,7 +68,7 @@ export function createConversationService({ models, approve, clientFactory, secr
                 agentSession = toolsEnabled ? await createAgentSession({agent,store,executeTool,approve,clientFactory,secrets,signal:controller.signal,chatId:id,runId,notify,eagerSkills:true}) : null;
                 const result = await runAgent({
                     messages: [{ role: 'system', content: agent.prompt + (agentSession?.context||'') + '\n回复可使用Markdown图文：图片用![说明](公开HTTPS图片直链)；视频用[说明](公开HTTPS的mp4/webm/ogv直链)；网页用[标题](https://网址)。只引用实际已知或工具返回的URL，不编造图片或视频，不声称附件已生成。图表使用完整chart代码围栏和JSON：{"type":"bar","title":"标题","labels":["A","B"],"series":[{"name":"数值","values":[1,2]}]}；type支持bar/line/pie，标签最多30、系列最多4，pie仅一组非负数。没有来源的数据须明确标示为示例，不添加脚本。外部媒体由用户点击后才加载。\n' + instructions + '\n本轮用户选择、可经批准嵌入Word的本机图片ID（没有图片则不得声称有照片）：'+JSON.stringify(imageMetadata)+'\n用户保存的偏好：\n' + store.data.memories.map(m => m.text).join('\n') }, ...prior, { role: 'user', content: (p.sendImages===true&&selectedImages.length ? [{type:'text',text:userText+(context?'\n'+context:'')},...selectedImages.map(i=>({type:'image_url',image_url:{url:'data:image/png;base64,'+i.base64,detail:'auto'}}))] : userText + (context ? '\n\n用户为本次请求明确附加的本地资料：\n' + context : '')) }],
-                    enabled: toolsEnabled, definitions:agentSession?.definitions, maxSteps:agentSession?.maxSteps, signal: controller.signal,
+                    enabled: toolsEnabled, definitions:agentSession?.definitions, maxSteps:modelRoute?.maxSteps??agentSession?.maxSteps, signal: controller.signal,
                     request: async (messages, tools) => {
                         let message;
                         try {

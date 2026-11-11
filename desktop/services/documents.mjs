@@ -351,7 +351,8 @@ export function createDocumentService({
       signal?.throwIfAborted();
       return save(record(prior.name, prior.format, result, prior), signal);
     },
-    async replaceBytes(id, revision, bytes, signal, { nativeOffice = false } = {}) {
+    async replaceBytes(id, revision, bytes, signal, { nativeOffice = false, guard = () => {} } = {}) {
+      if (typeof guard !== "function") throw Error("文档提交守卫无效");
       const prior = structuredClone(find(id));
       if (prior.richSource && !nativeOffice) throw Error("画布文档请使用Word画布编辑");
       if (prior.revision !== revision)
@@ -364,6 +365,7 @@ export function createDocumentService({
           prior,
         ),
         signal,
+        guard,
       );
     },
     preview(id,revision) {
