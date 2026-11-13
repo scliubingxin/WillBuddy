@@ -1,0 +1,10 @@
+✔ automatic find is restricted to fixed system executable and read-only expressions at authorized cwd (11.541437ms)
+✔ actual scoped find runs without a prompt and records authorization; shell and destructive find still require approval (28.124045ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 300.773103

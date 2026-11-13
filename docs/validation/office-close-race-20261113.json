@@ -1,0 +1,27 @@
+{
+  "date": "2026-11-13",
+  "base": "0.37.28 Office pipe checkpoint",
+  "status": "internal checkpoint, not release",
+  "changes": [
+    "desktop/services/office-workspace.mjs",
+    "desktop/tests/office-close-race.test.mjs"
+  ],
+  "tests": {
+    "targeted_node": {
+      "passed": 13,
+      "details": "3 close race tests with real Store and document bytes and simulated Office driver; 3 pipe tests with actual Python subprocess fixture; 3 worker materialization; 4 browser focus mocks"
+    },
+    "packaging_python": {
+      "passed": 35,
+      "details": "filesystem tests; native signature and cloning simulated"
+    },
+    "offline_npm_ci": "failed: ENOTCACHED zrender 6.1.0; full UI regression not run"
+  },
+  "limits": [
+    "No Mac GUI, codesign, real user document, or paid model validation",
+    "Office close tests use mock worker; no native LibreOfficeKit run",
+    "No new arm64 application; existing candidates lack this change",
+    "No evidence identifying Mac worker.py syntax error root cause",
+    "Prior GitHub browser safety rejection; no bypass or publish"
+  ]
+}

@@ -1,0 +1,27 @@
+✔ exact rectangle and constant matrix reject overflow, formulas, controls and review excess (4.267971ms)
+✔ real native matrix updates only current rectangle, retains cell formatting/formulas/other sheet and old bytes (986.821064ms)
+✔ denial, stale part/fingerprint, cancellation and audit failure dispatch no cell writes (2921.785357ms)
+✔ private worker rejects forged scope, formula, dimensions and extra fields before native undo changes (597.846179ms)
+✔ document failure keeps a verified retryable draft, while native no-op mismatch blocks explicit save too (1460.5727ms)
+✔ revision drift in last native context check fails before writes; merged selection is unavailable (1398.068241ms)
+✔ blank rectangle can be filled and clears remain bounded; another sheet context cannot be reused (836.672699ms)
+✔ model final success text cannot hide a failed cell output verification (3.870531ms)
+✔ approved Excel rectangle cannot hide changed cells or formulas elsewhere (1107.523033ms)
+✔ native Excel output changed outside selection cannot publish or bypass on retry (1190.531059ms)
+✔ manual bounded cell edit uses real native matrix and audit without a second approval (880.015919ms)
+✔ manual cell edit rejects wrong shape, formulas and audit failures without writes (630.681139ms)
+✔ failed checked Excel draft cannot be overwritten by a later manual or AI operation (756.883789ms)
+✔ format guard protects target and other cells while formula guard permits only target change (845.539603ms)
+✔ Excel preservation compares decimal identities without floating-point collisions (169.368129ms)
+✔ Excel target check rejects adjacent large integers but accepts equivalent exponent notation (164.232602ms)
+✔ manual literal matrix preserves leading zeros and formula-looking text in native XLSX (884.283929ms)
+✔ Excel picture survives native edit and corrupted media blocks save and retry (1645.166262ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16654.387735
+process_exit=0

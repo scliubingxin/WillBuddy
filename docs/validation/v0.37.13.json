@@ -1,0 +1,67 @@
+{
+  "version": "0.37.13",
+  "date": "2026-10-31",
+  "baseline": {
+    "authority": "libfile_816eb4b584e48191b46648e150fb6749",
+    "observed_version": 51,
+    "version": "0.37.12",
+    "verified_content_files": 734
+  },
+  "core": {
+    "passed": 440,
+    "failed": 0,
+    "concurrency": 1
+  },
+  "new_ppt_core_tests": 7,
+  "chromium": {
+    "passed": 10,
+    "scope": "production pages+real local HTTP model fixture+real LinuxKit; IPC/approval/Keychain/model semantics fixture"
+  },
+  "packaging_tests": 26,
+  "protected_web_python": 122,
+  "original_python35": "unchanged/not rerun",
+  "new": "native PPT bounded text navigation/unique single paragraph substring replacement and real saved PPTX slide text verifier",
+  "limits": [
+    "no Mac/paid model/IME/glyph validation",
+    "no arbitrary OOXML object/style roundtrip",
+    "simple top-level single-paragraph text box only; no duplicate selection/groups/table/fields/links/multiline",
+    "50 slides/2000 shape IDs/100000 slide text chars",
+    "not OS sandbox",
+    "installation slow unresolved"
+  ],
+  "prototype_evidence": "native export renumbers shape IDs; semantic receipt compares ordered shape types and paragraphs; collapsed cursor navigation now retains verified text mode until mouse/part/command reset",
+  "github": {
+    "main": "27bd38f6b43806fb702c62ec4586426730b8190a",
+    "branch_0372": "0ce607437ef2c7814b295b43ec7b4ccd3c0b4a42",
+    "writes": false,
+    "reason": "prior CreatePR auto-review quota until Nov2; no bypass; standing authorization retained"
+  },
+  "authority_writeback": "planned expected51;final receipt separate",
+  "offline": {
+    "version": "0.37.13",
+    "bytes": 483229339,
+    "sha256": "fefb67eb65b08ff64ee25a4b97f0682299231a5d0f25499b081e651256837be4",
+    "mach_o": 278,
+    "code_pages": 93545,
+    "app_entries": 20727,
+    "extra_files": 5,
+    "closed_inventory": true,
+    "residual_entries": 0,
+    "symlinks": 47,
+    "changed_app_entries": [
+      "WillBuddy.app/Contents/Info.plist",
+      "WillBuddy.app/Contents/MacOS/Electron",
+      "WillBuddy.app/Contents/Resources/app.asar",
+      "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+    ],
+    "runtime_unchanged": true,
+    "zero_residuals": true,
+    "closed_crc": true,
+    "electron_page_tamper_rejected": true,
+    "mac_native_tested": false,
+    "production_files_asar_exact": 156,
+    "minimal_package": true,
+    "host_pyc_absent": true,
+    "asar_sha256": "240b17ef936b952941e4abfcfbaddabd0b89ac732ea12e826c4a07d998df0620"
+  }
+}

@@ -1,0 +1,10 @@
+✔ production Office preload exposes only the scoped manual cell IPC (5.278441ms)
+✔ manual Excel TSV preserves intended empty cells and accepts copy row terminator (1.764608ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 85.48757

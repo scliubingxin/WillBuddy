@@ -1,0 +1,28 @@
+{
+  "modified_or_added": [
+    "ITERATION_LOG.md",
+    "ITERATION_PLAN.md",
+    "RELEASE_STATUS.json",
+    "desktop/package-lock.json",
+    "desktop/package.json",
+    "desktop/runtime/office-format.mjs",
+    "desktop/runtime/office-kit/worker.py",
+    "desktop/services/office-chat.mjs",
+    "desktop/services/office-workspace.mjs",
+    "desktop/src/office/index.html",
+    "desktop/tests/acceptance/office-colors-live.mjs",
+    "desktop/tests/office-colors.test.mjs",
+    "desktop/tests/office-format.test.mjs",
+    "docs/DOWNLOADS.md",
+    "docs/OFFICE_SELECTION_COLORS_0379.md",
+    "docs/QUICK_GAPS.md",
+    "docs/REA_FINDINGS.md",
+    "docs/validation/v0.37.9-offline.json",
+    "docs/validation/v0.37.9-packaging.txt",
+    "docs/validation/v0.37.9-tests.txt",
+    "docs/validation/v0.37.9-ui.txt",
+    "docs/validation/v0.37.9.json",
+    "scripts/repackage-native-mac.py"
+  ],
+  "removed": []
+}

@@ -1,0 +1,35 @@
+✔ native formula grammar is bounded, normalizes ASCII and rejects external names/functions/quotes/ranges (3.328474ms)
+✔ preflight rejects cycles, errors, multicell and unsupported existing workbook formulas (250.927139ms)
+✖ real native single-cell SUM preserves data/other formulas/styles and verifies dependent cached results (1031.013759ms)
+✔ refused/stale/cancelled/audit-failed formula never reaches native mutation (2298.268139ms)
+✖ no-op formula receipt cannot be bypassed by manual save; disk failure can retry checked draft (1378.456221ms)
+✔ worker independently rejects unsafe formula syntax, extra fields and false cell scope before history changes (550.243368ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 4
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5671.214317
+
+✖ failing tests:
+
+test at desktop/tests/office-formula.test.mjs:13:1
+✖ real native single-cell SUM preserves data/other formulas/styles and verifies dependent cached results (1031.013759ms)
+  Error: 共享/数组/动态公式暂不支持
+      at file:///workspace/scratch/08fe4388c223/work3714/muyun-ai/desktop/runtime/spreadsheet.mjs:130:45
+      at Array.map (<anonymous>)
+      at workbookModel (file:///workspace/scratch/08fe4388c223/work3714/muyun-ai/desktop/runtime/spreadsheet.mjs:74:39)
+      at verify (file:///workspace/scratch/08fe4388c223/work3714/muyun-ai/desktop/runtime/office-formula.mjs:36:16)
+      at save (file:///workspace/scratch/08fe4388c223/work3714/muyun-ai/desktop/services/office-workspace.mjs:19:519)
+      at async file:///workspace/scratch/08fe4388c223/work3714/muyun-ai/desktop/services/office-workspace.mjs:49:502
+
+test at desktop/tests/office-formula.test.mjs:22:1
+✖ no-op formula receipt cannot be bypassed by manual save; disk failure can retry checked draft (1378.456221ms)
+  Error: 共享/数组/动态公式暂不支持
+      at file:///workspace/scratch/08fe4388c223/work3714/muyun-ai/desktop/runtime/spreadsheet.mjs:130:45
+      at Array.map (<anonymous>)
+      at workbookModel (file:///workspace/scratch/08fe4388c223/work3714/muyun-ai/desktop/runtime/spreadsheet.mjs:74:39)
+      at verify (file:///workspace/scratch/08fe4388c223/work3714/muyun-ai/desktop/runtime/office-formula.mjs:36:16)
+      at save (file:///workspace/scratch/08fe4388c223/work3714/muyun-ai/desktop/services/office-workspace.mjs:19:519)

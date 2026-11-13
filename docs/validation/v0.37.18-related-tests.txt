@@ -1,0 +1,21 @@
+✔ PPT receipt requires unique bounded simple single-paragraph text and preserves every slide text (302.447292ms)
+✔ real PPT native keyboard selects one word; AI replacement saves exact text and all other slides (1394.052112ms)
+✔ PPT arrows outside text edit and after page change never move shapes; worker validates expected text (620.814487ms)
+✔ PPT cancellation during running audit blocks native paste and leaves revision clean (822.934217ms)
+✔ PPT refused approval and stale sequence cannot dispatch native replacement (832.483883ms)
+✔ PPT native no-op cannot publish or bypass receipt using manual save (859.302118ms)
+✔ PPT native edit with disk failure keeps checked draft and can explicitly retry save (956.093744ms)
+✔ PPT receipt checks explicit fontsize bold italic underline RGB and applicable Latin font even when text is correct (121.712566ms)
+✔ PPT equivalent split runs pass while mixed selected direct styles are refused before mutation (65.178021ms)
+✔ PPT paragraph defaults are resolved and changed explicit alignment is rejected (56.723567ms)
+✔ PPT unsupported effects and foreign namespace run payloads fail preflight with no native paste (843.866305ms)
+✔ real styled PPT selection preserves explicit style after native replacement and Store reload (1152.640779ms)
+✔ native output with right text but changed format cannot publish or bypass using manual save (1413.313474ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9721.838599

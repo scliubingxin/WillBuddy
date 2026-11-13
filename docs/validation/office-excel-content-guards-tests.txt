@@ -1,0 +1,24 @@
+✔ exact rectangle and constant matrix reject overflow, formulas, controls and review excess (2.483611ms)
+✔ real native matrix updates only current rectangle, retains cell formatting/formulas/other sheet and old bytes (1120.387464ms)
+✔ denial, stale part/fingerprint, cancellation and audit failure dispatch no cell writes (3067.537857ms)
+✔ private worker rejects forged scope, formula, dimensions and extra fields before native undo changes (574.050679ms)
+✔ document failure keeps a verified retryable draft, while native no-op mismatch blocks explicit save too (1475.819948ms)
+✔ revision drift in last native context check fails before writes; merged selection is unavailable (1554.561222ms)
+✔ blank rectangle can be filled and clears remain bounded; another sheet context cannot be reused (774.666316ms)
+✔ model final success text cannot hide a failed cell output verification (3.932744ms)
+✔ approved Excel rectangle cannot hide changed cells or formulas elsewhere (1206.24465ms)
+✔ native Excel output changed outside selection cannot publish or bypass on retry (1160.63965ms)
+✔ manual bounded cell edit uses real native matrix and audit without a second approval (912.639703ms)
+✔ manual cell edit rejects wrong shape, formulas and audit failures without writes (630.707005ms)
+✔ failed checked Excel draft cannot be overwritten by a later manual or AI operation (673.039311ms)
+✔ format guard protects target and other cells while formula guard permits only target change (1069.822445ms)
+✔ Excel preservation compares decimal identities without floating-point collisions (229.065244ms)
+✔ Excel target check rejects adjacent large integers but accepts equivalent exponent notation (201.941608ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14818.883046

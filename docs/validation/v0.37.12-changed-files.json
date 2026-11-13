@@ -1,0 +1,85 @@
+{
+  "changed_existing": [
+    {
+      "path": "ITERATION_LOG.md",
+      "before": "bc637c7c491559048e12b591e4b413822eefe68233341471eb7709893692578b",
+      "sha256": "07396b4dd2fc1427a6677bc76d0bbff9f6f135f3bda4213177045ddda5154030"
+    },
+    {
+      "path": "ITERATION_PLAN.md",
+      "before": "eb9a0584bc246d0ebb931627457c9e857adc20151ebddca5c4926b693d298b92",
+      "sha256": "21db84afa7edc08bfb69ccf54dfb591cf10fa5cd16ff5af1aea79883828e89f6"
+    },
+    {
+      "path": "RELEASE_STATUS.json",
+      "before": "33f216d3b085331c2f98a67a641b2fc04357d6405c0ce533ad6d7aa1abed00ab",
+      "sha256": "c5ffc74e1d47b3a9ed60b6a6df4089ae8d3b9de9b8ef661e5b4fda81fda65d37"
+    },
+    {
+      "path": "desktop/package-lock.json",
+      "before": "45fdeae8fb9482884ea37161d6d1271880f4c90d05cd4babb111d7adbca28c53",
+      "sha256": "20802e76a0714554f423e4f3561a0571e66a47151a879923ab9b6fe3a6e6cc99"
+    },
+    {
+      "path": "desktop/package.json",
+      "before": "279d6803d11f861c7ac866d931fdc33ceddabbc381b8e3051346f8b172ccdbbf",
+      "sha256": "74ec18bed7a6555142cf22cad05b12b496f29290a0fcaa37db3122e73bb02c66"
+    },
+    {
+      "path": "desktop/runtime/office-cells.mjs",
+      "before": "99d2cb0761f35837641222fd3c1b8483af9160d6b9b5987ef45a10b9a44e17fb",
+      "sha256": "c49dc40b76c62afa261733a60dc2b567b697755475f79520466388ebd84d087c"
+    },
+    {
+      "path": "desktop/runtime/office-kit/worker.py",
+      "before": "cf65fe6ab4e94d9f2fcc178deafce096c0b8fbaea4ee680ab915678622d9af4d",
+      "sha256": "8ff9b78862fe4ad8c83d04c8ab60ee9b5c8e0e4a918cec9bcbc6565b22efc0eb"
+    },
+    {
+      "path": "desktop/services/office-chat.mjs",
+      "before": "65a5096555cffd4d63085c65604aec9f7659bb984bd018a144c416d6117e2377",
+      "sha256": "480f6968e5fa3c4e5d7468c3058c964bbfe34212ed60b6438b2de65bfb611040"
+    },
+    {
+      "path": "desktop/services/office-workspace.mjs",
+      "before": "50957c91a121987fc63855e2a071a50de3b8ab6a909da5e559ec362f15c6beea",
+      "sha256": "1797bc427a574332e38e75fd4ac93caf3b610a95448880fe4b7dfeb063323952"
+    },
+    {
+      "path": "docs/DOWNLOADS.md",
+      "before": "6267c348901dd0184474b3b36afb76ce0c919fd43f01baa591ae7780195df95f",
+      "sha256": "e12d74fb293e5b332296c23fc6b799cbcc4856c530521dfffd5cbc95b294e3ca"
+    },
+    {
+      "path": "docs/QUICK_GAPS.md",
+      "before": "adabfbd87ee1196e5c25899488d3b1e3086be7aadeec5f4734046b50c239bf7e",
+      "sha256": "d57be70b09e785a491f7edb80bbe565aaba86bd3397d16f2ca15e383787d0f50"
+    },
+    {
+      "path": "docs/REA_FINDINGS.md",
+      "before": "becf83273bffe220eaa554aeede8c7e6cffa6ad62a1e809d9af52e316f390e83",
+      "sha256": "6fe5982b2e94b888f2bf00e23c1dfaed90620c6a7f955be151df28dc3e2d8822"
+    },
+    {
+      "path": "scripts/repackage-native-mac.py",
+      "before": "a4da959df41d92a8c3ef3003a8092b3eecfb651c0d0b25c4e39ed26d57226906",
+      "sha256": "c77f8126947761f33e8f4aad371fafb4132c424566bfe8f3a332e8fc3334dbfc"
+    }
+  ],
+  "new": [
+    "desktop/runtime/office-cell-format.mjs",
+    "desktop/tests/office-cell-format.test.mjs",
+    "desktop/tests/acceptance/office-cell-format-live.mjs",
+    "docs/OFFICE_CELL_FORMAT_03712.md",
+    "docs/validation/v0.37.12.json",
+    "docs/validation/v0.37.12-tests.txt",
+    "docs/validation/v0.37.12-ui.txt",
+    "docs/validation/v0.37.12-format-tests.txt",
+    "docs/validation/v0.37.12-packaging.txt",
+    "docs/validation/v0.37.12-first-format.txt",
+    "docs/validation/v0.37.12-offline.json",
+    "docs/validation/v0.37.12-changed-files.json"
+  ],
+  "source_manifest_regenerated": true,
+  "protected_unchanged": 122
+}

@@ -1,0 +1,38 @@
+✔ legacy editor shows the inherited agent limit instead of a misleading 32 (1.646225ms)
+✔ saved model limit takes precedence and missing agent uses runtime default (0.226181ms)
+✔ model profiles keep keys separate, metadata never exposes ciphertext and session keys are not persisted (2.986058ms)
+✔ auto tiers match capability and priority; fast disables thinking, extreme high; no cross-tier fallback (0.658334ms)
+✔ manual effort uses real provider-specific request fields and rejects incompatible parameters (2.008001ms)
+✔ credential changes require fresh input and revision guards reject stale editors (0.597552ms)
+✔ saved route rejects deletion, disabling and unrelated edits without silently choosing another model (0.555648ms)
+✔ failed writes roll back model config and session credential; secret adapter failure never falls back (0.560126ms)
+✔ profile model budget and capabilities fail closed before outbound request (0.422668ms)
+✔ actual Store reload preserves encrypted config, no plaintext and saves are serialized (8.807716ms)
+✔ real HTTP payload uses selected model/key and reasoning params, no arbitrary response fallback (25.793447ms)
+✔ SSE reasoning is retained only for same-run tool protocol and is not streamed as answer text (1.392743ms)
+✔ conversation route frozen before queue; two chats can use distinct profiles independently (3.532202ms)
+✔ routed conversation rejects late response after profile changes (0.599214ms)
+✔ host model secret adapter refuses plaintext backend and encrypt/decrypt failures (0.888481ms)
+✔ queued profile drift blocks outbound model call (0.558313ms)
+✔ model round limit is validated, persisted, and does not overwrite existing legacy defaults (0.553275ms)
+✔ explicit legacy model round limit allows a configured agent beyond twelve iterations (2.941781ms)
+✔ legacy model configuration commits settings and secret together; validation, encryption and disk failure preserve prior values (1.288075ms)
+✔ legacy settings updates serialize and the next update follows a failed save (10.102871ms)
+✔ model editor exposes its configured round limit without exposing stored secret values (0.902222ms)
+✔ a mutation queued after close cannot run while an earlier operation completes (93.469144ms)
+✔ concurrent close requests close the worker once (26.697543ms)
+✔ failed close save preserves dirty session and does not dispatch queued operation until close completes (25.397409ms)
+✔ real worker closing stdin rejects pending requests instead of crashing the host (24.13892ms)
+✔ normal worker requests still complete in order (29.561165ms)
+✔ missing worker executable rejects startup (6.710009ms)
+✔ embedded Office files equal the source and are materialized exactly (15.34514ms)
+✔ corrupted worker write is rejected before launching an engine (3.916463ms)
+✔ existing files are never overwritten (2.758223ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 382.744276

@@ -1,0 +1,17 @@
+✔ cell format rejects empty, unsupported, nonfinite and malformed parameters (2.316852ms)
+✔ real native Excel format changes target styles, retains data/formulas/other sheet and previous bytes (1167.223737ms)
+✔ deny, stale selection, cancellation and audit failure dispatch no native format (2889.167048ms)
+✔ no-op output verification blocks success and explicit save; disk failure retains retryable format draft (1539.41456ms)
+✔ worker rejects extra commands, forged scope and malformed formats before native history changes (593.956995ms)
+✔ saved format verifier rejects data drift, forged formats and unrecognized formula types (406.377792ms)
+✔ preflight rejects target rich text, conditional formatting, shared formulas and oversized workbooks (337.102821ms)
+✔ preservation uses exact decimal semantics instead of rounded Number equality (234.565112ms)
+✔ revision changes during final native context query block formatting before mutation (711.903437ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8098.803145

@@ -1,0 +1,17 @@
+✔ grid bounds, unique complete table, signed/complex/merged/nested targets fail closed (289.192738ms)
+✔ grid patch preserves every non-document part and content properties; receipt rejects tampering (323.245631ms)
+✔ real HTTP grid tool reloads same session, renders blue borders, preserves old bytes and native future edits (4968.749689ms)
+✔ grid refusal, stale fingerprint, cancellation and failed durable audit do not initialize replacement (3258.080382ms)
+✔ replacement init, candidate drift and document disk failure keep original session and clean candidate (4035.503779ms)
+✔ cancellation during post-initialization final native table query leaves no new revision (1455.925503ms)
+✔ shutdown during document commit rolls back persisted grid and closes the replacement (1525.760753ms)
+✔ rich direct text properties, padding, headers and all non-target parts survive the exact grid patch (2067.991975ms)
+✔ a header table cannot be confused with the same-sized unique body table (1854.573965ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 20208.34503

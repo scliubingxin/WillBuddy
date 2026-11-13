@@ -1,0 +1,27 @@
+✔ exact rectangle and constant matrix reject overflow, formulas, controls and review excess (2.371895ms)
+✔ real native matrix updates only current rectangle, retains cell formatting/formulas/other sheet and old bytes (1229.962974ms)
+✔ denial, stale part/fingerprint, cancellation and audit failure dispatch no cell writes (3607.020209ms)
+✔ private worker rejects forged scope, formula, dimensions and extra fields before native undo changes (808.048375ms)
+✔ document failure keeps a verified retryable draft, while native no-op mismatch blocks explicit save too (1767.532589ms)
+✔ revision drift in last native context check fails before writes; merged selection is unavailable (1766.986357ms)
+✔ blank rectangle can be filled and clears remain bounded; another sheet context cannot be reused (935.338161ms)
+✔ model final success text cannot hide a failed cell output verification (5.436235ms)
+✔ approved Excel rectangle cannot hide changed cells or formulas elsewhere (1404.722699ms)
+✔ native Excel output changed outside selection cannot publish or bypass on retry (1814.522128ms)
+✔ manual bounded cell edit uses real native matrix and audit without a second approval (1174.481454ms)
+✔ manual cell edit rejects wrong shape, formulas and audit failures without writes (919.726749ms)
+✔ failed checked Excel draft cannot be overwritten by a later manual or AI operation (926.176537ms)
+✔ format guard protects target and other cells while formula guard permits only target change (1365.442296ms)
+✔ Excel preservation compares decimal identities without floating-point collisions (226.065991ms)
+✔ Excel target check rejects adjacent large integers but accepts equivalent exponent notation (298.222741ms)
+✔ manual literal matrix preserves leading zeros and formula-looking text in native XLSX (1088.014141ms)
+✔ Excel picture survives native edit and corrupted media blocks save and retry (2065.558429ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 21584.966719
+process_exit=0

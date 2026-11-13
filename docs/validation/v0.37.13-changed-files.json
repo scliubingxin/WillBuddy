@@ -1,0 +1,36 @@
+{
+  "modified": [
+    "ITERATION_LOG.md",
+    "ITERATION_PLAN.md",
+    "RELEASE_STATUS.json",
+    "desktop/package-lock.json",
+    "desktop/package.json",
+    "desktop/runtime/office-kit/worker.py",
+    "desktop/services/office-chat.mjs",
+    "desktop/services/office-workspace.mjs",
+    "desktop/src/office/index.html",
+    "desktop/src/office/office.js",
+    "docs/DOWNLOADS.md",
+    "docs/QUICK_GAPS.md",
+    "docs/REA_FINDINGS.md",
+    "scripts/repackage-native-mac.py"
+  ],
+  "added": [
+    "desktop/ppt-probe.mjs",
+    "desktop/runtime/office-presentation.mjs",
+    "desktop/tests/acceptance/office-presentation-live.mjs",
+    "desktop/tests/office-presentation.test.mjs",
+    "docs/OFFICE_PPT_SELECTION_03713.md",
+    "docs/validation/v0.37.13-first-ppt-tests.txt",
+    "docs/validation/v0.37.13-offline.json",
+    "docs/validation/v0.37.13-packaging.txt",
+    "docs/validation/v0.37.13-prototype.json",
+    "docs/validation/v0.37.13-tests.txt",
+    "docs/validation/v0.37.13-ui.txt",
+    "docs/validation/v0.37.13.json",
+    "docs/validation/v0.37.13-changed-files.json"
+  ],
+  "protected_web_python": 122,
+  "protected_sha_unchanged": true,
+  "original_python_executor35": "unchanged/not rerun"
+}

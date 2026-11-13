@@ -1,0 +1,42 @@
+{
+  "modified": [
+    "ITERATION_LOG.md",
+    "ITERATION_PLAN.md",
+    "RELEASE_STATUS.json",
+    "desktop/package-lock.json",
+    "desktop/package.json",
+    "desktop/runtime/office-cell-format.mjs",
+    "desktop/runtime/office-kit/worker.py",
+    "desktop/services/office-chat.mjs",
+    "desktop/services/office-workspace.mjs",
+    "desktop/src/office/index.html",
+    "desktop/tests/acceptance/office-cjk-live.mjs",
+    "docs/DOWNLOADS.md",
+    "docs/QUICK_GAPS.md",
+    "docs/REA_FINDINGS.md",
+    "scripts/repackage-native-mac.py"
+  ],
+  "added": [
+    "desktop/runtime/office-formula.mjs",
+    "desktop/tests/acceptance/office-formula-live.mjs",
+    "desktop/tests/office-formula.test.mjs",
+    "docs/OFFICE_NATIVE_FORMULA_03714.md",
+    "docs/validation/v0.37.14-baseline-cjk.txt",
+    "docs/validation/v0.37.14-boolean-diag.txt",
+    "docs/validation/v0.37.14-cjk-repeat.txt",
+    "docs/validation/v0.37.14-first-core.txt",
+    "docs/validation/v0.37.14-first-formula.txt",
+    "docs/validation/v0.37.14-first-ui.txt",
+    "docs/validation/v0.37.14-formula-tests.txt",
+    "docs/validation/v0.37.14-offline.json",
+    "docs/validation/v0.37.14-packaging.txt",
+    "docs/validation/v0.37.14-second-core.txt",
+    "docs/validation/v0.37.14-tests.txt",
+    "docs/validation/v0.37.14-ui.txt",
+    "docs/validation/v0.37.14.json",
+    "docs/validation/v0.37.14-changed-files.json"
+  ],
+  "protected_web_python": 122,
+  "protected_sha_unchanged": true,
+  "original_python_executor35": "unchanged/not rerun"
+}

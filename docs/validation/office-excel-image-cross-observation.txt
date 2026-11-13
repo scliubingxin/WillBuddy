@@ -1,0 +1,19 @@
+✖ Excel picture survives native edit and corrupted media blocks save and retry (1110.30001ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1294.018603
+
+✖ failing tests:
+
+test at desktop/tests/office-cells.test.mjs:95:1
+✖ Excel picture survives native edit and corrupted media blocks save and retry (1110.30001ms)
+  Error: Excel图片终点位置发生变化，未发布新版本 [{"col":4,"row":5,"x":0,"y":0},{"col":3,"row":4,"x":611280,"y":190080}]
+      at file:///workspace/scratch/08fe4388c223/next/work/muyun-ai/desktop/runtime/office-cells.mjs:111:1187
+      at file:///workspace/scratch/08fe4388c223/next/work/muyun-ai/desktop/runtime/office-cells.mjs:115:57
+      at save (file:///workspace/scratch/08fe4388c223/next/work/muyun-ai/desktop/services/office-workspace.mjs:21:519)
+      at async file:///workspace/scratch/08fe4388c223/next/work/muyun-ai/desktop/services/office-workspace.mjs:71:608

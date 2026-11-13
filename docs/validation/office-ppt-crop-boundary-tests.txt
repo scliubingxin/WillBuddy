@@ -1,0 +1,9 @@
+✔ PPT crop receipt refuses changed or removed source crop and blocks native changed output (1134.598809ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1333.39271

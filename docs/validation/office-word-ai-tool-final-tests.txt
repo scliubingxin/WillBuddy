@@ -1,0 +1,21 @@
+✔ actual HTTP model tool replaces real native selection; chat and revision persist (637.940042ms)
+✔ missing explicit document send consent rejects before any context read (0.665523ms)
+✔ stale selection and concurrent document revision are rejected by native workspace (399.993535ms)
+✔ cancellation interrupts actual waiting model request without publishing native edits (366.454064ms)
+✔ audit persistence failure blocks native AI write before paste (459.520267ms)
+✔ document disk failure retains explicit retryable draft and does not claim a saved revision (359.615199ms)
+✔ forged identity and stale selection reject before queue (0.449945ms)
+✔ queued selection drift rejects before reading context or sending model (0.408193ms)
+✔ actual HTTP font tool changes real Word run properties without replacing text (554.608881ms)
+✔ font approval denial, stale selection, cancellation and audit failure publish no revision (816.29698ms)
+✔ actual HTTP CJK font tool writes eastAsia independently and preserves mixed selection text (711.124272ms)
+✔ cancellation during durable format audit never reaches native format dispatch (397.052477ms)
+✔ AI Word replace no-op cannot be published or bypass receipt by manual save (474.503089ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5334.625778

@@ -1,0 +1,18 @@
+✖ PPT text replacement keeps real picture placement and detects image movement (1004.070051ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1193.601094
+
+✖ failing tests:
+
+test at desktop/tests/office-presentation.test.mjs:10:1
+✖ PPT text replacement keeps real picture placement and detects image movement (1004.070051ms)
+  Error: PPT保存图片裁剪与原文不一致，未发布新版本 [["12500","10000","0","0"],["12736","9906","0","0"]]
+      at file:///workspace/scratch/08fe4388c223/nov06/work/muyun-ai/desktop/runtime/office-presentation.mjs:105:440
+      at save (file:///workspace/scratch/08fe4388c223/nov06/work/muyun-ai/desktop/services/office-workspace.mjs:21:519)
+      at async file:///workspace/scratch/08fe4388c223/nov06/work/muyun-ai/desktop/services/office-workspace.mjs:48:557

@@ -1,0 +1,72 @@
+{
+  "version": "0.37.15",
+  "date_china": "2026-11-01",
+  "baseline": {
+    "authority": "libfile_816eb4b584e48191b46648e150fb6749",
+    "observed_version": 53,
+    "version": "0.37.14",
+    "bytes": 9624270,
+    "sha256": "95c1bc47f6439efd6c1f1f492c8c2fd070f7ba9e4f4cefdc38a3069d0b42f890",
+    "verified_content_files": 765
+  },
+  "core": {
+    "passed": 453,
+    "failed": 0,
+    "concurrency": 1
+  },
+  "new_word_tests": 4,
+  "related_tests": 19,
+  "chromium": {
+    "passed": 12,
+    "failed": 0,
+    "scope": "production pages+real local HTTP model fixture+real LinuxKit; independent python-docx/openpyxl/python-pptx; IPC/approval/Keychain/model semantics fixtures"
+  },
+  "packaging_tests": 26,
+  "protected_web_python": 122,
+  "original_python35": "unchanged/not rerun",
+  "new": "fixed Word format completion notification and selected direct-property+main/header/footer text output receipt; dirty before dispatch; guarded explicit retry",
+  "first_attempts": {
+    "core": "448/453;3 tests exposed initial single-paragraph restriction, fixed contiguous paragraphs without relaxing output property assertion;2 prior Calc cases failed while UI ran concurrently (Node error formatting and kernel exit), root unknown;final separated core453 and UI12 pass",
+    "new_word": "4/4 first and final;no new CJK rFonts failure observed;previous0.37.14 CJK root unknown"
+  },
+  "limits": [
+    "no Mac/paid model/IME/glyph/native signature validation",
+    "unique contiguous simple body paragraph text;2000 paragraphs/100000 text/12000 selection",
+    "no style inheritance/glyph availability/layout/full OOXML roundtrip guarantee",
+    "partial effects may remain private draft;not atomic native transaction;no automatic replay",
+    "not OS sandbox;installation slow and unknown historic temporary prefix source unresolved"
+  ],
+  "github": {
+    "main": "27bd38f6b43806fb702c62ec4586426730b8190a",
+    "branch_0372": "0ce607437ef2c7814b295b43ec7b4ccd3c0b4a42",
+    "writes": false,
+    "reason": "prior safe-browser CreatePR auto-review quota before Nov2;no retry/bypass;standing user authorization retained"
+  },
+  "authority_writeback": "planned expected53 guarded replace;final receipt separate",
+  "offline": {
+    "version": "0.37.15",
+    "bytes": 483236512,
+    "sha256": "a516de81b28d37ebff5dae6d70cf304ac9fa6190b958da8776bf1e2f7c42dfc1",
+    "mach_o": 278,
+    "code_pages": 93545,
+    "app_entries": 20727,
+    "extra_files": 5,
+    "closed_inventory": true,
+    "symlinks": 47,
+    "changed_app_entries": [
+      "WillBuddy.app/Contents/Info.plist",
+      "WillBuddy.app/Contents/MacOS/Electron",
+      "WillBuddy.app/Contents/Resources/app.asar",
+      "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+    ],
+    "runtime_unchanged": true,
+    "zero_residuals": true,
+    "closed_crc": true,
+    "electron_page_tamper_rejected": true,
+    "mac_native_tested": false,
+    "production_files_asar_exact": 158,
+    "minimal_package": true,
+    "host_pyc_absent": true,
+    "asar_sha256": "c078da2c71580d5d9f4ef18fbff5d5f61a774d024baa5fdc9111a7ba201ae447"
+  }
+}

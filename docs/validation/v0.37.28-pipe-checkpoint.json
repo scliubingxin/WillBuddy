@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-12",
+  "base": "0.37.28 candidate",
+  "status": "internal checkpoint, not release",
+  "tests": {
+    "targeted_node": {
+      "passed": 10,
+      "details": "office pipe, worker materialization and browser fill; actual Python subprocess fixtures, browser mocked"
+    },
+    "packaging_python": {
+      "passed": 35,
+      "details": "real filesystem, native signature/clone mocked"
+    },
+    "browser_runtime": "not run: jsdom missing"
+  },
+  "limits": [
+    "No Mac GUI, codesign, real user document, or paid model validation",
+    "Pipe test uses a small Python worker fixture, not LibreOfficeKit",
+    "No new arm64 build; existing 0.37.28 app does not include this change",
+    "Does not establish cause of reported Mac worker.py syntax error",
+    "GitHub write blocked by prior security review; no bypass"
+  ]
+}

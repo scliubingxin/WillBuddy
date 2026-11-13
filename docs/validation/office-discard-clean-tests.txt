@@ -1,0 +1,13 @@
+✔ explicit discard denial keeps draft; approval closes only draft and preserves saved document (747.32686ms)
+✔ queued operation cannot mutate a session discarded after native confirmation (517.16969ms)
+✔ discard audit failure preserves unsaved draft and saved document (545.610871ms)
+✔ cleanup failure closes the draft but is reported and never deletes saved document (511.13584ms)
+✔ discard without a draft never asks for destructive confirmation (347.742018ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2873.48831

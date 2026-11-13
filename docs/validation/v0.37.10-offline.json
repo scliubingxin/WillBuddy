@@ -1,0 +1,25 @@
+{
+  "production_files_asar_exact": 154,
+  "minimal_package": true,
+  "host_pyc_absent": true,
+  "electron_page_tamper_rejected": true,
+  "bytes": 483223518,
+  "sha256": "2a5e5cb61100db9d5cc3510ec83cf91a6733ed11a211fe81080870e465420b50",
+  "asar_sha256": "198f5fed7b59ad04b947c2f63453c80e0c0261bd5cd5648fd1cc1f9cae2d86cb",
+  "mach_o": 278,
+  "code_pages": 93545,
+  "app_entries": 20727,
+  "extra_files": 5,
+  "symlinks": 47,
+  "zero_residuals": true,
+  "closed_crc": true,
+  "changed_app_entries": [
+    "WillBuddy.app/Contents/Info.plist",
+    "WillBuddy.app/Contents/MacOS/Electron",
+    "WillBuddy.app/Contents/Resources/app.asar",
+    "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+  ],
+  "runtime_unchanged": true,
+  "signature": "ad-hoc shell/Python;upstream LO preserved;unnotarized",
+  "mac_native_tested": false
+}

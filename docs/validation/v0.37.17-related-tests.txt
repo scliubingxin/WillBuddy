@@ -1,0 +1,21 @@
+✔ grid bounds, unique complete table, signed/complex/merged/nested targets fail closed (285.984113ms)
+✔ grid patch preserves every non-document part and content properties; receipt rejects tampering (225.462658ms)
+✔ real HTTP grid tool reloads same session, renders blue borders, preserves old bytes and native future edits (1778.25338ms)
+✔ grid refusal, stale fingerprint, cancellation and failed durable audit do not initialize replacement (2616.032721ms)
+✔ replacement init, candidate drift and document disk failure keep original session and clean candidate (3140.589439ms)
+✔ cancellation during post-initialization final native table query leaves no new revision (1008.442762ms)
+✔ shutdown during document commit rolls back persisted grid and closes the replacement (958.246345ms)
+✔ rich direct text properties, padding, headers and all non-target parts survive the exact grid patch (1477.758011ms)
+✔ a header table cannot be confused with the same-sized unique body table (962.802766ms)
+✔ perimeter edges explicit, bounded, unique logical sides; omission remains compatible (0.58418ms)
+✔ each requested perimeter changes only boundary cells; all untouched sides and package parts remain exact (665.781963ms)
+✔ perimeter resolves only selected legacy aliases and supports one-cell and multiple-edge tables (111.774359ms)
+✔ HTTP model top-only border reloads same session; approval scope and independent DOCX verify preserved red interiors (1939.809264ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15485.192624

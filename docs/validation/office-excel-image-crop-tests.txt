@@ -1,0 +1,27 @@
+✔ exact rectangle and constant matrix reject overflow, formulas, controls and review excess (2.569907ms)
+✔ real native matrix updates only current rectangle, retains cell formatting/formulas/other sheet and old bytes (1264.95562ms)
+✔ denial, stale part/fingerprint, cancellation and audit failure dispatch no cell writes (3670.610926ms)
+✔ private worker rejects forged scope, formula, dimensions and extra fields before native undo changes (644.115308ms)
+✔ document failure keeps a verified retryable draft, while native no-op mismatch blocks explicit save too (1611.028571ms)
+✔ revision drift in last native context check fails before writes; merged selection is unavailable (1656.027006ms)
+✔ blank rectangle can be filled and clears remain bounded; another sheet context cannot be reused (942.855634ms)
+✔ model final success text cannot hide a failed cell output verification (4.140032ms)
+✔ approved Excel rectangle cannot hide changed cells or formulas elsewhere (1444.112686ms)
+✔ native Excel output changed outside selection cannot publish or bypass on retry (1637.268152ms)
+✔ manual bounded cell edit uses real native matrix and audit without a second approval (1293.173151ms)
+✔ manual cell edit rejects wrong shape, formulas and audit failures without writes (971.988154ms)
+✔ failed checked Excel draft cannot be overwritten by a later manual or AI operation (1005.704796ms)
+✔ format guard protects target and other cells while formula guard permits only target change (1303.158854ms)
+✔ Excel preservation compares decimal identities without floating-point collisions (271.489526ms)
+✔ Excel target check rejects adjacent large integers but accepts equivalent exponent notation (263.45364ms)
+✔ manual literal matrix preserves leading zeros and formula-looking text in native XLSX (1152.447492ms)
+✔ Excel picture survives native edit and corrupted media blocks save and retry (2146.38996ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 21479.576862
+process_exit=0

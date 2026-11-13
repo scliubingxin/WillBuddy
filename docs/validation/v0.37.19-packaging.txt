@@ -1,0 +1,47 @@
+test_commit_failure_restores_source_and_old_target (test_fast_install.FastInstall.test_commit_failure_restores_source_and_old_target) ... ok
+test_existing_backup_refuses_before_moving_source (test_fast_install.FastInstall.test_existing_backup_refuses_before_moving_source) ... ok
+test_same_volume_preserves_inode_no_runtime_copy (test_fast_install.FastInstall.test_same_volume_preserves_inode_no_runtime_copy) ... ok
+test_commit_failure_rolls_back (test_mac_update.Update.test_commit_failure_rolls_back) ... 03:37:50 1/4 校验补丁和原应用版本
+03:37:50 2/4 检查原应用签名；失败时不会创建候选或替换应用
+03:37:50 3/4 克隆并应用四个文件
+03:37:50 4/4 检查候选签名；此阶段失败不表示原应用签名已坏
+ok
+test_failed_native_gate_preserves_old (test_mac_update.Update.test_failed_native_gate_preserves_old) ... 03:37:50 1/4 校验补丁和原应用版本
+03:37:50 2/4 检查原应用签名；失败时不会创建候选或替换应用
+03:37:50 3/4 克隆并应用四个文件
+03:37:50 4/4 检查候选签名；此阶段失败不表示原应用签名已坏
+ok
+test_native_stderr_is_preserved (test_mac_update.Update.test_native_stderr_is_preserved) ... 03:37:50 test 开始（最长 2 秒）
+ok
+test_native_timeout_stops_real_child_and_reports_progress (test_mac_update.Update.test_native_timeout_stops_real_child_and_reports_progress) ... ok
+test_original_failure_does_not_clone_or_modify (test_mac_update.Update.test_original_failure_does_not_clone_or_modify) ... 03:37:51 1/4 校验补丁和原应用版本
+03:37:51 2/4 检查原应用签名；失败时不会创建候选或替换应用
+ok
+test_real_filesystem_commit_changes_only_patch_retains_old (test_mac_update.Update.test_real_filesystem_commit_changes_only_patch_retains_old) ... 03:37:51 1/4 校验补丁和原应用版本
+03:37:51 2/4 检查原应用签名；失败时不会创建候选或替换应用
+03:37:51 3/4 克隆并应用四个文件
+03:37:51 4/4 检查候选签名；此阶段失败不表示原应用签名已坏
+ok
+test_tamper_or_wrong_base_no_clone (test_mac_update.Update.test_tamper_or_wrong_base_no_clone) ... ok
+test_existing_overlapping_output_refused_before_signer (test_native_repackage.NativeRepackageTests.test_existing_overlapping_output_refused_before_signer) ... ok
+test_extracted_bytes_links_modes_and_unexpected_file_fail_closed (test_native_repackage.NativeRepackageTests.test_extracted_bytes_links_modes_and_unexpected_file_fail_closed) ... ok
+test_known_residual_is_rejected_before_signer (test_native_repackage.NativeRepackageTests.test_known_residual_is_rejected_before_signer) ... ok
+test_mutating_signer_and_extra_output_refused (test_native_repackage.NativeRepackageTests.test_mutating_signer_and_extra_output_refused) ... ok
+test_separate_output_copies_expected_tree_and_does_not_modify_input (test_native_repackage.NativeRepackageTests.test_separate_output_copies_expected_tree_and_does_not_modify_input) ... ok
+test_host_bytecode_is_not_shipped_but_owned_python_source_is (test_native_repackage.ProductionSourceCopyTests.test_host_bytecode_is_not_shipped_but_owned_python_source_is) ... ok
+test_closed_inventory_and_symlink_permissions (test_offline_bundle.OfflineBundleTests.test_closed_inventory_and_symlink_permissions) ... ok
+test_escaping_link_case_collision_and_duplicate_zip_paths_rejected (test_offline_bundle.OfflineBundleTests.test_escaping_link_case_collision_and_duplicate_zip_paths_rejected) ... ok
+test_extra_file_is_rejected_even_when_every_manifest_hash_still_matches (test_offline_bundle.OfflineBundleTests.test_extra_file_is_rejected_even_when_every_manifest_hash_still_matches) ... ok
+test_known_residue_removed_but_inventory_rejects_it_if_not_cleaned (test_offline_bundle.OfflineBundleTests.test_known_residue_removed_but_inventory_rejects_it_if_not_cleaned) ... ok
+test_residue_added_after_pack_is_rejected (test_offline_bundle.OfflineBundleTests.test_residue_added_after_pack_is_rejected) ... ok
+test_sealed_residue_is_not_silently_removed (test_offline_bundle.OfflineBundleTests.test_sealed_residue_is_not_silently_removed) ... ok
+test_signing_path_gate_rejects_unknown_temp_and_missing_files (test_offline_bundle.OfflineBundleTests.test_signing_path_gate_rejects_unknown_temp_and_missing_files) ... ok
+test_tampering_and_executable_mode_loss_rejected (test_offline_bundle.OfflineBundleTests.test_tampering_and_executable_mode_loss_rejected) ... ok
+test_failed_zip_write_preserves_old_release_and_removes_temp (test_source_archive.AtomicSourceTests.test_failed_zip_write_preserves_old_release_and_removes_temp) ... ok
+test_final_name_remains_old_until_zip_is_complete_and_verified (test_source_archive.AtomicSourceTests.test_final_name_remains_old_until_zip_is_complete_and_verified) ... ok
+
+----------------------------------------------------------------------
+Ran 26 tests in 0.287s
+
+OK
+更新完成。旧版备份保留在：/tmp/tmp1mfqqzfy/Applications/.WillBuddy-update-em__1v3y/previous.app

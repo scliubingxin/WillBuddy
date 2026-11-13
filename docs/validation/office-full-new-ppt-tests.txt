@@ -1,0 +1,11 @@
+✔ PPT single-paragraph selection in a multi-paragraph shape preserves other paragraphs and slides (235.301308ms)
+✔ real PPT edit within multi-paragraph shape saves other paragraphs and slides (1187.089131ms)
+✔ long manual PPT replacement remains bounded while AI limit remains 600 (1162.712608ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2856.929868

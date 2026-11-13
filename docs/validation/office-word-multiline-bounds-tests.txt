@@ -1,0 +1,12 @@
+✔ manual Word cross-paragraph replacement saves actual DOCX (805.913002ms)
+✔ cross paragraph receipt validates untouched text and rejects unsupported structures (132.575405ms)
+✔ Word multiline manual replacement produces real paragraphs and preserves later paragraphs (797.212843ms)
+✔ multiline receipt preserves text outside target and bounds paragraph count (78.456627ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2018.994184

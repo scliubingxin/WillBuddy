@@ -1,0 +1,50 @@
+{
+  "version": "0.37.10",
+  "authority_base_version": 48,
+  "authority_content_hashes_verified": 699,
+  "core": {
+    "passed": 419,
+    "failed": 0,
+    "skipped": 0,
+    "concurrency": 1
+  },
+  "related_final": 12,
+  "chromium": 8,
+  "packaging": 26,
+  "new_core": 8,
+  "native_linux_kit": true,
+  "ipc_approval_keychain_model_semantics": "fixtures",
+  "mac_native_tested": false,
+  "paid_model_tested": false,
+  "legacy_python_35": "unchanged/not rerun",
+  "protected_sha_unchanged": 122,
+  "first_full_core": "417/418; accidental cells:null outline forwarding rejected by strict validator;fixed/full rerun passed",
+  "first_ui": "7/8;real Redo persisted old body;native command completion/history verification fixed,unchanged assertions passed",
+  "format_limits": "Liberation Serif/26pt sample exported Times New Roman/25.5pt;not repaired;explicit stable Arial/25.5pt sample passed direct-format checks",
+  "scope": "same-sized constants only;selection formulas may be overwritten with explicit approval;outside formulas recalculate;no arbitrary dates/merged/multirange/formula input",
+  "offline": {
+    "production_files_asar_exact": 154,
+    "minimal_package": true,
+    "host_pyc_absent": true,
+    "electron_page_tamper_rejected": true,
+    "bytes": 483223518,
+    "sha256": "2a5e5cb61100db9d5cc3510ec83cf91a6733ed11a211fe81080870e465420b50",
+    "asar_sha256": "198f5fed7b59ad04b947c2f63453c80e0c0261bd5cd5648fd1cc1f9cae2d86cb",
+    "mach_o": 278,
+    "code_pages": 93545,
+    "app_entries": 20727,
+    "extra_files": 5,
+    "symlinks": 47,
+    "zero_residuals": true,
+    "closed_crc": true,
+    "changed_app_entries": [
+      "WillBuddy.app/Contents/Info.plist",
+      "WillBuddy.app/Contents/MacOS/Electron",
+      "WillBuddy.app/Contents/Resources/app.asar",
+      "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+    ],
+    "runtime_unchanged": true,
+    "signature": "ad-hoc shell/Python;upstream LO preserved;unnotarized",
+    "mac_native_tested": false
+  }
+}

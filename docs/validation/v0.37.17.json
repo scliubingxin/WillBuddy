@@ -1,0 +1,73 @@
+{
+  "version": "0.37.17",
+  "date_china": "2026-11-01",
+  "baseline": {
+    "authority": "libfile_816eb4b584e48191b46648e150fb6749",
+    "observed_version": 55,
+    "version": "0.37.16",
+    "content_files": 800,
+    "sha256": "ab358e07692c244c8b768321fb2a8e97c95c6892a26b6b4c439752bcbc61f8ac"
+  },
+  "core": {
+    "passed": 466,
+    "failed": 0,
+    "concurrency": 1
+  },
+  "new_perimeter_tests": 4,
+  "grid_related_tests": 13,
+  "chromium": {
+    "passed": 14,
+    "failed": 0,
+    "scope": "production pages+local actual HTTP model fixtures+real LinuxKit;IPC/approval/Keychain/model semantics fixture"
+  },
+  "packaging_tests": 26,
+  "protected_web_python": 122,
+  "original_python35": "unchanged/not rerun",
+  "offline": {
+    "version": "0.37.17",
+    "bytes": 483240717,
+    "sha256": "c7f5198fe2e8f17aa7eded5121f48b1c1030600a08507fd3ec1b8f3117315593",
+    "mach_o": 278,
+    "code_pages": 93545,
+    "app_entries": 20727,
+    "extra_files": 5,
+    "closed_inventory": true,
+    "symlinks": 47,
+    "changed_app_entries": [
+      "WillBuddy.app/Contents/Info.plist",
+      "WillBuddy.app/Contents/MacOS/Electron",
+      "WillBuddy.app/Contents/Resources/app.asar",
+      "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+    ],
+    "runtime_unchanged": true,
+    "zero_residuals": true,
+    "closed_crc": true,
+    "electron_page_tamper_rejected": true,
+    "mac_native_tested": false,
+    "asar_sha256": "97102c9c7315b69f26d1afd54b573a9453cf66ebcb801a12ce754f49a98efa2d",
+    "production_files_asar_exact": 159,
+    "minimal_package": true,
+    "host_pyc_absent": true
+  },
+  "first_attempts": {
+    "related": "12/13;independent ZIP timestamp caused incorrect whole-byte comparison;changed assertion to existing per-part exact SHA receipt;final full466 and related13 passed",
+    "ui": "CHROME_PATH omitted;browser could not launch and no page evaluated;final explicit downloaded SHA-verified tool14 passed",
+    "commands": "two incorrect cwd-relative development paths corrected;not product fixes",
+    "verifier": "helper statFile initially supplied leading slash;fixed host verification helper path then exact production sources/closed set passed"
+  },
+  "limits": [
+    "unique whole unmerged bounded table only;logical start/end",
+    "approved native reload clears Undo/Redo stack;prior persistent versions retained",
+    "document.xml reserialized;unselected borders and non-target package parts exact before native future edits;not all Office/layout fidelity",
+    "no Mac/paid model/IME/native signature/Gatekeeper/notarization",
+    "installation slow and historic temporary prefix root cause unresolved;no safety bypass"
+  ],
+  "github": {
+    "main": "27bd38f6b43806fb702c62ec4586426730b8190a",
+    "branch_0372": "0ce607437ef2c7814b295b43ec7b4ccd3c0b4a42",
+    "writes": false,
+    "reason": "historical auto-review quota until Nov2;no early retry or alternate route;standing user authorization valid"
+  },
+  "authority_writeback": "planned expected55 guarded replace;actual receipt separate",
+  "delivery": "local full app validated;source and app persistent save outcome only in final receipt"
+}

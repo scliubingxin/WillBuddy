@@ -1,0 +1,64 @@
+{
+  "version": "0.37.7-candidate",
+  "authority_base_version": 46,
+  "baseline_content_hashes_verified": 678,
+  "authority_replaced": false,
+  "core": {
+    "passed": 399,
+    "failed": 1,
+    "total": 400,
+    "concurrency": 1,
+    "complete_regression_pass": false,
+    "failure": "tests/native-office.test.mjs XLSX/PPTX PDF test: XLSX conversion timed_out after 60s"
+  },
+  "first_core_run": {
+    "passed": 397,
+    "failed": 3,
+    "total": 400,
+    "concurrent_with_build_and_other_checks": true,
+    "failures": [
+      "native Office PDF timeout",
+      "new selected font assertion",
+      "existing CLI short deadline truncated assertion"
+    ]
+  },
+  "related_navigation": 5,
+  "chromium_unique_paths": 4,
+  "chromium_navigation_final_rerun": 1,
+  "packaging_tests": 26,
+  "native_linux_kit": true,
+  "native_linux_cli_pdf": {
+    "word": "passed in full core",
+    "xlsx": "failed: production 60s timeout; diagnostic bare and explicit calc_pdf_Export also time out; SAL_DISABLE_OPENCL=1 and svp did not fix",
+    "pptx": "separate direct CLI bare/explicit filter succeeded ~3.0/1.9s; full grouped test stops at XLSX"
+  },
+  "ipc_approval_keychain_model_semantics": "fixtures",
+  "mac_native_tested": false,
+  "paid_model_tested": false,
+  "full_app_check": {
+    "asar_source_files": 152,
+    "minimal_package": true,
+    "protected_files": 122,
+    "tamper_negative": true,
+    "bytes": 483218919,
+    "sha256": "084c3d65b12304b4f0240f180f8733e26db205eda3f2cc11a43c5efe66b478ef",
+    "app_asar_sha256": "a7cf5d6d56da93e63b79027768327fd38f7933204a159ef9f2b5d8ab2daea1b8",
+    "mach_o": 278,
+    "code_pages": 93545,
+    "app_entries": 20727,
+    "symlinks": 47,
+    "changed_app_entries": [
+      "WillBuddy.app/Contents/Info.plist",
+      "WillBuddy.app/Contents/MacOS/Electron",
+      "WillBuddy.app/Contents/Resources/app.asar",
+      "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+    ],
+    "runtime_entries_unchanged": true,
+    "crc": true
+  },
+  "publication": "not attempted: core regression unresolved and prior auto review quota retry after Nov2; standing user authorization retained",
+  "protected_web_python_sha_unchanged": 122,
+  "legacy_python_35": "unchanged; not rerun",
+  "linux_kit_version": "LibreOfficeDev26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5",
+  "next": "Preserve keyboard increment; locate XLSX CLI PDF hang before promoting candidate. Mac codesign raw stderr/install/fonts/IME and paid model remain required; then full grid/individual table edges and Calc/PPT selection."
+}

@@ -1,0 +1,32 @@
+{
+  "modified_or_added": [
+    "ITERATION_LOG.md",
+    "ITERATION_PLAN.md",
+    "RELEASE_STATUS.json",
+    "desktop/package-lock.json",
+    "desktop/package.json",
+    "desktop/runtime/office-cells.mjs",
+    "desktop/runtime/office-kit/worker.py",
+    "desktop/services/office-chat.mjs",
+    "desktop/services/office-workspace.mjs",
+    "desktop/src/office/index.html",
+    "desktop/src/office/office.js",
+    "desktop/tests/acceptance/office-cells-live.mjs",
+    "desktop/tests/office-cells.test.mjs",
+    "docs/DOWNLOADS.md",
+    "docs/OFFICE_CELLS_03710.md",
+    "docs/QUICK_GAPS.md",
+    "docs/REA_FINDINGS.md",
+    "docs/validation/v0.37.10-boundaries.txt",
+    "docs/validation/v0.37.10-first-tests.txt",
+    "docs/validation/v0.37.10-first-ui.txt",
+    "docs/validation/v0.37.10-offline.json",
+    "docs/validation/v0.37.10-packaging.txt",
+    "docs/validation/v0.37.10-tests.txt",
+    "docs/validation/v0.37.10-ui.txt",
+    "docs/validation/v0.37.10.json",
+    "scripts/repackage-native-mac.py",
+    "docs/validation/v0.37.10-changed-files.json"
+  ],
+  "removed": []
+}

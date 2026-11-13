@@ -1,0 +1,15 @@
+✔ real LibreOfficeKit renders Word, native selection and edit auto-commit; no external collection (828.201778ms)
+✔ real LibreOfficeKit opens Excel/PPT, switches parts and renders actual pixels (926.978548ms)
+✔ approval denial never starts driver; input boundaries and original-version guard (31.260939ms)
+✔ real Calc selected cells write actual XLSX values with native engine (389.810234ms)
+✔ embedded Office files equal the source and are materialized exactly (10.360613ms)
+✔ corrupted worker write is rejected before launching an engine (3.18141ms)
+✔ existing files are never overwritten (2.026995ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2475.34096

@@ -1,0 +1,21 @@
+✔ navigation during focus prevents approved text from reaching new page (1.95228ms)
+✔ navigation during checkFocus prevents approved text from reaching new page (0.328303ms)
+✔ aborting during the focus check prevents input (0.484096ms)
+✔ unchanged page receives input and verifies it once (150.942091ms)
+✔ a mutation queued after close cannot run while an earlier operation completes (94.321625ms)
+✔ concurrent close requests close the worker once (39.582262ms)
+✔ failed close save preserves dirty session and does not dispatch queued operation until close completes (26.300236ms)
+✔ real worker closing stdin rejects pending requests instead of crashing the host (40.930996ms)
+✔ normal worker requests still complete in order (26.84195ms)
+✔ missing worker executable rejects startup (9.99997ms)
+✔ embedded Office files equal the source and are materialized exactly (15.098652ms)
+✔ corrupted worker write is rejected before launching an engine (4.348868ms)
+✔ existing files are never overwritten (4.690249ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 423.244761

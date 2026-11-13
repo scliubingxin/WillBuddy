@@ -1,0 +1,75 @@
+{
+  "version": "0.37.14",
+  "date": "2026-10-31",
+  "baseline": {
+    "authority": "libfile_816eb4b584e48191b46648e150fb6749",
+    "observed_version": 52,
+    "version": "0.37.13",
+    "verified_content_files": 747
+  },
+  "core": {
+    "passed": 449,
+    "failed": 0,
+    "concurrency": 1
+  },
+  "new_formula_tests": 9,
+  "chromium": {
+    "passed": 11,
+    "failed": 0,
+    "scope": "production pages+real local HTTP model fixture+real LinuxKit; IPC/approval/Keychain/model semantics fixture"
+  },
+  "packaging_tests": 26,
+  "protected_web_python": 122,
+  "original_python35": "unchanged/not rerun",
+  "new": "bounded native same-sheet single-cell numeric formula with shared AST preflight and real saved workbook content/formula/cache verification",
+  "limits": [
+    "no Mac/paid model/IME/glyph validation",
+    "numeric results and literals abs<=2^53-1; integer caches exact; noninteger max(1e-12,8*epsilon*abs(expected))",
+    "400 ASCII chars/200 tokens/10000 reference cells;single-cell only",
+    "no external/cross-sheet/quoted strings/shared-array/chart/merged/complex formula workbook",
+    "not arbitrary OOXML style/object roundtrip",
+    "not OS sandbox",
+    "installation slow unresolved"
+  ],
+  "first_attempts": {
+    "formula": "4/6;ordinary native aca=false formula flags rejected by legacy parser;private new-parser copy now handles onlyaca=false/t=normal;legacy remains strict",
+    "first_core": "448/449;HTTP fixture expects original first tool;append new tool at end, original12 chat tests and final449 pass",
+    "second_core": "448/449;1E15 serializes1E+015;exact coefficient/exponent identity added,not broad tolerance",
+    "boolean": "real native cache number1 versus core boolean true;standalone nonnumeric results now rejected before execution",
+    "first_ui": "10/11;CJK missing rFonts;unmodified0.37.13 baseline and current isolated repeat passed;same assertion with more diagnostics;final full11 pass;root unknown;no fonts installed/distributed"
+  },
+  "github": {
+    "main": "27bd38f6b43806fb702c62ec4586426730b8190a",
+    "branch_0372": "0ce607437ef2c7814b295b43ec7b4ccd3c0b4a42",
+    "writes": false,
+    "reason": "prior CreatePR auto-review quota until Nov2;no bypass;standing authorization retained"
+  },
+  "authority_writeback": "planned expected52 guarded replace;final receipt separate",
+  "offline": {
+    "version": "0.37.14",
+    "bytes": 483234600,
+    "sha256": "a7a0e355d8360fdb434208e329aed0e8d9a3b74dfc1aeb53b3b37bda68b1a87c",
+    "mach_o": 278,
+    "code_pages": 93545,
+    "app_entries": 20727,
+    "extra_files": 5,
+    "closed_inventory": true,
+    "residual_entries": 0,
+    "symlinks": 47,
+    "changed_app_entries": [
+      "WillBuddy.app/Contents/Info.plist",
+      "WillBuddy.app/Contents/MacOS/Electron",
+      "WillBuddy.app/Contents/Resources/app.asar",
+      "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+    ],
+    "runtime_unchanged": true,
+    "zero_residuals": true,
+    "closed_crc": true,
+    "electron_page_tamper_rejected": true,
+    "mac_native_tested": false,
+    "production_files_asar_exact": 157,
+    "minimal_package": true,
+    "host_pyc_absent": true,
+    "asar_sha256": "9ddbb5e861ffb44b47335c9963198873aa9e235c8f5df7325d01dd31e0505989"
+  }
+}

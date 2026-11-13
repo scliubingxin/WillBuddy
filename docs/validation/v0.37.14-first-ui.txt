@@ -1,0 +1,55 @@
+✔ production Excel selected format through actual HTTP and Kit changes style without data edits (1308.314241ms)
+✔ production Excel rectangle to actual HTTP model and native verified constants preserves outside cells (1501.758048ms)
+Traceback (most recent call last):
+  File "<string>", line 6, in <module>
+  File "<string>", line 6, in <genexpr>
+AttributeError: 'NoneType' object has no attribute 'get'
+✖ production Office UI sends selected CJK font request through real HTTP and Kit to DOCX eastAsia (1163.080164ms)
+✔ production selected word colors through real HTTP Kit preserve outside text and reload (2001.266192ms)
+✔ production Excel single-cell formula through actual HTTP and Kit exports real formula and computed value (1625.301469ms)
+✔ production Office buttons reflect real history and commit undo/redo revisions without model requests (1348.269228ms)
+✔ production Excel explicit text through real HTTP model preserves zeroes, date-like and formula-like text (1280.061533ms)
+✔ production Office selected table -> HTTP model outline -> native colored DOCX -> refresh (1437.467399ms)
+✔ production document preview renders real two-sheet Kit PDF and reopens new revision without CLI or network (2472.264448ms)
+✔ production PPT canvas selects TARGET; real HTTP tool and native PPTX replacement survive reload (2440.525728ms)
+{ text: '中文预览验收项目报告', pixels: 880, external: 0 }
+✔ opaque production PDF iframe renders CJK CID mapping offline without external requests (425.669404ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 10
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 20965.741888
+
+✖ failing tests:
+
+test at tests/acceptance/office-cjk-live.mjs:3:1
+✖ production Office UI sends selected CJK font request through real HTTP and Kit to DOCX eastAsia (1163.080164ms)
+  Error: Command failed: python3 -c from docx import Document
+  from docx.oxml.ns import qn
+  import sys
+  runs=[r for p in Document(sys.argv[1]).paragraphs for r in p.runs if r.text]
+  assert ''.join(r.text for r in runs)=='中文选区 Mixed Latin'
+  assert all(r._element.rPr.rFonts.get(qn('w:eastAsia'))=='Noto Sans CJK SC' for r in runs)
+   /tmp/wb-cjk-ui-c5wtk2/cjk.docx
+  Traceback (most recent call last):
+    File "<string>", line 6, in <module>
+    File "<string>", line 6, in <genexpr>
+  AttributeError: 'NoneType' object has no attribute 'get'
+  
+      at genericNodeError (node:internal/errors:986:15)
+      at wrappedFn (node:internal/errors:540:14)
+      at checkExecSyncError (node:child_process:943:11)
+      at execFileSync (node:child_process:979:15)
+      at TestContext.<anonymous> (file:///workspace/scratch/08fe4388c223/work3714/muyun-ai/desktop/tests/acceptance/office-cjk-live.mjs:7:91)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    status: 1,
+    signal: null,
+    output: [ null, <Buffer >, <Buffer 54 72 61 63 65 62 61 63 6b 20 28 6d 6f 73 74 20 72 65 63 65 6e 74 20 63 61 6c 6c 20 6c 61 73 74 29 3a 0a 20 20 46 69 6c 65 20 22 3c 73 74 72 69 6e 67 ... 121 more bytes> ],
+    pid: 309,
+    stdout: <Buffer >,
+    stderr: <Buffer 54 72 61 63 65 62 61 63 6b 20 28 6d 6f 73 74 20 72 65 63 65 6e 74 20 63 61 6c 6c 20 6c 61 73 74 29 3a 0a 20 20 46 69 6c 65 20 22 3c 73 74 72 69 6e 67 ... 121 more bytes>
+  }

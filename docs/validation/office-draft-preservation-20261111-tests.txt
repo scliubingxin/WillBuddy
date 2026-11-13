@@ -1,0 +1,12 @@
+✔ Office keeps newer spreadsheet and AI drafts when an earlier operation completes (9.425201ms)
+✔ Office preserves a newer Word draft after selected text or insertion completes (3.639578ms)
+✔ Office controller submits bounded literal TSV and preserves failed drafts (7.116572ms)
+✔ manual Word controller applies selected edit through real native kit (2930.26036ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3347.592292
