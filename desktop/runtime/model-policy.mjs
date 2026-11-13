@@ -1,3 +1,8 @@
+export function modelMaxSteps(value){
+ const n=typeof value==='number'?value:(typeof value==='string'&&/^\d+$/.test(value.trim())?Number(value):NaN);
+ if(!Number.isInteger(n)||n<1||n>96)throw Error('模型调用轮数须为1至96的整数');
+ return n;
+}
 export const tiers=['fast','balanced','extreme'];
 export const efforts=['off','low','medium','high'];
 export function reasoningOptions(profile,effort){

@@ -1,0 +1,14 @@
+✔ private macOS fontconfig discovers system font directories and escapes unusual home paths (30.224405ms)
+✔ font config fails closed on relative and control-character paths (1.200625ms)
+✔ real LibreOfficeKit renders Word, native selection and edit auto-commit; no external collection (1050.623414ms)
+✔ real LibreOfficeKit opens Excel/PPT, switches parts and renders actual pixels (975.508035ms)
+✔ approval denial never starts driver; input boundaries and original-version guard (40.555383ms)
+✔ real Calc selected cells write actual XLSX values with native engine (423.470848ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3019.952075

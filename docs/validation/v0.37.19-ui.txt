@@ -1,0 +1,107 @@
+TAP version 13
+# Subtest: production Excel selected format through actual HTTP and Kit changes style without data edits
+ok 1 - production Excel selected format through actual HTTP and Kit changes style without data edits
+  ---
+  duration_ms: 1536.700558
+  type: 'test'
+  ...
+# Subtest: production Excel rectangle to actual HTTP model and native verified constants preserves outside cells
+ok 2 - production Excel rectangle to actual HTTP model and native verified constants preserves outside cells
+  ---
+  duration_ms: 1264.456522
+  type: 'test'
+  ...
+# Subtest: production Office UI sends selected CJK font request through real HTTP and Kit to DOCX eastAsia
+ok 3 - production Office UI sends selected CJK font request through real HTTP and Kit to DOCX eastAsia
+  ---
+  duration_ms: 1061.733082
+  type: 'test'
+  ...
+# Subtest: production selected word colors through real HTTP Kit preserve outside text and reload
+ok 4 - production selected word colors through real HTTP Kit preserve outside text and reload
+  ---
+  duration_ms: 1965.386879
+  type: 'test'
+  ...
+# Subtest: production Excel single-cell formula through actual HTTP and Kit exports real formula and computed value
+ok 5 - production Excel single-cell formula through actual HTTP and Kit exports real formula and computed value
+  ---
+  duration_ms: 1195.018716
+  type: 'test'
+  ...
+# Subtest: production Office complete table -> HTTP grid patch -> same-window native reload -> verified DOCX and refresh
+ok 6 - production Office complete table -> HTTP grid patch -> same-window native reload -> verified DOCX and refresh
+  ---
+  duration_ms: 1933.679674
+  type: 'test'
+  ...
+# Subtest: production Office buttons reflect real history and commit undo/redo revisions without model requests
+ok 7 - production Office buttons reflect real history and commit undo/redo revisions without model requests
+  ---
+  duration_ms: 1122.270242
+  type: 'test'
+  ...
+# Subtest: production Excel explicit text through real HTTP model preserves zeroes, date-like and formula-like text
+ok 8 - production Excel explicit text through real HTTP model preserves zeroes, date-like and formula-like text
+  ---
+  duration_ms: 1090.247939
+  type: 'test'
+  ...
+# Subtest: production Office selected table -> HTTP model outline -> native colored DOCX -> refresh
+ok 9 - production Office selected table -> HTTP model outline -> native colored DOCX -> refresh
+  ---
+  duration_ms: 1285.262221
+  type: 'test'
+  ...
+# Subtest: production document preview renders real two-sheet Kit PDF and reopens new revision without CLI or network
+ok 10 - production document preview renders real two-sheet Kit PDF and reopens new revision without CLI or network
+  ---
+  duration_ms: 2213.115061
+  type: 'test'
+  ...
+# Subtest: production Office top-only perimeter -> HTTP patch -> same-window native reload -> verified DOCX and refresh
+ok 11 - production Office top-only perimeter -> HTTP patch -> same-window native reload -> verified DOCX and refresh
+  ---
+  duration_ms: 2005.607065
+  type: 'test'
+  ...
+# Subtest: production PPT selected word -> HTTP size/color tool -> native format-only receipt -> reload
+ok 12 - production PPT selected word -> HTTP size/color tool -> native format-only receipt -> reload
+  ---
+  duration_ms: 2453.384757
+  type: 'test'
+  ...
+# Subtest: production styled PPT selected word -> HTTP tool -> native exact text and explicit format receipt -> reload
+ok 13 - production styled PPT selected word -> HTTP tool -> native exact text and explicit format receipt -> reload
+  ---
+  duration_ms: 2305.357231
+  type: 'test'
+  ...
+# Subtest: production PPT canvas selects TARGET; real HTTP tool and native PPTX replacement survive reload
+ok 14 - production PPT canvas selects TARGET; real HTTP tool and native PPTX replacement survive reload
+  ---
+  duration_ms: 2328.639012
+  type: 'test'
+  ...
+# Subtest: production Word format receipt validates five properties via HTTP model, real Kit and independent DOCX parser
+ok 15 - production Word format receipt validates five properties via HTTP model, real Kit and independent DOCX parser
+  ---
+  duration_ms: 1060.71951
+  type: 'test'
+  ...
+# { text: '中文预览验收项目报告', pixels: 880, external: 0 }
+# Subtest: opaque production PDF iframe renders CJK CID mapping offline without external requests
+ok 16 - opaque production PDF iframe renders CJK CID mapping offline without external requests
+  ---
+  duration_ms: 399.308675
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 30629.786887

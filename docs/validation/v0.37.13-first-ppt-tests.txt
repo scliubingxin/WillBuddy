@@ -1,0 +1,14 @@
+✔ PPT receipt requires unique bounded simple single-paragraph text and preserves every slide text (239.657406ms)
+✔ real PPT native keyboard selects one word; AI replacement saves exact text and all other slides (859.152714ms)
+✔ PPT arrows outside text edit and after page change never move shapes; worker validates expected text (446.30148ms)
+✔ PPT cancellation during running audit blocks native paste and leaves revision clean (577.019618ms)
+✔ PPT refused approval and stale sequence cannot dispatch native replacement (542.871046ms)
+✔ PPT native no-op cannot publish or bypass receipt using manual save (627.582524ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3538.911565

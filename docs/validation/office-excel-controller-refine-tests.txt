@@ -1,0 +1,11 @@
+✔ Office controller submits bounded literal TSV and preserves failed drafts (7.828473ms)
+✔ manual Excel TSV preserves intended empty cells and accepts copy row terminator (1.492819ms)
+✔ literal mode keeps leading zero and formula-looking text as explicit strings (0.222325ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 90.644105

@@ -1,0 +1,27 @@
+{
+  "version": "0.37.13",
+  "bytes": 483229339,
+  "sha256": "fefb67eb65b08ff64ee25a4b97f0682299231a5d0f25499b081e651256837be4",
+  "mach_o": 278,
+  "code_pages": 93545,
+  "app_entries": 20727,
+  "extra_files": 5,
+  "closed_inventory": true,
+  "residual_entries": 0,
+  "symlinks": 47,
+  "changed_app_entries": [
+    "WillBuddy.app/Contents/Info.plist",
+    "WillBuddy.app/Contents/MacOS/Electron",
+    "WillBuddy.app/Contents/Resources/app.asar",
+    "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+  ],
+  "runtime_unchanged": true,
+  "zero_residuals": true,
+  "closed_crc": true,
+  "electron_page_tamper_rejected": true,
+  "mac_native_tested": false,
+  "production_files_asar_exact": 156,
+  "minimal_package": true,
+  "host_pyc_absent": true,
+  "asar_sha256": "240b17ef936b952941e4abfcfbaddabd0b89ac732ea12e826c4a07d998df0620"
+}

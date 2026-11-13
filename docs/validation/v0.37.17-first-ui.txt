@@ -1,0 +1,1 @@
+✖ production Office top-only perimeter -> HTTP patch -> same-window native reload -> verified DOCX and refresh (750.183182ms)

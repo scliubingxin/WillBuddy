@@ -1,0 +1,21 @@
+{
+  "version": "0.37.20",
+  "date": "2026-11-04",
+  "baseline": "0.37.19, Library version 58",
+  "core": "480 passed serial",
+  "chromium": "17 passed, real Chromium with simulated native bridge/approval/model where applicable",
+  "packaging": "26 passed",
+  "new_cli": "2 passed: allowlist, actual process, denial tests",
+  "offline_bundle_sha256": "dd58127d8c6b05af3eda6480f85767cfb975a4747d922a2b8292c6f195e3ebc5",
+  "asar_sha256": "aa18cea08058342b39c3c47d32543b5847d16ee45e38910415be09515ccc2ef3",
+  "macho_binaries": 278,
+  "code_pages": 93545,
+  "mac_native_tested": false,
+  "notarized": false,
+  "limitations": [
+    "Chinese glyph and preview problem unresolved on user Mac",
+    "shell and unclassified commands still require approval",
+    "native IPC and approval are fixtures in Chromium",
+    "GitHub 0.37.20 not released"
+  ]
+}

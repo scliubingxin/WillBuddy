@@ -1,11 +1,14 @@
 import path from 'node:path';import {pathToFileURL} from 'node:url';
 /** Dedicated bridge: each exact main frame can access only its bound Office session. */
-export function createOfficeWindows({BrowserWindow,ipcMain,here,kit,chat,models,documents}){
+export function createOfficeWindows({BrowserWindow,ipcMain,here,kit,chat,models,documents,dialog}){
  const windows=new Map(),byDocument=new Map(),entry=path.join(here,'src/office/index.html'),url=pathToFileURL(entry).href;
  ipcMain.handle('willbuddy-office:invoke',async(event,op,p={})=>{const binding=windows.get(event.sender.id);if(!binding||event.sender!==binding.window.webContents||event.senderFrame!==event.sender.mainFrame||event.senderFrame.url!==url)throw Error('拒绝不可信Office页面');const {session,documentId}=binding;
   if(op==='info')return {...kit.meta(session),messages:chat.history(documentId),models:models.view()};
   if(op==='snapshot')return kit.snapshot(session,p);
   if(op==='operation')return kit.operation(session,p.op,p);
+  if(op==='manualReplaceSelection')return kit.manualReplaceSelection(session,p);
+  if(op==='manualUpdateCells')return kit.manualUpdateCells(session,p);
+  if(op==='discardDraft'){const result=await kit.discardDraft(session);if(result.status==='discarded'){try{await chat.cancel(documentId);if(result.cleanupWarning&&dialog)await dialog.showMessageBox(binding.window,{type:'warning',message:'草稿已关闭，但临时文件清理失败',detail:'已保存的文档版本仍在。请检查应用的临时文件清理状态。',buttons:['知道了'],defaultId:0});}finally{binding.window.destroy();}}return result;}
   if(op==='save')return kit.save(session);
   if(op==='chat')return chat.run(session,p);
   if(op==='cancel')return chat.cancel(documentId);

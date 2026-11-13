@@ -1,0 +1,22 @@
+✔ production Excel selected format through actual HTTP and Kit changes style without data edits (4236.985652ms)
+✔ production Excel rectangle to actual HTTP model and native verified constants preserves outside cells (7473.259811ms)
+✔ production Office UI sends selected CJK font request through real HTTP and Kit to DOCX eastAsia (1992.123116ms)
+✔ production selected word colors through real HTTP Kit preserve outside text and reload (6667.679679ms)
+✔ production Excel single-cell formula through actual HTTP and Kit exports real formula and computed value (3637.440045ms)
+✔ production Office complete table -> HTTP grid patch -> same-window native reload -> verified DOCX and refresh (3134.299911ms)
+✔ production Office buttons reflect real history and commit undo/redo revisions without model requests (3041.097209ms)
+✔ production Excel explicit text through real HTTP model preserves zeroes, date-like and formula-like text (4342.370445ms)
+✔ production Office selected table -> HTTP model outline -> native colored DOCX -> refresh (4081.921691ms)
+✔ production document preview renders real two-sheet Kit PDF and reopens new revision without CLI or network (2585.821916ms)
+✔ production PPT canvas selects TARGET; real HTTP tool and native PPTX replacement survive reload (4512.246937ms)
+✔ production Word format receipt validates five properties via HTTP model, real Kit and independent DOCX parser (1799.265597ms)
+{ text: '中文预览验收项目报告', pixels: 880, external: 0 }
+✔ opaque production PDF iframe renders CJK CID mapping offline without external requests (656.363353ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 58340.46946

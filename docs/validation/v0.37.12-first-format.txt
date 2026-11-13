@@ -1,0 +1,42 @@
+✔ cell format rejects empty, unsupported, nonfinite and malformed parameters (1.847534ms)
+✖ real native Excel format changes target styles, retains data/formulas/other sheet and previous bytes (1064.136036ms)
+✔ deny, stale selection, cancellation and audit failure dispatch no native format (2264.188939ms)
+✖ no-op output verification blocks success and explicit save; disk failure retains retryable format draft (542.881199ms)
+✔ worker rejects extra commands, forged scope and malformed formats before native history changes (544.022891ms)
+✔ saved format verifier rejects data drift, forged formats and unrecognized formula types (341.37166ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 4
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4949.073033
+
+✖ failing tests:
+
+test at tests/office-cell-format.test.mjs:9:1
+✖ real native Excel format changes target styles, retains data/formulas/other sheet and previous bytes (1064.136036ms)
+  Error: Excel格式仅支持字号、文字色和底色
+      at normalizeCellFormat (file:///workspace/scratch/c33bcd2beeb1/work3712/muyun-ai/desktop/runtime/office-cell-format.mjs:7:125)
+      at file:///workspace/scratch/c33bcd2beeb1/work3712/muyun-ai/desktop/services/office-workspace.mjs:37:145
+      at file:///workspace/scratch/c33bcd2beeb1/work3712/muyun-ai/desktop/services/office-workspace.mjs:15:73
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+test at tests/office-cell-format.test.mjs:18:1
+✖ no-op output verification blocks success and explicit save; disk failure retains retryable format draft (542.881199ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/c33bcd2beeb1/work3712/muyun-ai/desktop/tests/office-cell-format.test.mjs:18:525)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

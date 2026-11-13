@@ -1,0 +1,23 @@
+✔ queue accepts duplicate IDs once, executes real Node once, persists events/output across reload (64.232906ms)
+✔ FIFO shares capacity with chats/tasks; queued cancel never requests approval (58.402819ms)
+✔ restart pauses queued work and interrupts claims without automatic replay (4.2123ms)
+✔ retry requires current revision and fresh approval; duplicate/fork retries do not duplicate effects (89.387151ms)
+✔ running cancellation remains available from reloaded persisted state (56.575893ms)
+✔ queued commands recheck revoked grants before approval/execution (15.135436ms)
+✔ failed acceptance/claim persistence never approves or launches (3.315563ms)
+✔ running state must persist after approval before a real child may spawn (13.903053ms)
+✔ partial output checkpoint survives recovery before process completion (58.934869ms)
+✔ output checkpoint disk failure stops child and records failure (43.026069ms)
+✔ forget retains execution audit/history and refuses live jobs (59.066043ms)
+✔ queue validates argv/grants and bounds pending requests (60.038579ms)
+✔ cancellation while approval is open cannot execute after dialog later accepts (18.925848ms)
+✔ two simultaneous queue claims occupy capacity before persistence and third waits (32.003171ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 760.876136
+process_exit=0

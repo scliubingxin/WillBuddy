@@ -1,0 +1,27 @@
+✔ PPT receipt requires unique bounded simple single-paragraph text and preserves every slide text (202.573083ms)
+✔ real PPT native keyboard selects one word; AI replacement saves exact text and all other slides (1112.179696ms)
+✔ PPT arrows outside text edit and after page change never move shapes; worker validates expected text (533.351911ms)
+✔ PPT cancellation during running audit blocks native paste and leaves revision clean (978.795946ms)
+✔ PPT refused approval and stale sequence cannot dispatch native replacement (655.731653ms)
+✔ PPT native no-op cannot publish or bypass receipt using manual save (623.677177ms)
+✔ PPT native edit with disk failure keeps checked draft and can explicitly retry save (602.969992ms)
+✔ PPT receipt checks explicit fontsize bold italic underline RGB and applicable Latin font even when text is correct (69.585123ms)
+✔ PPT equivalent split runs pass while mixed selected direct styles are refused before mutation (32.066291ms)
+✔ PPT paragraph defaults are resolved and changed explicit alignment is rejected (31.477879ms)
+✔ PPT unsupported effects and foreign namespace run payloads fail preflight with no native paste (470.305693ms)
+✔ real styled PPT selection preserves explicit style after native replacement and Store reload (978.752863ms)
+✔ native output with right text but changed format cannot publish or bypass using manual save (812.694468ms)
+✔ real PPT selected word format changes size and color only; original text and other runs survive (731.46165ms)
+✔ PPT direct format input and receipt reject empty unknown invalid geometry color mixed or complex targets (39.101502ms)
+✔ PPT size-only and color-only requests each keep the other known property (1443.23053ms)
+✔ PPT format refusal stale sequence native bad args and page drift send no format command (617.865866ms)
+✔ PPT format cancellation or audit disk failure blocks native mutation before dirty flag (1184.117622ms)
+✔ PPT format native no-op cannot publish or use manual save; real changed draft retries after disk failure (1726.014762ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13046.777742

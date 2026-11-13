@@ -1,0 +1,23 @@
+✔ literal text objects are copied and bounded without arbitrary typed commands (2.672242ms)
+✖ real native literal text preserves zeroes, date and formula-like strings, spaces and apostrophes (1123.537154ms)
+✔ literal verifier rejects numeric coercion and formula execution despite equal display (171.681245ms)
+✔ worker rejects malformed literal objects before writing and keeps native history (593.53078ms)
+✔ literal native no-op cannot publish through manual save retry (809.660462ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 4
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2863.243263
+
+✖ failing tests:
+
+test at tests/office-literal.test.mjs:8:1
+✖ real native literal text preserves zeroes, date and formula-like strings, spaces and apostrophes (1123.537154ms)
+  Error: 原生文本单元格类型或值不一致，保留草稿未发布
+      at verifyCellsOutput (file:///workspace/scratch/c33bcd2beeb1/work3711/muyun-ai/desktop/runtime/office-cells.mjs:38:107)
+      at file:///workspace/scratch/c33bcd2beeb1/work3711/muyun-ai/desktop/services/office-workspace.mjs:36:611
+      at save (file:///workspace/scratch/c33bcd2beeb1/work3711/muyun-ai/desktop/services/office-workspace.mjs:15:519)
+      at async file:///workspace/scratch/c33bcd2beeb1/work3711/muyun-ai/desktop/services/office-workspace.mjs:36:588

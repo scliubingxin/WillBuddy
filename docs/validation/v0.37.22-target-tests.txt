@@ -1,0 +1,54 @@
+✔ private macOS fontconfig discovers system font directories and escapes unusual home paths (32.009335ms)
+✔ font config fails closed on relative and control-character paths (0.973541ms)
+✔ PPT receipt requires unique bounded simple single-paragraph text and preserves every slide text (189.640856ms)
+✔ real PPT native keyboard selects one word; AI replacement saves exact text and all other slides (1013.218959ms)
+✔ PPT arrows outside text edit and after page change never move shapes; worker validates expected text (419.724557ms)
+✔ PPT cancellation during running audit blocks native paste and leaves revision clean (653.104537ms)
+✔ PPT refused approval and stale sequence cannot dispatch native replacement (580.741765ms)
+✔ PPT native no-op cannot publish or bypass receipt using manual save (610.415896ms)
+✔ PPT native edit with disk failure keeps checked draft and can explicitly retry save (680.423744ms)
+✔ PPT receipt checks explicit fontsize bold italic underline RGB and applicable Latin font even when text is correct (83.020351ms)
+✔ PPT equivalent split runs pass while mixed selected direct styles are refused before mutation (46.365393ms)
+✔ PPT paragraph defaults are resolved and changed explicit alignment is rejected (38.951609ms)
+✔ PPT unsupported effects and foreign namespace run payloads fail preflight with no native paste (631.234764ms)
+✔ real styled PPT selection preserves explicit style after native replacement and Store reload (941.287833ms)
+✔ native output with right text but changed format cannot publish or bypass using manual save (814.65292ms)
+✔ real PPT selected word format changes size and color only; original text and other runs survive (813.661352ms)
+✔ PPT direct format input and receipt reject empty unknown invalid geometry color mixed or complex targets (81.236566ms)
+✔ PPT size-only and color-only requests each keep the other known property (1498.65315ms)
+✔ PPT format refusal stale sequence native bad args and page drift send no format command (646.894977ms)
+✔ PPT format cancellation or audit disk failure blocks native mutation before dirty flag (1125.27554ms)
+✔ PPT format native no-op cannot publish or use manual save; real changed draft retries after disk failure (1347.340634ms)
+✖ manual selected PPT editing verifies output and rejects stale selections without extra approval (712.438955ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 21
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13407.941826
+
+✖ failing tests:
+
+test at desktop/tests/office-presentation.test.mjs:108:1
+✖ manual selected PPT editing verifies output and rejects stale selections without extra approval (712.438955ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /变化/. Input:
+  
+  'Error: PPT选区文字在当前页无法唯一对应，请选择更完整文字'
+  
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (file:///workspace/scratch/c33bcd2beeb1/next/muyun-ai/desktop/tests/office-presentation.test.mjs:108:670)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: PPT选区文字在当前页无法唯一对应，请选择更完整文字
+        at presentationVerifier (file:///workspace/scratch/c33bcd2beeb1/next/muyun-ai/desktop/runtime/office-presentation.mjs:66:30)
+        at presentationTextVerifier (file:///workspace/scratch/c33bcd2beeb1/next/muyun-ai/desktop/runtime/office-presentation.mjs:76:76)
+        at file:///workspace/scratch/c33bcd2beeb1/next/muyun-ai/desktop/services/office-workspace.mjs:41:94
+        at process.processTicksAndRejections (node:internal/process/task_queues:104:5),
+    expected: /变化/,
+    operator: 'rejects',
+    diff: 'simple'
+  }

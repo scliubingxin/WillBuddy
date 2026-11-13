@@ -1,0 +1,44 @@
+✔ exact rectangle and constant matrix reject overflow, formulas, controls and review excess (2.112091ms)
+✔ real native matrix updates only current rectangle, retains cell formatting/formulas/other sheet and old bytes (884.539202ms)
+✔ denial, stale part/fingerprint, cancellation and audit failure dispatch no cell writes (2678.958066ms)
+✔ private worker rejects forged scope, formula, dimensions and extra fields before native undo changes (543.1761ms)
+✔ document failure keeps a verified retryable draft, while native no-op mismatch blocks explicit save too (1264.737912ms)
+✔ revision drift in last native context check fails before writes; merged selection is unavailable (1233.352251ms)
+✔ blank rectangle can be filled and clears remain bounded; another sheet context cannot be reused (656.701085ms)
+✔ model final success text cannot hide a failed cell output verification (3.619802ms)
+✔ actual HTTP model tool replaces real native selection; chat and revision persist (546.50906ms)
+✔ missing explicit document send consent rejects before any context read (0.569582ms)
+✔ stale selection and concurrent document revision are rejected by native workspace (374.922222ms)
+✔ cancellation interrupts actual waiting model request without publishing native edits (395.605477ms)
+✔ audit persistence failure blocks native AI write before paste (453.361049ms)
+✔ document disk failure retains explicit retryable draft and does not claim a saved revision (377.062331ms)
+✔ forged identity and stale selection reject before queue (0.548461ms)
+✔ queued selection drift rejects before reading context or sending model (0.374865ms)
+✔ actual HTTP font tool changes real Word run properties without replacing text (540.877803ms)
+✔ font approval denial, stale selection, cancellation and audit failure publish no revision (785.36452ms)
+✔ actual HTTP CJK font tool writes eastAsia independently and preserves mixed selection text (655.807859ms)
+✔ cancellation during durable format audit never reaches native format dispatch (388.681199ms)
+✔ native formula grammar is bounded, normalizes ASCII and rejects external names/functions/quotes/ranges (3.156847ms)
+✔ preflight rejects cycles, errors, multicell and unsupported existing workbook formulas (207.162092ms)
+✔ real native single-cell SUM preserves data/other formulas/styles and verifies dependent cached results (826.785877ms)
+✔ refused/stale/cancelled/audit-failed formula never reaches native mutation (2199.690171ms)
+✔ no-op formula receipt cannot be bypassed by manual save; disk failure can retry checked draft (1282.684324ms)
+✔ worker independently rejects unsafe formula syntax, extra fields and false cell scope before history changes (537.74623ms)
+✔ seven supported functions, comparison, percent and absolute refs compute across native save rounds (2628.05488ms)
+✔ receipt independently rejects wrong scalar cache, wrong formula or outside data drift (785.214099ms)
+✔ final context version drift prevents formula dispatch and cannot overwrite concurrent revision (572.727503ms)
+✔ real shared Kit PDF exports Word, two-sheet Calc and two-slide Impress without CLI or source mutation (1054.308041ms)
+✔ abort while runtime resolves returns promptly; a late factory is closed and never exports (1.018085ms)
+✔ abort during export closes driver, deletes private copy and releases both capacity slots (38.55303ms)
+✔ version change, invalid PDF and symlink output never return candidate bytes; no CLI fallback (100.977906ms)
+✔ real ready worker abort exits owned process; invalid PDF export payload rejects (336.866925ms)
+✔ startup cancellation and deadline kill a real never-ready protocol fixture without a live orphan (437.863066ms)
+✔ shutdown cancels pending runtime resolution before any native driver starts (30.457978ms)
+ℹ tests 36
+ℹ suites 0
+ℹ pass 36
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 23406.057272

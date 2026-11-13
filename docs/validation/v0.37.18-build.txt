@@ -1,0 +1,143 @@
+setting entitlements XML for main signing target from path /workspace/scratch/08fe4388c223/work3718/muyun-ai/desktop/installer/entitlements.mac.plist
+signing /tmp/willbuddy-native-03718-20261101/signing-input/WillBuddy.app to /tmp/willbuddy-native-03718-20261101/WillBuddy.app
+signing bundle at /tmp/willbuddy-native-03718-20261101/signing-input/WillBuddy.app
+signing 19 nested bundles in the following order:
+Contents/Resources/runtimes/LibreOffice.app/Contents/Frameworks/LibreOfficePython.framework/Versions/3.13/Resources/Python.app
+Contents/Resources/runtimes/LibreOffice.app/Contents/Frameworks/LibreOfficePython.framework/Versions/3.13
+Contents/Resources/runtimes/LibreOffice.app/Contents/Library/Spotlight/OOoSpotlightImporter.mdimporter
+Contents/Resources/runtimes/LibreOffice.app/Contents/Frameworks/LibreOfficePython.framework
+Contents/Resources/runtimes/LibreOffice.app/Contents/PlugIns/QuickLookThumbnail.appex
+Contents/Resources/runtimes/LibreOffice.app/Contents/PlugIns/QuickLookPreview.appex
+Contents/Frameworks/Electron Framework.framework/Versions/A
+Contents/Frameworks/ReactiveObjC.framework/Versions/A
+Contents/Frameworks/Electron Helper (Renderer).app
+Contents/Frameworks/Squirrel.framework/Versions/A
+Contents/Frameworks/Electron Framework.framework
+Contents/Frameworks/Electron Helper (Plugin).app
+Contents/Frameworks/Mantle.framework/Versions/A
+Contents/Frameworks/Electron Helper (GPU).app
+Contents/Resources/runtimes/LibreOffice.app
+Contents/Frameworks/ReactiveObjC.framework
+Contents/Frameworks/Electron Helper.app
+Contents/Frameworks/Squirrel.framework
+Contents/Frameworks/Mantle.framework
+entering nested bundle Contents/Resources/runtimes/LibreOffice.app/Contents/Frameworks/LibreOfficePython.framework/Versions/3.13/Resources/Python.app
+bundle is in exclusion list; it will be copied instead of signed
+leaving nested bundle Contents/Resources/runtimes/LibreOffice.app/Contents/Frameworks/LibreOfficePython.framework/Versions/3.13/Resources/Python.app
+entering nested bundle Contents/Resources/runtimes/LibreOffice.app/Contents/Frameworks/LibreOfficePython.framework/Versions/3.13
+bundle is in exclusion list; it will be copied instead of signed
+leaving nested bundle Contents/Resources/runtimes/LibreOffice.app/Contents/Frameworks/LibreOfficePython.framework/Versions/3.13
+entering nested bundle Contents/Resources/runtimes/LibreOffice.app/Contents/Library/Spotlight/OOoSpotlightImporter.mdimporter
+bundle is in exclusion list; it will be copied instead of signed
+leaving nested bundle Contents/Resources/runtimes/LibreOffice.app/Contents/Library/Spotlight/OOoSpotlightImporter.mdimporter
+entering nested bundle Contents/Resources/runtimes/LibreOffice.app/Contents/Frameworks/LibreOfficePython.framework
+bundle is in exclusion list; it will be copied instead of signed
+leaving nested bundle Contents/Resources/runtimes/LibreOffice.app/Contents/Frameworks/LibreOfficePython.framework
+entering nested bundle Contents/Resources/runtimes/LibreOffice.app/Contents/PlugIns/QuickLookThumbnail.appex
+bundle is in exclusion list; it will be copied instead of signed
+leaving nested bundle Contents/Resources/runtimes/LibreOffice.app/Contents/PlugIns/QuickLookThumbnail.appex
+entering nested bundle Contents/Resources/runtimes/LibreOffice.app/Contents/PlugIns/QuickLookPreview.appex
+bundle is in exclusion list; it will be copied instead of signed
+leaving nested bundle Contents/Resources/runtimes/LibreOffice.app/Contents/PlugIns/QuickLookPreview.appex
+entering nested bundle Contents/Frameworks/Electron Framework.framework/Versions/A
+signing bundle at /tmp/willbuddy-native-03718-20261101/signing-input/WillBuddy.app/Contents/Frameworks/Electron Framework.framework/Versions/A into /tmp/willbuddy-native-03718-20261101/WillBuddy.app/Contents/Frameworks/Electron Framework.framework/Versions/A
+signing Mach-O file Helpers/chrome_crashpad_handler
+signing Mach-O file Libraries/libEGL.dylib
+signing Mach-O file Libraries/libGLESv2.dylib
+signing Mach-O file Libraries/libffmpeg.dylib
+signing Mach-O file Libraries/libvk_swiftshader.dylib
+signing main executable Electron Framework
+leaving nested bundle Contents/Frameworks/Electron Framework.framework/Versions/A
+entering nested bundle Contents/Frameworks/ReactiveObjC.framework/Versions/A
+signing bundle at /tmp/willbuddy-native-03718-20261101/signing-input/WillBuddy.app/Contents/Frameworks/ReactiveObjC.framework/Versions/A into /tmp/willbuddy-native-03718-20261101/WillBuddy.app/Contents/Frameworks/ReactiveObjC.framework/Versions/A
+signing main executable ReactiveObjC
+leaving nested bundle Contents/Frameworks/ReactiveObjC.framework/Versions/A
+entering nested bundle Contents/Frameworks/Electron Helper (Renderer).app
+signing bundle at /tmp/willbuddy-native-03718-20261101/signing-input/WillBuddy.app/Contents/Frameworks/Electron Helper (Renderer).app into /tmp/willbuddy-native-03718-20261101/WillBuddy.app/Contents/Frameworks/Electron Helper (Renderer).app
+signing main executable Contents/MacOS/Electron Helper (Renderer)
+leaving nested bundle Contents/Frameworks/Electron Helper (Renderer).app
+entering nested bundle Contents/Frameworks/Squirrel.framework/Versions/A
+signing bundle at /tmp/willbuddy-native-03718-20261101/signing-input/WillBuddy.app/Contents/Frameworks/Squirrel.framework/Versions/A into /tmp/willbuddy-native-03718-20261101/WillBuddy.app/Contents/Frameworks/Squirrel.framework/Versions/A
+signing Mach-O file Resources/ShipIt
+signing main executable Squirrel
+leaving nested bundle Contents/Frameworks/Squirrel.framework/Versions/A
+entering nested bundle Contents/Frameworks/Electron Framework.framework
+signing bundle at /tmp/willbuddy-native-03718-20261101/signing-input/WillBuddy.app/Contents/Frameworks/Electron Framework.framework into /tmp/willbuddy-native-03718-20261101/WillBuddy.app/Contents/Frameworks/Electron Framework.framework
+leaving nested bundle Contents/Frameworks/Electron Framework.framework
+entering nested bundle Contents/Frameworks/Electron Helper (Plugin).app
+signing bundle at /tmp/willbuddy-native-03718-20261101/signing-input/WillBuddy.app/Contents/Frameworks/Electron Helper (Plugin).app into /tmp/willbuddy-native-03718-20261101/WillBuddy.app/Contents/Frameworks/Electron Helper (Plugin).app
+signing main executable Contents/MacOS/Electron Helper (Plugin)
+leaving nested bundle Contents/Frameworks/Electron Helper (Plugin).app
+entering nested bundle Contents/Frameworks/Mantle.framework/Versions/A
+signing bundle at /tmp/willbuddy-native-03718-20261101/signing-input/WillBuddy.app/Contents/Frameworks/Mantle.framework/Versions/A into /tmp/willbuddy-native-03718-20261101/WillBuddy.app/Contents/Frameworks/Mantle.framework/Versions/A
+signing main executable Mantle
+leaving nested bundle Contents/Frameworks/Mantle.framework/Versions/A
+entering nested bundle Contents/Frameworks/Electron Helper (GPU).app
+signing bundle at /tmp/willbuddy-native-03718-20261101/signing-input/WillBuddy.app/Contents/Frameworks/Electron Helper (GPU).app into /tmp/willbuddy-native-03718-20261101/WillBuddy.app/Contents/Frameworks/Electron Helper (GPU).app
+signing main executable Contents/MacOS/Electron Helper (GPU)
+leaving nested bundle Contents/Frameworks/Electron Helper (GPU).app
+entering nested bundle Contents/Resources/runtimes/LibreOffice.app
+bundle is in exclusion list; it will be copied instead of signed
+leaving nested bundle Contents/Resources/runtimes/LibreOffice.app
+entering nested bundle Contents/Frameworks/ReactiveObjC.framework
+signing bundle at /tmp/willbuddy-native-03718-20261101/signing-input/WillBuddy.app/Contents/Frameworks/ReactiveObjC.framework into /tmp/willbuddy-native-03718-20261101/WillBuddy.app/Contents/Frameworks/ReactiveObjC.framework
+leaving nested bundle Contents/Frameworks/ReactiveObjC.framework
+entering nested bundle Contents/Frameworks/Electron Helper.app
+signing bundle at /tmp/willbuddy-native-03718-20261101/signing-input/WillBuddy.app/Contents/Frameworks/Electron Helper.app into /tmp/willbuddy-native-03718-20261101/WillBuddy.app/Contents/Frameworks/Electron Helper.app
+signing main executable Contents/MacOS/Electron Helper
+leaving nested bundle Contents/Frameworks/Electron Helper.app
+entering nested bundle Contents/Frameworks/Squirrel.framework
+signing bundle at /tmp/willbuddy-native-03718-20261101/signing-input/WillBuddy.app/Contents/Frameworks/Squirrel.framework into /tmp/willbuddy-native-03718-20261101/WillBuddy.app/Contents/Frameworks/Squirrel.framework
+leaving nested bundle Contents/Frameworks/Squirrel.framework
+entering nested bundle Contents/Frameworks/Mantle.framework
+signing bundle at /tmp/willbuddy-native-03718-20261101/signing-input/WillBuddy.app/Contents/Frameworks/Mantle.framework into /tmp/willbuddy-native-03718-20261101/WillBuddy.app/Contents/Frameworks/Mantle.framework
+leaving nested bundle Contents/Frameworks/Mantle.framework
+signing bundle at /tmp/willbuddy-native-03718-20261101/signing-input/WillBuddy.app into /tmp/willbuddy-native-03718-20261101/WillBuddy.app
+signing Mach-O file Contents/Resources/runtimes/python/bin/python3.12
+signing Mach-O file Contents/Resources/runtimes/python/lib/itcl4.3.8/libitcl4.3.8.dylib
+signing Mach-O file Contents/Resources/runtimes/python/lib/itcl4.3.8/libtcl9itcl4.3.8.dylib
+signing Mach-O file Contents/Resources/runtimes/python/lib/libpython3.12.dylib
+signing Mach-O file Contents/Resources/runtimes/python/lib/libtcl9.0.dylib
+signing Mach-O file Contents/Resources/runtimes/python/lib/libtcl9tk9.0.dylib
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/lib-dynload/_crypt.cpython-312-darwin.so
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/lib-dynload/_dbm.cpython-312-darwin.so
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/lib-dynload/_tkinter.cpython-312-darwin.so
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/PIL/.dylibs/libXau.6.dylib
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/PIL/.dylibs/libavif.16.4.2.dylib
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/PIL/.dylibs/libbrotlicommon.1.2.0.dylib
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/PIL/.dylibs/libbrotlidec.1.2.0.dylib
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/PIL/.dylibs/libfreetype.6.dylib
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/PIL/.dylibs/libharfbuzz.0.dylib
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/PIL/.dylibs/libjpeg.62.4.0.dylib
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/PIL/.dylibs/liblcms2.2.dylib
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/PIL/.dylibs/liblzma.5.dylib
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/PIL/.dylibs/libopenjp2.2.5.4.dylib
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/PIL/.dylibs/libpng16.16.dylib
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/PIL/.dylibs/libsharpyuv.0.dylib
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/PIL/.dylibs/libtiff.6.dylib
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/PIL/.dylibs/libwebp.7.dylib
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/PIL/.dylibs/libwebpdemux.2.dylib
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/PIL/.dylibs/libwebpmux.3.dylib
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/PIL/.dylibs/libxcb.1.1.0.dylib
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/PIL/.dylibs/libz.1.3.1.zlib-ng.dylib
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/PIL/_avif.cpython-312-darwin.so
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/PIL/_imaging.cpython-312-darwin.so
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/PIL/_imagingcms.cpython-312-darwin.so
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/PIL/_imagingft.cpython-312-darwin.so
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/PIL/_imagingmath.cpython-312-darwin.so
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/PIL/_imagingmorph.cpython-312-darwin.so
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/PIL/_imagingtk.cpython-312-darwin.so
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/PIL/_webp.cpython-312-darwin.so
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/lxml/_elementpath.cpython-312-darwin.so
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/lxml/builder.cpython-312-darwin.so
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/lxml/etree.cpython-312-darwin.so
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/lxml/html/_difflib.cpython-312-darwin.so
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/lxml/html/diff.cpython-312-darwin.so
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/lxml/objectify.cpython-312-darwin.so
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/lxml/sax.cpython-312-darwin.so
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/pydantic_core/_pydantic_core.cpython-312-darwin.so
+signing Mach-O file Contents/Resources/runtimes/python/lib/python3.12/site-packages/yaml/_yaml.cpython-312-darwin.so
+signing Mach-O file Contents/Resources/runtimes/python/lib/thread3.0.6/libtcl9thread3.0.6.dylib
+signing Mach-O file Contents/Resources/runtimes/python/lib/thread3.0.6/libthread3.0.6.dylib
+signing main executable Contents/MacOS/Electron
+{"version": "0.37.18", "file": "/workspace/scratch/08fe4388c223/WillBuddy-v0.37.18-mac-arm64-offline.zip", "bytes": 483242150, "sha256": "e365aa9d15e1a9f988c5ffbbc7e4daa63124f5ae1c60cc7dcf69d010ceaf4d27", "app_asar_sha256": "01c2f6c822bfaa4081553f1207b75b4f4189bfeedaa2ece0fc7e87f1de60e4a0", "verified_macho_binaries": 278, "verified_code_pages": 93545, "archive_check": {"app_entries": 20727, "extra_files": 5, "closed_inventory": true, "residual_entries": 0}}

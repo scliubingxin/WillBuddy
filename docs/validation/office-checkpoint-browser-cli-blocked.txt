@@ -1,0 +1,49 @@
+node:internal/modules/package_json_reader:331
+  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+        ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'jsdom' imported from /workspace/scratch/08fe4388c223/next/work/muyun-ai/desktop/tests/browser-runtime.test.mjs
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:331:9)
+    at packageResolve (node:internal/modules/esm/resolve:784:25)
+    at moduleResolve (node:internal/modules/esm/resolve:873:18)
+    at defaultResolve (node:internal/modules/esm/resolve:1006:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:705:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:725:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:763:56)
+    at #resolve (node:internal/modules/esm/loader:687:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:607:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:276:33) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.22.1
+✖ desktop/tests/browser-runtime.test.mjs (100.526545ms)
+✔ queue accepts duplicate IDs once, executes real Node once, persists events/output across reload (102.567702ms)
+✔ FIFO shares capacity with chats/tasks; queued cancel never requests approval (60.43286ms)
+✔ restart pauses queued work and interrupts claims without automatic replay (4.172401ms)
+✔ retry requires current revision and fresh approval; duplicate/fork retries do not duplicate effects (96.897406ms)
+✔ running cancellation remains available from reloaded persisted state (66.835119ms)
+✔ queued commands recheck revoked grants before approval/execution (23.267726ms)
+✔ failed acceptance/claim persistence never approves or launches (4.755393ms)
+✔ running state must persist after approval before a real child may spawn (13.416752ms)
+✔ partial output checkpoint survives recovery before process completion (76.446385ms)
+✔ output checkpoint disk failure stops child and records failure (45.68768ms)
+✔ forget retains execution audit/history and refuses live jobs (57.820756ms)
+✔ queue validates argv/grants and bounds pending requests (50.867544ms)
+✔ cancellation while approval is open cannot execute after dialog later accepts (37.395268ms)
+✔ two simultaneous queue claims occupy capacity before persistence and third waits (38.44198ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 14
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1080.446418
+
+✖ failing tests:
+
+test at desktop/tests/browser-runtime.test.mjs:1:1
+✖ desktop/tests/browser-runtime.test.mjs (100.526545ms)
+  'test failed'
+process_exit=1

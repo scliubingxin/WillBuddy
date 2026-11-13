@@ -1,0 +1,9 @@
+✔ manual Word controller applies selected edit through real native kit (2392.855526ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2635.655227

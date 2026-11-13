@@ -1,0 +1,14 @@
+✔ explicit discard denial keeps draft; approval closes only draft and preserves saved document (788.110011ms)
+✔ queued operation cannot mutate a session discarded after native confirmation (548.833769ms)
+✔ discard audit failure preserves unsaved draft and saved document (559.701441ms)
+✔ cleanup failure closes the draft but is reported and never deletes saved document (508.069274ms)
+✔ production Office preload exposes only the scoped manual cell IPC (5.459344ms)
+✔ dedicated Office IPC binds exact owned main frame and ignores renderer session/document IDs (1.862776ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2745.770052

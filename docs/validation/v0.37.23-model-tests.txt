@@ -1,0 +1,24 @@
+✔ model profiles keep keys separate, metadata never exposes ciphertext and session keys are not persisted (5.024691ms)
+✔ auto tiers match capability and priority; fast disables thinking, extreme high; no cross-tier fallback (0.638714ms)
+✔ manual effort uses real provider-specific request fields and rejects incompatible parameters (1.212883ms)
+✔ credential changes require fresh input and revision guards reject stale editors (0.672194ms)
+✔ saved route rejects deletion, disabling and unrelated edits without silently choosing another model (0.937566ms)
+✔ failed writes roll back model config and session credential; secret adapter failure never falls back (0.918682ms)
+✔ profile model budget and capabilities fail closed before outbound request (0.574158ms)
+✔ actual Store reload preserves encrypted config, no plaintext and saves are serialized (17.783803ms)
+✔ real HTTP payload uses selected model/key and reasoning params, no arbitrary response fallback (30.898768ms)
+✔ SSE reasoning is retained only for same-run tool protocol and is not streamed as answer text (1.947859ms)
+✔ conversation route frozen before queue; two chats can use distinct profiles independently (4.176562ms)
+✔ routed conversation rejects late response after profile changes (0.828235ms)
+✔ host model secret adapter refuses plaintext backend and encrypt/decrypt failures (0.905388ms)
+✔ queued profile drift blocks outbound model call (0.436115ms)
+✔ model round limit is validated, persisted, and does not overwrite existing legacy defaults (0.748817ms)
+✔ explicit legacy model round limit allows a configured agent beyond twelve iterations (7.947576ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 293.133642

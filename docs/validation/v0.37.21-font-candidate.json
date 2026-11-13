@@ -1,0 +1,21 @@
+{
+  "version": "0.37.21-candidate",
+  "baseline": "0.37.20 Library version 59",
+  "font_unit": "2 passed: real Fontconfig temporary font discovery and XML/path boundaries",
+  "linux_worker": "real Linux LibreOfficeKit loaded synthetic Chinese PPT and exported PDF; pdffonts NotoSansSC-Bold; pdftotext preserved title; test font not distributed",
+  "font_test_sha256": "a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da",
+  "mac_native_tested": false,
+  "user_original_tested": false,
+  "full_resolution_claimed": false,
+  "code_changes": [
+    "desktop/runtime/office-fonts.mjs",
+    "desktop/runtime/office-kit.mjs",
+    "desktop/tests/office-fonts.test.mjs"
+  ],
+  "mac_arm64_candidate_sha256": "8e00e8ed13bcc170101b690206bc8910cafeceda1dc1bd401e24aa4ca78783c4",
+  "asar_sha256": "11a62a924d06d691f198d91343e95f59742b0d6da9807f19774c38c843aa5889",
+  "asar_source_files_verified": 161,
+  "verified_macho_binaries": 278,
+  "verified_code_pages": 93545,
+  "packaging_python_tests": 26
+}

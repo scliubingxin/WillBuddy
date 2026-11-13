@@ -1,0 +1,25 @@
+{
+  "status": "internal_candidate",
+  "date": "2026-11-13",
+  "user_feedback": [
+    "Legacy model 12-round limit and missing setting",
+    "Office worker.py SyntaxError"
+  ],
+  "this_iteration": [
+    "Legacy form shows actual inherited current agent limit and explicitly allows saved override",
+    "Prior candidate provides 1-96 legacy model config and embedded hashed Office worker; prior pipe/close fixes retained"
+  ],
+  "modified_files": [
+    "desktop/src/app.js",
+    "desktop/src/ui/legacy-round-limit.js",
+    "desktop/tests/legacy-round-limit-ui.test.mjs"
+  ],
+  "tests": "30 Node tests: model config and a 14-round mock, output worker bytes, real subprocess pipe, simulated Office close; screenshots-20261113-tests.txt",
+  "limitations": [
+    "No Mac machine or user document; actual worker SyntaxError cause unresolved",
+    "No native UI, real paid model, codesign, Apple notarization or Gatekeeper tests",
+    "No new Apple app build: signing tool and asar build dependencies unavailable",
+    "Existing 0.37.28 candidate app predates the two later Office patches and this display fix",
+    "GitHub not requested"
+  ]
+}

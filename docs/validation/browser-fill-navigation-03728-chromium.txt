@@ -1,0 +1,1 @@
+Real Chromium acceptance FAILED TO START: socket() Operation not permitted. No browser actions executed.

@@ -1,0 +1,1 @@
+✖ production Office complete table -> HTTP grid patch -> same-window native reload -> verified DOCX and refresh (803.103023ms)

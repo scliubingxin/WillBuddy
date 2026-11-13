@@ -1,0 +1,1 @@
+Linux full-tree update, 20727 target entries matched SHA-256/mode/symlink. Signature and Mac APFS gates simulated: PASS.

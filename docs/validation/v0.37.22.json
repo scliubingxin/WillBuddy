@@ -1,0 +1,14 @@
+{
+  "version": "0.37.22",
+  "baseline": "0.37.21 font candidate and 0.37.20 authority v59",
+  "core_passed": 484,
+  "target_passed": 22,
+  "chromium_mock_ui": 1,
+  "chromium_real_linux_kit_pptx": 1,
+  "packaging_passed": 26,
+  "macho_count": 278,
+  "code_pages": 93545,
+  "app_sha256": "22deb81809c7e783c835879f71c55bcd8fadde0bba251162979fb3f86fbf7f98",
+  "mac_native_tested": false,
+  "limitations": "unique simple single paragraph selected PPT text, <=600 single-line characters; user original unavailable; font improvement user reported"
+}

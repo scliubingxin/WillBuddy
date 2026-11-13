@@ -1,0 +1,12 @@
+✔ Office controller can discard a failed checked draft after confirmation (745.08368ms)
+✔ Office manual matrix controller reaches real native save and keeps literal values (912.497491ms)
+✔ Office controller submits bounded literal TSV and preserves failed drafts (7.288879ms)
+✔ manual Word controller applies selected edit through real native kit (2102.765264ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4341.731866

@@ -1,0 +1,16 @@
+✔ production Office UI sends selected CJK font request through real HTTP and Kit to DOCX eastAsia (1418.515499ms)
+✔ production selected word colors through real HTTP Kit preserve outside text and reload (2169.986333ms)
+✔ production Office buttons reflect real history and commit undo/redo revisions without model requests (1390.571686ms)
+✔ production canvas keyboard selects TARGET and real HTTP Kit formatting leaves outside text unchanged (2217.043362ms)
+✔ production Office selected table -> HTTP model outline -> native colored DOCX -> refresh (1536.31619ms)
+✔ production document preview renders real two-sheet Kit PDF and reopens new revision without CLI or network (2490.268902ms)
+{ text: '中文预览验收项目报告', pixels: 880, external: 0 }
+✔ opaque production PDF iframe renders CJK CID mapping offline without external requests (513.278908ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14445.520594

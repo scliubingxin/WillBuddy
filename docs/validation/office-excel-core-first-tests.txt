@@ -1,0 +1,51 @@
+✔ cell format rejects empty, unsupported, nonfinite and malformed parameters (2.115386ms)
+✔ real native Excel format changes target styles, retains data/formulas/other sheet and previous bytes (1683.36562ms)
+✔ deny, stale selection, cancellation and audit failure dispatch no native format (2391.674232ms)
+✔ no-op output verification blocks success and explicit save; disk failure retains retryable format draft (1366.418629ms)
+✔ worker rejects extra commands, forged scope and malformed formats before native history changes (653.954078ms)
+✔ saved format verifier rejects data drift, forged formats and unrecognized formula types (319.170447ms)
+✔ preflight rejects target rich text, conditional formatting, shared formulas and oversized workbooks (262.098825ms)
+✔ preservation uses exact decimal semantics instead of rounded Number equality (269.803104ms)
+✔ revision changes during final native context query block formatting before mutation (867.27002ms)
+✔ exact rectangle and constant matrix reject overflow, formulas, controls and review excess (18.285151ms)
+✔ real native matrix updates only current rectangle, retains cell formatting/formulas/other sheet and old bytes (881.34284ms)
+✔ denial, stale part/fingerprint, cancellation and audit failure dispatch no cell writes (2800.389739ms)
+✔ private worker rejects forged scope, formula, dimensions and extra fields before native undo changes (533.623538ms)
+✔ document failure keeps a verified retryable draft, while native no-op mismatch blocks explicit save too (1336.153354ms)
+✔ revision drift in last native context check fails before writes; merged selection is unavailable (1462.547969ms)
+✔ blank rectangle can be filled and clears remain bounded; another sheet context cannot be reused (702.863365ms)
+✔ model final success text cannot hide a failed cell output verification (3.937622ms)
+✔ approved Excel rectangle cannot hide changed cells or formulas elsewhere (971.536678ms)
+✔ native Excel output changed outside selection cannot publish or bypass on retry (1021.948573ms)
+✔ manual bounded cell edit uses real native matrix and audit without a second approval (805.448869ms)
+✔ manual cell edit rejects wrong shape, formulas and audit failures without writes (563.024625ms)
+✔ failed checked Excel draft cannot be overwritten by a later manual or AI operation (603.022361ms)
+✔ format guard protects target and other cells while formula guard permits only target change (852.189395ms)
+✔ Excel preservation compares decimal identities without floating-point collisions (161.866714ms)
+✔ native formula grammar is bounded, normalizes ASCII and rejects external names/functions/quotes/ranges (3.069063ms)
+✔ preflight rejects cycles, errors, multicell and unsupported existing workbook formulas (200.538253ms)
+✔ real native single-cell SUM preserves data/other formulas/styles and verifies dependent cached results (861.024577ms)
+✔ refused/stale/cancelled/audit-failed formula never reaches native mutation (2199.082995ms)
+✔ no-op formula receipt cannot be bypassed by manual save; disk failure can retry checked draft (1246.121553ms)
+✔ worker independently rejects unsafe formula syntax, extra fields and false cell scope before history changes (631.348367ms)
+✔ seven supported functions, comparison, percent and absolute refs compute across native save rounds (2583.312655ms)
+✖ receipt independently rejects wrong scalar cache, wrong formula or outside data drift (419.14947ms)
+✔ final context version drift prevents formula dispatch and cannot overwrite concurrent revision (574.893182ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 32
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 29717.343274
+
+✖ failing tests:
+
+test at desktop/tests/office-formula.test.mjs:28:1
+✖ receipt independently rejects wrong scalar cache, wrong formula or outside data drift (419.14947ms)
+  Error: Office内核已退出 1 Unspecified Application Error
+  
+      at ChildProcess.<anonymous> (file:///workspace/scratch/08fe4388c223/work7/muyun-ai/desktop/runtime/office-kit.mjs:12:59)
+      at ChildProcess.emit (node:events:514:28)
+      at ChildProcess._handle.onexit (node:internal/child_process:324:12)

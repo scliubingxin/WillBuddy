@@ -1,0 +1,34 @@
+{
+  "version": "0.37.6",
+  "authority_base_version": 45,
+  "baseline_content_hashes_verified": 672,
+  "core": {
+    "passed": 395,
+    "concurrency": 1
+  },
+  "related": 6,
+  "chromium": 3,
+  "packaging_tests": 26,
+  "native_linux_kit": true,
+  "ipc_approval_model_semantics": "fixtures",
+  "mac_native_tested": false,
+  "paid_model_tested": false,
+  "full_app_check": {
+    "bytes": 483218125,
+    "sha256": "e3b239241f2e8173c33df46c88dd7514a931d827d8134f041e2e74445a0ad352",
+    "asar_sha256": "a5fd8419a48c8a049afc1f40ed5c5ae3ecf1a5b89238949663155d88fc9e28ae",
+    "production_asar_exact": 151,
+    "mach_o": 278,
+    "code_pages": 93545,
+    "app_entries": 20727,
+    "extra_files": 5,
+    "symlinks": 47,
+    "closed_inventory": true,
+    "zero_residuals": true,
+    "tamper_negative": true,
+    "runtime_entries_changed": 0
+  },
+  "publication": "not attempted; prior automatic approval quota failure",
+  "protected_web_python_sha_unchanged": 122,
+  "linux_kit_version": "LibreOfficeDev26.8.0.0.alpha0 2c87e51eeaa2b413ff4ae097b2705eea1995d8e5"
+}

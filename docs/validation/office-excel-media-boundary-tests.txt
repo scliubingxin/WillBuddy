@@ -1,0 +1,9 @@
+✔ Excel picture survives native edit and corrupted media blocks save and retry (2248.379469ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2435.05559

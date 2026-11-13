@@ -1,0 +1,26 @@
+✔ production Excel selected format through actual HTTP and Kit changes style without data edits (1920.848056ms)
+✔ production Excel rectangle to actual HTTP model and native verified constants preserves outside cells (1847.221847ms)
+✔ production Office UI sends selected CJK font request through real HTTP and Kit to DOCX eastAsia (1592.242375ms)
+✔ production selected word colors through real HTTP Kit preserve outside text and reload (3011.974264ms)
+✔ production Excel single-cell formula through actual HTTP and Kit exports real formula and computed value (1647.223247ms)
+✔ production Office complete table -> HTTP grid patch -> same-window native reload -> verified DOCX and refresh (3040.160899ms)
+✔ production Office buttons reflect real history and commit undo/redo revisions without model requests (1571.059192ms)
+✔ production Excel explicit text through real HTTP model preserves zeroes, date-like and formula-like text (1760.585241ms)
+✔ production Office selected table -> HTTP model outline -> native colored DOCX -> refresh (2032.810511ms)
+✔ production document preview renders real two-sheet Kit PDF and reopens new revision without CLI or network (2712.675501ms)
+✔ production Office top-only perimeter -> HTTP patch -> same-window native reload -> verified DOCX and refresh (2770.631933ms)
+✔ production PPT selected word -> HTTP size/color tool -> native format-only receipt -> reload (3068.684974ms)
+✔ production styled PPT selected word -> HTTP tool -> native exact text and explicit format receipt -> reload (3602.318945ms)
+✔ production PPT canvas selects TARGET; real HTTP tool and native PPTX replacement survive reload (3818.935214ms)
+✔ Office native viewport scrolls and drags to uncovered content, resets on slide change and keeps pointer coordinates (719.233644ms)
+✔ production Word format receipt validates five properties via HTTP model, real Kit and independent DOCX parser (2426.216643ms)
+{ text: '中文预览验收项目报告', pixels: 880, external: 0 }
+✔ opaque production PDF iframe renders CJK CID mapping offline without external requests (1208.153056ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 46959.398879

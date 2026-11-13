@@ -1,0 +1,23 @@
+{
+  "version": "0.37.3-r1",
+  "base_authority_version": 43,
+  "candidate_content_sha_verified": 658,
+  "core_tests": 382,
+  "packaging_tests": 25,
+  "new_tests": 5,
+  "production_code_unchanged_from_candidate": true,
+  "offline_build": "rejected before signing by new preflight guard",
+  "mac_native_tested": false,
+  "publication": "not attempted; prior review quota blocker",
+  "evidence": {
+    "base_framework_bytes": 182559840,
+    "base_framework_sha256": "307eb07de8401c8917239abd7bfd52284f7154ff30a3673f93af04179eb78f9e",
+    "unexpected_file_bytes": 86507520,
+    "unexpected_file_matches_original_prefix": true,
+    "gate_phase": "before Info.plist/ASAR changes and before signer invocation",
+    "source_archive_has_no_unexpected_entry": true,
+    "writer_identity": "unknown",
+    "isolated_binary_resign_code_pages": 44224,
+    "framework_bundle_isolated_sign": "completed without parser error; not Mac codesign validation"
+  }
+}

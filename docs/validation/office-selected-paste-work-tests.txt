@@ -1,0 +1,36 @@
+✔ PPT text receipt rejects unrelated text-box movement or resizing (100.609142ms)
+✔ ordinary PPT input replaces selected text with native and saved-output guards (502.119708ms)
+✔ ordinary PPT input does not publish when native paste is a no-op (450.910802ms)
+✔ manual PPT selected text may be deleted but AI empty replacement stays forbidden (675.701277ms)
+✔ PPT receipt requires unique bounded simple single-paragraph text and preserves every slide text (49.142877ms)
+✔ real PPT native keyboard selects one word; AI replacement saves exact text and all other slides (635.882299ms)
+✔ PPT arrows outside text edit and after page change never move shapes; worker validates expected text (355.596569ms)
+✔ PPT cancellation during running audit blocks native paste and leaves revision clean (446.980058ms)
+✔ PPT refused approval and stale sequence cannot dispatch native replacement (433.560167ms)
+✔ PPT native no-op cannot publish or bypass receipt using manual save (530.70488ms)
+✔ PPT native edit with disk failure keeps checked draft and can explicitly retry save (548.728281ms)
+✔ PPT receipt checks explicit fontsize bold italic underline RGB and applicable Latin font even when text is correct (63.049912ms)
+✔ PPT equivalent split runs pass while mixed selected direct styles are refused before mutation (34.973465ms)
+✔ PPT paragraph defaults are resolved and changed explicit alignment is rejected (34.626963ms)
+✔ PPT unsupported effects and foreign namespace run payloads fail preflight with no native paste (461.288888ms)
+✔ real styled PPT selection preserves explicit style after native replacement and Store reload (658.583836ms)
+✔ native output with right text but changed format cannot publish or bypass using manual save (702.51123ms)
+✔ real PPT selected word format changes size and color only; original text and other runs survive (616.696312ms)
+✔ PPT direct format input and receipt reject empty unknown invalid geometry color mixed or complex targets (77.700557ms)
+✔ PPT size-only and color-only requests each keep the other known property (1307.77412ms)
+✔ PPT format refusal stale sequence native bad args and page drift send no format command (496.644324ms)
+✔ PPT format cancellation or audit disk failure blocks native mutation before dirty flag (844.506287ms)
+✔ PPT format native no-op cannot publish or use manual save; real changed draft retries after disk failure (1071.394378ms)
+✔ manual selected PPT editing verifies output and rejects stale selections without extra approval (532.648931ms)
+✔ manual selection edit audit failure blocks native mutation (542.138521ms)
+✔ PPT single-paragraph selection in a multi-paragraph shape preserves other paragraphs and slides (44.575814ms)
+✔ real PPT edit within multi-paragraph shape saves other paragraphs and slides (657.053314ms)
+✔ long manual PPT replacement remains bounded while AI limit remains 600 (653.141363ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13687.140338

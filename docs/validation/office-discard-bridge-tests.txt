@@ -1,0 +1,10 @@
+✔ production Office preload exposes only the scoped manual cell IPC (4.765128ms)
+✔ dedicated Office IPC binds exact owned main frame and ignores renderer session/document IDs (2.378533ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 85.361393

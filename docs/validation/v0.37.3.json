@@ -1,0 +1,29 @@
+{
+  "version": "0.37.3",
+  "base_authority_version": 43,
+  "baseline_content_files_verified": 653,
+  "core_tests": 382,
+  "related_tests": 15,
+  "chromium_tests": 1,
+  "native_engine": "actual Linux LibreOfficeKit",
+  "model": "actual local HTTP fixture; no real provider semantics",
+  "independent_output": "python-docx confirms original text, Liberation Serif ascii/hAnsi, 18.5pt",
+  "unverified": [
+    "Mac native codesign/Gatekeeper/install speed",
+    "Mac CJK",
+    "eastAsia font properties",
+    "real paid model",
+    "new native app packaging failed"
+  ],
+  "publication": "blocked; not attempted",
+  "packaging_tests": 20,
+  "offline_build": {
+    "attempts": 2,
+    "passed": false,
+    "error": "rcodesign Electron Framework temporary Mach-O binary parsing error; type too big171409408",
+    "root_cause": "unknown",
+    "artifact_released": false
+  },
+  "protected_web_python_unchanged": 122,
+  "authority_replaced": false
+}

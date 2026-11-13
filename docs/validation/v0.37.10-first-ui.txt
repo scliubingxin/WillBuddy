@@ -1,0 +1,36 @@
+✔ production Excel rectangle to actual HTTP model and native verified constants preserves outside cells (2234.649902ms)
+✔ production Office UI sends selected CJK font request through real HTTP and Kit to DOCX eastAsia (1580.045666ms)
+✔ production selected word colors through real HTTP Kit preserve outside text and reload (2020.541731ms)
+✖ production Office buttons reflect real history and commit undo/redo revisions without model requests (1191.670557ms)
+✔ production canvas keyboard selects TARGET and real HTTP Kit formatting leaves outside text unchanged (2147.642157ms)
+✔ production Office selected table -> HTTP model outline -> native colored DOCX -> refresh (1507.974641ms)
+✔ production document preview renders real two-sheet Kit PDF and reopens new revision without CLI or network (2474.70559ms)
+{ text: '中文预览验收项目报告', pixels: 880, external: 0 }
+✔ opaque production PDF iframe renders CJK CID mapping offline without external requests (463.820191ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 7
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16786.833864
+
+✖ failing tests:
+
+test at tests/acceptance/office-history-live.mjs:3:1
+✖ production Office buttons reflect real history and commit undo/redo revisions without model requests (1191.670557ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Updated native text/. Input:
+  
+  '\n[word/document.xml]\nOriginal native text'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/c33bcd2beeb1/work3710/muyun-ai/desktop/tests/acceptance/office-history-live.mjs:3:3139)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '\n[word/document.xml]\nOriginal native text',
+    expected: /Updated native text/,
+    operator: 'match',
+    diff: 'simple'
+  }

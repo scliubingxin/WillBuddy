@@ -15,7 +15,7 @@ import struct
 import subprocess
 import zipfile
 import importlib.util
-from offline_bundle import clean_residue, inventory, write_archive, capture_staging_paths, verify_staging_paths
+from offline_bundle import copy_source_tree, clean_residue, inventory, write_archive, capture_staging_paths, verify_staging_paths
 
 ROOT=Path(__file__).resolve().parent.parent
 
@@ -82,7 +82,7 @@ def main():
     source=stage/'app-source';source.mkdir()
     for name in ['main.mjs','preload.cjs','office-preload.cjs','core.mjs','src','runtime','assets','main','services']:
         src=ROOT/'desktop'/name;dst=source/name
-        if src.is_dir():shutil.copytree(src,dst)
+        if src.is_dir():copy_source_tree(src,dst)
         else:shutil.copy2(src,dst)
     # Production uses built-in Node/Electron and prebundled licensed JS codecs; never ship the build toolchain.
     package={k:metadata[k] for k in ['name','productName','version','description','author','license','type','main']}

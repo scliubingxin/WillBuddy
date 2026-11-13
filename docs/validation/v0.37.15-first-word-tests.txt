@@ -1,0 +1,12 @@
+✔ Word receipt accepts split runs and rejects no-op, missing CJK run, wrong size, altered text and ambiguous selections (192.260005ms)
+✔ no-op output and explicit save cannot publish a false Word format success (531.718448ms)
+✔ partial native format failure keeps checked draft; mismatched manual save and new format are blocked (500.831599ms)
+✔ cancellation during final Word snapshot after durable audit dispatches no native format (611.048992ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1996.668617

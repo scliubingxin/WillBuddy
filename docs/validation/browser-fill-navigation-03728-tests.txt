@@ -1,0 +1,26 @@
+✔ active native dialog receives AbortSignal, cancels and releases queued work (5.759832ms)
+✔ emergency cancellation closes active and cancels queued requests without late acceptance (1.345561ms)
+✔ timeout cancels a hung adapter and never treats a late Allow as approval (16.292564ms)
+✔ missing parent fails closed and task consent is explicit, never the default (1.260794ms)
+✔ browser grant exact origin/run, known cross-origin target, revoke and completion boundaries (0.919381ms)
+✔ runtime reuses browser consent only in same run/site; CLI remains individual approval (1.798231ms)
+✔ revocation during persistence blocks an automatically authorized browser action (0.674333ms)
+✔ oversized approval never opens an off-screen native sheet; Word approval uses human summary (61.395947ms)
+✔ navigation during body read cannot return another origin under old consent (0.835805ms)
+✔ navigation during focus prevents approved text from reaching new page (1.476157ms)
+✔ navigation during checkFocus prevents approved text from reaching new page (0.235804ms)
+✔ aborting during the focus check prevents input (0.275193ms)
+✔ unchanged page receives input and verifies it once (151.322745ms)
+✔ approved inspect/fill/click chain updates DOM, binds single-use receipts and redacts fill audit (512.248531ms)
+✔ denial, mutation during approval, overlay and navigation all prevent input (73.550284ms)
+✔ cancelled approval and expired snapshot cannot execute; fill size is bounded (25.701328ms)
+✔ read scope is invalidated if navigation happens during approval (21.340527ms)
+✔ agent consumes inspected refs and returns observed browser output rather than placeholder success (391.74415ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2179.441611

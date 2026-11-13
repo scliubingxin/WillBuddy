@@ -1,0 +1,24 @@
+✖ PPT direct format input and receipt reject empty unknown invalid geometry color mixed or complex targets (2.480557ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 222.329804
+
+✖ failing tests:
+
+test at desktop/tests/office-presentation.test.mjs:67:1
+✖ PPT direct format input and receipt reject empty unknown invalid geometry color mixed or complex targets (2.480557ms)
+  Error: 文档文本无效或过长
+      at text (file:///workspace/scratch/08fe4388c223/work3719/muyun-ai/desktop/runtime/documents.mjs:37:11)
+      at file:///workspace/scratch/08fe4388c223/work3719/muyun-ai/desktop/runtime/documents.mjs:91:7
+      at Array.forEach (<anonymous>)
+      at normalizeSpec (file:///workspace/scratch/08fe4388c223/work3719/muyun-ai/desktop/runtime/documents.mjs:90:25)
+      at generateDocument (file:///workspace/scratch/08fe4388c223/work3719/muyun-ai/desktop/runtime/documents.mjs:157:13)
+      at bytes (file:///workspace/scratch/08fe4388c223/work3719/muyun-ai/desktop/tests/office-presentation.test.mjs:4:29)
+      at TestContext.<anonymous> (file:///workspace/scratch/08fe4388c223/work3719/muyun-ai/desktop/tests/office-presentation.test.mjs:71:55)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)

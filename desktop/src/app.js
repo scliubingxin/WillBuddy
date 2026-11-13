@@ -3,6 +3,7 @@ import {codeProjectsView} from './ui/code-projects.js';
 import {createComposerImages} from './ui/composer-images.js';
 import {compactComposer,createComposerMenus} from './ui/composer.js';
 import {modelPicker,modelLibrary,modelForm,modelChoiceLabel} from './ui/models.js';
+import {legacyRoundLimit} from './ui/legacy-round-limit.js';
 import {capabilityTabs,skillsPage,mcpPage,mcpAuthFields} from './ui/capability-library.js';
 import {agentEditor,bindAgentEditor,readAgentEditor} from './ui/agent-editor.js';
 import {imageCards} from './ui/image-cards.js';
@@ -253,7 +254,7 @@ function modal(title, body, submit, handler) {
     const d = $('#modal');
     d.onclick=null;
     d.onclose=()=>d.querySelectorAll('[data-mcp-secret],input[type="password"]').forEach(el=>el.value='');
-    d.innerHTML = `<form method="dialog" novalidate><header><h2>${escape(title)}</h2><button type="button" data-modal-close class="icon-button" value="cancel" aria-label="关闭">${icon('close')}</button></header>${body}<footer><button type="button" data-modal-close value="cancel" class="secondary">关闭</button>${submit ? `<button type="button" id="modalSubmit" class="primary">${submit}</button>` : ''}</footer></form>`;
+    d.innerHTML = `<form method="dialog" novalidate><header><h2>${escape(title)}</h2><button type="button" data-modal-close class="icon-button" value="cancel" aria-label="关闭">${icon('close')}</button></header>${body}<p id="modal-error" role="alert" hidden></p><footer><button type="button" data-modal-close value="cancel" class="secondary">关闭</button>${submit ? `<button type="button" id="modalSubmit" class="primary">${submit}</button>` : ''}</footer></form>`;
     for(const close of d.querySelectorAll("[data-modal-close]"))close.onclick=()=>d.close();
     if (!d.open)
         d.showModal();
@@ -265,10 +266,13 @@ function modal(title, body, submit, handler) {
             try {
                 const data=new FormData(d.querySelector('form'));
                 d.querySelectorAll('[data-mcp-secret]').forEach(el=>el.value='');
-                await handler(data);
-                d.close();
+                const result = await handler(data);
+                if(result === 'modelLibrary') modal('模型接入与自动选择',modelLibrary(state,escape));
+                else d.close();
             }
             catch (e) {
+                const message=d.querySelector('#modal-error');
+                if(message){message.textContent=e.message;message.hidden=false;}
                 toast(e.message);
             }
             finally {
@@ -438,6 +442,7 @@ async function handle(actionId, id) {
         }
         if(actionId==='documentView'){openPreview({id:'document:'+id,name:d.name+'.'+d.format,text:d.text,kind:'document',documentId:id});return;}
         if(actionId==='documentHistory'){modal('历史版本 · '+d.name,d.history.map(h=>`<div class="file-row"><div>v${h.revision} · ${date(h.time)}<small>${h.size} 字节 · ${escape(h.sha256)}</small></div>${action('导出此版本','documentExportVersion',id+':'+h.revision)}</div>`).join(''));return;}
+        if(actionId==='documentExportPdf'){const result=await invoke('documentExportPdf',{id,revision:d.revision});if(result?.status==='succeeded')toast('PDF 已保存');return;}
         if(actionId==='documentExport'){await invoke('documentExport',{id,revision:d.revision});return;}
         if(actionId==='documentContinue'){switchChat('');page='home';toolsEnabled=true;draft=`请先调用 document_read 读取文档「${d.name}.${d.format}」（id=${id}，当前版本 ${d.revision}），再根据以下要求调用 ${d.hasRichSource?'document_write（保留editableHtml结构）':d.format==='docx'?'document_patch（使用wordEditing片段坐标，保留其他样式）':'document_edit'} 保存新版本。修改要求：`;render();$('#prompt')?.focus();return;}
         if(actionId==='documentEdit'){
@@ -445,6 +450,10 @@ async function handle(actionId, id) {
             modal('精确修改 · '+d.name,body,'审阅并保存版本',async f=>{const changes=d.format==='xlsx'?{cells:JSON.parse(f.get('cells'))}:{replacements:[{find:f.get('find'),replace:f.get('replacement')}]};const r=await invoke('documentOperation',{operation:'document_edit',id,expectedRevision:d.revision,...changes});if(r.status!=='succeeded')throw Error(r.error||r.message||'未保存');await update('state');toast('新版本已保存，原始导入文件不变');});return;
         }
         if(actionId==='documentDelete'){modal('删除文档与本地版本','<p>请先导出所需版本；原始导入文件不受影响。</p>','删除',async()=>{await invoke('documentDelete',{id});await update('state');});return;}
+    }
+    if (actionId === 'previewExportPdf') {
+        const item=previewTabs.find(t=>t.id===previewId);const d=(state.documents||[]).find(x=>x.id===item?.documentId);
+        if(!d)throw Error('文档已删除');const result=await invoke('documentExportPdf',{id:d.id,revision:d.revision});if(result?.status==='succeeded')toast('PDF 已保存');return;
     }
     if (actionId === 'previewExport') {
         const item = previewTabs.find(t => t.id === previewId);
@@ -602,10 +611,10 @@ async function handle(actionId, id) {
         return;
     }
     if(actionId==='settings'){modal('模型接入与自动选择',modelLibrary(state,escape));return;}
-    if(actionId==='modelEdit'){const p=(state.modelProfiles||[]).find(p=>p.id===id)||{};modal(p.id?'编辑模型':'添加模型',modelForm(p,state.settings.secureStorage,escape),'保存模型',async f=>{const payload={...Object.fromEntries(f),id:p.id,revision:p.revision};for(const k of ['supportsOff','tools','vision','enabled','persistKey','clearKey'])payload[k]=f.has(k);const secret=document.querySelector('#modal [name="apiKey"]');if(secret)secret.value='';await update('modelProfile',payload);toast('模型配置已保存，未发送网络请求');});return;}
+    if(actionId==='modelEdit'){const p=(state.modelProfiles||[]).find(p=>p.id===id)||{};modal(p.id?'编辑模型':'添加模型',modelForm(p,state.settings.secureStorage,escape),'保存模型',async f=>{const payload={...Object.fromEntries(f),id:p.id,revision:p.revision};for(const k of ['supportsOff','tools','vision','enabled','persistKey','clearKey'])payload[k]=f.has(k);await update('modelProfile',payload);toast('模型配置已保存，未发送网络请求');return 'modelLibrary';});return;}
     if(actionId==='modelRemove'){const p=(state.modelProfiles||[]).find(p=>p.id===id);if(p)modal('删除模型配置','<p>移除此配置及保存的密钥；排队或执行中的请求不会自动换模型。</p>','删除',async()=>{await update('modelProfile',{id:p.id,revision:p.revision,remove:true});});return;}
     if (actionId === 'legacySettings') {
-        modal('连接你的模型', `<p>支持 Chat Completions 兼容 API。远程服务使用 HTTPS，本机 Ollama 可用 http://127.0.0.1:11434/v1。内容只会发送到你填写的地址。</p>${input('工作空间名称', 'name', state.settings.name)}${input('Base URL', 'baseUrl', state.settings.baseUrl || 'https://api.deepseek.com')}${input('模型 ID', 'model', state.settings.model === '尚未配置' ? 'deepseek-chat' : state.settings.model)}<label>API Key ${state.settings.hasKey ? '（留空保留当前密钥）' : ''}<input name="apiKey" type="password" autocomplete="off"></label><label class="check"><input type="checkbox" name="persistKey" ${state.settings.secureStorage ? '' : 'disabled'}>使用系统钥匙串加密保存新密钥</label><label class="check"><input type="checkbox" name="clearKey">清除当前保存的密钥</label><p>${state.settings.secureStorage ? '未勾选时，新密钥只保留至应用退出。' : '系统加密存储不可用，新密钥只在本次运行中保留。'}保存配置不会发送测试请求；可通过一次真实对话验证连接。</p>`, '保存配置', async (f) => { await update('settings', { ...Object.fromEntries(f), persistKey: f.has('persistKey'), clearKey: f.has('clearKey') }); toast('模型配置已保存'); });
+        modal('连接你的模型', `<p>支持 Chat Completions 兼容 API。远程服务使用 HTTPS，本机 Ollama 可用 http://127.0.0.1:11434/v1。内容只会发送到你填写的地址。</p>${input('工作空间名称', 'name', state.settings.name)}${input('Base URL', 'baseUrl', state.settings.baseUrl || 'https://api.deepseek.com')}${input('模型 ID', 'model', state.settings.model === '尚未配置' ? 'deepseek-chat' : state.settings.model)}${input('每次任务模型调用轮数（1–96）', 'maxSteps', legacyRoundLimit(state.settings,state.agents,agentId).value, 'number')}<p>${legacyRoundLimit(state.settings,state.agents,agentId).inherited ? '当前工具任务沿用所选智能体的轮数；修改并保存后，原模型按此设置执行。' : '当前原模型使用已保存的轮数设置。'}增加轮数可能增加用量；正在执行的任务不会改变。</p><label>API Key ${state.settings.hasKey ? '（留空保留当前密钥）' : ''}<input name="apiKey" type="password" autocomplete="off"></label><label class="check"><input type="checkbox" name="persistKey" ${state.settings.secureStorage ? '' : 'disabled'}>使用系统钥匙串加密保存新密钥</label><label class="check"><input type="checkbox" name="clearKey">清除当前保存的密钥</label><p>${state.settings.secureStorage ? '未勾选时，新密钥只保留至应用退出。' : '系统加密存储不可用，新密钥只在本次运行中保留。'}保存配置不会发送测试请求；可通过一次真实对话验证连接。</p>`, '保存配置', async (f) => { await update('settings', { ...Object.fromEntries(f), persistKey: f.has('persistKey'), clearKey: f.has('clearKey') }); toast('模型配置已保存'); });
         return;
     }
     if (actionId === 'folder') {

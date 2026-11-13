@@ -1,0 +1,17 @@
+✔ Office controller can discard a failed checked draft after confirmation (814.546402ms)
+✔ explicit discard denial keeps draft; approval closes only draft and preserves saved document (551.294496ms)
+✔ queued operation cannot mutate a session discarded after native confirmation (531.466247ms)
+✔ discard audit failure preserves unsaved draft and saved document (543.031518ms)
+✔ cleanup failure closes the draft but is reported and never deletes saved document (504.058751ms)
+✔ discard without a draft never asks for destructive confirmation (329.797759ms)
+✔ unconfirmed worker termination reports cleanup failure and does not remove temp directory (621.491539ms)
+✔ production Office preload exposes only the scoped manual cell IPC (5.58956ms)
+✔ dedicated Office IPC binds exact owned main frame and ignores renderer session/document IDs (2.313285ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4426.440525

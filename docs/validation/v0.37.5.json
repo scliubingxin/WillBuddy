@@ -1,0 +1,38 @@
+{
+  "version": "0.37.5",
+  "authority_base_version": 44,
+  "baseline_content_hashes_verified": 666,
+  "core": {
+    "passed": 389,
+    "concurrency": 1
+  },
+  "related": 16,
+  "chromium": 2,
+  "packaging_tests": 26,
+  "native_linux_kit": true,
+  "ipc_approval_model_semantics": "fixtures",
+  "mac_native_tested": false,
+  "paid_model_tested": false,
+  "full_app_check": {
+    "bytes": 483216299,
+    "sha256": "1aba94bb84cdc4c2d3688eba1d7c5a69538c2475c9088c32a0c47ee87c1a9baf",
+    "asar_sha256": "70c1d2a67b83380b8a585c7c3a864a8a3759b9baddf6ee6a10096a47f36febe4",
+    "production_asar_exact": 150,
+    "mach_o": 278,
+    "code_pages": 93545,
+    "app_entries": 20727,
+    "extra_files": 5,
+    "closed_inventory": true,
+    "zero_residuals": true,
+    "tamper_negative": true,
+    "changed_app_entries_from_0374": [
+      "WillBuddy.app/Contents/Info.plist",
+      "WillBuddy.app/Contents/MacOS/Electron",
+      "WillBuddy.app/Contents/Resources/app.asar",
+      "WillBuddy.app/Contents/_CodeSignature/CodeResources"
+    ],
+    "runtime_entries_changed": 0
+  },
+  "publication": "not attempted; prior automatic approval quota failure",
+  "protected_web_python_sha_unchanged": 122
+}
