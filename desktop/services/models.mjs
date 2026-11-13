@@ -1,5 +1,5 @@
 import {uid,modelEndpoint} from '../core.mjs';
-import {reasoningOptions,selectProfile,tiers,efforts} from '../runtime/model-policy.mjs';
+import {reasoningOptions,selectProfile,tiers,efforts,modelMaxSteps} from '../runtime/model-policy.mjs';
 export function createModelService({store,secrets,legacyKey=()=>''}){
  const sessions=new Map();let serial=Promise.resolve();
  const rows=()=>store.data.modelProfiles||[];
@@ -11,8 +11,12 @@ export function createModelService({store,secrets,legacyKey=()=>''}){
    if(prior&&p.revision!==prior.revision)throw Error('模型配置已被修改，请重新打开');
    if(p.remove){store.data.modelProfiles=old.filter(m=>m.id!==p.id);try{await store.save();}catch(e){store.data.modelProfiles=old;throw e;}sessions.delete(p.id);return;}
    const checkText=(s,max)=>{if(typeof s!=='string'||!s.trim()||s.length>max||/[\x00-\x1f]/.test(s))throw Error('模型配置字段无效');return s.trim();};
+   if(typeof p.name!=='string'||!p.name.trim())throw Error('请填写模型名称');
+   if(typeof p.model!=='string'||!p.model.trim())throw Error('请填写模型 ID');
+   if(typeof p.baseUrl!=='string'||!p.baseUrl.trim())throw Error('请填写 Base URL');
    const baseUrl=checkText(p.baseUrl,500);modelEndpoint(baseUrl);
    const m={id:prior?.id||uid(),revision:(prior?.revision||0)+1,name:checkText(p.name,80),baseUrl,model:checkText(p.model,200),kind:p.kind,protocol:p.protocol,effort:p.effort,enabled:p.enabled===true,tools:p.tools===true,vision:p.vision===true,supportsOff:p.supportsOff===true,priority:Number(p.priority??10),maxInputChars:Number(p.maxInputChars??200000),outputTokens:Number(p.outputTokens??4096),tokenParameter:p.tokenParameter||'max_tokens'};
+   if(p.maxSteps!==undefined&&p.maxSteps!=='')m.maxSteps=modelMaxSteps(p.maxSteps);
    if(!tiers.includes(m.kind)||!efforts.includes(m.effort)||!['none','openai','deepseek','qwen'].includes(m.protocol)||!Number.isInteger(m.priority)||m.priority<0||m.priority>100||!Number.isInteger(m.maxInputChars)||m.maxInputChars<1000||m.maxInputChars>2000000||!Number.isInteger(m.outputTokens)||m.outputTokens<256||m.outputTokens>32768||!['max_tokens','max_completion_tokens'].includes(m.tokenParameter))throw Error('模型类型/参数/预算无效');
    reasoningOptions(m,m.effort);
    m.keyRequired=p.clearKey?false:!!p.apiKey||!!prior?.keyRequired||!!prior?.encryptedKey;
@@ -33,14 +37,14 @@ export function createModelService({store,secrets,legacyKey=()=>''}){
  function resolve(choice='legacy',effort,requirements={}){
   if(choice==='legacy'){
    const snapshot=JSON.stringify(store.data.settings),settings=structuredClone(store.data.settings);delete settings.encryptedKey;
-   return {settings,metadata:{choice:'legacy',name:settings.model,model:settings.model,effort:'default'},check(){if(snapshot!==JSON.stringify(store.data.settings))throw Error('原模型配置已变化，请重新发送');},key:legacyKey};
+   return {settings,maxSteps:settings.maxSteps===undefined?undefined:modelMaxSteps(settings.maxSteps),metadata:{choice:'legacy',name:settings.model,model:settings.model,effort:'default'},check(){if(snapshot!==JSON.stringify(store.data.settings))throw Error('原模型配置已变化，请重新发送');},key:legacyKey};
   }
   const selected=selectProfile(rows(),choice,requirements),p=structuredClone(selected.profile),snapshot=JSON.stringify(p);
   // Auto tiers always control effort. Manual selections may explicitly override it.
   const level=choice.startsWith('auto:')?selected.effort:(effort||p.effort);
   reasoningOptions(p,level);
   const check=()=>{if(snapshot!==JSON.stringify(rows().find(x=>x.id===p.id)))throw Error('选中模型配置已变化/停用，请重新发送');};
-  return {settings:{baseUrl:p.baseUrl,model:p.model,profileProtocol:p.protocol,effort:level,supportsOff:p.supportsOff,outputTokens:p.outputTokens,tokenParameter:p.tokenParameter},metadata:{choice,id:p.id,revision:p.revision,name:p.name,model:p.model,effort:level,protocol:p.protocol},check,
+  return {maxSteps:p.maxSteps===undefined?undefined:modelMaxSteps(p.maxSteps),settings:{baseUrl:p.baseUrl,model:p.model,profileProtocol:p.protocol,effort:level,supportsOff:p.supportsOff,outputTokens:p.outputTokens,tokenParameter:p.tokenParameter},metadata:{choice,id:p.id,revision:p.revision,name:p.name,model:p.model,effort:level,protocol:p.protocol},check,
    checkMessages(messages){check();if(JSON.stringify(messages,(key,value)=>key==='url'&&typeof value==='string'&&value.startsWith('data:image/')?'[bounded image bytes]':value).length>p.maxInputChars)throw Error('消息超过此模型配置的字符预算；不会自动转给其他服务');},
    key(){check();const key=sessions.get(p.id)||(p.encryptedKey?secrets.open(p.encryptedKey):'');if(p.keyRequired&&!key)throw Error('此模型的临时密钥已失效，请重新填写；不会匿名降级');return key;}};
  }

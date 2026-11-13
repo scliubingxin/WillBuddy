@@ -1,5 +1,5 @@
 import {appendWordImage} from '../runtime/word-image.mjs';
-import {imageFromBase64} from '../src/shared/image-bytes.js';
+import {imageFromBase64,imageInfo} from '../src/shared/image-bytes.js';
 import { wordStructure, patchWord } from "../runtime/word-structure.mjs";
 import { uid } from "../core.mjs";
 import {
@@ -7,6 +7,7 @@ import {
   updateDocumentEditor,
   formats,
   generateDocument,
+  pptImagesFromContent,
   inspectDocument,
   editDocument,
   sha256,
@@ -136,11 +137,15 @@ export function createDocumentService({
       signal?.throwIfAborted();
       let candidate, detail, imageGuard;
       if (operation === "document_create") {
-        const name = checkName(args.name),
-          result = await generateDocument(args.format, args.content);
+        const name = checkName(args.name), ids = args.format==='pptx' ? pptImagesFromContent(args.content) : [];
+        if(ids.length>8)throw Error('PPT最多引用本轮8张图片');
+        const imageMap={}, snapshots=[];
+        for(const id of ids){const i=store.data.imageAttachments?.find(x=>x.id===id);if(!i)throw Error('本机图片不存在');const b=imageFromBase64(i.base64),info=imageInfo(b,{pngOnly:true});if(b.length!==i.bytes||sha256(b)!==i.sha256)throw Error('图片完整性失败');snapshots.push({id,sha256:i.sha256});imageMap[id]={base64:i.base64,width:info.width,height:info.height};}
+        if(snapshots.length)imageGuard=()=>{for(const prior of snapshots){const i=store.data.imageAttachments?.find(x=>x.id===prior.id);if(!i||i.sha256!==prior.sha256||sha256(imageFromBase64(i.base64))!==prior.sha256)throw Error('PPT图片在审批期间变化或移除');}};
+        const result = await generateDocument(args.format, args.content,{images:imageMap});
         signal?.throwIfAborted();
         candidate = record(name, args.format, result);
-        detail = `新建 ${name}.${args.format}\n${result.size} 字节\nSHA-256 ${result.sha256}\n内容摘要（前400字符，完整内容保存后可预览）：\n${result.text.replace(/\s+/g, " ").slice(0, 400)}`;
+        detail = `新建 ${name}.${args.format}\n${result.size} 字节\nSHA-256 ${result.sha256}\n本轮引用图片：${ids.length} 张，仅本机嵌入，不下载网络图片。\n内容摘要（前400字符，完整内容保存后可预览）：\n${result.text.replace(/\s+/g, " ").slice(0, 400)}`;
       } else if (operation === "document_convert") {
         if (!convertDocument) throw Error("本环境尚未配置离线转换引擎");
         const prior = structuredClone(find(args.id));
@@ -223,7 +228,7 @@ export function createDocumentService({
         detail = `修改 ${prior.name}.${prior.format}\n第 ${prior.revision} → ${candidate.revision} 版；${result.changes} 处修改\n保留前版，原始导入文件不变。\n${JSON.stringify({ replacements: args.replacements, cells: args.cells })}\n新 SHA-256 ${result.sha256}`;
       } else throw Error("未知文档操作");
       // Token owns immutable, host-generated candidate. Never trust a renderer-supplied receipt.
-      const token = Object.freeze({ operation, detail });
+      const token = Object.freeze({ operation, detail, ...(operation === 'document_read' ? { readScope: { id: candidate.id, revision: candidate.revision, sha256: candidate.sha256 } } : {}) });
       tokens.set(token, candidate);if(imageGuard)imageGuards.set(token,imageGuard);
       return token;
     },
@@ -351,7 +356,8 @@ export function createDocumentService({
       signal?.throwIfAborted();
       return save(record(prior.name, prior.format, result, prior), signal);
     },
-    async replaceBytes(id, revision, bytes, signal, { nativeOffice = false } = {}) {
+    async replaceBytes(id, revision, bytes, signal, { nativeOffice = false, guard = () => {} } = {}) {
+      if (typeof guard !== "function") throw Error("文档提交守卫无效");
       const prior = structuredClone(find(id));
       if (prior.richSource && !nativeOffice) throw Error("画布文档请使用Word画布编辑");
       if (prior.revision !== revision)
@@ -364,6 +370,7 @@ export function createDocumentService({
           prior,
         ),
         signal,
+        guard,
       );
     },
     preview(id,revision) {
