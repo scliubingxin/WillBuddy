@@ -73,3 +73,21 @@ export function commandJson(text){
  if(typeof text!=='string'||Buffer.byteLength(text)>32768)return;
  try{const data=JSON.parse(text);if(!data||typeof data!=='object')return;let nodes=0;function visit(x,depth){if(++nodes>2000||depth>32)throw Error('JSON budget');if(x&&typeof x==='object')for(const v of Object.values(x))visit(v,depth+1);}visit(data,0);return data;}catch{return;}
 }
+
+// Automatic consent is limited to a fixed system `find` with a read-only expression
+// rooted at the already-authorized working directory. No shell or side-effect action.
+export async function isReadOnlyFind(command) {
+  if (!['darwin','linux'].includes(process.platform) || !['/usr/bin/find','/bin/find'].includes(command?.executable) || !Array.isArray(command.args) || command.args.length>60) return false;
+  const {realpath}=await import('node:fs/promises');let resolved;try{resolved=await realpath(command.executable);}catch{return false;}
+  if (!['/usr/bin/find','/bin/find'].includes(resolved)) return false;
+  const args=command.args;let i=0;if(args[0]==='.')i++;else if(args[0]&&!args[0].startsWith('-')&&!['!','('].includes(args[0]))return false;
+  const flags=new Set(['-name','-iname','-path','-ipath','-type','-maxdepth','-mindepth']);
+  const operators=new Set(['-a','-and','-o','-or','!','-not','(',')','-print','-print0','-prune','-depth']);
+  for(;i<args.length;i++){
+    const a=args[i];if(operators.has(a))continue;if(!flags.has(a)||++i>=args.length)return false;const value=args[i];
+    if(typeof value!=='string'||value.length>256||/[\x00-\x1f\x7f]/.test(value))return false;
+    if(a==='-type'&&!['f','d','l'].includes(value))return false;
+    if(['-maxdepth','-mindepth'].includes(a)&&(!/^\d{1,2}$/.test(value)||Number(value)>20))return false;
+  }
+  return true;
+}

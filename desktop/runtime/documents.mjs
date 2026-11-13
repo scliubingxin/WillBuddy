@@ -1,3 +1,4 @@
+import {validatePptLayers,pptImageIds,drawPptLayers} from './ppt-layers.mjs';
 import {replaceSpreadsheetText} from './spreadsheet-text.mjs';
 import { cellAddress } from "../src/shared/formula-core.js";
 import {
@@ -91,6 +92,16 @@ export function normalizeSpec(format, content) {
       text(slide.title, 200);
       array(slide.bullets || [], 12).forEach((t) => text(t, 1000));
       text(slide.notes || "", 2000);
+      validatePptLayers(slide);
+      if([slide.chart,slide.cards,slide.table].filter(x=>x!==undefined).length>1)throw Error('每页仅支持一种图表、卡片或表格布局');
+      if(slide.cards!==undefined){array(slide.cards,6);if(!slide.cards.length)throw Error('卡片不能为空');slide.cards.forEach(c=>{if(!c||typeof c!=='object'||Array.isArray(c)||Object.keys(c).some(k=>!['title','body'].includes(k)))throw Error('卡片格式无效');text(c.title,60);text(c.body,220);});}
+      if(slide.table!==undefined){const rows=array(slide.table,8);if(rows.length<2)throw Error('表格至少需要表头与一行数据');let columns;rows.forEach(row=>{array(row,5);if(!row.length||(columns!==undefined&&columns!==row.length))throw Error('表格各行列数需一致');columns=row.length;row.forEach(c=>text(c,120));});}
+      if(slide.chart !== undefined){
+        const c=slide.chart;
+        if(!c||typeof c!=='object'||c.type!=='bar')throw Error('图表仅支持bar');
+        text(c.title||'',100);array(c.labels,12).forEach(x=>text(x,80));
+        if(!c.labels.length||!Array.isArray(c.values)||c.values.length!==c.labels.length||c.values.some(x=>typeof x!=='number'||!Number.isFinite(x)||x<0||x>1e12)||Math.max(...c.values)===0)throw Error('图表数值须与标签对应，非负且至少一个大于零');
+      }
     });
   if (format === "xlsx")
     array(s.sheets, 10).forEach((sheet) => {
@@ -153,7 +164,8 @@ function cellXML(address, value) {
     return `<c r="${address}" t="b"><v>${value ? 1 : 0}</v></c>`;
   return `<c r="${address}" t="inlineStr"><is><t xml:space="preserve">${xml(value)}</t></is></c>`;
 }
-export async function generateDocument(format, content) {
+export function pptImagesFromContent(content){return pptImageIds(normalizeSpec("pptx",content));}
+export async function generateDocument(format, content, {images}={}) {
   const s = normalizeSpec(format, content);
   let bytes;
   if (format === "md" || format === "html") bytes = encoder.encode(s);
@@ -203,8 +215,8 @@ export async function generateDocument(format, content) {
     deck.lang = "zh-CN";
     for (const item of s.slides) {
       const slide = deck.addSlide();
-      slide.background = { color: "FFFFFF" };
-      slide.addText(item.title, {
+      slide.background = { color: (item.background||"#FFFFFF").slice(1) };
+      if(item.title) slide.addText(item.title, {
         x: 0.65,
         y: 0.45,
         w: 12,
@@ -224,7 +236,7 @@ export async function generateDocument(format, content) {
           {
             x: 0.85,
             y: 1.65,
-            w: 11.5,
+            w: item.chart || item.cards || item.table ? 4.2 : 11.5,
             h: 5,
             fontSize: 22,
             color: "25364A",
@@ -232,9 +244,22 @@ export async function generateDocument(format, content) {
             fit: "shrink",
           },
         );
+      if(item.chart){
+        const c=item.chart, x=item.bullets?.length?5.3:1.2,w=item.bullets?.length?7.3:10.9,max=Math.max(...c.values),row=4.1/c.values.length;
+        if(c.title)slide.addText(c.title,{x,y:1.45,w,h:.38,fontSize:17,bold:true,color:'25364A',margin:0});
+        c.labels.forEach((label,i)=>{const y=1.98+i*row;slide.addText(label,{x,y,w:1.4,h:Math.min(row,.4),fontSize:12,color:'25364A',margin:0,fit:'shrink'});const bw=(w-2.45)*c.values[i]/max;if(bw>0)slide.addShape('rect',{x:x+1.5,y:y+.03,w:bw,h:Math.min(.28,row*.6),line:{color:'0078CB',transparency:100},fill:{color:'0078CB'}});slide.addText(String(c.values[i]),{x:x+1.55+bw,y,w:.85,h:Math.min(row,.4),fontSize:11,color:'25364A',margin:0});});
+      }
+      if(item.cards){const x=item.bullets?.length?5.3:.85,w=item.bullets?.length?7.2:11.6,cols=item.cards.length===1?1:2,rows=Math.ceil(item.cards.length/cols),gap=.18,cw=(w-gap*(cols-1))/cols,ch=(4.8-gap*(rows-1))/rows;item.cards.forEach((c,i)=>{const px=x+(i%cols)*(cw+gap),py=1.7+Math.floor(i/cols)*(ch+gap);slide.addShape('roundRect',{x:px,y:py,w:cw,h:ch,rectRadius:.12,line:{color:'DCEAF5',width:1},fill:{color:'F5FAFE'}});slide.addShape('rect',{x:px+.18,y:py+.18,w:.08,h:Math.min(.4,ch-.36),line:{transparency:100,color:'0078CB'},fill:{color:'0078CB'}});slide.addText(c.title,{x:px+.4,y:py+.16,w:cw-.6,h:.35,fontSize:16,bold:true,color:'0078CB',margin:0,fit:'shrink'});slide.addText(c.body,{x:px+.4,y:py+.62,w:cw-.6,h:ch-.8,fontSize:13,color:'25364A',margin:0,valign:'top',breakLine:false,fit:'shrink'});});}
+      if(item.table){const x=item.bullets?.length?5.3:.85,w=item.bullets?.length?7.2:11.6,columns=item.table[0].length,rowH=Math.min(.55,4.7/item.table.length);const rows=item.table.map((row,i)=>row.map(value=>({text:value,options:{bold:i===0,color:i===0?'FFFFFF':'25364A',fill:{color:i===0?'0078CB':i%2?'F2F8FD':'FFFFFF'}}})));slide.addTable(rows,{x,y:1.75,w,h:rowH*rows.length,colW:Array(columns).fill(w/columns),rowH,fontSize:13,margin:.08,border:{type:'solid',pt:.5,color:'D7E5F0'},autoPage:false});}
+      drawPptLayers(slide,item.layers,images);
       if (item.notes) slide.addNotes(item.notes);
     }
     bytes = await deck.write({ outputType: "nodebuffer" });
+    if(s.slides.some(item=>item.transition==='fade')){
+      const files=zip.unzipSync(bytes),ns='http://schemas.openxmlformats.org/presentationml/2006/main';
+      s.slides.forEach((item,i)=>{if(item.transition!=='fade')return;const name=`ppt/slides/slide${i+1}.xml`;if(!files[name])throw Error('幻灯片不存在');const doc=parse(decoder.decode(files[name])),root=doc.documentElement;if(root.getElementsByTagNameNS(ns,'transition').length)throw Error('幻灯片已有切换效果');const el=doc.createElementNS(ns,'p:transition'),fade=doc.createElementNS(ns,'p:fade');el.appendChild(fade);const after=Array.from(root.childNodes).find(n=>n.namespaceURI===ns&&['timing','extLst'].includes(n.localName));root.insertBefore(el,after||null);files[name]=encoder.encode(serialize(doc));});
+      bytes=zip.zipSync(files);
+    }
   }
   bytes = Buffer.from(bytes);
   const inspected = inspectDocument(format, bytes);

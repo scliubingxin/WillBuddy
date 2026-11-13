@@ -1,12 +1,30 @@
 import {readFile,writeFile} from 'node:fs/promises';import path from 'node:path';import {spawn} from 'node:child_process';import {fileURLToPath} from 'node:url';import {StringDecoder} from 'node:string_decoder';import {commandEnvironment} from './command.mjs';
+import {officeFontEnvironment} from './office-fonts.mjs';
+import {createHash} from 'node:crypto';
+import {OFFICE_WORKER_FILES} from './office-worker-bundle.mjs';
+const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
+export async function materializeOfficeWorker(directory,{write=writeFile,read=readFile}={}){
+ for(const name of ['worker.py','ABI.json']){
+  const source=OFFICE_WORKER_FILES[name],bytes=Buffer.from(source.text,'utf8'),target=path.join(directory,name);
+  if(sha256(bytes)!==source.sha256)throw Error('Office内核资源校验失败：'+name);
+  await write(target,bytes,{mode:0o600,flag:'wx'});
+  if(sha256(await read(target))!==source.sha256)throw Error('Office内核文件写入校验失败：'+name);
+ }
+}
 /** One owned process, no TCP listener, bounded serial request/response protocol. */
-export async function startOfficeKit({python,officeDirectory,directory,format,timeoutMs=30000}){
- for(const name of ['worker.py','ABI.json'])await writeFile(path.join(directory,name),await readFile(new URL('./office-kit/'+name,import.meta.url)),{mode:0o600,flag:'wx'});
- const child=spawn(python,[path.join(directory,'worker.py'),officeDirectory,directory,format],{cwd:directory,env:{...commandEnvironment(),PYTHONNOUSERSITE:'1'},shell:false,stdio:['pipe','pipe','pipe']});let buffer='',stderr='',next=0,dead=false,serial=Promise.resolve();const pending=new Map(),decoder=new StringDecoder('utf8');
- const die=error=>{if(dead)return;dead=true;for(const p of pending.values()){clearTimeout(p.timer);p.reject(error);}pending.clear();try{child.kill('SIGKILL');}catch{}};
+export async function startOfficeKit({python,officeDirectory,directory,format,timeoutMs=30000,signal}){
+ signal?.throwIfAborted();
+ await materializeOfficeWorker(directory);
+ signal?.throwIfAborted();
+ const fontEnvironment=await officeFontEnvironment({directory,officeDirectory});signal?.throwIfAborted();
+ const child=spawn(python,[path.join(directory,'worker.py'),officeDirectory,directory,format],{cwd:directory,env:{...commandEnvironment(),...fontEnvironment,PYTHONNOUSERSITE:'1'},shell:false,stdio:['pipe','pipe','pipe']});let buffer='',stderr='',next=0,dead=false,death,serial=Promise.resolve();const pending=new Map(),decoder=new StringDecoder('utf8'),closed=new Promise(resolve=>child.once('close',resolve));
+ const abort=()=>die(signal.reason||Error('Office操作已取消'));
+ const die=error=>{if(dead)return;dead=true;death=error;signal?.removeEventListener('abort',abort);for(const p of pending.values()){clearTimeout(p.timer);p.reject(error);}pending.clear();try{child.kill('SIGKILL');}catch{}};
  child.on('error',die);child.on('exit',(code,signal)=>die(Error('Office内核已退出 '+(signal||code)+' '+stderr.slice(-300))));child.stderr.on('data',b=>{stderr=(stderr+b.toString()).slice(-2000);});
+ child.stdin.on('error',error=>die(Error('Office内核输入管道故障：'+error.message)));
  child.stdout.on('data',b=>{buffer+=decoder.write(b);if(Buffer.byteLength(buffer)>8*1024**2)return die(Error('Office响应超限'));let i;while((i=buffer.indexOf('\n'))>=0){const line=buffer.slice(0,i);buffer=buffer.slice(i+1);if(!line.startsWith('WBKIT '))continue;let r;try{r=JSON.parse(line.slice(6));}catch{return die(Error('Office协议无效'));}const p=pending.get(r.id);if(!p)continue;pending.delete(r.id);clearTimeout(p.timer);r.error?p.reject(Error(r.error)):p.resolve(r.ready?{ready:true}:r.result||r);}});
- const wait=id=>new Promise((resolve,reject)=>{const timer=setTimeout(()=>die(Error('Office内核响应超时')),timeoutMs);pending.set(id,{resolve,reject,timer});});
- await wait(0).catch(e=>{die(e);throw Error(e.message+' '+stderr.slice(0,300));});
- return {request(op,data={}){const task=serial.then(async()=>{if(dead)throw Error('Office会话已结束');const id=++next,line=JSON.stringify({...data,id,op});if(line.length>18000)throw Error('Office操作输入超限');const result=wait(id);child.stdin.write(line+'\n');return result;});serial=task.catch(()=>{});return task;},close(){die(Error('Office会话已关闭'));},get pid(){return child.pid;}};
+ const wait=id=>new Promise((resolve,reject)=>{if(dead)return reject(death);const timer=setTimeout(()=>die(Error('Office内核响应超时')),timeoutMs);pending.set(id,{resolve,reject,timer});});
+ signal?.addEventListener('abort',abort,{once:true});if(signal?.aborted)abort();
+ await wait(0).catch(async e=>{die(e);await closed;throw Error(e.message+' '+stderr.slice(0,300));});
+ return {request(op,data={}){const task=serial.then(async()=>{if(dead)throw death||Error('Office会话已结束');const id=++next,line=JSON.stringify({...data,id,op});if(line.length>18000)throw Error('Office操作输入超限');const result=wait(id);try{child.stdin.write(line+'\n',error=>{if(error)die(Error('Office内核输入管道故障：'+error.message));});}catch(error){die(Error('Office内核输入管道故障：'+error.message));}return result;});serial=task.catch(()=>{});return task;},close(){die(Error('Office会话已关闭'));},closed,get pid(){return child.pid;}};
 }
