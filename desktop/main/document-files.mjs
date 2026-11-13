@@ -4,7 +4,7 @@ import path from "node:path";
 import {constants} from "node:fs";
 import { randomUUID } from "node:crypto";
 export async function readDocumentSource(source, {noFollow=false,maxBytes=4*1024*1024,label="文档"}={}) {
-  if (![4*1024*1024,32*1024*1024].includes(maxBytes)) throw Error("无效读取限制");
+  if (![4*1024*1024,16*1024*1024,32*1024*1024].includes(maxBytes)) throw Error("无效读取限制");
   const file = await open(source, noFollow ? constants.O_RDONLY | constants.O_NOFOLLOW : "r");
   try {
     const before = await file.stat();
@@ -35,7 +35,8 @@ export async function readDocumentSource(source, {noFollow=false,maxBytes=4*1024
     await file.close();
   }
 }
-export async function writeDocumentDestination(destination, bytes) {
+export async function writeDocumentDestination(destination, bytes, {maxBytes=4*1024*1024,beforePublish=async()=>{}}={}) {
+  if (![4*1024*1024,16*1024*1024].includes(maxBytes) || bytes.length > maxBytes) throw Error("导出文件超限");
   const temporary = path.join(
     path.dirname(destination),
     ".willbuddy-" + randomUUID() + ".tmp",
@@ -50,9 +51,10 @@ export async function writeDocumentDestination(destination, bytes) {
     file = null;
     const checked = await readFile(temporary);
     if (!checked.equals(bytes)) throw Error("导出暂存核验失败");
+    await beforePublish();
     await rename(temporary, destination);
     published = true;
-    const actual = await readDocumentSource(destination);
+    const actual = await readDocumentSource(destination,{maxBytes});
     if (!actual.equals(bytes)) throw Error("导出回读核验失败");
     return actual.length;
   } finally {

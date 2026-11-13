@@ -8,7 +8,7 @@ export function createApprover({
   let queue = Promise.resolve(),
     generation = new AbortController(),
     nativePending = false;
-  function approve(title, detail, signal, { browserScope } = {}) {
+  function approve(title, detail, signal, { browserScope, documentReadScope } = {}) {
     const epoch = generation.signal;
     const result = queue
       .catch(() => {})
@@ -33,7 +33,7 @@ export function createApprover({
           detail +
           (browserScope
             ? `\n\n可选择允许本任务在 ${browserScope.origin} 继续打开、读取、检查、点击和填写。跨站或新任务需重新确认；点击可能提交网页业务。可从工具页或菜单撤销。`
-            : "");
+            : documentReadScope ? '\n\n可允许本次任务重复读取这一文档的当前版本；其他文档、版本和任务仍需确认。' : "");
         if (
           displayDetail.length > 1000 ||
           displayDetail.split("\n").length > 20
@@ -63,6 +63,7 @@ export function createApprover({
                 detail: displayDetail,
                 buttons: browserScope
                   ? ["取消", "允许这一次", "本任务本站点允许"]
+                  : documentReadScope ? ["取消", "允许这一次", "本任务允许此文档"]
                   : ["取消", "允许这一次"],
                 defaultId: 0,
                 cancelId: 0,
@@ -78,6 +79,8 @@ export function createApprover({
           combined.throwIfAborted();
           if (browserScope && reply.response === 2)
             return { allowed: true, browserTask: true };
+          if (documentReadScope && reply.response === 2)
+            return { allowed: true, documentTask: true };
           return reply.response === 1;
         } finally {
           clearTimeout(timer);
