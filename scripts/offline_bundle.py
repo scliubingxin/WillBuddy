@@ -11,6 +11,12 @@ import zipfile
 
 EXTRAS={'OFFLINE-MANIFEST.json','Install-WillBuddy.command','READ-ME.txt','ELECTRON-LICENSE.txt','LICENSES.chromium.html'}
 
+def copy_source_tree(source,target):
+    # Development checks may create bytecode beside the owned Python worker.
+    # Ship the source, never stale host-specific bytecode or interpreter caches.
+    import shutil
+    return shutil.copytree(source,target,ignore=shutil.ignore_patterns('__pycache__','*.pyc','*.pyo'))
+
 def residue(name):
     return any(part.startswith(('.BC.','._','.Electron Framework.')) or part in {'__MACOSX','.DS_Store'} for part in PurePosixPath(str(name)).parts)
 
