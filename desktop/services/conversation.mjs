@@ -116,7 +116,7 @@ export function createConversationService({ models, approve, clientFactory, secr
                     onEvent: async (event) => {
                         if(event.tool==='knowledge_search' && event.status==='succeeded') recordKnowledgeEvidence(chat,runId,event.result,store.data.documents || [],event.time);
                         const d=event.result?.document;
-                        if(['document_create','document_edit','document_convert','document_write','document_patch','document_insert_image','skill_import_output'].includes(event.tool)&&event.result?.verified===true&&event.status==='succeeded'&&d?.id) {
+                        if(['document_create','document_edit','document_convert','document_write','document_patch','document_insert_image','skill_import_output','pdf_ocr_import'].includes(event.tool)&&event.result?.verified===true&&event.status==='succeeded'&&d?.id) {
                             chat.documentRefs ??= [];
                             chat.documentRefs.push({runId,id:d.id,revision:d.revision,sha256:d.sha256});
                         }

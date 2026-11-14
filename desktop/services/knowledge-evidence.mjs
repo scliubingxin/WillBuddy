@@ -1,3 +1,4 @@
+import {ocrSourceForRange} from '../runtime/ocr-provenance.mjs';
 /** Capture only successful registered retrieval observations, never assistant prose.
  * Snapshots remain historical chat content; they do not grant future document reads.
  */
@@ -15,8 +16,11 @@ export function recordKnowledgeEvidence(chat, runId, result, documents, time = D
         !Number.isInteger(m.line) || m.line < 1 ||
         !Number.isInteger(m.endLine) || m.endLine < m.line ||
         !/^[a-f0-9]{64}$/.test(s.sha256)) throw Error('知识证据来源已变化或坐标无效');
+    const ocrSource=ocrSourceForRange(live,m.offset,m.endOffset);
+    if (ocrSource && live.text.slice(m.offset,m.endOffset)!==m.text)
+      throw Error('OCR 证据摘录与来源不一致');
     return {source:{id:s.id,name:s.name,revision:s.revision,sha256:s.sha256},
-      line:m.line,endLine:m.endLine,offset:m.offset,endOffset:m.endOffset,text:m.text};
+      ...(ocrSource ? {ocrSource} : {}), line:m.line,endLine:m.endLine,offset:m.offset,endOffset:m.endOffset,text:m.text};
   });
   const sources = result.sources.map(s => ({id:s.id,name:s.name,revision:s.revision,
     sha256:s.sha256,sourceTruncated:s.sourceTruncated === true}));
