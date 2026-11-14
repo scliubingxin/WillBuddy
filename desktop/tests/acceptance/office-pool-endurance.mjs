@@ -1,0 +1,9 @@
+// Real LibreOfficeKit soak test: run explicitly, never during ordinary tests.
+import {mkdtemp,rm,writeFile} from 'node:fs/promises';import {execFileSync} from 'node:child_process';import {tmpdir} from 'node:os';import path from 'node:path';
+import {createOfficePreviewPool} from '../../runtime/office-preview-pool.mjs';import {generateDocument} from '../../runtime/documents.mjs';import {officeDirectory,officePython} from '../helpers/office-kit-runtime.mjs';
+const seconds=Number(process.env.WB_SOAK_SECONDS||'60');if(!Number.isInteger(seconds)||seconds<1||seconds>3000)throw Error('invalid duration');
+const dir=await mkdtemp(path.join(tmpdir(),'wb-pool-soak-'));const pool=createOfficePreviewPool({runtime:async()=>({python:officePython,officeDirectory}),directory:dir,capacity:2});const started=Date.now(),deadline=started+seconds*1000;let rounds=0,nextLog=started+60000;
+try{const markers=['ALPHA INDEPENDENT SECRET 12947','BETA INDEPENDENT SECRET 81635'];const docs=[];for(const text of markers){const d=await generateDocument('docx',JSON.stringify({blocks:[{type:'paragraph',text}]}));docs.push(d.bytes)}
+ while(Date.now()<deadline){const out=await Promise.all(docs.map(bytes=>pool.preview({format:'docx',bytes})));for(let i=0;i<2;i++){const file=path.join(dir,`result-${i}.pdf`);await writeFile(file,out[i]);const text=execFileSync('pdftotext',[file,'-'],{timeout:15000}).toString();if(!text.includes(markers[i])||text.includes(markers[1-i]))throw Error('preview content mismatch at round '+rounds);}rounds++;if(Date.now()>=nextLog){console.log(JSON.stringify({rounds,seconds:Math.floor((Date.now()-started)/1000),pool:pool.stats()}));nextLog+=60000;}}
+ console.log(JSON.stringify({result:'passed',rounds,seconds:Math.floor((Date.now()-started)/1000),engine:'real Linux LibreOfficeKit; two documents',pool:pool.stats()}));
+}finally{await pool.close();await rm(dir,{recursive:true,force:true});}

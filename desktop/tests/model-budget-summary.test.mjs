@@ -18,7 +18,7 @@ test('conversation saves an explicitly unfinished result and includes it in the 
  const store={data:initialState(),save:async()=>{},log:()=>{}};store.data.settings.maxSteps=2;
  const models=createModelService({store,secrets:{}});let requests=0,executions=0,nextHistory;
  const service=createConversationService({store,models,active:new Map(),key:()=>'',view:()=>store.data,executeTool:async()=>{executions++;return {status:'succeeded',source:'recorded'};},request:async(_settings,_key,history,_signal,tools)=>{
-  requests++;if(requests===1)return {message:{tool_calls:[{id:'x',function:{name:'browser_read',arguments:'{}'}}]}};
+  requests++;if(requests===1)return {message:{tool_calls:[{id:'x',function:{name:'browser_read',arguments:'{"id":"fixture"}'}}]}};
   if(requests===2){assert.equal(tools,undefined);return {text:'已查到资料，仍需核实价格。'};}
   nextHistory=history;return {text:'继续核实'};
  }});
