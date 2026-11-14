@@ -1,0 +1,21 @@
+{
+  "version": "0.37.55",
+  "status": "internal checkpoint",
+  "node_tests_passed": 41,
+  "source_archive_tests_passed": 2,
+  "scope": "real Linux PDF OCR through knowledge evidence to HTML string; mock native authorization",
+  "limitations": [
+    "text highlights are OCR words, not verified answers",
+    "no original PDF preview or overlay",
+    "no real browser, Mac, Chinese OCR or paid model validation",
+    "no Apple app build",
+    "M4 incomplete"
+  ],
+  "files": [
+    "desktop/runtime/ocr-provenance.mjs",
+    "desktop/src/ui/knowledge-evidence.js",
+    "desktop/tests/ocr-regions-03754.test.mjs",
+    "desktop/tests/pdf-ocr-03740.test.mjs",
+    "desktop/tests/ocr-evidence-display-03755.test.mjs"
+  ]
+}

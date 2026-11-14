@@ -1,0 +1,24 @@
+{
+  "version": "0.37.47",
+  "status": "internal_checkpoint",
+  "baseline": {
+    "version": "0.37.46",
+    "sha256": "3e5ca4a1ea4cafc79bc83d32ec716b0f740630e74a568e7b28c8de579bcf6345"
+  },
+  "node_related": {
+    "passed": 67,
+    "failed": 0,
+    "report": "v0.37.47-tests.txt"
+  },
+  "packaging_python": {
+    "passed": 35,
+    "failed": 0
+  },
+  "integration": "real Linux Poppler and Tesseract on generated English 2- and 6-page PDFs, actual attachment/conversation services; model and native picker are fixtures",
+  "limitations": [
+    "Mac OCR/Poppler/Chinese models absent; no Mac native test",
+    "first 5 pages only; no manual cancel UI",
+    "no true semantic model or Mac pool performance acceptance",
+    "M4 incomplete; no new application or GitHub release"
+  ]
+}

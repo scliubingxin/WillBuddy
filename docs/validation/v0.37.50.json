@@ -1,0 +1,17 @@
+{
+  "version": "0.37.50",
+  "status": "internal_m4_checkpoint",
+  "baseline_sha256": "6514ca845d965f672b92959bb52919221e91535dab7e989eaa44fd7434dc7861",
+  "tests": {
+    "node_related": 29,
+    "python_packaging": 8,
+    "actual_linux_ocr": true,
+    "actual_native_mac": false
+  },
+  "limitations": [
+    "Progress reports page being processed, not completion",
+    "Electron native UI, IPC, Mac and real model not accepted",
+    "Apple ARM64 OCR/PDF and Chinese trained data not bundled",
+    "No new app build or GitHub release; M4 incomplete"
+  ]
+}

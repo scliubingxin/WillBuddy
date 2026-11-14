@@ -1,0 +1,22 @@
+{
+  "version": "0.37.58",
+  "status": "internal checkpoint",
+  "passed_tests": 30,
+  "evidence": "real Linux PDF render and Tesseract OCR including geometry and change cleanup; native picker, IPC and model semantics are fixtures",
+  "limitations": [
+    "only first page with regions",
+    "OCR image pixels are not native PDF coordinates",
+    "no new mac arm offline build",
+    "native GUI, Mac and Chinese OCR not validated",
+    "Mac OCR and Poppler are not bundled"
+  ],
+  "changed": [
+    "desktop/services/ocr-source-preview.mjs",
+    "desktop/services/ocr-source-open.mjs",
+    "desktop/main.mjs",
+    "desktop/preload.cjs",
+    "desktop/src/app.js",
+    "desktop/src/ui/knowledge-evidence.js",
+    "desktop/tests/ocr-source-preview-03758.test.mjs"
+  ]
+}

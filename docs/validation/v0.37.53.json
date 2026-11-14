@@ -1,0 +1,18 @@
+{
+  "version": "0.37.53",
+  "status": "internal checkpoint",
+  "node_tests_passed": 37,
+  "source_archive_tests_passed": 2,
+  "scope": "OCR word boxes linked to UTF-16 offsets, real Linux Poppler/Tesseract English PDF fixture",
+  "limitations": [
+    "no original PDF coordinates or evidence UI",
+    "no Mac Chinese OCR, paid model or native approval validation",
+    "no Apple app build",
+    "M4 incomplete"
+  ],
+  "files": [
+    "desktop/runtime/image-ocr.mjs",
+    "desktop/tests/pdf-ocr-03740.test.mjs",
+    "desktop/tests/ocr-offsets-03753.test.mjs"
+  ]
+}

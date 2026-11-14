@@ -1,0 +1,22 @@
+{
+  "version": "0.37.49",
+  "status": "internal_m4_checkpoint",
+  "baseline_sha256": "67f47a2eb90cd5aebcb5d64bcc07826507f3e182c6c56630713e5874bbe6b82d",
+  "tests": {
+    "node_related": {
+      "passed": 27,
+      "command": "node --test --test-concurrency=1 desktop/tests/pdf-cancel-03749.test.mjs desktop/tests/pdf-chat-import-03747.test.mjs desktop/tests/pdf-ocr-03740.test.mjs"
+    },
+    "python_packaging": {
+      "passed": 8,
+      "command": "python3 -m unittest discover -s scripts/tests -p 'test_*bundle*.py' -v"
+    }
+  },
+  "limitations": [
+    "Electron UI and native approval not tested",
+    "Apple ARM64 OCR/PDF and Chinese models not bundled",
+    "No Mac runtime, codesign, Gatekeeper or real model acceptance",
+    "No new app build or GitHub release",
+    "M4 incomplete"
+  ]
+}

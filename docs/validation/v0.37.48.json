@@ -1,0 +1,25 @@
+{
+  "version": "0.37.48",
+  "status": "internal_checkpoint",
+  "baseline": {
+    "version": "0.37.47",
+    "sha256": "85a26499e7cd2ed11a7186631a2ff35274ad237f3deaffcaefb1e3a31590266c"
+  },
+  "node_related": {
+    "passed": 71,
+    "failed": 0,
+    "report": "v0.37.48-tests.txt"
+  },
+  "packaging_python": {
+    "passed": 35,
+    "failed": 0
+  },
+  "integration": "Real Linux Poppler/Tesseract processes on synthetic English 6-page PDF, pages 3–4 and original provenance; native dialog and model fixtures",
+  "limitations": [
+    "Mac OCR/PDF/Chinese trained data not bundled or tested",
+    "PDF selection max 5 consecutive pages, manual cancel/progress not implemented",
+    "UI renderer and native dialog not tested in real browser or Mac",
+    "no true semantic model or Mac Office pool performance acceptance",
+    "M4 incomplete; no new application or GitHub release"
+  ]
+}

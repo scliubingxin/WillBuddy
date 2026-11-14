@@ -1,0 +1,17 @@
+{
+  "version": "0.37.59",
+  "scope": "M4 multipage OCR evidence preview checkpoint",
+  "tests": {
+    "related_node": {
+      "passed": 31,
+      "failed": 0,
+      "evidence": "real Linux Poppler/Tesseract English OCR; native selector and IPC are adapters"
+    }
+  },
+  "limitations": [
+    "no Mac native GUI, OCR or signing verification",
+    "no Apple ARM64 OCR or Poppler bundled",
+    "no matching application package",
+    "not M4 complete"
+  ]
+}

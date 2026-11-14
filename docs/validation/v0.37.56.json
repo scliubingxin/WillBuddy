@@ -1,0 +1,22 @@
+{
+  "version": "0.37.56",
+  "status": "internal checkpoint",
+  "tests": {
+    "ocr_provenance_pdf_real_linux": 22,
+    "knowledge_index_agent_http_fixtures": 49
+  },
+  "limits": [
+    "Mac未验收",
+    "原生审批和模型语义为夹具",
+    "没有构建新arm64安装包",
+    "真实PDF原页高亮未实现",
+    "OCR与嵌入模型未随Mac包离线内置"
+  ],
+  "files": [
+    "desktop/runtime/ocr-provenance.mjs",
+    "desktop/services/agent-session.mjs",
+    "desktop/services/knowledge-evidence.mjs",
+    "desktop/tests/ocr-provenance-03746.test.mjs",
+    "desktop/tests/ocr-regions-03754.test.mjs"
+  ]
+}

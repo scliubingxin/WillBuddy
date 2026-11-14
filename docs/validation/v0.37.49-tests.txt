@@ -1,0 +1,49 @@
+✔ cancel targets only current import; repeated and stale stop requests cannot cancel a later job (3.533022ms)
+✔ stopping during real child execution terminates it and removes the private PDF temporary directory (222.616165ms)
+✔ cancelling before OCR completes cannot create a document (3.154191ms)
+✔ composer displays a stop control only for the current import (1.98686ms)
+✔ native-selected two-page PDF becomes bounded source-cited chat document after actual OCR (1017.193088ms)
+✔ actual six-page PDF only recognizes first five and reports the omitted page (2234.885734ms)
+✔ cancel, invalid language, changed source and OCR failure do not create a document (179.715766ms)
+✔ source changes during OCR or storage and cancellation publish no attachment (217.295559ms)
+✔ source mutation during document persistence rolls back the saved OCR document (292.380191ms)
+✔ composer explains limited PDF pages and external OCR component requirement (2.130149ms)
+✔ selected PDF OCR is sent through the real conversation attachment path only after send (840.594079ms)
+✔ specified PDF pages are genuinely recognized with source page numbers and omitted-page notice (952.580405ms)
+✔ invalid page ranges reject before any file read, confirmation or tool execution (10.450075ms)
+✔ page selection outside actual document fails without producing attachments (239.695796ms)
+✔ composer presents the specified-page action (1.277017ms)
+✔ cancellation during durable document save rolls back the recognized result (123.171874ms)
+✔ real PDF raster and tesseract OCR extracts two ordered pages and hides audit text (766.257506ms)
+✔ authorization denial, revoked folder, invalid page range and changed PDF fail before OCR (31.525836ms)
+✔ source mutation during OCR discards all pages and cleans temporary files (392.17632ms)
+✔ encrypted PDF and pages beyond the document fail without leaking partial text (386.118398ms)
+✔ authorized-directory symlink escape is refused before approval (7.317616ms)
+✔ PDF with an unrecognized page preserves surrounding recognized pages and page positions (1091.456575ms)
+✔ approved OCR can be imported once into a source-cited knowledge document in the same run (747.494084ms)
+✔ source changed after approval or during persistence rolls back OCR import (698.181903ms)
+✔ OCR import capability requires both OCR and document-create permissions (13.149934ms)
+✔ actual HTTP mock model drives OCR then approved source-cited document creation (404.35428ms)
+✔ real OCR import drives approved knowledge search with checked original page evidence (777.757159ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12575.361656
+
+test_closed_inventory_and_symlink_permissions (test_offline_bundle.OfflineBundleTests.test_closed_inventory_and_symlink_permissions) ... ok
+test_escaping_link_case_collision_and_duplicate_zip_paths_rejected (test_offline_bundle.OfflineBundleTests.test_escaping_link_case_collision_and_duplicate_zip_paths_rejected) ... ok
+test_extra_file_is_rejected_even_when_every_manifest_hash_still_matches (test_offline_bundle.OfflineBundleTests.test_extra_file_is_rejected_even_when_every_manifest_hash_still_matches) ... ok
+test_known_residue_removed_but_inventory_rejects_it_if_not_cleaned (test_offline_bundle.OfflineBundleTests.test_known_residue_removed_but_inventory_rejects_it_if_not_cleaned) ... ok
+test_residue_added_after_pack_is_rejected (test_offline_bundle.OfflineBundleTests.test_residue_added_after_pack_is_rejected) ... ok
+test_sealed_residue_is_not_silently_removed (test_offline_bundle.OfflineBundleTests.test_sealed_residue_is_not_silently_removed) ... ok
+test_signing_path_gate_rejects_unknown_temp_and_missing_files (test_offline_bundle.OfflineBundleTests.test_signing_path_gate_rejects_unknown_temp_and_missing_files) ... ok
+test_tampering_and_executable_mode_loss_rejected (test_offline_bundle.OfflineBundleTests.test_tampering_and_executable_mode_loss_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.046s
+
+OK

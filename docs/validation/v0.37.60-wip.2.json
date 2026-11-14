@@ -1,0 +1,25 @@
+{
+  "version": "0.37.60-wip.2",
+  "tests": {
+    "ocr_wasm": {
+      "passed": 5,
+      "evidence": "actual Linux PNG, English OCR and simulated approvals"
+    },
+    "real_pdf_wasm": {
+      "passed": 1,
+      "evidence": "actual Linux Poppler and WASM English OCR"
+    },
+    "chromium_ui": {
+      "status": "blocked",
+      "reason": "socket() Operation not permitted"
+    }
+  },
+  "limitations": [
+    "binary/data excluded pending third-party attribution",
+    "Apple ARM64/Mac untested",
+    "Chinese data missing",
+    "PDF needs Poppler",
+    "long Office soak in progress",
+    "not M4 complete"
+  ]
+}

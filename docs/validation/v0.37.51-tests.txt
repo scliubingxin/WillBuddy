@@ -1,0 +1,102 @@
+✔ agent capabilities are bounded typed registries, not arbitrary executable or credential configuration (3.908611ms)
+✔ workspace persists profile with knowledge/skill/tool/MCP and rolls back on disk failure (18.548231ms)
+✔ tool schemas and execution both enforce per-agent allowlist; unknown calls never reach runtime (1.19973ms)
+✔ skills load on demand, body stays out of system prompt/audit; profile edits invalidate active sessions (10.658558ms)
+✔ knowledge retrieval is agent-scoped, approved, source/revision anchored, and honors denial (43.769008ms)
+✔ MCP discovery denial and disk failure cause zero network calls (5.405016ms)
+✔ MCP client rejects redirects, malformed IDs, unsupported schemas and oversized replies without retry (15.692134ms)
+✔ real HTTP model → skill → approved knowledge → MCP SSE result → model acceptance, with session cleanup (144.184054ms)
+✔ MCP schema/cursor limits and wrong protocol versions fail closed (3.621598ms)
+✔ MCP call denial, long parameters, profile deletion and cancellation never execute a remote action (6.718532ms)
+✔ MCP active HTTP request observes abort without implicit retry (11.001273ms)
+✔ mock HTTP LLM malformed second tool call does not execute the first side effect or retry (56.813209ms)
+✔ duplicate tool IDs and non-object parameters reject entire response batch (0.613046ms)
+✔ complete valid parallel tool call batch executes in order and resumes model after observations (1.456202ms)
+✔ a DONE marker without completed tool finish cannot authorize side effects (2.911096ms)
+✔ real HTTP stream exposes Chinese Markdown before completion and preserves split UTF-8, usage and CRLF (64.020882ms)
+✔ SSE tool fragments assemble by index, then real Node CLI runs only after the completed frame (142.805233ms)
+✔ JSON-only compatible providers deliver once; non-stream callers continue sending stream:false (24.481968ms)
+✔ truncated, malformed, length-limited or explicit-error streams fail and never execute incomplete tools (14.392307ms)
+✔ stream size limit and disabled-tool mode fail closed (46.599441ms)
+✔ conversation persists one final message, ordered events and tool-round prelude without duplicate final text (7.307919ms)
+✔ real HTTP cancellation retains a persisted partial message and does not replay or complete the request (27.115283ms)
+✔ SSE supports bare CR and multiline data fields without treating comments as content (1.522276ms)
+✔ unknown second tool and invalid type reject batch before first side effect (2.344379ms)
+✔ JSON content filtering and malformed tool finish states never execute (8.23849ms)
+✔ SSE tool fragments finished as stop do not execute, valid tool_calls finish works (3.023907ms)
+✔ ordinary JSON text may omit finish status (0.538295ms)
+✔ legacy JSON providers without finish state remain supported (0.985916ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1621.997304
+
+✔ model profiles keep keys separate, metadata never exposes ciphertext and session keys are not persisted (4.410456ms)
+✔ auto tiers match capability and priority; fast disables thinking, extreme high; no cross-tier fallback (0.994574ms)
+✔ manual effort uses real provider-specific request fields and rejects incompatible parameters (5.028385ms)
+✔ credential changes require fresh input and revision guards reject stale editors (0.937511ms)
+✔ saved route rejects deletion, disabling and unrelated edits without silently choosing another model (0.752325ms)
+✔ failed writes roll back model config and session credential; secret adapter failure never falls back (0.779382ms)
+✔ profile model budget and capabilities fail closed before outbound request (0.745869ms)
+✔ actual Store reload preserves encrypted config, no plaintext and saves are serialized (12.33061ms)
+✔ real HTTP payload uses selected model/key and reasoning params, no arbitrary response fallback (40.7015ms)
+✔ SSE reasoning is retained only for same-run tool protocol and is not streamed as answer text (2.550666ms)
+✔ conversation route frozen before queue; two chats can use distinct profiles independently (5.136853ms)
+✔ routed conversation rejects late response after profile changes (1.065279ms)
+✔ host model secret adapter refuses plaintext backend and encrypt/decrypt failures (0.876115ms)
+✔ queued profile drift blocks outbound model call (0.600933ms)
+✔ model round limit is validated, persisted, and does not overwrite existing legacy defaults (0.847848ms)
+✔ explicit legacy model round limit allows a configured agent beyond twelve iterations (3.438384ms)
+✔ legacy model configuration commits settings and secret together; validation, encryption and disk failure preserve prior values (2.402926ms)
+✔ legacy settings updates serialize and the next update follows a failed save (12.102912ms)
+✔ model editor exposes its configured round limit without exposing stored secret values (1.641132ms)
+✔ native-selected two-page PDF becomes bounded source-cited chat document after actual OCR (889.458535ms)
+✔ actual six-page PDF only recognizes first five and reports the omitted page (2014.247944ms)
+✔ cancel, invalid language, changed source and OCR failure do not create a document (250.086909ms)
+✔ source changes during OCR or storage and cancellation publish no attachment (185.148519ms)
+✔ source mutation during document persistence rolls back the saved OCR document (313.001818ms)
+✔ composer explains limited PDF pages and external OCR component requirement (2.873857ms)
+✔ selected PDF OCR is sent through the real conversation attachment path only after send (1260.173723ms)
+✔ specified PDF pages are genuinely recognized with source page numbers and omitted-page notice (1024.825541ms)
+✔ invalid page ranges reject before any file read, confirmation or tool execution (1.685468ms)
+✔ page selection outside actual document fails without producing attachments (207.146708ms)
+✔ composer presents the specified-page action (0.897183ms)
+✔ cancellation during durable document save rolls back the recognized result (192.953494ms)
+✔ real PDF raster and tesseract OCR extracts two ordered pages and hides audit text (721.145872ms)
+✔ authorization denial, revoked folder, invalid page range and changed PDF fail before OCR (38.673163ms)
+✔ source mutation during OCR discards all pages and cleans temporary files (360.401301ms)
+✔ encrypted PDF and pages beyond the document fail without leaking partial text (305.175662ms)
+✔ authorized-directory symlink escape is refused before approval (4.89988ms)
+✔ PDF with an unrecognized page preserves surrounding recognized pages and page positions (1272.557913ms)
+✔ approved OCR can be imported once into a source-cited knowledge document in the same run (694.054623ms)
+✔ source changed after approval or during persistence rolls back OCR import (823.359408ms)
+✔ OCR import capability requires both OCR and document-create permissions (11.919226ms)
+✔ actual HTTP mock model drives OCR then approved source-cited document creation (588.030208ms)
+✔ real OCR import drives approved knowledge search with checked original page evidence (963.20335ms)
+✔ actual CLI captures stdout, stderr, cwd and nonzero exit (65.080051ms)
+✔ args remain literal and are not interpreted by a shell (51.114051ms)
+✔ actual CLI supports cancellation, timeout, output limit and missing executable errors (273.951915ms)
+✔ CLI preparation rejects revoked grants, traversal, invalid argument arrays; env omits API secrets (6.347436ms)
+✔ native approval denial is audited and cannot execute a CLI or open a local browser target (8.806783ms)
+✔ runtime executes approved CLI and returns exact output; revoke during approval blocks execution (53.840531ms)
+✔ browser validates protocols; fake Electron adapter checks remote pages have no preload or Node (2.260006ms)
+✔ agent passes tools and actual CLI results through a real HTTP model fixture across turns (116.526989ms)
+✔ agent propagates refused/failed actions, rejects unknown tools and obeys step/disabled limits (1.136565ms)
+ℹ tests 51
+ℹ suites 0
+ℹ pass 51
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13913.40918
+
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.026s
+
+OK

@@ -1,0 +1,52 @@
+✔ actual local OCR image pipeline recognizes text and redacts audit (201.991727ms)
+✔ denied, not attached, source changed during approval and missing bundled runtime fail closed (5.664927ms)
+✔ cancelled and failed OCR clean private staging (2.827936ms)
+✔ real OCR returns bounded word pixel boxes without copying text to audit (179.683352ms)
+✔ OCR TSV parser rejects malformed and out-of-image coordinates and bounds box count (1.724934ms)
+✔ word coordinates reference exact UTF-16 text offsets across lines and non-BMP characters (2.159943ms)
+✔ repeated words have distinct offsets and clipped boxes do not truncate text (0.937952ms)
+✔ long OCR page chunks retain the real original PDF page and hash (4.561478ms)
+✔ changed text, altered hash, invalid ranges and non OCR sources cannot assert a page (0.499777ms)
+✔ evidence derives PDF pages from the live OCR record, ignoring forged model claims (1.206022ms)
+✔ evidence page labels escape persisted source fields in the UI (22.809014ms)
+✔ provenance changed during an approved read rejects the whole search (104.774034ms)
+✔ source selection maps checked text to actual page pixels (3.071869ms)
+✔ damaged boxes, changed text, or an out-of-page rectangle reject evidence (1.125577ms)
+✔ non-OCR and old metadata never invent geometry (0.275151ms)
+✔ native-selected two-page PDF becomes bounded source-cited chat document after actual OCR (871.794943ms)
+✔ actual six-page PDF only recognizes first five and reports the omitted page (1844.442526ms)
+✔ cancel, invalid language, changed source and OCR failure do not create a document (154.467664ms)
+✔ source changes during OCR or storage and cancellation publish no attachment (159.425954ms)
+✔ source mutation during document persistence rolls back the saved OCR document (154.918605ms)
+✔ composer explains limited PDF pages and external OCR component requirement (2.683608ms)
+✔ selected PDF OCR is sent through the real conversation attachment path only after send (917.330098ms)
+✔ specified PDF pages are genuinely recognized with source page numbers and omitted-page notice (868.187031ms)
+✔ invalid page ranges reject before any file read, confirmation or tool execution (3.688362ms)
+✔ page selection outside actual document fails without producing attachments (299.599365ms)
+✔ composer presents the specified-page action (1.145404ms)
+✔ cancellation during durable document save rolls back the recognized result (134.5996ms)
+✔ real PDF raster and tesseract OCR extracts two ordered pages and hides audit text (629.062412ms)
+✔ authorization denial, revoked folder, invalid page range and changed PDF fail before OCR (29.081751ms)
+✔ source mutation during OCR discards all pages and cleans temporary files (386.930059ms)
+✔ encrypted PDF and pages beyond the document fail without leaking partial text (349.956605ms)
+✔ authorized-directory symlink escape is refused before approval (3.314209ms)
+✔ PDF with an unrecognized page preserves surrounding recognized pages and page positions (1034.900992ms)
+✔ approved OCR can be imported once into a source-cited knowledge document in the same run (687.752794ms)
+✔ source changed after approval or during persistence rolls back OCR import (785.125442ms)
+✔ OCR import capability requires both OCR and document-create permissions (17.481725ms)
+✔ actual HTTP mock model drives OCR then approved source-cited document creation (430.204125ms)
+✔ real OCR import drives approved knowledge search with checked original page evidence (694.476789ms)
+ℹ tests 38
+ℹ suites 0
+ℹ pass 38
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12388.643139
+
+..
+----------------------------------------------------------------------
+Ran 2 tests in 0.004s
+
+OK
