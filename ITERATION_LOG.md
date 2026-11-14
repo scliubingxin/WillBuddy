@@ -1,3 +1,129 @@
+## 0.37.55 OCR 证据文字标记（内部检查点）
+
+从 0.37.54 的1088内容文件与权威0.37.22的873内容文件逐SHA校验后接续。修改 desktop/runtime/ocr-provenance.mjs、desktop/src/ui/knowledge-evidence.js、desktop/tests/ocr-regions-03754.test.mjs、desktop/tests/pdf-ocr-03740.test.mjs，新增 tests/ocr-evidence-display-03755.test.mjs。已有可信来源验证后的区域附带文档UTF-16范围，在聊天历史知识证据中安全转义并标记有定位数据的识别词；无效、重叠或超限元数据退回纯文本；旧记录兼容、无额外文件读取或网络。标记是识别词而非精确查询命中或答案事实验收，不是原PDF预览、图片框或PDF坐标；未展示原文件，已截断区域明确提示。41项相关测试通过（含Linux真实Poppler/Tesseract PDF→OCR→知识证据→HTML输出，以及Unicode、注入、损坏、取消和权限），2项源码归档测试通过；原生审批与模型为夹具。无真实浏览器、Mac/中文OCR/付费模型验收，无新Apple安装包或GitHub发布。M4未完成。
+
+## 0.37.54 OCR 知识证据区域（内部检查点）
+
+从 0.37.53 的1085文件与权威0.37.22的873文件逐SHA校验后接续。修改 desktop/runtime/ocr-provenance.mjs、runtime/tools.mjs、tests/pdf-ocr-03740.test.mjs，新增 tests/ocr-regions-03754.test.mjs：同一获批OCR结果的每页词框、像素尺寸与正文区间随成果元数据保存；知识检索和聊天证据从当前文档验证文字SHA/来源及区域摘要后选出与片段相交的至多16个区域，标明截断和渲染像素坐标，已有旧来源仍可读。OCR凭证改为独立复制有界页面对象；审批、授权撤销、源文件SHA和保存回滚保持。摘要用于检测损坏，非签名，不能防止本机恶意改写并重算；检索通常为整片段，区域不等于精确语义答案。历史截图和原PDF不随证据保存，无UI高亮或PDF原生坐标，区域可能不完整。38项相关测试通过（含Linux真实Poppler/Tesseract PDF→OCR→成果→知识检索→聊天证据，以及源变化、取消/权限、损坏、UTF-16测试），2项源码归档测试通过；原生审批/模型为夹具。无Mac/中文OCR/付费模型验收，无新Apple安装包或GitHub发布。M4未完成。
+
+## 0.37.53 OCR 词框与正文定位（内部检查点）
+
+从 0.37.52 的 1082 内容文件及权威 0.37.22 的 873 内容文件逐 SHA 校验后继续。实际修改 desktop/runtime/image-ocr.mjs、desktop/tests/pdf-ocr-03740.test.mjs，新增 desktop/tests/ocr-offsets-03753.test.mjs：Tesseract 的每个有效词框现在带 textStart/textEnd，索引指向同页识别正文的 UTF-16 左闭右开区间，重复词、跨行、中文和非 BMP 字符可准确区分；保留已有 64 框与返回大小截断，正文不因此截断。偏移只关联识别结果，不是 PDF 原始坐标或原文精确识别；成果 Markdown 与知识证据尚未保存框位置，也无 UI 高亮。37 项 OCR/PDF/来源和取消相关测试通过，包含 Linux Poppler/Tesseract 真实双页 PDF 每个框的文字切片校验及模拟原生审批；2 项源码归档测试通过。未在 Mac、中文模型或真实用户文档验收，未构建 Apple 离线包，未 GitHub 发布。M4 未完成。
+
+## 0.37.52 工具参数批次结构校验（内部检查点）
+
+从 0.37.51 全部 1078 内容 SHA 与权威 0.37.22 全部 873 内容 SHA 校验后继续。新增 desktop/runtime/tool-arguments.mjs，修改 runtime/agent.mjs，在批内任何工具执行前检查所有调用的结构约束；覆盖 type、required、additionalProperties、enum、anyOf、数值范围、字符串长度、数组项和长度，递归与工作量有界。缺失 schema 的旧适配保持兼容。错误消息不输出参数值。pattern、$ref、oneOf 和业务/授权等没有完整的批前验证，仍依赖各工具执行时校验；不能承诺所有语义错误均在副作用前发现。更改 tests/tool-schema-03752.test.mjs 及三个旧测试夹具的必填参数。71 项 Agent/模型/MCP/CLI/流与故障测试通过，含真实 HTTP 夹具和 Node 子进程；原生审批及模型内容为夹具。源码归档 2 项打包边界测试通过；未构建 Apple 离线包，未 Mac、真实模型验收或 GitHub 发布。M4 未完成。
+
+## 0.37.51 模型工具执行边界（内部检查点）
+
+从 0.37.50 完整源码按 SHA 校验后继续。runtime/agent.mjs 对同一响应批中每个工具先核对类型及当前允许名单；未知或错误类型时整批不执行，避免首项副作用后发现次项错误。runtime/model-stream.mjs 对 JSON 的 content_filter 和显式冲突/未知结束状态拒绝执行，对 SSE 工具增量要求 tool_calls/function_call 结束；JSON 缺结束字段仍兼容旧模型服务，无法凭此证明响应完整。仅做工具身份和参数 JSON 对象预检，未做整批完整 schema 预检，其他工具语义约束仍在各工具执行时验证。修改 tests/tool-finish-03751.test.mjs、tests/agent-capabilities.test.mjs、tests/runtime.test.mjs 和版本/记录文件。28 项 Agent/流/故障测试、51 项 runtime/模型/PDF 回归、8 项打包边界通过，含真实 HTTP 模型夹具、真实 Node CLI、Linux Poppler/Tesseract；模型内容与原生审批为夹具，无 Mac/付费模型验收。未新建安装包、未覆盖正式权威、未 GitHub 发布。
+
+## 0.37.50 — PDF 识别逐页进度（内部检查点）
+
+从 0.37.49 完整源码校验后继续：实际修改 desktop/runtime/pdf-ocr.mjs、services/pdf-chat-import.mjs、main/pdf-import-control.mjs、main.mjs、src/ui/composer.js、tests/pdf-progress-03750.test.mjs、tests/pdf-chat-import-03747.test.mjs 和版本/记录文件。选定页经过真实 PDF 页数校验后，每页识别开始发出页码及相对序号，不发送路径、文件名或正文；控制器只接受当前任务的递增事件，取消/完成后丢弃迟到事件。状态只表示开始处理的页，不表示完成或精度。29 项 PDF/OCR 与取消相关 Node 测试（包括真实 Linux Poppler/Tesseract 双页样本、实际进度、取消和回滚）及 8 项打包边界测试通过。原生 UI/IPC、Mac OCR、中文和真实模型未验收；未新建安装包或公开发布。
+
+## 0.37.49 — PDF 附件识别停止（内部检查点）
+
+从 0.37.48 完整源码 SHA 验证后接续；新增 main/pdf-import-control.mjs 及可信 IPC 停止按钮。当前任务 UUID 防止旧停止请求影响新任务；取消信号贯穿确认、识别和持久化，退出时取消。指定页对话框提交后关闭，使后台停止按钮可访问。实际改动 desktop/main.mjs、main/pdf-import-control.mjs、preload.cjs、src/app.js、src/ui/composer.js、tests/pdf-cancel-03749.test.mjs、tests/pdf-chat-import-03747.test.mjs 及版本和接续文件。27 项 OCR/取消相关测试通过（真实 Linux OCR、真实 Node 子进程终止、存储回滚；原生桥与界面未真机验收），8 项离线打包边界测试通过。无新 Apple ARM64 构建、未修改正式权威、未 GitHub 发布。
+
+## 2026-11-13 · 0.37.48 M4 PDF 附件指定页检查点
+
+在聊天附件菜单增加PDF指定页入口，选1–100页中连续最多5页；用户输入的数字在界面和主进程双重校验，主进程原生选择器只接受PDF，确认显示准确范围，文档真实页数越界失败，不生成附件。已有默认前5页入口保留；结果标明源PDF SHA和实际页码，以及其余页面未读取。切换任务或关闭选择窗口时不自动附加，已完成成果留在成果中心。原生语言确认与本机OCR/发送前隐私语义沿用0.37.47。
+
+实际修改desktop/services/pdf-chat-import.mjs、desktop/main.mjs、desktop/src/app.js、desktop/src/ui/composer.js及desktop/tests/pdf-chat-import-03747.test.mjs。真实Linux Poppler/Tesseract从六页合成英文PDF识别第3–4页并确认未含第1页；错误页码/类型/超过5页在读取前拒绝，超出文档页数不生成，范围和摘要保留，旧OCR/知识检索/附件边界回归。71项相关Node、35项打包Python通过；系统对话框和模型语义为夹具，真实浏览器/Mac未验收。Mac ARM64 OCR/PDF和中文数据未内置、手动取消/进度未实现、本地语义模型和Office池Mac隔离性能未验收，M4未完成；无安装包/GitHub发布，不覆盖权威。
+
+## 2026-11-13 · 0.37.47 M4 PDF 附件本机OCR检查点
+
+聊天原生附件选择器新增PDF：选择后明确确认本机OCR与语言，扫描前最多5页，用户发送后才将生成的Markdown正文发给选定模型。原始PDF不发送、不修改；识别结果的原文件SHA、页码和未识别范围写入成果并提示，原文件超过5页明确告知；结果可走已有附件和知识来源链路。路径仅主进程原生选择器提供，16MiB限制、无符号链接、来源在确认/运行/文档持久化前后复核，取消或变化不发布、保存失败回滚。限制一项识别，识别整体180秒超时；当前无手动停止按钮。
+
+新增desktop/services/pdf-chat-import.mjs与desktop/tests/pdf-chat-import-03747.test.mjs，修改desktop/main.mjs、runtime/pdf-ocr.mjs、runtime/ocr-provenance.mjs、src/app.js和src/ui/composer.js。Linux真实Poppler/Tesseract英文合成2页和6页文件分别验证全部和前5页、未读取范围、原PDF不进模型；实际对话服务收到识别文字，模型是夹具；另测取消、源变化、保存期回滚和界面文案。67项相关Node测试、35项打包Python测试通过，未运行完整系统/UI回归。原生文件选择器、语言对话框及审批未在Mac验收；OCR/PDF可执行文件及中文数据未随Mac包内置，故不能宣称Mac可用。无新离线应用/公开发布，不覆盖正式权威。M4及Quick差距仍包括本地离线语义模型、中文OCR、真实多模态、Mac进程池隔离与性能和完整故障矩阵。
+
+## 2026-11-13 · 0.37.46 M4 OCR检索来源页码检查点
+
+新增runtime/ocr-provenance.mjs，将已批准同run PDF OCR生成的Markdown与原PDF名称、SHA和每页UTF-16范围绑定；仅宿主凭证生成，文档文本或摘要变化不再附带页码。经批准的知识检索按实际片段范围返回原PDF相交页，聊天证据重新从当前真实文档记录计算而不信任模型或工具伪造页码；资料、元数据检索途中变化拒绝。跨页可返回多个页码，HTML显示转义。原PDF无改动，源文件审批/守卫及OCR误差提示保留，旧成果不自动补建页码。
+
+实际修改desktop/runtime/{ocr-provenance,tools}.mjs、services/{documents,agent-session,knowledge-evidence}.mjs、src/ui/knowledge-evidence.js和对应测试。真实Linux Poppler/Tesseract英文合成PDF→OCR→保存→批准知识查询→证据页码通过；长文跨页、伪造与篡改、来源元数据变化、HTML转义、拒绝及源变化回滚已测。模型、原生审批及嵌入部分为夹具。页码不是PDF图形坐标，未实现附件直接识别/证据高亮；Mac中文OCR、实际本地语义模型与Mac池隔离性能未验收，M4未完成。无新离线应用或GitHub发布。
+
+## 2026-11-13 · 0.37.45 M4 PDF OCR到知识资料检查点
+
+新增pdf_ocr_import工具，将本轮已成功的PDF OCR结果通过一次性任务凭证、文档创建权限和额外原生审批，保存为含源文件名/SHA、页码、OCR核验提示的真实Markdown文档，可由用户后续绑定智能体知识库。凭证仅限当前run、内存最多32项，任务结束/撤销失效；跨任务、重放、拒绝、原PDF变化或撤权拒绝。源文件在审批前、执行前及持久化前后重验；修改services/documents.mjs令原有文档保存守卫支持异步并取消后回滚。执行审计不写OCR正文。保存为新文档，原PDF不变，不自动绑定知识库。模型工具白名单必须同时有pdf_ocr和document_create。会话可见真实文档卡片。
+
+修改runtime/tools.mjs、runtime/agent.mjs、services/agent-session.mjs、services/documents.mjs、services/conversation.mjs、src/ui/agent-editor.js、src/app.js；扩充tests/pdf-ocr-03740.test.mjs。真实Linux Poppler/Tesseract合成PDF及真实本机HTTP mock模型三轮完成OCR→审批→来源文档；拒绝、跨任务、重放、审批中源变化、持久化中源变化回滚和权限测试。137项相关Node测试通过。模型语义和原生批准为夹具，Mac OCR/Poppler/中文数据及真实嵌入模型未内置、真实用户文档和Mac池隔离未验收；M4未完成，本包仅源码检查点。
+
+## 2026-11-13 · 0.37.44 M4 OCR 来源定位检查点
+
+修改runtime/image-ocr.mjs使用Tesseract TSV输出并严格校验列格式、置信度、数值与图像边界，返回OCR文字及最多64个词框、置信度和原图片像素坐标；超额明确标记，不截断文本。修改runtime/pdf-ocr.mjs为每页返回渲染后图像尺寸和像素词框，避免误称PDF原生坐标；返回JSON限制4万字符时只减少词框并标记，保持正文和完整JSON。沿用原授权、图片与PDF SHA、私有暂存、取消和日志正文脱敏。扩充image-ocr与pdf-ocr测试：真实Linux Tesseract和Poppler识别合成英文图片及PDF，检查词框落在画面内、畸形/越界拒绝、数量截断；118项相关Node回归通过。
+
+OCR坐标为所渲染图像像素，尚未提供PDF原生坐标反算或在UI上高亮；坐标/置信度不能保证识别正确。Mac OCR二进制/中文数据、实际语义模型与PDF组件未随包提供，真实Mac、用户数据、多模态和M4未完成；无新Apple安装包/发布。持续任务保持启用。
+
+## 2026-11-13 · 0.37.43 M4 多来源与并发验证检查点
+
+修改 services/knowledge-vector.mjs：经批准向量与词法混合排名后，在8条结果预算内优先保留每份匹配来源的最高结果，再填充不重叠片段，避免一份长文占据所有结果；保持模型/来源SHA、授权、偏移和取消保护。新增 tests/knowledge-vector-03736.test.mjs 用合成嵌入验证长文不遮蔽第二来源。扩充 tests/office-preview-pool-03739.test.mjs，两个真实Linux LibreOfficeKit进程并发预览不同合成文档，输出文本与来源对应、无观察到交叉。116项相关Node回归通过；嵌入向量为HTTP/语义夹具，LibreOfficeKit为实际Linux，Mac与真实模型未验收。
+
+真实离线ARM64语义模型、OCR中文与PDF程序尚未内置；Mac进程池、用户文件、多模态、完整M4仍待验收。仅源码检查点，不覆盖权威、不发布或要求安装。用户要求每轮结束立刻下一轮，但自动任务平台最短每小时；现有任务保持每小时启用，不能承诺连续后台执行。
+
+## 2026-11-13 · 0.37.42 M4 混合检索与多页OCR检查点
+
+services/knowledge-vector.mjs 将已批准来源的本机嵌入余弦排序与现有词法结果用reciprocal rank fusion合并，保留文件版本/SHA/原文/位置及来源方法，精确合同编号在语义向量未命中时仍可检出；不把不同得分直接相加，网络/审批/来源/模型摘要保护不变。agent-session工具说明同步。runtime/image-ocr.mjs和pdf-ocr.mjs允许PDF某页OCR无结果时保留其他页及页序，明确该页未识别文字不等于空白；单图OCR仍要求识别到文字。新增真实Linux Tesseract/Poppler三页中间空白页测试和本机嵌入夹具的语义未命中、词法命中测试，完整114项相关Node回归通过；一次旧测试对文案过度精确导致失败，修正为匹配语义后完整重测通过。
+
+本地真实嵌入模型、Mac OCR中文与PDF渲染组件未打包；进程池Mac隔离、用户原文档、真实模型和付费模型未验收。未覆盖权威/发布，M4仍未完成。此前Library存储空间不足，用户明确要求清旧版本；仅0.37.30及0.37.31旧Mac候选移入回收站，0.37.32和基线保留；0.37.41完整源码已恢复持久保存。
+
+## 2026-11-13 · 0.37.41 M4 故障与权限检查点
+
+修改 runtime/run-queue.mjs：并发重复停止时若已处于cancelling直接返回当前状态，不重复写状态或让非法状态边报错；原有取消/终态防复活保持。修改 runtime/pdf-ocr.mjs：PDF和页面图片改为max+1的分段限量读取，防止文件读取期间增长突破事前大小上限；继续验证SHA和普通文件。扩充 tests/m4-state-machine-03735.test.mjs 和 tests/pdf-ocr-03740.test.mjs，真实Linux生成加密PDF、越界页、授权目录符号链接越界，以及并发停止；拒绝时不返回部分内容。
+
+112项相关Node测试通过，含真实Linux LibreOfficeKit预览池样例、Poppler+Tesseract英文扫描PDF、本机HTTP模拟嵌入与mock LLM故障；不是Mac、真实本地嵌入模型或中文OCR验收。M4真实离线语义模型、Apple OCR/中文数据、PDF附件直接导入、Mac池隔离与性能、多模态尚未完成。仅内部源码检查点，不覆盖权威、不发布或要求安装。
+
+## 2026-11-13 · 0.37.40 M4 PDF OCR 与 mock LLM 检查点
+
+新增 runtime/pdf-ocr.mjs、tests/pdf-ocr-03740.test.mjs、tests/mock-llm-faults-03740.test.mjs；修改 runtime/tools.mjs、runtime/agent.mjs、runtime/model-stream.mjs、src/ui/agent-editor.js、src/app.js。新增pdf_ocr模型工具，限制授权目录、16MiB、1–5连续页、100总页、1600像素边、30秒页面处理与正文预算；原生批准、文件SHA前后复核、私人临时目录、取消/失败清理，不返回半结果，日志隐藏正文。真实Linux Poppler+tesseract对合成两页图像PDF逐页识别，另测试权限撤销、变更、取消和审计；仅英文测试，Mac所需OCR/PDF二进制及中文模型未打包，不声称用户Mac可用。命令仍以用户权限运行，非操作系统沙箱。
+
+Agent在执行任何工具前检查整批调用JSON/ID，重复ID或任一坏参数均不执行该批；流式工具调用要求结束状态，DONE单独出现不会放行。真实本机HTTP模拟模型测试损坏第二调用时首项不执行且不重试，正常批次与流式兼容测试。109项相关Node和35项打包测试通过；模型语义/原生权限仍夹具。继承0.37.39 Linux LibreOfficeKit实验预览池和0.37.36本机Ollama向量服务，Mac/真实语义模型、中文OCR/ARM64运行时和完整M4未验收。此次仅源码检查点，不覆盖权威、不发布或要求安装。
+
+## 2026-11-13 · 0.37.39 M4 LibreOfficeKit 预览池检查点
+
+新增 runtime/office-kit/preview-pool.py、runtime/office-preview-pool.mjs、tests/office-preview-pool-03739.test.mjs；修改 runtime/isolated-worker-pool.mjs、office-worker-bundle.mjs、scripts/bundle-office-worker.py、services/libreoffice.mjs、services/legacy-model-settings.mjs、main.mjs、src/app.js。Office预览池可选启用、默认关闭、重启后生效；每进程同一时间处理一份通过现有Office ZIP/XML门禁的文档，临时工作目录私有且宏安全配置，转换后销毁LibreOfficeKit文档并校验reset才复用；仅受控render/reset协议，无TCP、任意UNO和自动重试。至多2进程、60秒空闲销毁；故障/超时/取消直接杀掉实例并清理，关闭等待迟到初始化及销毁，不把终止中进程的名额交给新任务。
+
+真实Linux LibreOfficeKit：一个进程交替6次导出两份不同文档，pdftotext核对无文本交叉；真实服务启用池顺序处理DOCX/XLSX/PPTX，保留原件；无效文件拒绝、缺失启动/取消卡住进程及临时文件清理。一次合成样例冷315ms/第二次30ms，仅该环境参考，不是性能承诺。85项相关Node测试和35项打包测试通过，包含M4已有OCR/向量/state机和真实Node子进程测试；向量内容是HTTP夹具，OCR Linux系统英文，非真实中文或Mac。未证明任意文档的跨文档隔离/完全擦除，Mac签名、内核运行和负载未验收；保持实验默认关闭。
+
+本机Ollama嵌入模型与OCR语言数据未随包提供，PDF多页OCR、真实语义模型、完整mock模型故障矩阵、用户原文档测试仍欠缺，M4没有完成。本次仅内部完整源码检查点，不发布、无需用户安装。
+
+## 2026-11-13 · 0.37.38 M4 进程池工作检查点
+
+新增 desktop/runtime/isolated-worker-pool.mjs 和 tests/isolated-worker-pool-03738.test.mjs：容量上限、等待队列、显式重置成功才复用、任务取消/超时/重置失败销毁、关闭中断并等待迟到初始化销毁。真实 Node 子进程测试PID复用与上次秘密已清空、取消后新PID、拒绝复用失败重置、关闭等待与迟到创建销毁。保留前一检查点可选本机向量与OCR管道、状态机。78项相关测试通过；向量使用真实本机HTTP但数值为夹具，OCR为真实Linux系统Tesseract英文合成图。
+
+此池是独立通用原型，尚未接到 LibreOfficeKit，不能声称 Office 预览加速、热实例或跨文档隔离已验证。现有Office worker单次固定文档，上游析构风险未解决；需要真实LibreOffice和Mac测试。无新arm64构建/GitHub发布，M4未完成。
+
+## 2026-11-13 · 0.37.37 M4 OCR 工作检查点
+
+新增 runtime/image-ocr.mjs 和 image_ocr 模型工具，通过本轮明确附加图片ID、逐次批准、SHA校验及私有0600临时文件，固定语言和参数运行可信提供的 Tesseract 可执行文件；30秒/64KiB、取消/失败清理，审计隐藏识别正文，识别结果标注来源和可能错误。修改 runtime/tools.mjs、runtime/agent.mjs、src/ui/agent-editor.js、src/app.js。真实本机 Linux /usr/bin/tesseract 英文合成图片识别通过，未附加、拒绝、图片审批中变化、取消及失败不运行或不发布；用户数据未用于测试。Apple芯片OCR二进制与中文语言数据尚未打包，目标Mac明确报未内置，不能称Mac OCR可用。
+
+保留0.37.36本机向量检索及0.37.35状态机，向量新增agent→文档批准→单独本机嵌入批准→真实HTTP夹具及磁盘回滚测试。73项相关测试通过；嵌入向量为合成夹具而非真实模型。OCR不含PDF逐页，Office热进程池与实际加速、真实本地语义模型、OCR中文模型、Mac签名/运行/许可验收未完成。此次是M4内部工作检查点，不公开发布、不覆盖正式权威。
+
+## 2026-11-13 · 0.37.36 M4 本机向量工作检查点
+
+新增 services/knowledge-vector.mjs，agent-session 接入可选本机 Ollama /api/embed 向量检索，legacy-model-settings 和设置界面允许填写模型名，空值继续词法检索。逐份文档读取审批后另行确认发送到本机服务；源版本/SHA、提取文本SHA、模型名和 Ollama tags 的模型摘要均绑定，结果有源位置，查询期间版本或模型变化拒绝，已批准结果才返回。向量私有存储不下发普通界面，索引清理按钮清向量与词法；每批8个、维度2048、索引8MiB和响应大小上限。无隐式服务降级、无自动下载或跨模型重试。本机服务可能由用户自身配置联网，该代码不能证明其模型完全离线。
+
+65 项相关测试通过，含真实本机 HTTP 嵌入协议夹具、语义映射模拟、审批拒绝不联网、污染/过期/取消及状态机；向量数值是夹具，并非实际语义模型。尚未绑定/分发真实嵌入模型、未在 Mac 或真实模型验收；OCR 和 Office 热池未实现。此为内部工作检查点，不是 M4 完成或公开发布。
+
+## 2026-11-13 · 0.37.35 M4 状态机工作检查点
+
+用户要求完整 M4：本地向量 RAG、OCR/多模态、状态机、mock LLM、进程池。当前已有持久词法索引、图片模型输入与两并发 Office 预览，但均不能等同于本地向量嵌入、OCR 或热进程池。本次修改 desktop/runtime/run-queue.mjs，建立任务状态转换白名单，禁止终态复活、排队直达成功和非法回退；终态发布失败改为 interrupted，不重放已有外部动作。新增 desktop/tests/m4-state-machine-03735.test.mjs；模拟模型连接失败、发布失败、重启、非法状态与事件序列，60 项相关测试通过。部分模型与原生桥为夹具。
+
+这是内部工作检查点，不是完整 M4；无 Apple 芯片构建或 GitHub 公开发布。上轮0.37.34持久保存失败，当前从完整候选继续，权威原文件未覆盖。Mac、真实模型、OCR、语义模型与热进程池待实现与验收。
+
+## 2026-11-13 · 0.37.34 方案接续及截图反馈候选
+
+按附件方案复用既有独立 LibreOfficeKit 工作进程和已有模型工具服务；本轮没有实现全新 OXT、UNO 服务器或附件的完整架构。desktop/runtime/tools.mjs 对普通公网域名内置网页打开自动放行并写审计；读取、点击、填写和外部系统浏览器仍沿用现有审批，字面 IP、本地域名仍确认。此判断不做 DNS 解析，公网域名也可能解析到私网。desktop/runtime/agent.mjs 同步工具说明。desktop/core.mjs 将 DNS、拒绝连接、超时、证书及其他网络失败转为安全中文提示，不自动重试，不称已知用户现场根因。desktop/runtime/documents.mjs 增加中文字符宽度估算、保守字号、换行和顶端对齐，降低默认列表溢出风险；字体替换和所有版面仍依赖环境，无法保证无溢出。新增 desktop/tests/user-feedback-03734.test.mjs。
+
+测试使用合成数据、HTTP/原生审批模拟；未取得用户原 PPT 和网络日志，无 Mac、真实模型或 Office/WPS 保真结论。下一步实施方案中的受控 Impress 结构工具和渲染验收、可视化图层、Excel 区域与公式工具，以及 Mac 真机预览。
+
+## 2026-11-13 · 0.37.33 PPT 图层定向编辑候选
+
+从 0.37.32 完整候选继续：实际修改 desktop/runtime/ppt-layer-edit.mjs（新增）、runtime/documents.mjs、runtime/agent.mjs、runtime/tools.mjs、services/documents.mjs，新增 desktop/tests/ppt-layer-edit-03733.test.mjs。经批准 document_read 返回有界的当前页顶层形状/图片及坐标、图层 ID 与对象哈希；document_edit 可基于版本和哈希调整单个对象的位置、尺寸、前后顺序及纯色填充。动画页、签名包、组合图形、非法尺寸与图片变形等拒绝；保留原审批、审计脱敏及版本冲突保护。其他 ZIP 部件的解压后字节不变，修改页面 XML 会重新序列化。
+
+本地生成三页合成 PPT（多层卡片、图片、原生表格），使用实际工具链修改图层，经 Linux LibreOffice 渲染并查看；用 python-pptx 检查输出。另以本地 HTTP 模型夹具覆盖 read→edit，审批为夹具。不是 Mac 或 PowerPoint 实机验收，也不是完整复杂模板、动效播放或交互式图层画布。详见 docs/PPT_LAYER_EDIT_03733.md。
+
 
 ## 2026-11-13 · 0.37.32 PPT 图层、图像与配色候选
 
@@ -1681,3 +1807,21 @@ XLSX 工具提议不再只显示文件名和行列数。批准前会展示最多
 2026-11-13 办公关闭竞态：close 加入同一 per-session 串行队列，关闭后请求不再调用已关闭内核；保存失败保留会话与脏状态。desktop/services/office-workspace.mjs、desktop/tests/office-close-race.test.mjs；相关13项通过（其中3项真实Store和文档、模拟Office驱动），35项Python打包测试通过。npm ci --offline 缺zrender，完整UI与真实Mac/LibreOfficeKit未验收；无新arm64构建或GitHub发布。
 
 2026-11-13 截图修复接续：核验原有候选已支持原模型/多模型1–96轮、显式模型设置优先、Office worker内嵌SHA校验；本轮修正原模型界面原先显示32但实际可能继承智能体12的误导，未更改既有配置，保存设置后生效。30项模型/worker/模拟关闭测试通过；Mac语法错误根因未证实，无本轮arm64构建或真实UI。
+
+2026-11-14 0.37.56 M4 内部检查点：检索输出在引用前校验与已获准文档的ID、版本、SHA和实际UTF-16片段一致；OCR历史证据单独复核正文，损坏的空range/box按无来源处理。22项OCR/来源测试与49项检索/索引/智能体测试通过，含真实Linux PDF转图和Tesseract英文OCR；模型和权限为夹具。Mac/中文/真实模型、PDF原页高亮、离线OCR与语义模型仍未验收；不发布安装包。修改 desktop/runtime/ocr-provenance.mjs、desktop/services/agent-session.mjs、desktop/services/knowledge-evidence.mjs、desktop/tests/ocr-provenance-03746.test.mjs、desktop/tests/ocr-regions-03754.test.mjs。
+
+2026-11-14 0.37.57 内部检查点：OCR证据卡新增选择并核对原PDF操作。主进程从历史记录确定摘要与页码，原生选择器取路径，16MiB无符号链接读取核对SHA、二次读取及证据未变后交系统打开；返回页码提醒用户自行翻页，不上传模型、不在原PDF定位或高亮。所选文件核对后仍可能被外部程序修改。27项相关测试通过，含真实Linux Poppler/Tesseract英文PDF、真实文件读取与符号链接拒绝，选择器/系统打开适配器和模型为夹具；未Mac/真实GUI/中文/付费模型验收。修改services/ocr-source-open.mjs、main.mjs、preload.cjs、src/ui/knowledge-evidence.js、src/app.js及tests/ocr-source-open-03757.test.mjs。
+
+2026-11-14 0.37.58 内部检查点：OCR证据卡可显式选择原PDF；主进程核对历史证据SHA和范围后在私有临时目录调用pdftoppm渲染首个有坐标的页，尺寸完全一致才返回图片和有界词框，由本地界面叠加蓝框。读取/渲染期间源文件或证据变化拒绝并清理；取消不显示；不上传模型、不修改原件。证据跨页仅显示首个有坐标页；不是PDF原生坐标或自动判断OCR正确。30项相关测试通过，含真实Linux PDF渲染+Tesseract和原页词框、源变更清理，文件选择器/模型/IPC为夹具。Mac OCR/Poppler未内置，Mac原生GUI、中文及付费模型未验；无新安装包。修改 desktop/services/ocr-source-preview.mjs、ocr-source-open.mjs、main.mjs、preload.cjs、src/app.js、src/ui/knowledge-evidence.js、tests/ocr-source-preview-03758.test.mjs。
+
+2026-11-14 0.37.59 M4 内部检查点：原 PDF 证据预览扩展为所有具有词框的页面（最多5页、总16词框），每页独立检查图像尺寸和坐标，源文件与证据在每次渲染后复核，页图总量上限8MiB，失败不返回部分结果并清理私有临时文件。已有定位截断时明确提示。31项相关测试通过，包括真实 Linux 双页不同方向PDF、Poppler 和 Tesseract 英文OCR，第二页尺寸错误及源变化拒绝；原生文件选择/IPC和模型为夹具。Mac渲染与GUI、中文OCR、离线Mac依赖、真实语义模型和M4整体未验收，无对应新安装包。修改 desktop/services/ocr-source-preview.mjs、ocr-source-open.mjs、desktop/src/app.js、desktop/tests/ocr-source-preview-03758.test.mjs。
+
+2026-11-14 M4 工作中检查点：基于 0.37.59 验证完整清单后，修复损坏的向量缓存半途污染维度导致重建失败；进程池并发close共享清理完成状态，重复drop等待同一销毁，销毁失败后停止接收并取消现有任务，避免在进程是否死亡未知时创建替代；Office PDF预览读取改为打开后分块有界读取，拒绝大小、文件标识或读取期间元数据变化。103项M4相关测试、35项打包测试通过，其中包含真实Linux LibreOfficeKit和本机HTTP模型夹具；Mac/付费模型/真实语义嵌入未验。新增Chromium生产UI验收未运行通过：socket Operation not permitted。长期真实双进程互相隔离测试仍在运行，不提前计为完成。此包为未发布的中途检查点，无对应安装包，尚未融合可能的并行迭代。变更 desktop/services/knowledge-vector.mjs、runtime/isolated-worker-pool.mjs、runtime/office-preview-pool.mjs及对应测试。
+
+2026-11-14 M4 工作中补充：新增实际运行的 Tesseract.js 7/WebAssembly 英文OCR适配，本机私有暂存逐文件SHA核验、固定本地路径和禁用fetch、正常/取消清理；在开发环境真实PNG及Poppler两页PDF识别通过，ToolRuntime审计不包含正文。Chinese traineddata缺失、Apple ARM64/Mac未验；PDF仍需外部本机Poppler。上游 tesseract.js-core issue #44 说明其WASM包含多项第三方库且版本专属署名仍待核验，当前源码包与应用构建明确排除3种WASM及其生成JS、英文traineddata；源码包含适配、组件源码和SHA清单，scripts/prepare-ocr-wasm.py仅从已提供的匹配资产离线恢复，发布前仍需完整第三方许可通知。缺资产时明确失败，不下载、不假称随包可用。另修复OCR返回预算优先删空后页；长工具结果保持完整JSON/截断提示，空工具返回标失败；PPT第一方色值约束批量预检，未知第三方正则仍需服务自身验证。Office worker重置时拒绝残留job数据并销毁，不能证明LibreOffice进程内存彻底擦除；真实Linux Kit回归通过，长期测试仍在运行。相关文件：runtime/ocr-wasm.mjs、image-ocr.mjs、pdf-ocr.mjs、runtime/vendor/ocr-wasm源码/清单、runtime/agent.mjs、tool-arguments.mjs、office-kit/preview-pool.py、office-worker-bundle.mjs、打包/准备脚本及测试。此为源码工作检查点，非M4完成或可安装发布。
+
+2026-11-14 工作中补充：OCR可选WASM适配进一步覆盖授权撤销发生于资源暂存（不启动子进程）、已启动子进程取消（真实进程终止/目录清理）、中文缺数据和资产损坏；Linux开发环境真实识别通过。固定资源装配脚本对已有文件和并发出现的目标采用拒绝覆盖语义，测试4项通过；源码包和应用复制均自动排除七个待核对署名的WASM/生成胶水/英文数据。对实际源码包解压后验收：未提供资产时7项通过3项显式跳过、无法启用WASM；提供7个摘要匹配的开发资产后5项真实OCR测试通过。OCR 适配目前不是已交付的离线功能。完整M4和Mac验收未完成；Office池双进程长测仍在运行。
+
+2026-11-14 0.37.60 M4 检查点：实现 Office 预览池并发关闭/销毁失败隔离、受限读取 PDF，修复向量缓存损坏后重建；新增实验性英文 WASM OCR、授权撤销/取消/资产摘要保护、多页框预算和有界完整 JSON 工具观察、PPT 色值预检。运行环境曾重置，30 分钟真实 Kit 双进程长测最后观察到 1740 秒、25461 轮，最终结果丢失，不能记作 30 分钟通过。重置前相关 130 项通过，完整桌面 601 通过、17 项因 jsdom 缺失无法加载，42 项打包通过；此后已从 WIP3 重新恢复源码并重做测试。旧 Office PDF 测试更新排队取消断言，7 项通过；已有真实 Poppler/WASM 双页测试在缺运行资产的交付源码中明确跳过。WASM 资产和中文数据未随包；无 Mac 真实运行/公证/真实语义模型与付费模型验收。关键更改为 desktop/runtime/agent.mjs、image-ocr.mjs、ocr-wasm.mjs、isolated-worker-pool.mjs、office-kit/preview-pool.py、office-worker-bundle.mjs、office-preview-pool.mjs、pdf-ocr.mjs、tool-arguments.mjs、services/knowledge-vector.mjs、scripts/prepare-ocr-wasm.py 与打包脚本和相应测试。源码检查点不覆盖正式权威，不含对应 app，未 GitHub 发布。详见 validation/v0.37.60-m4.1.json。
+
+2026-11-14 0.37.61 M4 检查点：在0.37.60-m4.1基础上修复工具返回循环引用、BigInt或抛错属性导致模型循环和持久事件失败；成功返回先固定一次JSON快照，异常返回记录失败及副作用状态未知，不自动重放。变更 desktop/runtime/agent.mjs、desktop/tests/mock-llm-faults-03740.test.mjs 及版本/计划/验证记录。工具与模型关联测试44项通过；M4相关回归结果见validation/v0.37.61-m4.1.json。无真实付费模型、Mac原生验收或匹配安装包；已有0.37.32应用不含后续M4改动。OCR WASM资产仍排除、中文OCR及本地语义模型未打包。此次非完整M4发布，不覆盖正式权威，不绕过此前GitHub安全审查拒绝。

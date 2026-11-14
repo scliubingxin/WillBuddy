@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.37.32",
-  "checked_date": "2026-11-13",
-  "source_status": "ppt_layered_graphics_candidate",
+  "version": "0.37.61-m4.1",
+  "checked_date": "2026-11-14",
+  "source_status": "m4_development_checkpoint_not_a_release",
   "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
   "desktop": {
     "electron": "42.0.0",
@@ -80,7 +80,29 @@
     "model_budget_summary": "Conversation reserves final configured round for synthesis; no tool execution in that round; incomplete status retained",
     "screenshot_feedback": "Background browser; task+document revision read consent; bounded Office preview FIFO; editable shape-based bar charts",
     "office_editing_increment": "Excel selected cells native bold and italic; PPT editable cards and native table",
-    "ppt_layer_increment": "Ordered editable shape/text/image layers, validated selected PNG and fade slide transition"
+    "ppt_layer_increment": "Ordered editable shape/text/image layers, validated selected PNG and fade slide transition",
+    "ppt_layer_targeted_edit": "Approved read provides bounded top-level shape/picture inventory with revision and anchor; document_edit supports one anchored move/resize/z-order or solid fill; animated slides and signed packages fail closed; fixture-tested, Mac unverified",
+    "feedback_03734": "public-domain browser open auto, read and actions still approved; model network failure classification; conservative PPT bullet font and wrapping, no Mac fidelity claim",
+    "m4_checkpoint": "run state transition guard and mock model error tests only; embedding/OCR/process pool not implemented",
+    "m4_vector": "optional approved localhost Ollama embedding and versioned persistent cosine index; model runtime not bundled; mock-only semantic tests",
+    "m4_ocr": "approved selected-image OCR pipeline; Linux real tesseract English tested, Mac OCR executable and Chinese data not bundled",
+    "m4_worker_pool": "opt-in LibreOfficeKit preview pool, real Linux tests; Mac isolation/performance unverified",
+    "m4_pdf_ocr": "approved bounded multi-page PDF OCR pipeline, real Linux poppler/tesseract fixtures; ARM64 OCR and renderer not bundled",
+    "m4_mock_llm": "batch tool calls validated before any side effect; incomplete SSE end rejected",
+    "m4_safety_03741": "idempotent concurrent cancellation and bounded PDF/PNG reads, encrypted PDF and grant escape tests",
+    "m4_hybrid_03742": "approved local semantic vectors and lexical reciprocal-rank fusion; missing OCR pages retained with explicit uncertainty",
+    "m4_03743": "bounded hybrid retrieval preserves matching source diversity; real Linux LibreOfficeKit two-worker concurrency fixture",
+    "m4_ocr_coordinates": "Tesseract TSV word boxes and image-pixel coordinate spaces, bounded return; Linux fixture only",
+    "m4_ocr_import": "same-run single-use approved PDF OCR receipt creates source-cited Markdown; real Linux OCR and HTTP model fixture; Mac engine unbundled",
+    "m4_ocr_provenance": "Host-created OCR document metadata binds source PDF SHA and page ranges to the exact recognized Markdown; approved retrieval and evidence derive intersecting pages. Linux OCR fixtures only; not original PDF geometry or UI highlighting.",
+    "m4_pdf_chat_attachment": "Native-selected PDF OCR, up to first five pages, explicit language confirmation, source SHA guarded, approved text becomes Markdown chat attachment. Mac ARM64 OCR/PDF binaries and Chinese data not bundled; Linux fixtures only.",
+    "m4_pdf_page_range": "Optional chat PDF page range, 1–100, contiguous max 5, validated in UI and trusted host; Linux OCR fixture only, Mac OCR/PDF binaries and Chinese data not bundled.",
+    "pdf_attachment_cancel": "Transient per-job abort controller, user stop and cancellation guard; no Mac or Electron UI acceptance",
+    "pdf_attachment_progress": "Per-page OCR progress from actual bounded recognition; native UI and Mac not accepted",
+    "model_tool_finish_guard": "Batch rejects unknown/type-invalid tools before execution; reject explicit bad finish and filtered JSON, SSE requires tool finish; legacy JSON missing finish remains compatible",
+    "m4_evidence_integrity": "Approved source text must match search excerpt before citation; malformed OCR provenance cannot crash retrieval. No new Mac or application build validation.",
+    "m4_evidence_source_open": "User selects PDF; host compares persisted evidence SHA and rechecks bytes before system open. Does not jump to page or highlight; source may change after verification.",
+    "m4_evidence_source_page_preview": "Native selection and SHA guarded; renders first page with checked OCR pixel boxes; private temp cleanup; Mac OCR dependencies unavailable and native UI not validated."
   },
   "validation": "docs/validation/v0.37.19.json",
   "rea": {
@@ -841,5 +863,25 @@
       "completed_30min": false,
       "matches_final_code": false
     }
+  },
+  "m4_03752": {
+    "status": "internal checkpoint; incomplete M4",
+    "changes": "bounded structural batch validation before any tool runs",
+    "limits": "JSON Schema subset; patterns, references and business rules are not fully validated before execution; no Mac validation or app build"
+  },
+  "m4_03753": {
+    "status": "internal checkpoint; incomplete M4",
+    "changes": "OCR word boxes now carry per-page UTF-16 offsets into recognized text",
+    "limits": "no PDF native coordinates or highlight UI; no Mac OCR or app build"
+  },
+  "m4_03754": {
+    "status": "internal checkpoint; M4 incomplete",
+    "changes": "Persist bounded OCR word boxes and expose matching rendered-page pixel regions with OCR knowledge evidence",
+    "limits": "digest detects accidental corruption only; no PDF native coordinates or visual highlight, no Mac OCR or app build"
+  },
+  "m4_03755": {
+    "status": "internal checkpoint; M4 incomplete",
+    "changes": "Show escaped, bounded OCR word highlights in historical knowledge evidence",
+    "limits": "OCR text highlight only; no original PDF preview or page-overlay; no Mac OCR or app build"
   }
 }
