@@ -103,7 +103,20 @@ export function modelEndpoint(baseUrl) {
 export async function complete(settings, key, messages, signal, tools, options = {}) {
     if (!settings.model?.trim())
         throw new Error('请先设置模型 ID');
-    const res = await fetch(modelEndpoint(settings.baseUrl), { method: 'POST', redirect: 'error', headers: { 'Content-Type': 'application/json', ...(key ? { Authorization: `Bearer ${key}` } : {}) }, body: JSON.stringify({ model: settings.model, messages, stream: typeof options.onDelta === 'function', ...requestModelOptions(settings), ...(tools?.length ? { tools, tool_choice: "auto" } : {}) }), signal: signal || AbortSignal.timeout(120000) });
+    const endpoint = modelEndpoint(settings.baseUrl);
+    let res;
+    try {
+        res = await fetch(endpoint, { method: 'POST', redirect: 'error', headers: { 'Content-Type': 'application/json', ...(key ? { Authorization: `Bearer ${key}` } : {}) }, body: JSON.stringify({ model: settings.model, messages, stream: typeof options.onDelta === 'function', ...requestModelOptions(settings), ...(tools?.length ? { tools, tool_choice: "auto" } : {}) }), signal: signal || AbortSignal.timeout(120000) });
+    } catch (error) {
+        if (signal?.aborted || error?.name === 'AbortError' || error?.name === 'TimeoutError') throw error;
+        const code = error?.cause?.code;
+        const hint = code === 'ENOTFOUND' || code === 'EAI_AGAIN' ? '域名解析失败，请检查模型地址、DNS 和网络。' :
+            code === 'ECONNREFUSED' ? '连接被拒绝，请检查模型服务是否启动及地址端口。' :
+            code === 'ETIMEDOUT' || code === 'UND_ERR_CONNECT_TIMEOUT' ? '连接超时，请检查网络和代理。' :
+            /CERT|TLS|SSL/.test(String(code || '')) ? '安全连接失败，请检查系统时间和证书。' :
+            '无法连接模型服务，请检查网络、模型地址及系统代理设置后重试。';
+        throw new Error('模型请求失败：' + hint, {cause:error});
+    }
     if (!res.ok)
         throw new Error(`模型服务返回 HTTP ${res.status}，请检查地址、密钥和模型权限` + (tools?.length && [400, 422].includes(res.status) ? '；模型可能不接受 tools 参数，可关闭输入框的工具模式后重试，或选择支持工具调用的模型' : ''));
     return readCompletion(res, { signal, onDelta: options.onDelta, toolsEnabled: !!tools?.length });
