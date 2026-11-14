@@ -4,7 +4,7 @@ import argparse,hashlib,json
 from pathlib import Path
 root=Path(__file__).resolve().parents[1]/'desktop/runtime'
 entries={}
-for name in ('worker.py','ABI.json'):
+for name in ('worker.py','preview-pool.py','ABI.json'):
  data=(root/'office-kit'/name).read_bytes()
  text=data.decode('utf-8')
  entries[name]={'text':text,'sha256':hashlib.sha256(data).hexdigest()}

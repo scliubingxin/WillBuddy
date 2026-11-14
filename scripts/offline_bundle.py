@@ -15,7 +15,14 @@ def copy_source_tree(source,target):
     # Development checks may create bytecode beside the owned Python worker.
     # Ship the source, never stale host-specific bytecode or interpreter caches.
     import shutil
-    return shutil.copytree(source,target,ignore=shutil.ignore_patterns('__pycache__','*.pyc','*.pyo'))
+    cache_ignore=shutil.ignore_patterns('__pycache__','*.pyc','*.pyo')
+    def ignore(directory,names):
+        skipped=set(cache_ignore(directory,names));p=Path(directory)
+        if p.name=='tesseract.js-core' and p.parent.name=='deps' and p.parent.parent.name=='ocr-wasm':
+            skipped.update(n for n in names if n.startswith('tesseract-core') and Path(n).suffix in {'.js','.wasm'})
+        if p.name=='data' and p.parent.name=='ocr-wasm' and 'eng.traineddata' in names:skipped.add('eng.traineddata')
+        return skipped
+    return shutil.copytree(source,target,ignore=ignore)
 
 def residue(name):
     return any(part.startswith(('.BC.','._','.Electron Framework.')) or part in {'__MACOSX','.DS_Store'} for part in PurePosixPath(str(name)).parts)

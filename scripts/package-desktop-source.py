@@ -19,6 +19,14 @@ def package(output):
     files = []
     for p in sorted(root.rglob('*')):
         rel = p.relative_to(root)
+        # Runtime OCR WASM binaries/data are excluded until their full upstream
+        # attribution is verified; source and pinned asset manifest remain.
+        parts = rel.parts
+        ocr_asset = parts[:4] == ('desktop','runtime','vendor','ocr-wasm') and (
+            (len(parts) >= 7 and parts[4:6] == ('deps','tesseract.js-core') and p.name.startswith('tesseract-core') and p.suffix in {'.js','.wasm'}) or
+            (len(parts) == 6 and parts[4] == 'data' and p.name == 'eng.traineddata'))
+        if ocr_asset:
+            continue
         if not p.is_file() or p.is_symlink() or p.resolve() == output:
             continue
         if set(rel.parts[:-1]) & skip_dirs or any(part.startswith(('.BC.','._')) or part in {'__MACOSX','.DS_Store'} for part in rel.parts) or p.name.startswith(('.env', '.dev.vars')) or p.suffix in skip_suffixes or p.name in {'SOURCE_MANIFEST.json', 'core'}:
