@@ -24,13 +24,17 @@ export async function readCompletion(response, { signal, onDelta, toolsEnabled =
             const data = JSON.parse(body);
             if (data.error)
                 throw new Error('模型返回错误：' + String(data.error.message || '未知错误').slice(0, 300));
-            const result = validate(data.choices?.[0]?.message, data.usage);
+            const choice = data.choices?.[0];
+            if (choice?.finish_reason === 'content_filter') throw new Error('模型服务过滤了本轮输出');
+            if (choice?.finish_reason && !['stop','tool_calls','function_call','length'].includes(choice.finish_reason)) throw new Error('模型结束状态无效');
+            const result = validate(choice?.message, data.usage);
+            if (result.message?.tool_calls?.length && choice?.finish_reason && choice.finish_reason !== 'length' && !['tool_calls','function_call'].includes(choice.finish_reason)) throw new Error('工具响应缺少正确结束状态，未执行任何工具');
             if (typeof result.text === 'string' && result.text)
                 await onDelta?.(result.text);
             if(data.choices?.[0]?.finish_reason==='length')throw lengthError(!!result.message?.tool_calls?.length);
             return result;
         }
-        let buffer = '', dataLines = [], text = '', reasoning = '', usage = null, done = false, finished = false, toolMode = false;
+        let buffer = '', dataLines = [], text = '', reasoning = '', usage = null, done = false, finished = false, toolMode = false, finishReason = null;
         const calls = new Map();
         async function dispatch() {
             if (!dataLines.length)
@@ -100,6 +104,7 @@ export async function readCompletion(response, { signal, onDelta, toolsEnabled =
                 if (!['stop', 'tool_calls', 'function_call'].includes(choice.finish_reason))
                     throw new Error('模型流结束状态无效');
                 finished = true;
+                finishReason = choice.finish_reason;
             }
         }
         async function line(value) { if (value === '') {
@@ -134,6 +139,7 @@ export async function readCompletion(response, { signal, onDelta, toolsEnabled =
         if (!done && !finished)
             throw new Error('模型流意外中断，已保留接收内容');
         signal?.throwIfAborted();
+        if (toolMode && (!finished || !['tool_calls','function_call'].includes(finishReason))) throw Error('工具流未收到结束状态或状态不匹配，未执行任何工具');
         const tool_calls = [...calls].sort(([a], [b]) => a - b).map(([index, call], position) => { if (index !== position || !call.id || !call.function.name)
             throw new Error('工具流不完整'); try {
             const args = JSON.parse(call.function.arguments || '{}');

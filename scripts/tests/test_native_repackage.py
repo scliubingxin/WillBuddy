@@ -75,3 +75,17 @@ class ProductionSourceCopyTests(unittest.TestCase):
    self.assertFalse((root/'production'/'stale.pyc').exists())
 
 if __name__=='__main__':unittest.main()
+
+class ExperimentalOcrCopyTests(unittest.TestCase):
+ def test_unreviewed_ocr_binary_assets_are_not_shipped_in_application_source_tree(self):
+  from offline_bundle import copy_source_tree
+  with tempfile.TemporaryDirectory() as d:
+   root=Path(d);source=root/'runtime';vendor=source/'vendor/ocr-wasm'
+   for name in ('deps/tesseract.js-core/tesseract-core.js','deps/tesseract.js-core/tesseract-core.wasm','data/eng.traineddata','deps/tesseract.js/src/index.js','MANIFEST.json'):
+    f=vendor/name;f.parent.mkdir(parents=True,exist_ok=True);f.write_text('fixture')
+   target=root/'copied';copy_source_tree(source,target);v=target/'vendor/ocr-wasm'
+   self.assertFalse((v/'deps/tesseract.js-core/tesseract-core.js').exists())
+   self.assertFalse((v/'deps/tesseract.js-core/tesseract-core.wasm').exists())
+   self.assertFalse((v/'data/eng.traineddata').exists())
+   self.assertTrue((v/'deps/tesseract.js/src/index.js').exists())
+   self.assertTrue((v/'MANIFEST.json').exists())

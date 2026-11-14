@@ -1,0 +1,5 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {ocrEvidenceText,knowledgeEvidence} from '../src/ui/knowledge-evidence.js';
+test('highlights only verified positional words, preserving escaped original text',()=>{const m={offset:20,text:'A <b> 😀',ocrSource:{regions:[{start:22,end:25},{start:26,end:28}]}};const html=ocrEvidenceText(m);assert.equal(html,'A <mark class="ocr-word">&lt;b&gt;</mark> <mark class="ocr-word">😀</mark>');assert.ok(!html.includes('<b>'));});
+test('malformed, overlapping or oversized metadata safely degrades to escaped text',()=>{for(const regions of [[{start:0,end:3},{start:2,end:4}],[{start:'0',end:1}],Array.from({length:17},()=>({start:0,end:1}))])assert.equal(ocrEvidenceText({offset:0,text:'<img>',ocrSource:{regions}}),'&lt;img&gt;');});
+test('old evidence and closed cards remain compatible without a network call',()=>{const row={source:{id:'x',name:'x',revision:1,sha256:'a'},line:1,endLine:1,offset:0,endOffset:3,text:'abc'};const html=knowledgeEvidence({knowledgeEvidence:[{runId:'r',time:1,matches:[row],sources:[]}]},'r');assert.match(html,/<pre>abc<\/pre>/);assert.doesNotMatch(html,/<mark/);});

@@ -1,0 +1,51 @@
+✔ cancel targets only current import; repeated and stale stop requests cannot cancel a later job (2.169899ms)
+✔ stopping during real child execution terminates it and removes the private PDF temporary directory (220.09881ms)
+✔ cancelling before OCR completes cannot create a document (2.051945ms)
+✔ composer displays a stop control only for the current import (1.291247ms)
+✔ native-selected two-page PDF becomes bounded source-cited chat document after actual OCR (819.759269ms)
+✔ actual six-page PDF only recognizes first five and reports the omitted page (1261.911631ms)
+✔ cancel, invalid language, changed source and OCR failure do not create a document (123.609234ms)
+✔ source changes during OCR or storage and cancellation publish no attachment (121.877689ms)
+✔ source mutation during document persistence rolls back the saved OCR document (126.213471ms)
+✔ composer explains limited PDF pages and external OCR component requirement (1.971056ms)
+✔ selected PDF OCR is sent through the real conversation attachment path only after send (656.637721ms)
+✔ specified PDF pages are genuinely recognized with source page numbers and omitted-page notice (651.321809ms)
+✔ invalid page ranges reject before any file read, confirmation or tool execution (1.829589ms)
+✔ page selection outside actual document fails without producing attachments (147.494993ms)
+✔ composer presents the specified-page action (0.647752ms)
+✔ cancellation during durable document save rolls back the recognized result (103.124594ms)
+✔ real PDF raster and tesseract OCR extracts two ordered pages and hides audit text (486.927612ms)
+✔ authorization denial, revoked folder, invalid page range and changed PDF fail before OCR (13.418571ms)
+✔ source mutation during OCR discards all pages and cleans temporary files (267.550083ms)
+✔ encrypted PDF and pages beyond the document fail without leaking partial text (297.932794ms)
+✔ authorized-directory symlink escape is refused before approval (4.332157ms)
+✔ PDF with an unrecognized page preserves surrounding recognized pages and page positions (772.267626ms)
+✔ approved OCR can be imported once into a source-cited knowledge document in the same run (532.236201ms)
+✔ source changed after approval or during persistence rolls back OCR import (697.451706ms)
+✔ OCR import capability requires both OCR and document-create permissions (9.529685ms)
+✔ actual HTTP mock model drives OCR then approved source-cited document creation (327.56496ms)
+✔ real OCR import drives approved knowledge search with checked original page evidence (554.244836ms)
+✔ progress belongs only to the current running job and advances in page order (2.596697ms)
+✔ composer shows page progress while retaining cancel control (1.161056ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 29
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9028.985732
+
+test_closed_inventory_and_symlink_permissions (test_offline_bundle.OfflineBundleTests.test_closed_inventory_and_symlink_permissions) ... ok
+test_escaping_link_case_collision_and_duplicate_zip_paths_rejected (test_offline_bundle.OfflineBundleTests.test_escaping_link_case_collision_and_duplicate_zip_paths_rejected) ... ok
+test_extra_file_is_rejected_even_when_every_manifest_hash_still_matches (test_offline_bundle.OfflineBundleTests.test_extra_file_is_rejected_even_when_every_manifest_hash_still_matches) ... ok
+test_known_residue_removed_but_inventory_rejects_it_if_not_cleaned (test_offline_bundle.OfflineBundleTests.test_known_residue_removed_but_inventory_rejects_it_if_not_cleaned) ... ok
+test_residue_added_after_pack_is_rejected (test_offline_bundle.OfflineBundleTests.test_residue_added_after_pack_is_rejected) ... ok
+test_sealed_residue_is_not_silently_removed (test_offline_bundle.OfflineBundleTests.test_sealed_residue_is_not_silently_removed) ... ok
+test_signing_path_gate_rejects_unknown_temp_and_missing_files (test_offline_bundle.OfflineBundleTests.test_signing_path_gate_rejects_unknown_temp_and_missing_files) ... ok
+test_tampering_and_executable_mode_loss_rejected (test_offline_bundle.OfflineBundleTests.test_tampering_and_executable_mode_loss_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.018s
+
+OK

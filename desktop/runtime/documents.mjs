@@ -1,3 +1,4 @@
+import {pptLayerInventory,patchPptLayer} from './ppt-layer-edit.mjs';
 import {validatePptLayers,pptImageIds,drawPptLayers} from './ppt-layers.mjs';
 import {replaceSpreadsheetText} from './spreadsheet-text.mjs';
 import { cellAddress } from "../src/shared/formula-core.js";
@@ -164,6 +165,15 @@ function cellXML(address, value) {
     return `<c r="${address}" t="b"><v>${value ? 1 : 0}</v></c>`;
   return `<c r="${address}" t="inlineStr"><is><t xml:space="preserve">${xml(value)}</t></is></c>`;
 }
+// Bound font size based on estimated wrapped lines, including CJK full-width glyphs.
+export function bulletFontSize(bullets, narrow = false) {
+  const capacity = narrow ? 23 : 62;
+  const lines = bullets.reduce((sum, value) => {
+    const units = [...value].reduce((n, c) => n + (c === "\n" ? capacity : /[^\x00-\xff]/.test(c) ? 2 : 1), 0);
+    return sum + Math.max(1, Math.ceil(units / capacity));
+  }, 0);
+  return Math.max(12, Math.min(22, Math.floor(22 * Math.sqrt(8 / Math.max(8, lines)))));
+}
 export function pptImagesFromContent(content){return pptImageIds(normalizeSpec("pptx",content));}
 export async function generateDocument(format, content, {images}={}) {
   const s = normalizeSpec(format, content);
@@ -238,9 +248,13 @@ export async function generateDocument(format, content, {images}={}) {
             y: 1.65,
             w: item.chart || item.cards || item.table ? 4.2 : 11.5,
             h: 5,
-            fontSize: 22,
+            fontSize: bulletFontSize(item.bullets, !!(item.chart || item.cards || item.table)),
+            fontFace: "Microsoft YaHei",
             color: "25364A",
-            paraSpaceAfterPt: 15,
+            valign: "top",
+            wrap: true,
+            margin: 0.08,
+            paraSpaceAfterPt: 8,
             fit: "shrink",
           },
         );
@@ -444,9 +458,11 @@ export function inspectDocument(format, bytes) {
   if (extracted.length > 100000) throw Error("文档文字超限");
   return { text: extracted, sha256: sha256(bytes), size: bytes.length };
 }
-export function editDocument(format, bytes, { replacements = [], cells = [] }) {
+export function pptLayerView(bytes){return pptLayerInventory(openPackage(bytes));}
+export function editDocument(format, bytes, { replacements = [], cells = [], pptLayer }) {
   array(replacements, 30);
   array(cells, 100);
+  if(pptLayer!==undefined){if(format!=='pptx'||replacements.length||cells.length)throw Error('PPT图层调整须单独提交');const files=openPackage(bytes),result=patchPptLayer(files,pptLayer),output=Buffer.from(zip.zipSync(files));return {bytes:output,...inspectDocument(format,output),...result};}
   if (!replacements.length && !cells.length) throw Error("未提供修改");
   if (format !== "xlsx" && cells.length)
     throw Error("只有 Excel 支持单元格更新");

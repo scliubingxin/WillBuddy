@@ -1,0 +1,16 @@
+{
+  "version": "0.37.51",
+  "status": "internal_m4_checkpoint",
+  "baseline_sha256": "a5bd02c4ffc42259900e0cc54bf5c48d81d30ba0d075e64752380ff1ec43f739",
+  "tests": {
+    "agent_stream_faults": 28,
+    "runtime_model_pdf": 51,
+    "packaging": 8
+  },
+  "limitations": [
+    "Legacy JSON with missing finish remains accepted; completeness not guaranteed",
+    "No full schema prevalidation across the batch",
+    "No native Mac UI, OCR, codesign, real paid model validation",
+    "No ARM64 build or GitHub release; M4 incomplete"
+  ]
+}

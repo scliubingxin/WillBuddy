@@ -1,0 +1,38 @@
+{
+  "version": "0.37.61-m4.1",
+  "status": "development checkpoint",
+  "baseline": "0.37.60-m4.1",
+  "changes": [
+    "serialize tool results to a stable JSON snapshot before events",
+    "nonserializable results recorded as failed with unknown side effects and no implicit replay"
+  ],
+  "files": [
+    "desktop/runtime/agent.mjs",
+    "desktop/tests/mock-llm-faults-03740.test.mjs"
+  ],
+  "tests": {
+    "agent_model": {
+      "passed": 44,
+      "failed": 0
+    },
+    "m4_relevant": {
+      "passed": 125,
+      "skipped": 6,
+      "failed": 0,
+      "skipped_reason": "WASM OCR assets are intentionally not shipped"
+    },
+    "packaging_python": {
+      "passed": 41,
+      "failed": 0
+    }
+  },
+  "limitations": [
+    "No matching Apple arm64 application built",
+    "No Mac native test or notarization",
+    "No real paid model test",
+    "WASM OCR binary and language data excluded; Chinese OCR unavailable",
+    "Browser UI tests not rerun; prior Chromium launch blocked by socket permission",
+    "Full desktop suite not rerun; previously 17 tests missing jsdom",
+    "Prior GitHub security review rejection not bypassed; no publish, PR or merge"
+  ]
+}

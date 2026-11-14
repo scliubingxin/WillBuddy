@@ -1,9 +1,24 @@
 import { createHash } from 'node:crypto';
 
 export const liveRunStates = new Set(['queued', 'running', 'cancelling']);
+// Only documented lifecycle edges are accepted. A completed side effect must
+// never be replayed as a running task after cancellation or persistence loss.
+const transitions = Object.freeze({
+    initial: new Set(['queued']),
+    queued: new Set(['running', 'cancelled', 'paused', 'failed', 'interrupted']),
+    running: new Set(['cancelling', 'completed', 'failed', 'cancelled', 'interrupted']),
+    cancelling: new Set(['cancelled', 'interrupted', 'failed']),
+    completed: new Set(['interrupted']),
+    failed: new Set(['interrupted']),
+    cancelled: new Set(['interrupted']),
+    paused: new Set(),
+    interrupted: new Set(),
+});
 export const requestFingerprint = value => createHash('sha256').update(JSON.stringify(value)).digest('hex');
 export function runTransition(job, status, now = Date.now()) {
     const previous = job.status;
+    const from = previous === undefined ? 'initial' : previous;
+    if (!transitions[from]?.has(status)) throw Error(`无效任务状态转换：${from} → ${status}`);
     Object.assign(job, { status, updatedAt: now, revision: (job.revision || 0) + 1 });
     job.events = [...(job.events || []), { version: 1, type: 'run.status', jobId: job.id,
         kind: job.kind, ownerId: job.ownerId, sequence: job.revision, previous, status, time: now }].slice(-50);
@@ -41,7 +56,7 @@ export function createRunQueue({ store, active, notify = () => {}, capacity = 2,
         entry.resolve(structuredClone(entry.job));
     }
     async function fail(entry, error) {
-        try { await change(entry, entry.controller.signal.aborted ? 'cancelled' : 'failed', entry.controller.signal.aborted ? '请求已停止或超时' : error.message); }
+        try { await change(entry, liveRunStates.has(entry.job.status) ? (entry.controller.signal.aborted ? 'cancelled' : 'failed') : 'interrupted', entry.controller.signal.aborted ? '请求已停止或超时' : error.message); }
         catch (diskError) {
             runTransition(entry.job, 'interrupted');
             entry.job.persistenceError = diskError.message;
@@ -131,7 +146,8 @@ export function createRunQueue({ store, active, notify = () => {}, capacity = 2,
                 if (entry.job.status === 'queued') {
                     try { await change(entry, 'cancelled'); }
                     finally { release(entry); }
-                } else await change(entry, 'cancelling');
+                } else if (entry.job.status === 'running') await change(entry, 'cancelling');
+                // A repeated stop while cancellation is already in flight is idempotent.
                 return structuredClone(entry.job);
             });
         },

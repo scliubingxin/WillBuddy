@@ -1,0 +1,43 @@
+{
+  "version": "0.37.60-m4.1",
+  "status": "development_checkpoint",
+  "baseline": "0.37.59 + saved 0.37.60-wip.3",
+  "tests_before_environment_reset": {
+    "m4_related": "130 passed with separately supplied WASM assets, including a later duplicate test not retained",
+    "desktop_full": "601 passed, 17 failed to load jsdom",
+    "packaging_python": "42 passed",
+    "office_pool_soak": "last observed at 1740 seconds, 25461 two-document rounds, no cross-document content observed; final result/log lost during reset, do not treat as 30-minute pass"
+  },
+  "tests_after_restore": {
+    "m4_related": "123 passed, 6 skipped because separately supplied WASM assets absent",
+    "office_pdf": "7 passed",
+    "packaging_python": "41 passed",
+    "ocr_assets": "7 compiled/runtime assets intentionally omitted; 6 related tests skip"
+  },
+  "limitations": [
+    "Chromium launch blocked by socket Operation not permitted",
+    "Mac native signing, Gatekeeper, GUI and actual user documents not validated",
+    "Chinese OCR, Apple ARM64 OCR/PDF and real local embedding model not packaged",
+    "No app package matching this source was produced",
+    "GitHub publication not performed; prior security rejection not bypassed"
+  ],
+  "changed_files": [
+    "desktop/runtime/agent.mjs",
+    "desktop/runtime/image-ocr.mjs",
+    "desktop/runtime/ocr-wasm.mjs",
+    "desktop/runtime/isolated-worker-pool.mjs",
+    "desktop/runtime/office-kit/preview-pool.py",
+    "desktop/runtime/office-worker-bundle.mjs",
+    "desktop/runtime/office-preview-pool.mjs",
+    "desktop/runtime/pdf-ocr.mjs",
+    "desktop/runtime/tool-arguments.mjs",
+    "desktop/services/knowledge-vector.mjs",
+    "scripts/prepare-ocr-wasm.py",
+    "scripts/offline_bundle.py",
+    "scripts/package-desktop-source.py",
+    "desktop/tests/office-pdf.test.mjs",
+    "desktop/tests/ocr-wasm-03760.test.mjs",
+    "desktop/tests/office-pool-reset-03760.test.mjs",
+    "desktop/tests/office-preview-read-03760.test.mjs"
+  ]
+}

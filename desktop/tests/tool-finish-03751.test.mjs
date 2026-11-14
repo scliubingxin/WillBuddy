@@ -1,0 +1,13 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {runAgent} from '../runtime/agent.mjs';import {readCompletion} from '../runtime/model-stream.mjs';
+const definitions=[{function:{name:'approved'}}];
+const call=(id,name,type='function')=>({id,type,function:{name,arguments:'{}'}});
+const body=(message,finish_reason)=>new Response(JSON.stringify({choices:[{message,...(finish_reason===undefined?{}:{finish_reason})}]}),{headers:{'content-type':'application/json'}});
+const event=x=>'data: '+JSON.stringify(x)+'\n\n';
+const stream=(finish_reason)=>new Response(event({choices:[{index:0,delta:{tool_calls:[{index:0,...call('id','approved')}]}}]})+event({choices:[{index:0,delta:{},finish_reason}]})+'data: [DONE]\n\n',{headers:{'content-type':'text/event-stream'}});
+test('unknown second tool and invalid type reject batch before first side effect',async()=>{for(const bad of [call('2','unknown'),call('2','approved','other')]){let executions=0;await assert.rejects(runAgent({messages:[],definitions,request:async()=>({message:{role:'assistant',tool_calls:[call('1','approved'),bad]}}),execute:async()=>{executions++;}}),/未知工具|类型无效/);assert.equal(executions,0);}});
+test('JSON content filtering and malformed tool finish states never execute',async()=>{for(const reason of ['content_filter','stop','unknown']){let executions=0;await assert.rejects(runAgent({messages:[],definitions,request:()=>readCompletion(body({role:'assistant',content:'partial',tool_calls:[call('1','approved')]},reason),{toolsEnabled:true}),execute:async()=>{executions++;}}));assert.equal(executions,0);}});
+test('SSE tool fragments finished as stop do not execute, valid tool_calls finish works',async()=>{let executions=0;await assert.rejects(runAgent({messages:[],definitions,request:()=>readCompletion(stream('stop'),{toolsEnabled:true}),execute:async()=>{executions++;}}),/结束状态/);assert.equal(executions,0);let n=0;const result=await runAgent({messages:[],definitions,request:()=>++n===1?readCompletion(stream('tool_calls'),{toolsEnabled:true}):Promise.resolve({message:{content:'done'}}),execute:async()=>{executions++;return {status:'succeeded'};}});assert.equal(executions,1);assert.equal(result.text,'done');});
+test('ordinary JSON text may omit finish status',async()=>{const r=await readCompletion(body({role:'assistant',content:'ordinary'},undefined),{toolsEnabled:true});assert.equal(r.text,'ordinary');});
+
+test('legacy JSON providers without finish state remain supported',async()=>{const r=await readCompletion(body({role:'assistant',tool_calls:[call('id','approved')]},undefined),{toolsEnabled:true});assert.equal(r.message.tool_calls.length,1);});

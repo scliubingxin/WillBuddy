@@ -1,0 +1,22 @@
+{
+  "version": "0.37.60-wip.1",
+  "tests": {
+    "m4_related_node": {
+      "passed": 103,
+      "failed": 0
+    },
+    "packaging_python": {
+      "passed": 35,
+      "failed": 0
+    },
+    "chromium_ui": {
+      "status": "blocked",
+      "reason": "socket() Operation not permitted"
+    }
+  },
+  "limitations": [
+    "long running Linux Kit stress still in progress",
+    "no corresponding app or Mac verification",
+    "M4 incomplete"
+  ]
+}

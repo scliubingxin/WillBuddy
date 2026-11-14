@@ -34,7 +34,7 @@ let sidebarCollapsed = false, sidePanel = false, sideTab = 'preview', previewId 
 const openedDetails = new Set();
 const taskWorkspaces = new Map();
 function switchChat(next) { taskWorkspaces.set(chatId, { previewTabs, previewId, sidePanel, sideTab, draft, files, selections, images, sendImages, agentId,modelChoice,modelEffort }); const saved = taskWorkspaces.get(next); previewTabs = saved?.previewTabs || []; previewId = saved?.previewId || ''; sidePanel = saved?.sidePanel || false; sideTab = saved?.sideTab || 'preview'; draft=saved?.draft||''; files=saved?.files||[];selections=saved?.selections||[];images=saved?.images||[];sendImages=saved?.sendImages||false; modelChoice=saved?.modelChoice||state.chats.find(c=>c.id===next)?.modelChoice||'legacy';modelEffort=saved?.modelEffort??state.chats.find(c=>c.id===next)?.modelEffort??'';chatId = next; agentId=saved?.agentId||state.chats.find(c=>c.id===next)?.agentId||agentId; closePicker(); }
-const toolNames = { cli_execute: '运行命令', browser_open: '打开网页', browser_read: '读取网页正文', browser_snapshot: '检查页面元素', browser_click: '点击页面元素', browser_fill: '填写文本框' };
+const toolNames = { pdf_ocr_import: '保存PDF识别成果', pdf_ocr: '识别PDF文字', image_ocr: '识别图片文字', cli_execute: '运行命令', browser_open: '打开网页', browser_read: '读取网页正文', browser_snapshot: '检查页面元素', browser_click: '点击页面元素', browser_fill: '填写文本框' };
 const statusNames = { pending_approval: '等待你确认', running: '执行中', succeeded: '已完成', completed: '已完成', opened: '已打开', read: '已读取', inspected: '已检查', clicked: '已发送点击', filled: '已填写', failed: '失败', denied: '已拒绝', cancelled: '已取消', interrupted: '已中断', queued: '排队中', paused: '已暂停', cancelling: '正在停止', timed_out: '已超时', output_limit: '输出超限', inherited_pipes: '子进程未关闭' };
 function taskStatus(c) {
     if (c.run)
@@ -340,6 +340,19 @@ async function navigate(next) {
         render();
 }
 async function handle(actionId, id) {
+    if(actionId==='previewOcrSource'){
+      const ref=JSON.parse(id);if(ref.chatId!==chatId)throw Error('任务已切换，请重新选择证据');
+      const v=await invoke('previewOcrSource',ref);if(!v)return;if(ref.chatId!==chatId)throw Error('任务已切换，未显示原PDF页面');
+      if(!Array.isArray(v.pages)||v.pages.length<1||v.pages.length>5)throw Error('页面定位数据无效');
+      let totalBoxes=0;
+      const pages=v.pages.map(p=>{
+        if(!Number.isInteger(p.page)||p.page<1||p.page>100||!Number.isInteger(p.width)||!Number.isInteger(p.height)||p.width<1||p.height<1||p.width>1600||p.height>1600||typeof p.base64!=='string'||p.base64.length>5592408||!/^[A-Za-z0-9+/=]+$/.test(p.base64)||!Array.isArray(p.boxes)||(totalBoxes+=p.boxes.length)>16)throw Error('页面定位数据无效');
+        const boxes=p.boxes.map(b=>{if(!b||![b.x,b.y,b.w,b.h].every(Number.isInteger)||b.x<0||b.y<0||b.w<1||b.h<1||b.x+b.w>p.width||b.y+b.h>p.height)throw Error('页面定位数据无效');return `<span style="position:absolute;left:${100*b.x/p.width}%;top:${100*b.y/p.height}%;width:${100*b.w/p.width}%;height:${100*b.h/p.height}%;border:2px solid #0078CB;background:rgba(0,120,203,.18);box-sizing:border-box"></span>`}).join('');
+        return '<h3>第 '+p.page+' 页</h3><div style="position:relative;width:'+p.width+'px;max-width:100%;line-height:0"><img alt="原PDF页面" style="width:100%;height:auto" src="data:image/png;base64,'+p.base64+'">'+boxes+'</div>';
+      }).join('');
+      modal('原PDF证据','<p>蓝框表示 OCR 对应位置；识别可能有误，页面数据仅在本机显示。'+(v.regionsTruncated?'定位区域已截断，未显示全部位置。':'')+'</p>'+pages);return;
+    }
+    if(actionId==='openOcrSource'){const ref=JSON.parse(id);if(ref.chatId!==chatId)throw Error('任务已切换，请重新选择证据');const result=await invoke('openOcrSource',ref);if(result?.opened)toast('已核对并打开原PDF，请查看第 '+result.pages.join('、')+' 页');return;}
     if(actionId==='continueReply'){
       const c=state.chats.find(c=>c.id===chatId),failed=c?.messages?.[Number(id)];if(!failed||(failed.continuation!==true&&!(failed.continuation===undefined&&failed.error&&/长度上限/.test(failed.content))))throw Error('没有可继续的文字');
       const partial=c.messages.filter(m=>m.runId===failed.runId&&m.partial&&m.content).at(-1);if(!partial)throw Error('未保留可续写内容');
@@ -614,7 +627,7 @@ async function handle(actionId, id) {
     if(actionId==='modelEdit'){const p=(state.modelProfiles||[]).find(p=>p.id===id)||{};modal(p.id?'编辑模型':'添加模型',modelForm(p,state.settings.secureStorage,escape),'保存模型',async f=>{const payload={...Object.fromEntries(f),id:p.id,revision:p.revision};for(const k of ['supportsOff','tools','vision','enabled','persistKey','clearKey'])payload[k]=f.has(k);await update('modelProfile',payload);toast('模型配置已保存，未发送网络请求');return 'modelLibrary';});return;}
     if(actionId==='modelRemove'){const p=(state.modelProfiles||[]).find(p=>p.id===id);if(p)modal('删除模型配置','<p>移除此配置及保存的密钥；排队或执行中的请求不会自动换模型。</p>','删除',async()=>{await update('modelProfile',{id:p.id,revision:p.revision,remove:true});});return;}
     if (actionId === 'legacySettings') {
-        modal('连接你的模型', `<p>支持 Chat Completions 兼容 API。远程服务使用 HTTPS，本机 Ollama 可用 http://127.0.0.1:11434/v1。内容只会发送到你填写的地址。</p>${input('工作空间名称', 'name', state.settings.name)}${input('Base URL', 'baseUrl', state.settings.baseUrl || 'https://api.deepseek.com')}${input('模型 ID', 'model', state.settings.model === '尚未配置' ? 'deepseek-chat' : state.settings.model)}${input('每次任务模型调用轮数（1–96）', 'maxSteps', legacyRoundLimit(state.settings,state.agents,agentId).value, 'number')}<p>${legacyRoundLimit(state.settings,state.agents,agentId).inherited ? '当前工具任务沿用所选智能体的轮数；修改并保存后，原模型按此设置执行。' : '当前原模型使用已保存的轮数设置。'}增加轮数可能增加用量；正在执行的任务不会改变。</p><label>API Key ${state.settings.hasKey ? '（留空保留当前密钥）' : ''}<input name="apiKey" type="password" autocomplete="off"></label><label class="check"><input type="checkbox" name="persistKey" ${state.settings.secureStorage ? '' : 'disabled'}>使用系统钥匙串加密保存新密钥</label><label class="check"><input type="checkbox" name="clearKey">清除当前保存的密钥</label><p>${state.settings.secureStorage ? '未勾选时，新密钥只保留至应用退出。' : '系统加密存储不可用，新密钥只在本次运行中保留。'}保存配置不会发送测试请求；可通过一次真实对话验证连接。</p>`, '保存配置', async (f) => { await update('settings', { ...Object.fromEntries(f), persistKey: f.has('persistKey'), clearKey: f.has('clearKey') }); toast('模型配置已保存'); });
+        modal('连接你的模型', `<p>支持 Chat Completions 兼容 API。远程服务使用 HTTPS，本机 Ollama 可用 http://127.0.0.1:11434/v1。内容只会发送到你填写的地址。</p>${input('工作空间名称', 'name', state.settings.name)}${input('Base URL', 'baseUrl', state.settings.baseUrl || 'https://api.deepseek.com')}${input('模型 ID', 'model', state.settings.model === '尚未配置' ? 'deepseek-chat' : state.settings.model)}${input('每次任务模型调用轮数（1–96）', 'maxSteps', legacyRoundLimit(state.settings,state.agents,agentId).value, 'number')}${input('本机向量嵌入模型（留空使用关键词检索）', 'localEmbeddingModel', state.settings.localEmbeddingModel || '')}<p>配置后知识检索使用本机 Ollama 的嵌入模型，需自行确保服务及模型已就绪。索引为敏感派生数据；查询时会请求确认。</p><label class="check"><input type="checkbox" name="officePreviewPool" ${state.settings.officePreviewPool ? 'checked' : ''}>启用实验性 Office 预览进程复用（重启后生效，Mac 尚未验收）</label><p>${legacyRoundLimit(state.settings,state.agents,agentId).inherited ? '当前工具任务沿用所选智能体的轮数；修改并保存后，原模型按此设置执行。' : '当前原模型使用已保存的轮数设置。'}增加轮数可能增加用量；正在执行的任务不会改变。</p><label>API Key ${state.settings.hasKey ? '（留空保留当前密钥）' : ''}<input name="apiKey" type="password" autocomplete="off"></label><label class="check"><input type="checkbox" name="persistKey" ${state.settings.secureStorage ? '' : 'disabled'}>使用系统钥匙串加密保存新密钥</label><label class="check"><input type="checkbox" name="clearKey">清除当前保存的密钥</label><p>${state.settings.secureStorage ? '未勾选时，新密钥只保留至应用退出。' : '系统加密存储不可用，新密钥只在本次运行中保留。'}保存配置不会发送测试请求；可通过一次真实对话验证连接。</p>`, '保存配置', async (f) => { await update('settings', { ...Object.fromEntries(f), persistKey: f.has('persistKey'), clearKey: f.has('clearKey'), officePreviewPool: f.has('officePreviewPool') }); toast('模型配置已保存'); });
         return;
     }
     if (actionId === 'folder') {
@@ -661,12 +674,31 @@ async function handle(actionId, id) {
         if(!files.some(f=>f.documentId===id))files.push({documentId:d.id,revision:d.revision,sha256:d.sha256,name:d.name,text:d.text});
         render();toast('已重新附加当前保存版本，请核对后发送');return;
     }
+    if (actionId === 'attachPdfRange') {
+        if(files.length>=32)throw Error('每次最多32份附件');
+        const scope=chatId,presentPage=page;
+        modal('识别 PDF 指定页','<p>选择第1至100页中的连续最多5页。识别文字仅在发送后交给当前模型；需要本机OCR及PDF组件。</p><label>起始页<input type="number" name="startPage" min="1" max="100" step="1" value="1" required></label><label>结束页<input type="number" name="endPage" min="1" max="100" step="1" value="1" required></label>','选择 PDF',async f=>{
+            const startPage=Number(f.get('startPage')),endPage=Number(f.get('endPage'));
+            if(!Number.isInteger(startPage)||!Number.isInteger(endPage)||startPage<1||endPage>100||endPage<startPage||endPage-startPage>=5)throw Error('请选择1至100页内连续最多5页');
+            // The modal closes immediately so the independent stop control is reachable.
+            void (async()=>{try{
+                const row=await invoke('chatAttachmentImport',{pdfRange:{startPage,endPage}});applyState(await invoke('state'));
+                if(row&&scope===chatId&&presentPage===page){if(files.length+row.attachments.length>32)throw Error('附件已满，识别成果已保存到成果中心');files.push(...row.attachments);toast(row.notice||'识别成果已附加');}
+                else if(row)toast('识别成果已保存到成果中心；未自动附加');
+                render();
+            }catch(e){toast(e.message);}})();
+        });return;
+    }
+    if (actionId === 'cancelPdfImport') {
+        await invoke('cancelPdfImport',{id});
+        applyState(await invoke('state'));render();return;
+    }
     if (actionId === 'attach') {
         if(files.length>=32)throw Error('每次最多32份附件');
         const scope=chatId,presentPage=page;
         const row=await invoke('chatAttachmentImport');
         applyState(await invoke('state'));
-        if(row&&scope===chatId&&presentPage===page){const added=row.attachments||[row];if(row.project)toast('已识别代码项目，可在＋菜单的代码项目与运行环境中准备和启动');if(files.length+added.length>32)throw Error('合计超过32份，导入副本已保存到成果中心，请分批附加');files.push(...added);toast('已附加'+added.length+'份，点击发送后正文交给当前模型');if(row.skipped?.length)modal('ZIP解压报告','<p>已附加'+added.length+'份；以下文件未作为正文理解：</p>'+row.skipped.map(x=>'<p>'+escape(x.path)+'：'+escape(x.reason)+'</p>').join(''));}
+        if(row&&scope===chatId&&presentPage===page){const added=row.attachments||[row];if(row.project)toast('已识别代码项目，可在＋菜单的代码项目与运行环境中准备和启动');if(files.length+added.length>32)throw Error('合计超过32份，导入副本已保存到成果中心，请分批附加');files.push(...added);if(row.notice)modal('PDF识别范围','<p>'+escape(row.notice)+'</p>');else toast('已附加'+added.length+'份，点击发送后正文交给当前模型');if(row.skipped?.length)modal('ZIP解压报告','<p>已附加'+added.length+'份；以下文件未作为正文理解：</p>'+row.skipped.map(x=>'<p>'+escape(x.path)+'：'+escape(x.reason)+'</p>').join(''));}
         else if(row)toast('文档已保存到成果中心；对话已切换，未自动附加');
         render();$('#prompt')?.focus();return;
     }

@@ -1,0 +1,28 @@
+{
+  "version": "0.37.46",
+  "date": "2026-11-13",
+  "status": "internal_checkpoint",
+  "baseline": "0.37.45, SHA256 10fc235ca517e91ddfe7fb99772f6a556bf2254e5a3c22ef86fd2abb49354704",
+  "checks": {
+    "node_related": {
+      "passed": 54,
+      "failed": 0,
+      "command": "node --test --test-concurrency=1 desktop/tests/ocr-provenance-03746.test.mjs desktop/tests/knowledge-search.test.mjs desktop/tests/knowledge-index.test.mjs desktop/tests/knowledge-vector-03736.test.mjs desktop/tests/pdf-ocr-03740.test.mjs"
+    },
+    "python_packaging": {
+      "passed": 35,
+      "failed": 0
+    },
+    "real_linux_pdf_ocr": "Poppler and Tesseract English synthetic PDF -> approved import -> retrieval page evidence",
+    "model_and_native_approval": "fixtures",
+    "ui": "HTML escaping unit test; no native browser or Mac UI acceptance"
+  },
+  "limitations": [
+    "OCR may be inaccurate; original page references are not PDF coordinates or highlights",
+    "No PDF attachment integration",
+    "No bundled Mac ARM64 OCR, Chinese data, PDF renderer or offline embedding model",
+    "Mac, real user files and real model not tested",
+    "Office process pool Mac isolation and performance unverified",
+    "M4 incomplete; no app built or published"
+  ]
+}

@@ -97,7 +97,7 @@ test("workspace persists profile with knowledge/skill/tool/MCP and rolls back on
 });
 test("tool schemas and execution both enforce per-agent allowlist; unknown calls never reach runtime", async () => {
   let executed = 0;
-  const result = await runAgent({
+  await assert.rejects(runAgent({
     messages: [],
     definitions: [],
     request: async (history) =>
@@ -114,9 +114,8 @@ test("tool schemas and execution both enforce per-agent allowlist; unknown calls
     execute: () => {
       executed++;
     },
-  });
+  }), /未知工具/);
   assert.equal(executed, 0);
-  assert.equal(result.events[0].status, "failed");
 });
 test("skills load on demand, body stays out of system prompt/audit; profile edits invalidate active sessions", async () => {
   const f = await fixture();

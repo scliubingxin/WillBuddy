@@ -1,0 +1,33 @@
+{
+  "version": "0.37.60-wip.3",
+  "tests": {
+    "wasm_development": {
+      "passed": 7,
+      "failed": 0
+    },
+    "source_zip_without_assets": {
+      "passed": 7,
+      "skipped": 3
+    },
+    "source_zip_with_supplied_assets": {
+      "passed": 5,
+      "failed": 0
+    },
+    "packaging_python": {
+      "passed": 41,
+      "failed": 0
+    },
+    "ui": {
+      "status": "blocked",
+      "reason": "socket() Operation not permitted"
+    }
+  },
+  "limitations": [
+    "WASM binaries/data excluded pending third-party attribution",
+    "OCR absent unless separate verified development assets supplied",
+    "Apple ARM64/Mac and Chinese OCR untested",
+    "PDF renderer absent in Mac app",
+    "Office soak ongoing",
+    "M4 incomplete"
+  ]
+}

@@ -8,6 +8,7 @@ import {
   formats,
   generateDocument,
   pptImagesFromContent,
+  pptLayerView,
   inspectDocument,
   editDocument,
   sha256,
@@ -55,7 +56,7 @@ export function createDocumentService({
   async function save(candidate, signal, guard=()=>{}) {
     signal?.throwIfAborted();
     return lock(async () => {
-      signal?.throwIfAborted();guard();
+      signal?.throwIfAborted();await guard();signal?.throwIfAborted();
       if (
         candidate.conversionSource &&
         find(candidate.conversionSource.id).revision !==
@@ -79,7 +80,7 @@ export function createDocumentService({
         throw Error("文档空间超限（100 个 / 16 MiB），请导出备份后清理");
       store.data.documents = next;
       try {
-        await store.save();signal?.throwIfAborted();guard();
+        await store.save();signal?.throwIfAborted();await guard();signal?.throwIfAborted();
       } catch (e) {
         store.data.documents = previous;
         await store.save();
@@ -215,7 +216,7 @@ export function createDocumentService({
         if (args.expectedRevision !== prior.revision)
           throw Error("文档版本不匹配，请先读取");
         if (
-          JSON.stringify({ replacements: args.replacements, cells: args.cells })
+          JSON.stringify({ replacements: args.replacements, cells: args.cells, pptLayer: args.pptLayer })
             .length > 600
         )
           throw Error("本次修改太长，请拆成较小批次审阅");
@@ -225,7 +226,7 @@ export function createDocumentService({
           args,
         );
         candidate = record(prior.name, prior.format, result, prior);
-        detail = `修改 ${prior.name}.${prior.format}\n第 ${prior.revision} → ${candidate.revision} 版；${result.changes} 处修改\n保留前版，原始导入文件不变。\n${JSON.stringify({ replacements: args.replacements, cells: args.cells })}\n新 SHA-256 ${result.sha256}`;
+        detail = `修改 ${prior.name}.${prior.format}\n第 ${prior.revision} → ${candidate.revision} 版；${result.changes} 处修改\n保留前版，原始导入文件不变。\n${JSON.stringify({ replacements: args.replacements, cells: args.cells, pptLayer: args.pptLayer })}\n新 SHA-256 ${result.sha256}`;
       } else throw Error("未知文档操作");
       // Token owns immutable, host-generated candidate. Never trust a renderer-supplied receipt.
       const token = Object.freeze({ operation, detail, ...(operation === 'document_read' ? { readScope: { id: candidate.id, revision: candidate.revision, sha256: candidate.sha256 } } : {}) });
@@ -263,6 +264,7 @@ export function createDocumentService({
                   }
                 })()
               : {}),
+            ...(d.format === "pptx" ? (()=>{try{const view=pptLayerView(Buffer.from(d.base64,'base64'));return JSON.stringify(view).length<=12000?{pptEditing:view}:{pptEditingUnavailable:'图层信息超过模型读取上限，请分文档处理，不要猜测图层坐标'};}catch(e){return {pptEditingUnavailable:e.message};}})() : {}),
             ...(d.format === "docx" && !d.richSource
               ? (() => {
                   try {
@@ -307,11 +309,16 @@ export function createDocumentService({
         notify();return candidates.map(summary);
       });
     },
-    async importFile(name, format, bytes, signal, guard) {
+    async importFile(name, format, bytes, signal, guard, ocrProvenance) {
       checkName(name);
       if (!formats.includes(format)) throw Error("格式不支持");
       const inspected = inspectDocument(format, bytes);
-      return save(record(name, format, { bytes, ...inspected }), signal, guard);
+      const candidate=record(name, format, { bytes, ...inspected });
+      if (ocrProvenance) {
+        if (format!=="md" || ocrProvenance.textSha256!==candidate.sha256) throw Error("OCR来源与文档不一致");
+        candidate.ocrProvenance=structuredClone(ocrProvenance);
+      }
+      return save(candidate, signal, guard);
     },
     richEditor(id) {
       const d = find(id);

@@ -1,3 +1,4 @@
+import {validateEmbeddingModel} from './knowledge-vector.mjs';
 import {modelEndpoint} from '../core.mjs';
 import {modelMaxSteps} from '../runtime/model-policy.mjs';
 import {requiredText} from './validation.mjs';
@@ -14,6 +15,8 @@ export function createLegacyModelSettings({store,safeStorage,getSessionKey,setSe
    if(p.baseUrl){modelEndpoint(p.baseUrl);next.baseUrl=requiredText(p.baseUrl,500);}
    if(p.model)next.model=requiredText(p.model,200);
    if(p.name)next.name=requiredText(p.name,100);
+   if(p.officePreviewPool!==undefined){if(typeof p.officePreviewPool!=='boolean')throw Error('Office预览池设置无效');next.officePreviewPool=p.officePreviewPool;}
+   if(p.localEmbeddingModel!==undefined){if(typeof p.localEmbeddingModel!=='string')throw Error('嵌入模型名称无效');next.localEmbeddingModel=p.localEmbeddingModel.trim()?validateEmbeddingModel(p.localEmbeddingModel.trim()):'';}
    if(p.maxSteps!==undefined)next.maxSteps=modelMaxSteps(p.maxSteps);
    if(p.clearKey){delete next.encryptedKey;nextKey='';}
    if(typeof p.apiKey==='string'&&p.apiKey){

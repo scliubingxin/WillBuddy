@@ -44,3 +44,16 @@ class AtomicSourceTests(unittest.TestCase):
                     module.package(output)
             self.assertEqual(output.read_bytes(), b'previous complete release')
             self.assertEqual(list(Path(d).glob('.*.tmp')), [])
+
+    def test_ocr_binaries_and_data_are_excluded_but_adapter_source_and_manifest_remain(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)/'source';root.mkdir();self.setup_source(root)
+            vendor=root/'desktop/runtime/vendor/ocr-wasm'
+            for name in ['deps/tesseract.js-core/tesseract-core.js','deps/tesseract.js-core/tesseract-core.wasm','data/eng.traineddata','deps/tesseract.js/src/index.js','MANIFEST.json','recognize.cjs']:
+                p=vendor/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(b'test fixture')
+            out=Path(d)/'source.zip'
+            with patch.object(module,'root',root),contextlib.redirect_stdout(io.StringIO()):module.package(out)
+            with zipfile.ZipFile(out) as z:
+                names=set(z.namelist());prefix='muyun-ai/desktop/runtime/vendor/ocr-wasm/'
+                for n in ['deps/tesseract.js-core/tesseract-core.js','deps/tesseract.js-core/tesseract-core.wasm','data/eng.traineddata']:self.assertNotIn(prefix+n,names)
+                for n in ['deps/tesseract.js/src/index.js','MANIFEST.json','recognize.cjs']:self.assertIn(prefix+n,names)

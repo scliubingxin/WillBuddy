@@ -1,0 +1,25 @@
+{
+  "version": "0.37.57",
+  "status": "internal checkpoint",
+  "passed_tests": 27,
+  "evidence": "Real Linux Poppler/Tesseract English PDF and real bounded filesystem reads; native selector, OS open and model are fixtures.",
+  "not_tested": [
+    "Mac native GUI and system open",
+    "Chinese OCR",
+    "real paid model",
+    "PDF page jump or highlight",
+    "new arm64 build"
+  ],
+  "limitations": [
+    "File can change after its last verification before another OS application reads it.",
+    "Opening is delegated to the system; user must navigate to the indicated pages."
+  ],
+  "changed": [
+    "desktop/services/ocr-source-open.mjs",
+    "desktop/main.mjs",
+    "desktop/preload.cjs",
+    "desktop/src/ui/knowledge-evidence.js",
+    "desktop/src/app.js",
+    "desktop/tests/ocr-source-open-03757.test.mjs"
+  ]
+}

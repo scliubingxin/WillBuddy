@@ -1,3 +1,8 @@
+import {createPdfImportControl} from './main/pdf-import-control.mjs';
+import {openOcrSource} from './services/ocr-source-open.mjs';
+import {previewOcrSource} from './services/ocr-source-preview.mjs';
+import {importChatPdf,validatePdfRange} from './services/pdf-chat-import.mjs';
+import {bundledPdfOcrTools} from './runtime/pdf-ocr.mjs';
 import {exportDocumentPdf} from './main/pdf-export.mjs';
 import {createOfficeWorkspace} from './services/office-workspace.mjs';
 import {createOfficeChat} from './services/office-chat.mjs';
@@ -13,6 +18,7 @@ import {createModelService} from './services/models.mjs';
 import {createModelSecretCodec} from './main/model-secrets.mjs';
 import {parseChatUpload} from './runtime/chat-archive.mjs';
 import {sharedKnowledgeIndex} from './services/knowledge-index.mjs';
+import {sharedVectorIndex} from './services/knowledge-vector.mjs';
 import {createMcpSecretCodec} from './main/mcp-secrets.mjs';
 import {mcpViews} from './services/mcp-access.mjs';
 import {createCapabilityLibrary,skillViews} from './services/capability-library.mjs';
@@ -56,8 +62,9 @@ const notifyRuntime = () => {
 };
 const approve = createApprover({ dialog, getWindow: () => win, focus });
 let toolRuntime, genoffice, models, projects, libreoffice, officeWindows;
+const pdfImports = createPdfImportControl({notify: notifyRuntime});
 const executeTool = (...args) => toolRuntime.execute(...args);
-const view = () => { const { encryptedKey, ...settings } = store.data.settings; const {knowledgeIndexes,modelProfiles,codeProjects,...publicData}=store.data; return { ...publicData, officeNative:!!libreoffice,officeWorkspace:!!officeWindows,officeEdits:libreoffice?.sessions()||[], capabilityPresets:capabilityPresets(), codeProjects:projects?.view()||[], modelProfiles:models?.view()||[], mcpConnections:mcpViews(store.data), documents:documentViews(store.data), skillPackages:skillViews(store.data), imageAttachments:imageViews(store.data), settings: { ...settings, hasKey: !!sessionKey || !!encryptedKey, keySaved: !!encryptedKey, secureStorage: safeStorage.isEncryptionAvailable() && safeStorage.getSelectedStorageBackend?.() !== 'basic_text' }, browsers: browser.list(), desktop: { platform: process.platform, shortcutReady } }; };
+const view = () => { const { encryptedKey, ...settings } = store.data.settings; const {knowledgeIndexes,knowledgeVectorIndexes,modelProfiles,codeProjects,...publicData}=store.data; return { ...publicData, pdfImport: pdfImports.view(), officeNative:!!libreoffice,officeWorkspace:!!officeWindows,officeEdits:libreoffice?.sessions()||[], capabilityPresets:capabilityPresets(), codeProjects:projects?.view()||[], modelProfiles:models?.view()||[], mcpConnections:mcpViews(store.data), documents:documentViews(store.data), skillPackages:skillViews(store.data), imageAttachments:imageViews(store.data), settings: { ...settings, hasKey: !!sessionKey || !!encryptedKey, keySaved: !!encryptedKey, secureStorage: safeStorage.isEncryptionAvailable() && safeStorage.getSelectedStorageBackend?.() !== 'basic_text' }, browsers: browser.list(), desktop: { platform: process.platform, shortcutReady } }; };
 function key() {
     if (sessionKey)
         return sessionKey;
@@ -109,7 +116,7 @@ else {
         const convertDocument=createDocumentConverter({createDriver:signal=>createConversionBrowser({BrowserWindow,session,signal})});
         toolRuntime = new ToolRuntime({ store, browser, approve, notify: notifyRuntime, convertDocument,beforeCli:(args,policy)=>projects?.validate(args,policy) });
         const officeRuntime=async()=>({python:await bundledExecutable('python'),officeDirectory:path.dirname(await bundledExecutable('office'))});
-        if(runtimeRoot()){await bundledExecutable('python');await bundledExecutable('office');libreoffice=createLibreOffice({documents:toolRuntime.documents,directory:path.join(store.dir,'office-runtime'),executable:()=>bundledExecutable('office'),pdfRuntime:officeRuntime,approve,notify:notifyRuntime});}
+        if(runtimeRoot()){await bundledExecutable('python');await bundledExecutable('office');libreoffice=createLibreOffice({documents:toolRuntime.documents,directory:path.join(store.dir,'office-runtime'),executable:()=>bundledExecutable('office'),pdfRuntime:officeRuntime,approve,notify:notifyRuntime,previewPoolEnabled:store.data.settings.officePreviewPool===true});}
         genoffice=createGenOfficeBridge({documents:toolRuntime.documents,approve});
         recoverInterruptedWork(store.data);
         commands = createCommandService({ store, active, executeTool, notify: notifyRuntime });
@@ -151,7 +158,7 @@ else {
         register('mcpConnection',async p=>{const saved=await capabilityLibrary.connection(p);return {saved,state:view()};});
         register('mcpTest',async p=>{const result=await capabilityLibrary.probe(p.id);return {result,state:view()};});
         register('mcpCancelTest',p=>{capabilityLibrary.cancelProbe(p.id);return true;});
-        register('clearKnowledgeIndex',async()=>{await sharedKnowledgeIndex(store).clear();return true;});
+        register('clearKnowledgeIndex',async()=>{await sharedVectorIndex(store).clear();await sharedKnowledgeIndex(store).clear();return true;});
         register('state', () => view());
         const updateLegacySettings=createLegacyModelSettings({store,safeStorage,getSessionKey:()=>sessionKey,setSessionKey:value=>{sessionKey=value;},isBusy:()=>active.size>0||runs.hasPending()});
         register('settings',async p=>{await updateLegacySettings(p);return view();});
@@ -208,11 +215,24 @@ else {
         register('documentSaveEditor', p => toolRuntime.documents.updateEditor(p.id,p.revision,p.patch,approve));
         register('documentRead', p => toolRuntime.documents.read(p.id));
         register('documentDelete', p => toolRuntime.documents.remove(p.id));
-        register('chatAttachmentImport', async () => {
-            const result=await dialog.showOpenDialog(win,{title:'上传文档或ZIP（发送时正文交给当前模型）',properties:['openFile'],filters:[{name:'文档 / ZIP',extensions:['zip','docx','xlsx','pptx','md','txt','csv','json','html','js','ts','py','yaml','yml','css','sql','java','go','rs','sh']}]});
+        register('cancelPdfImport', p => pdfImports.cancel(p.id));
+        register('previewOcrSource', p => previewOcrSource({store,reference:p,directory:store.dir,choose:async source=>{
+            const r=await dialog.showOpenDialog(win,{title:'选择原PDF以定位OCR来源',properties:['openFile'],filters:[{name:'PDF',extensions:['pdf']}]});
+            return r.canceled?null:r.filePaths?.length===1?r.filePaths[0]:null;
+        },tools:bundledPdfOcrTools,read:f=>readDocumentSource(f,{noFollow:true,maxBytes:16*1024*1024,label:'PDF'}),readImage:f=>readDocumentSource(f,{noFollow:true,maxBytes:4*1024*1024,label:'页面图片'})}));
+        register('openOcrSource', p => openOcrSource({store,reference:p,choose:async source=>{
+            const r=await dialog.showOpenDialog(win,{title:'选择原PDF以核对OCR来源（第 '+source.pages.join('、')+' 页）',properties:['openFile'],filters:[{name:'PDF',extensions:['pdf']}]});
+            return r.canceled?null:r.filePaths?.length===1?r.filePaths[0]:null;
+        },read:f=>readDocumentSource(f,{noFollow:true,maxBytes:16*1024*1024,label:'PDF'}),open:f=>shell.openPath(f)}));
+        register('chatAttachmentImport', async p => {
+            const range=p.pdfRange===undefined?undefined:validatePdfRange(p.pdfRange);
+            const result=await dialog.showOpenDialog(win,{title:'上传文档、PDF或ZIP（发送时正文交给当前模型）',properties:['openFile'],filters:[{name:'文档 / PDF / ZIP',extensions:range?['pdf']:['pdf','zip','docx','xlsx','pptx','md','txt','csv','json','html','js','ts','py','yaml','yml','css','sql','java','go','rs','sh']}]});
             if(result.canceled)return false;
             if(result.filePaths?.length!==1)throw Error('每次选择一个文档或ZIP');
-            const source=result.filePaths[0],bytes=await readDocumentSource(source,{noFollow:true,maxBytes:source.toLowerCase().endsWith(".zip")?32*1024*1024:4*1024*1024,label:source.toLowerCase().endsWith(".zip")?"ZIP压缩包":"文档"});
+            const source=result.filePaths[0];
+            if(range&&!source.toLowerCase().endsWith('.pdf'))throw Error('指定页识别仅支持PDF');
+            if(source.toLowerCase().endsWith('.pdf')){const job=pdfImports.start();try{return await importChatPdf({file:source,range,directory:store.dir,signal:job.signal,onProgress:progress=>pdfImports.progress(job,progress),documents:toolRuntime.documents,tools:bundledPdfOcrTools,read:f=>readDocumentSource(f,{noFollow:true,maxBytes:16*1024*1024,label:'PDF'}),confirm:async({name,startPage,endPage})=>{const rangeText=endPage==='first5'?'前5页（不足5页则全部识别）':'第 '+startPage+'–'+endPage+' 页';const choice=await dialog.showMessageBox(win,{type:'question',title:'本机识别 PDF 附件',message:'识别 '+name.replace(/[\u0000-\u001f]/g,' ').slice(0,150)+' 的'+rangeText,detail:'仅在本机识别；发送后识别文字会交给当前模型。所选范围之外的页面不会识别。OCR可能有误，请核对原文。',buttons:['中英混合','中文','英文','取消'],defaultId:3,cancelId:3,noLink:true,signal:AbortSignal.any([job.signal,AbortSignal.timeout(60000)])});return ['chi_sim+eng','chi_sim','eng',null][choice.response]??null;}});}finally{pdfImports.finish(job);}}
+            const bytes=await readDocumentSource(source,{noFollow:true,maxBytes:source.toLowerCase().endsWith(".zip")?32*1024*1024:4*1024*1024,label:source.toLowerCase().endsWith(".zip")?"ZIP压缩包":"文档"});
             let project,projectError;if(source.toLowerCase().endsWith('.zip')){try{project=await projects.importArchive(path.basename(source),bytes);}catch(e){projectError=e.message;}}
             const parsed=parseChatUpload(path.basename(source),bytes),documents=await toolRuntime.documents.importBatch(parsed.items);
             return {project,projectError,attachments:documents.map((d,i)=>({documentId:d.id,revision:d.revision,sha256:d.sha256,name:d.name,text:d.text,archive:parsed.items[i].archive,entryPath:parsed.items[i].entryPath})),skipped:parsed.skipped};
@@ -281,6 +301,7 @@ else {
     }).catch(e => { dialog.showErrorBox('WillBuddy 启动失败', e.message); app.quit(); });
     app.on('activate', focus);
     app.on('before-quit', (event) => {
+        pdfImports.close();
         if(officeWindows?.hasUnsaved()){event.preventDefault();dialog.showMessageBoxSync({type:'warning',message:'WillBuddy Office有尚未保存的修改',detail:'请在文档窗口重试保存后退出；不会丢弃未保存内容。'});return;}
         if(libreoffice?.sessions().length){const choice=dialog.showMessageBoxSync(win,{type:'warning',message:'有LibreOffice编辑副本尚未收回',detail:'请先保存并退出内置编辑窗口，再返回收回新版本。放弃退出会清理尚未回收的副本。',buttons:['返回处理','放弃副本并退出'],defaultId:0,cancelId:0});if(choice===0){event.preventDefault();return;}}
         officeWindows?.close().catch(()=>{});

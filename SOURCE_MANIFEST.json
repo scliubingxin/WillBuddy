@@ -1,16 +1,16 @@
 {
   "schema_version": 2,
   "brand": "WillBuddy",
-  "version": "0.37.32",
-  "packaged_date": "2026-11-13",
+  "version": "0.37.61-m4.1",
+  "packaged_date": "2026-11-14",
   "provenance": "Complete validated source snapshot; Git commits and deployment are tracked separately",
   "base_source_commit_sha": "0ce607437ef2c7814b295b43ec7b4ccd3c0b4a42",
   "release_status": {
     "schema_version": 2,
     "brand": "WillBuddy",
-    "version": "0.37.32",
-    "checked_date": "2026-11-13",
-    "source_status": "ppt_layered_graphics_candidate",
+    "version": "0.37.61-m4.1",
+    "checked_date": "2026-11-14",
+    "source_status": "m4_development_checkpoint_not_a_release",
     "original_web_release_record": "docs/WEB_RELEASE_STATUS_ORIGINAL.json",
     "desktop": {
       "electron": "42.0.0",
@@ -87,7 +87,29 @@
       "model_budget_summary": "Conversation reserves final configured round for synthesis; no tool execution in that round; incomplete status retained",
       "screenshot_feedback": "Background browser; task+document revision read consent; bounded Office preview FIFO; editable shape-based bar charts",
       "office_editing_increment": "Excel selected cells native bold and italic; PPT editable cards and native table",
-      "ppt_layer_increment": "Ordered editable shape/text/image layers, validated selected PNG and fade slide transition"
+      "ppt_layer_increment": "Ordered editable shape/text/image layers, validated selected PNG and fade slide transition",
+      "ppt_layer_targeted_edit": "Approved read provides bounded top-level shape/picture inventory with revision and anchor; document_edit supports one anchored move/resize/z-order or solid fill; animated slides and signed packages fail closed; fixture-tested, Mac unverified",
+      "feedback_03734": "public-domain browser open auto, read and actions still approved; model network failure classification; conservative PPT bullet font and wrapping, no Mac fidelity claim",
+      "m4_checkpoint": "run state transition guard and mock model error tests only; embedding/OCR/process pool not implemented",
+      "m4_vector": "optional approved localhost Ollama embedding and versioned persistent cosine index; model runtime not bundled; mock-only semantic tests",
+      "m4_ocr": "approved selected-image OCR pipeline; Linux real tesseract English tested, Mac OCR executable and Chinese data not bundled",
+      "m4_worker_pool": "opt-in LibreOfficeKit preview pool, real Linux tests; Mac isolation/performance unverified",
+      "m4_pdf_ocr": "approved bounded multi-page PDF OCR pipeline, real Linux poppler/tesseract fixtures; ARM64 OCR and renderer not bundled",
+      "m4_mock_llm": "batch tool calls validated before any side effect; incomplete SSE end rejected",
+      "m4_safety_03741": "idempotent concurrent cancellation and bounded PDF/PNG reads, encrypted PDF and grant escape tests",
+      "m4_hybrid_03742": "approved local semantic vectors and lexical reciprocal-rank fusion; missing OCR pages retained with explicit uncertainty",
+      "m4_03743": "bounded hybrid retrieval preserves matching source diversity; real Linux LibreOfficeKit two-worker concurrency fixture",
+      "m4_ocr_coordinates": "Tesseract TSV word boxes and image-pixel coordinate spaces, bounded return; Linux fixture only",
+      "m4_ocr_import": "same-run single-use approved PDF OCR receipt creates source-cited Markdown; real Linux OCR and HTTP model fixture; Mac engine unbundled",
+      "m4_ocr_provenance": "Host-created OCR document metadata binds source PDF SHA and page ranges to the exact recognized Markdown; approved retrieval and evidence derive intersecting pages. Linux OCR fixtures only; not original PDF geometry or UI highlighting.",
+      "m4_pdf_chat_attachment": "Native-selected PDF OCR, up to first five pages, explicit language confirmation, source SHA guarded, approved text becomes Markdown chat attachment. Mac ARM64 OCR/PDF binaries and Chinese data not bundled; Linux fixtures only.",
+      "m4_pdf_page_range": "Optional chat PDF page range, 1–100, contiguous max 5, validated in UI and trusted host; Linux OCR fixture only, Mac OCR/PDF binaries and Chinese data not bundled.",
+      "pdf_attachment_cancel": "Transient per-job abort controller, user stop and cancellation guard; no Mac or Electron UI acceptance",
+      "pdf_attachment_progress": "Per-page OCR progress from actual bounded recognition; native UI and Mac not accepted",
+      "model_tool_finish_guard": "Batch rejects unknown/type-invalid tools before execution; reject explicit bad finish and filtered JSON, SSE requires tool finish; legacy JSON missing finish remains compatible",
+      "m4_evidence_integrity": "Approved source text must match search excerpt before citation; malformed OCR provenance cannot crash retrieval. No new Mac or application build validation.",
+      "m4_evidence_source_open": "User selects PDF; host compares persisted evidence SHA and rechecks bytes before system open. Does not jump to page or highlight; source may change after verification.",
+      "m4_evidence_source_page_preview": "Native selection and SHA guarded; renders first page with checked OCR pixel boxes; private temp cleanup; Mac OCR dependencies unavailable and native UI not validated."
     },
     "validation": "docs/validation/v0.37.19.json",
     "rea": {
@@ -848,6 +870,26 @@
         "completed_30min": false,
         "matches_final_code": false
       }
+    },
+    "m4_03752": {
+      "status": "internal checkpoint; incomplete M4",
+      "changes": "bounded structural batch validation before any tool runs",
+      "limits": "JSON Schema subset; patterns, references and business rules are not fully validated before execution; no Mac validation or app build"
+    },
+    "m4_03753": {
+      "status": "internal checkpoint; incomplete M4",
+      "changes": "OCR word boxes now carry per-page UTF-16 offsets into recognized text",
+      "limits": "no PDF native coordinates or highlight UI; no Mac OCR or app build"
+    },
+    "m4_03754": {
+      "status": "internal checkpoint; M4 incomplete",
+      "changes": "Persist bounded OCR word boxes and expose matching rendered-page pixel regions with OCR knowledge evidence",
+      "limits": "digest detects accidental corruption only; no PDF native coordinates or visual highlight, no Mac OCR or app build"
+    },
+    "m4_03755": {
+      "status": "internal checkpoint; M4 incomplete",
+      "changes": "Show escaped, bounded OCR word highlights in historical knowledge evidence",
+      "limits": "OCR text highlight only; no original PDF preview or page-overlay; no Mac OCR or app build"
     }
   },
   "files": [
@@ -888,13 +930,13 @@
     },
     {
       "path": "ITERATION_LOG.md",
-      "bytes": 277749,
-      "sha256": "a3bf92bad26df2e7f028184b7bfd9b822c6a968be9d6319cb0a95f84e718de66"
+      "bytes": 312950,
+      "sha256": "5ac6fb70e2721b3452f67a2d4a37741db19c8492b0fcb4b3a3a3dbbf0febd72b"
     },
     {
       "path": "ITERATION_PLAN.md",
-      "bytes": 155971,
-      "sha256": "fd2abc556c99b4fdd187e333ae3ec8af5a7a2a6212ea5521df636bf4db97d504"
+      "bytes": 165544,
+      "sha256": "2626375b1b8483766269cd676aad2d00727f9ff3ecfe80b238ea96365650e32f"
     },
     {
       "path": "OPENWORKBUDDY_REFERENCE.md",
@@ -913,8 +955,8 @@
     },
     {
       "path": "RELEASE_STATUS.json",
-      "bytes": 37447,
-      "sha256": "d705245a18756b865dd5bc2b8548ab3753ca0c17f05096d5511592ae7576e862"
+      "bytes": 42331,
+      "sha256": "81a3e7369d51179744b8b23efebadbaea0bd4ced4acdbf94e7367be15d38e9e1"
     },
     {
       "path": "SELF_TEST_MATRIX.md",
@@ -1423,8 +1465,8 @@
     },
     {
       "path": "desktop/core.mjs",
-      "bytes": 7938,
-      "sha256": "393ec6668563a503e908cb4f275bec13e1737cf42b2b70e4641f902a489684af"
+      "bytes": 8824,
+      "sha256": "d48099a1f6f6b7f4e6b0e4ddb4845b0b979421e6573ebace3337a734abdb4acb"
     },
     {
       "path": "desktop/installer/Apply-Draft-Generation-Update.command",
@@ -1522,6 +1564,11 @@
       "sha256": "0f07f8f1e7ea830c0a8af0b03b4589a05baa0cb936e9df647f6fa8a0f1645a05"
     },
     {
+      "path": "desktop/main/pdf-import-control.mjs",
+      "bytes": 1754,
+      "sha256": "462f17cb040bf24d7d66a845241b7a14d2d45bdbf374c3e0f60074033b7d1a49"
+    },
+    {
       "path": "desktop/main/preview-navigation.mjs",
       "bytes": 793,
       "sha256": "61397df88a223ca935f2f94dfbdbb380c97dcea7dbfdac4ccf966e9e6e9b7e88"
@@ -1538,8 +1585,8 @@
     },
     {
       "path": "desktop/main.mjs",
-      "bytes": 24320,
-      "sha256": "181dd3446f659df403fcfe873d22fda144f9b0649fb564be32348b0e9ce4006a"
+      "bytes": 27468,
+      "sha256": "e86d4d45d97e0628c8b18f9f570143c115940fbe8e0f13ed923d0462ba2123c4"
     },
     {
       "path": "desktop/office-preload.cjs",
@@ -1548,13 +1595,13 @@
     },
     {
       "path": "desktop/package-lock.json",
-      "bytes": 288410,
-      "sha256": "d6c0330943b91f5babb6e52cf4d44c2a4cb9afe79b48dfa08de93bce964df36b"
+      "bytes": 288420,
+      "sha256": "5cbfd6a4d31b2b61ae53bbd6b9dead8c2ab7c615a2f6310c5b85851e6bab6310"
     },
     {
       "path": "desktop/package.json",
-      "bytes": 3523,
-      "sha256": "05eea892bea07bdf71d7bbdc0a0830bf69838f47f30630da2b21dc430a2c5b66"
+      "bytes": 3528,
+      "sha256": "372e2c7aad46cfd451f5962cb28040c56fb3de14d3c8d00d8d71868e8c16ebf5"
     },
     {
       "path": "desktop/ppt-probe.mjs",
@@ -1563,8 +1610,8 @@
     },
     {
       "path": "desktop/preload.cjs",
-      "bytes": 1727,
-      "sha256": "4cb57d1d456841de34bb0089b599a995f588642a527e3c5622d42158ef3fc1ac"
+      "bytes": 1780,
+      "sha256": "04450470fbdec4acd305db3bef6a5513300b5da14c7cb36ef6caa9cbd3ab7315"
     },
     {
       "path": "desktop/python-wheels.lock.json",
@@ -1578,8 +1625,8 @@
     },
     {
       "path": "desktop/runtime/agent.mjs",
-      "bytes": 13572,
-      "sha256": "3aa5ba3534284dfe9b84d537adf43e1d2b337e94dd0ffb077a2f1d95862433c3"
+      "bytes": 18324,
+      "sha256": "d6404b334dbf9b84137bb3f90f3eb359748a5b5612051176f592648851ff7af1"
     },
     {
       "path": "desktop/runtime/browser-dom.mjs",
@@ -1633,13 +1680,23 @@
     },
     {
       "path": "desktop/runtime/documents.mjs",
-      "bytes": 29617,
-      "sha256": "c05d6e6390a63a65f4ca78f47271a03346094767bc886c86f65a255c56f891cf"
+      "bytes": 30770,
+      "sha256": "4e3b7652f013d1714f4b4f4c2a659c89ab19ec47ac5985a40784e184cf9c12d3"
     },
     {
       "path": "desktop/runtime/identity.mjs",
       "bytes": 609,
       "sha256": "7c07d275a7365d7ef42f3d4cdf7eb89a4693f5aa6da6010d7dba373ff9c37c93"
+    },
+    {
+      "path": "desktop/runtime/image-ocr.mjs",
+      "bytes": 4774,
+      "sha256": "d00bd238cb22c85449cd84f1cb0a25ab2068952d24223a94003237f59bbef604"
+    },
+    {
+      "path": "desktop/runtime/isolated-worker-pool.mjs",
+      "bytes": 5241,
+      "sha256": "859dd3e077ed2517ff99e4ae78be69b7c56ad539a5cfc05ca5683ed1a1f35d33"
     },
     {
       "path": "desktop/runtime/knowledge-index.mjs",
@@ -1663,8 +1720,18 @@
     },
     {
       "path": "desktop/runtime/model-stream.mjs",
-      "bytes": 8309,
-      "sha256": "406c4a9f0119590e03d7d790496065212515e74866c3391e7c3f7782fda2a085"
+      "bytes": 9143,
+      "sha256": "cd3751b562f61ac68f24ecf5e580c28e2570c61935e54d768541bee55aba773f"
+    },
+    {
+      "path": "desktop/runtime/ocr-provenance.mjs",
+      "bytes": 4715,
+      "sha256": "ec8f2b0ba6ce3d682077f7a9d2852f9a5a4e42ed5f4c1e0f9b17ab828490f933"
+    },
+    {
+      "path": "desktop/runtime/ocr-wasm.mjs",
+      "bytes": 3842,
+      "sha256": "9b9ee13d1f2ff5e367aa1fa2477ea5394e579b5ab0558c5a421c755b379b08ac"
     },
     {
       "path": "desktop/runtime/office-cell-format.mjs",
@@ -1702,6 +1769,11 @@
       "sha256": "abfe4906759c4b00a345c641accc8a77ea580844218d5582e3b96ad5245dfde9"
     },
     {
+      "path": "desktop/runtime/office-kit/preview-pool.py",
+      "bytes": 3067,
+      "sha256": "0f97a56e15263745a0bfab113589012d0f4da9b9a238148fb4283ed4c7b4822e"
+    },
+    {
       "path": "desktop/runtime/office-kit/worker.py",
       "bytes": 25545,
       "sha256": "eb267cdc17af16d48e49caf37a2bd9d6741ff903c3cfb668ebe223037e76c0d5"
@@ -1722,6 +1794,11 @@
       "sha256": "f0c99f1f6fcd09b9916008b37b97bb43714ba7c24749c9265fc430ec8d1615f1"
     },
     {
+      "path": "desktop/runtime/office-preview-pool.mjs",
+      "bytes": 6037,
+      "sha256": "025c1e657bf2ef1798ac0e9d694ca9e81f60f889ad4f056c260612af40c6f751"
+    },
+    {
       "path": "desktop/runtime/office-table-grid.mjs",
       "bytes": 7675,
       "sha256": "8dc7d180eef008e990ff29591197e48e3fe76fef3bb9b6876089dbcd85be7a7d"
@@ -1738,8 +1815,18 @@
     },
     {
       "path": "desktop/runtime/office-worker-bundle.mjs",
-      "bytes": 29347,
-      "sha256": "3f958d634d181247ba6f766fc4dbee40c69b6fb996cf91b623133799f2a407b7"
+      "bytes": 32575,
+      "sha256": "c3af65302a1a8284dc5dcb81eaa62fdd04127bc37ba65f9a486d5b1e30ed3a73"
+    },
+    {
+      "path": "desktop/runtime/pdf-ocr.mjs",
+      "bytes": 6210,
+      "sha256": "d70ba6171382e2df3f41fd5dc0bb35bf7ee23f04e8b29542812b94b45d2577c2"
+    },
+    {
+      "path": "desktop/runtime/ppt-layer-edit.mjs",
+      "bytes": 6470,
+      "sha256": "49737d18e76ced0384d86002d18ac30929284facc33748141b501ef15e756980"
     },
     {
       "path": "desktop/runtime/ppt-layers.mjs",
@@ -1773,8 +1860,8 @@
     },
     {
       "path": "desktop/runtime/run-queue.mjs",
-      "bytes": 7734,
-      "sha256": "daf1994564b034d1fb225b314874ed896e50d310878807de7045762beb0cceb0"
+      "bytes": 8724,
+      "sha256": "8a4ed3d0a66a85e8d3a43ffef24fede3f5d9cfc926f013683a0e7939b8f2e81e"
     },
     {
       "path": "desktop/runtime/skill-package.mjs",
@@ -1797,9 +1884,14 @@
       "sha256": "3dd5e2a09f82eea92a8f6a68ca37f89d7029df1d8974835d1305d70ebcb4caf5"
     },
     {
+      "path": "desktop/runtime/tool-arguments.mjs",
+      "bytes": 2772,
+      "sha256": "baf739cc144ee08ff31f42120681d2d47f6c529e92f5dcdae68c594f7917ac8b"
+    },
+    {
       "path": "desktop/runtime/tools.mjs",
-      "bytes": 11030,
-      "sha256": "5043a06d51a5dea0d8d34a6de5dfc66199c40a2450c7fceaaec600500f64b8ee"
+      "bytes": 16608,
+      "sha256": "47a82596fa58eac974c2cd21b4e3d354f0010a3f5597ae4e8cc0321cfc36fd27"
     },
     {
       "path": "desktop/runtime/vendor/GENOFFICE-MANIFEST.json",
@@ -1837,6 +1929,411 @@
       "sha256": "dba49a649460d17251e7ea336dbf5414e2b79fc2eb479d9b4a40617057ca3abd"
     },
     {
+      "path": "desktop/runtime/vendor/ocr-wasm/MANIFEST.json",
+      "bytes": 14988,
+      "sha256": "d1b6eba5c2f4e89926de3faa1414ecd7355383832638a93bc89eba49a27726b1"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/NOTICE-WILLBUDDY.txt",
+      "bytes": 769,
+      "sha256": "01bed9d538f001d459395b4163ada36c0b5ce00c5eec7a359d58e0e88a37ceeb"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/data/ENG-DATA-COPYRIGHT.txt",
+      "bytes": 1245,
+      "sha256": "33fb8161898e34fcf5c6b8585d6be97642d7e8f34a922e783c6c5c970d0b09ad"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/bmp-js/.npmignore",
+      "bytes": 18,
+      "sha256": "71f4f69e377d643123dcac91d29005d50d0d70d29237bb44731f402927bd6298"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/bmp-js/LICENSE",
+      "bytes": 1077,
+      "sha256": "9f165f5bd2b462122cacb8c6dc32028be1abb4d8ad0322e9a332f30b2ebdb833"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/bmp-js/README.md",
+      "bytes": 862,
+      "sha256": "a00f9076ed7ec0a0cd535b5f978894e8c24a3147a684cff461b1981289c5174e"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/bmp-js/bmp-js.iml",
+      "bytes": 335,
+      "sha256": "3e424157a615b6a6912a9a510f0c3ef2045ebb77996a7018687a21d225fed1a4"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/bmp-js/index.js",
+      "bytes": 233,
+      "sha256": "77ab01e2cb073a3a5d60d3f2ef1ed9ffd67d27985f03e528767dfb80dcf95aa8"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/bmp-js/lib/decoder.js",
+      "bytes": 14445,
+      "sha256": "4e941bb5d1b3ce9c67165fc98adc3dfe1850b0dc92b541c4e50862b6015d7ea5"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/bmp-js/lib/encoder.js",
+      "bytes": 2429,
+      "sha256": "54c54b0043868c436048ee5405d87956370acc0a9356811f50a123812735bef5"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/bmp-js/package.json",
+      "bytes": 546,
+      "sha256": "78f3eefd21ab427f9085270917585c39f3b110c321b3ddbb5a210abfab0c9bdb"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/is-url/.travis.yml",
+      "bytes": 32,
+      "sha256": "d9fc251db24a95f9ab69ebe704b0546819669b7c3909b5bc17c4026fc516013f"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/is-url/History.md",
+      "bytes": 503,
+      "sha256": "e61a5e9320737b793e379319270032ab99ad1fe6e396ca9cf97e908222eba0ae"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/is-url/LICENSE-MIT",
+      "bytes": 1036,
+      "sha256": "80957b522b0ea4ce24290953d74d818220c804d1f42cad02b8d7da1c12ce1fc1"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/is-url/Readme.md",
+      "bytes": 193,
+      "sha256": "72cb0a1cdd26a2a16c8c2be75b5440c7c7de94142d41092f183052792d6b73fc"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/is-url/index.js",
+      "bytes": 856,
+      "sha256": "c7cb9f56300321d104c9772c054144d75e3bf280d184d547fab525f9fbf16e5c"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/is-url/package.json",
+      "bytes": 274,
+      "sha256": "215ed6a491b1ac845b556de17f46075897e084c7c9f6018bde7150017da34817"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/regenerator-runtime/LICENSE",
+      "bytes": 1080,
+      "sha256": "51887a3d47051ac2fce1210562e5b9fe0830a8a8fabeb272c2d586eeb18a05fd"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/regenerator-runtime/README.md",
+      "bytes": 761,
+      "sha256": "6de6513adde7d09bd2c06075ef11f809ea70d0005b2e402ab8cfd06052127015"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/regenerator-runtime/package.json",
+      "bytes": 464,
+      "sha256": "438ba14ad7859f5e16914e174e425afa8f5d9c21cf5ab208699a28454c4618ee"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/regenerator-runtime/path.js",
+      "bytes": 252,
+      "sha256": "29c3a3cc09287a723eb6b9452a8175ebfbad00f96f47939ae0709906f7b7a1ee"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/regenerator-runtime/runtime.js",
+      "bytes": 25202,
+      "sha256": "e4fa2bcc7507e23fb226bad104bd3c526149ebc9891afbc4bb3a4a0c88afded3"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/LICENSE.md",
+      "bytes": 11357,
+      "sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/README.md",
+      "bytes": 11163,
+      "sha256": "ad7f6a92126e6995d8ce85f08b5010862e01d5938fb8539b7ed0711b687cda4b"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/karma.conf.js",
+      "bytes": 1945,
+      "sha256": "141c1b382803e1a3483366e0b0d51577a2cf9f6c19b46cb6128acafcc89b0405"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/package.json",
+      "bytes": 2914,
+      "sha256": "fa342f37afd665595eca66ee867197c47c9ac35a7967123d1132c39a40b3dfbd"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/Tesseract.js",
+      "bytes": 522,
+      "sha256": "5eddc3f16fb0643f9cd4b7f1f8fd71316c262a0d2c29a5ac2ff9d6f5f2c03f7b"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/constants/OEM.js",
+      "bytes": 237,
+      "sha256": "01235a54415543fddf2c8c114328500fe6027e5ff5c084fe9d9a491c7895a442"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/constants/PSM.js",
+      "bytes": 360,
+      "sha256": "3780ffd6bcd377d943546d42d3b00221d2d62f9a1c1f1df2bc8aed98ed48c3f3"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/constants/defaultOptions.js",
+      "bytes": 172,
+      "sha256": "c133a00e603dde9ae7aa2b5a59fa3ded7cdd5c1846af1c36940bd866c7f09d1b"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/constants/imageType.js",
+      "bytes": 73,
+      "sha256": "64df6196df12df3b9cd2009556d21c9da421cf6f8d6960f05ece04cf6963280f"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/constants/languages.js",
+      "bytes": 5559,
+      "sha256": "c1de5ac399d8dd62e6763ee7936b2e6241a05abac11e8925414386b1cc0bc4f8"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/createJob.js",
+      "bytes": 306,
+      "sha256": "e96d0edb2d5fe1011f31f135518f0e79d934c6c3a512e66e87c4a3c4cfc601a1"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/createScheduler.js",
+      "bytes": 1986,
+      "sha256": "2f456f3ec13e5c89f32b52f5cef69ad3aa5bcb7af6e4a3d72997f57f054c7532"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/createWorker.js",
+      "bytes": 6672,
+      "sha256": "730c82036c801416256cdbf4bf36df934b0f25f2dcb3913454bccd9e2cfdb857"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/index.d.ts",
+      "bytes": 5906,
+      "sha256": "d09a2a53da56d20aeac85e4f0b69f2ef799d73f1186b3abf93d32388ab431fe1"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/index.js",
+      "bytes": 754,
+      "sha256": "882360f8435a9f2b80265fffc5df2a7c849c39afd05c36ffd89db9d1024979d0"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/utils/getEnvironment.js",
+      "bytes": 395,
+      "sha256": "90867901571990b7b8665567a81e10c827da9a1d2642328a619f9704f0a7eaef"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/utils/getId.js",
+      "bytes": 117,
+      "sha256": "f27f8c6c0bbe48cb49dcd73afa4c3797c9701fce0d1e63a09185b3c1267cfe55"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/utils/log.js",
+      "bytes": 205,
+      "sha256": "979b83c424ee6440894c51b0b0a41629f67e130d721fc33d2c703e60203fc3ad"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/utils/resolvePaths.js",
+      "bytes": 413,
+      "sha256": "55333a374178c5c4ba30200a5f0471fb3523575062436cb9ca215fc19e7a7686"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker/browser/defaultOptions.js",
+      "bytes": 318,
+      "sha256": "66a296b99446fdf1bc80004f601e17c2d1f77861874091923eb3d92c079c082f"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker/browser/index.js",
+      "bytes": 633,
+      "sha256": "0886ce2448b0634a83eb15fbf2feb9db9d140ab1c68c5c87f5ecf4b82c40cec6"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker/browser/loadImage.js",
+      "bytes": 1844,
+      "sha256": "7c4a6b296aa741c6a4425b56570774c73125726ed7ffb5bba9645837fc814157"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker/browser/onMessage.js",
+      "bytes": 142,
+      "sha256": "ac93c361f5b181668e49b2270f37f03a6b84cd43a76289e8c69223b1ced69634"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker/browser/send.js",
+      "bytes": 196,
+      "sha256": "d07042e9f38faff1cf37dd3e51ec7cd24e7fcf27b244184320949254608cbc34"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker/browser/spawnWorker.js",
+      "bytes": 466,
+      "sha256": "39a3b5dcb28a649111974ba97d14c6651ab4a48696034727cb8cc2706501b84f"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker/browser/terminateWorker.js",
+      "bytes": 174,
+      "sha256": "2924d34de86a287933d54e4494248e2caa16277d0d5b53630dae0d2b06be03fb"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker/node/defaultOptions.js",
+      "bytes": 282,
+      "sha256": "da02fc10c3545154ae143d0cc762b2493cde4207272ee0f5ab5da6bea67249e7"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker/node/index.js",
+      "bytes": 645,
+      "sha256": "edc9de52fb13bba841158741c883a68f8adea9d2505869dfc63266a623ee38bd"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker/node/loadImage.js",
+      "bytes": 1028,
+      "sha256": "fe47eb386a2a802b2621abec973e191fb9a0d9609dcf633dce085f82621d287f"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker/node/onMessage.js",
+      "bytes": 91,
+      "sha256": "f6a148f1ec9c175fcdee8565b82b8c5edc3058c69df644dedda7b422a9112b64"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker/node/send.js",
+      "bytes": 196,
+      "sha256": "d07042e9f38faff1cf37dd3e51ec7cd24e7fcf27b244184320949254608cbc34"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker/node/spawnWorker.js",
+      "bytes": 228,
+      "sha256": "0f1dc3715aa3abeb3ec28865a64c526d1cf5436c836aae53098201064f54c929"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker/node/terminateWorker.js",
+      "bytes": 169,
+      "sha256": "264591091b8ab0bf015fc015e5e2d514917f3ead561668a0932efadc3508f4aa"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker-script/browser/cache.js",
+      "bytes": 227,
+      "sha256": "7d6355676f282e48ba6c95242880ec6131570e21258f2cb7b8d23a1406b8247b"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker-script/browser/getCore.js",
+      "bytes": 2682,
+      "sha256": "1b02ae0477af3201147c7ba4ac8f19248940b8e185a38f1f1e9f97a017280412"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker-script/browser/gunzip.js",
+      "bytes": 62,
+      "sha256": "91228afc0954f53c64e4428017dd0764ae51435164c17dcf4098e2b077431789"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker-script/browser/index.js",
+      "bytes": 676,
+      "sha256": "ed824cc16d15782a2764cb6264fb5f677c60d5bde92d03f7ab0537b3d818027c"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker-script/constants/defaultOutput.js",
+      "bytes": 307,
+      "sha256": "0bbce30ab5af59468849e19fa3ec01caf93e7a0760cb69b2a8955ee6d17d3909"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker-script/index.js",
+      "bytes": 18777,
+      "sha256": "a5759d6d3d8beda31134dd041e2d3482b3adf26b6da4a3e7da9b1c5379114268"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker-script/node/cache.js",
+      "bytes": 410,
+      "sha256": "815947619b583b3bbe91cab4aa9825db0987e26f8dc762e14a11c592eb70dbbd"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker-script/node/getCore.js",
+      "bytes": 1334,
+      "sha256": "139e22c350e002fd3794d32a850fc45f5593ee66f9160d70df5fd492bcbec4cb"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker-script/node/gunzip.js",
+      "bytes": 60,
+      "sha256": "aa725afcefa41fd181f6ddf9e1d228c5174e1e40c87c2c359b0b35b3d4b58f98"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker-script/node/index.js",
+      "bytes": 771,
+      "sha256": "a973c23ce067bc752c0bf602297eac843098e531ac03f3ea34cdf694326a6d02"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker-script/utils/arrayBufferToBase64.js",
+      "bytes": 1857,
+      "sha256": "b8ef005b926588a88dbe3d7f61a2d00c817842578131c180ee1e9c5ada8d4ae1"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker-script/utils/dump.js",
+      "bytes": 2972,
+      "sha256": "09a7e2585627056d48e5ae0facf77cd21a97fcd8219f0ca6abd21065d157ad9f"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js/src/worker-script/utils/setImage.js",
+      "bytes": 1188,
+      "sha256": "608f928a37d0c456ef60ec3a6b1e9b17acc14ce3363fb39fed138aba7208490c"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js-core/LICENSE",
+      "bytes": 11358,
+      "sha256": "c6596eb7be8581c18be736c846fb9173b69eccf6ef94c5135893ec56bd92ba08"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/tesseract.js-core/package.json",
+      "bytes": 1784,
+      "sha256": "554b867684677c81aa3ffab61f31e83618445fa09adee99e8fff3515cee6ca54"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/wasm-feature-detect/LICENSE",
+      "bytes": 11341,
+      "sha256": "bcf29b4fd3ec2cb5f9d40a0866da446f6da62170d2ccedf4aeca9cf9406dd20c"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/wasm-feature-detect/README.md",
+      "bytes": 6111,
+      "sha256": "2f3c2cacb937ce8a0cbdbacf2ba34428104d8245b4d7b12512afa7a44b9aa784"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/wasm-feature-detect/README.md.ejs",
+      "bytes": 2728,
+      "sha256": "5e4263cad319dd5b7a7dee9af0cddd6e888ea96daef3bfa405dff7c5988be3c9"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/wasm-feature-detect/dist/cjs/index.cjs",
+      "bytes": 3408,
+      "sha256": "cb1e224af96ecc6e5532a3d2bf99389c7a9b1780d08a6f7bb54814eb98e75b5f"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/wasm-feature-detect/dist/esm/index.js",
+      "bytes": 3381,
+      "sha256": "871246e709a8564b583265a37df4b90bebf6aabea6e7b86a41ab6ed986651154"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/wasm-feature-detect/dist/index.d.cts",
+      "bytes": 877,
+      "sha256": "10159985f77367c75afc87799eb9f8c6cacb083f32012b1683a4c85168dfa098"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/wasm-feature-detect/dist/index.d.ts",
+      "bytes": 877,
+      "sha256": "10159985f77367c75afc87799eb9f8c6cacb083f32012b1683a4c85168dfa098"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/wasm-feature-detect/dist/umd/index.js",
+      "bytes": 3621,
+      "sha256": "8b7b26f39778601a2e53320064b3e788ebe3c03799eaa3de9a015ced866e8cc9"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/deps/wasm-feature-detect/package.json",
+      "bytes": 1856,
+      "sha256": "7049a061b59dc1cbfc8dedf7e5f0ab23e14c1624f27d3bab2272d54de941483f"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/recognize.cjs",
+      "bytes": 1018,
+      "sha256": "7452419c585c7354c1f9373537f33b02c90a4443675d1ef8f0ada7cf07c46782"
+    },
+    {
+      "path": "desktop/runtime/vendor/ocr-wasm/worker-bootstrap.cjs",
+      "bytes": 262,
+      "sha256": "42dd9f9f8bd433b292256e17a3aebf147c493175925caee087e5a0b84400f1a0"
+    },
+    {
       "path": "desktop/runtime/vendor/office.cjs",
       "bytes": 997137,
       "sha256": "fac43f0bdd8e3ca34cc97ef22856a0e161047ba47b585731cce9b7e6981369a6"
@@ -1863,8 +2360,8 @@
     },
     {
       "path": "desktop/services/agent-session.mjs",
-      "bytes": 14275,
-      "sha256": "4ec0d4fffce8fd609dbceee5be5bdcc50c28df9fc5e17e950e2a58635e82ecd9"
+      "bytes": 16196,
+      "sha256": "9def20049bac25c15d0ccca2701b8b146e9b1b3565a5c3e28f2d15cc465f2bd9"
     },
     {
       "path": "desktop/services/capability-library.mjs",
@@ -1888,8 +2385,8 @@
     },
     {
       "path": "desktop/services/conversation.mjs",
-      "bytes": 19544,
-      "sha256": "824e695b18c88b3f28c965aa2d9a64441541c8fe8efad6af686ca592a5edf631"
+      "bytes": 19561,
+      "sha256": "8887995eaf9a9e02c03bb87b3049326fe7fe76d02c863e9fc8c97c7453a455ca"
     },
     {
       "path": "desktop/services/document-selection.mjs",
@@ -1898,8 +2395,8 @@
     },
     {
       "path": "desktop/services/documents.mjs",
-      "bytes": 19101,
-      "sha256": "c957d41014e82577b2df1f11a9226e0c9d59b7a519cdd7d3482dd401852fc193"
+      "bytes": 19833,
+      "sha256": "40392b839c7daae9909024e3ac93b261951da67e476f43aabb84b6eaeb1e1f6e"
     },
     {
       "path": "desktop/services/file-preview.mjs",
@@ -1913,8 +2410,8 @@
     },
     {
       "path": "desktop/services/knowledge-evidence.mjs",
-      "bytes": 2037,
-      "sha256": "b8b5597624c0fe6970897b320b55100f44d6d96e632498d3df98381acb9050a9"
+      "bytes": 2329,
+      "sha256": "830c893f3b11242ffcf787f2b98b5bb2c0117c898afb1d330be317ba622d1f1b"
     },
     {
       "path": "desktop/services/knowledge-index.mjs",
@@ -1922,14 +2419,19 @@
       "sha256": "ca0ae95174431732fa23524b00a32177d52d512c06eb0efecfe22130c7d9849c"
     },
     {
+      "path": "desktop/services/knowledge-vector.mjs",
+      "bytes": 8559,
+      "sha256": "fffd868678379b660f881f1ace0d7f7e5aea47d7d14cdafee737a15880605775"
+    },
+    {
       "path": "desktop/services/legacy-model-settings.mjs",
-      "bytes": 1788,
-      "sha256": "a2ef7a05b6d4a42d930858d1ace539eb360e7cdd2ccd8dd5941d47cfd43e7eef"
+      "bytes": 2256,
+      "sha256": "546f4dd9b5c2c29a61f3d33a9a3b23a5ce80e7d67dfaaf0845c71e557b3b36d5"
     },
     {
       "path": "desktop/services/libreoffice.mjs",
-      "bytes": 7325,
-      "sha256": "8b77653fe3188b150a775a84597a7f548f47f6f7ae35e3aa02c51be214864b54"
+      "bytes": 7810,
+      "sha256": "3eba970c180ba5cef6990f284edd8108dd6599d93fa01b667e17872864bcf165"
     },
     {
       "path": "desktop/services/mcp-access.mjs",
@@ -1942,6 +2444,16 @@
       "sha256": "c14328941bcc711047a9f05d79321584c3493347813f910bb88a221e447a8461"
     },
     {
+      "path": "desktop/services/ocr-source-open.mjs",
+      "bytes": 2291,
+      "sha256": "8f97f1b4081c3baee3070aa073c3cf760915029ce246c3d83973d42791dd4641"
+    },
+    {
+      "path": "desktop/services/ocr-source-preview.mjs",
+      "bytes": 3579,
+      "sha256": "966aff45d6aaf08a86e345868b071b1779b0c5c6248f4fba66eb301771f1a75c"
+    },
+    {
       "path": "desktop/services/office-chat.mjs",
       "bytes": 10116,
       "sha256": "8de55d2188a638122ca24a11cd65db0fcac3e7ee79cd0fcc12b203e072ef4a04"
@@ -1950,6 +2462,11 @@
       "path": "desktop/services/office-workspace.mjs",
       "bytes": 29854,
       "sha256": "4bcbeafb1d70665f5e3aab5fbf7ee6cb0b0e96a32aec8ebadfe7df01b592234e"
+    },
+    {
+      "path": "desktop/services/pdf-chat-import.mjs",
+      "bytes": 3014,
+      "sha256": "56013cc7674e9be0495e1d30413cf5de9f140e4a232a380f42d07cd44ebaff4b"
     },
     {
       "path": "desktop/services/recovery.mjs",
@@ -1978,8 +2495,8 @@
     },
     {
       "path": "desktop/src/app.js",
-      "bytes": 79900,
-      "sha256": "b07e2a40e04a53207991b7da7eefa7e299de6a43c74e64b4553422fd61bb1b77"
+      "bytes": 84341,
+      "sha256": "b437f7ed3d54bb0f229fc814156834c565c7bc71a631691942e9d0d79d3d5265"
     },
     {
       "path": "desktop/src/assets/logo.png",
@@ -2148,8 +2665,8 @@
     },
     {
       "path": "desktop/src/ui/agent-editor.js",
-      "bytes": 7204,
-      "sha256": "cd7920a7c57c6880589c8735ae5aee360eb7abb77ed25fc061b02922401e995c"
+      "bytes": 7297,
+      "sha256": "79c7bb3ff727f5f8e82558982d85088962bfd85080094b3aac4a63629d361e16"
     },
     {
       "path": "desktop/src/ui/capability-library.js",
@@ -2183,8 +2700,8 @@
     },
     {
       "path": "desktop/src/ui/composer.js",
-      "bytes": 7413,
-      "sha256": "c081480d698d4bc98dbd74db79585b79ba46c14bcba654974cee9d96dfcd3c22"
+      "bytes": 8091,
+      "sha256": "22e751b043b4983b95d8a6382c50ae2e9e887f57fd3efc48e47cf57905b8e752"
     },
     {
       "path": "desktop/src/ui/documents.js",
@@ -2203,8 +2720,8 @@
     },
     {
       "path": "desktop/src/ui/knowledge-evidence.js",
-      "bytes": 1967,
-      "sha256": "a588729d29c3ff9bd2e9e00d2e7355ffcd3b7032734fac63844998706ddd9a57"
+      "bytes": 3731,
+      "sha256": "39b0cc62c7c341ee6f18ac416f9286cf9cc81d466a9e319864fd0cd87f069799"
     },
     {
       "path": "desktop/src/ui/legacy-round-limit.js",
@@ -2362,6 +2879,11 @@
       "sha256": "e5483fea751d74ffa417d8677969706e0ad6145db351e1c9df1eb7c006664ebd"
     },
     {
+      "path": "desktop/tests/acceptance/ocr-multipage-live.mjs",
+      "bytes": 4526,
+      "sha256": "ad9566c527299d3358a610203c152416d212d327c28a6ebcbd112e5bc0246def"
+    },
+    {
       "path": "desktop/tests/acceptance/office-cell-format-live.mjs",
       "bytes": 5287,
       "sha256": "de25bb2a05c3770a9eeb013b84db27037e7073e2ecfe2be22e9216f7e22f6bcf"
@@ -2435,6 +2957,11 @@
       "path": "desktop/tests/acceptance/office-perimeter-live.mjs",
       "bytes": 5685,
       "sha256": "9f17c84ce3be0247cb663e1d515d17de8bd87a93b8ce93576c3caf81292ec3d8"
+    },
+    {
+      "path": "desktop/tests/acceptance/office-pool-endurance.mjs",
+      "bytes": 1904,
+      "sha256": "d617c82d6e54e31abf529819de4cec3cc8d5420716245a1005923bfd34a122a4"
     },
     {
       "path": "desktop/tests/acceptance/office-ppt-direct-format-live.mjs",
@@ -2538,8 +3065,8 @@
     },
     {
       "path": "desktop/tests/agent-capabilities.test.mjs",
-      "bytes": 16680,
-      "sha256": "0262cb3d6fb816a18ba4608e249bea3567d4a8f79d927cbd200790660b9fb1a2"
+      "bytes": 16646,
+      "sha256": "d031c1f87fbec66ffa4ad422f5b26636d33ae9f688b0ae1a8db50942d262c96e"
     },
     {
       "path": "desktop/tests/approval-lifecycle.test.mjs",
@@ -2682,6 +3209,11 @@
       "sha256": "6ee46b1558291aebaefe9fa00d93e25e396123d12c187b8f31dc32b1db01960c"
     },
     {
+      "path": "desktop/tests/image-ocr-03737.test.mjs",
+      "bytes": 4391,
+      "sha256": "216dfe910afb2dc0d839b97caf9e8ecded945f3be62bd0f73b1bba560e2d223f"
+    },
+    {
       "path": "desktop/tests/image-usability.test.mjs",
       "bytes": 2177,
       "sha256": "433f8031108ea247d1e2dabcc08764d9bc5b0edd38953c12d97ed8599fd95900"
@@ -2690,6 +3222,11 @@
       "path": "desktop/tests/images.test.mjs",
       "bytes": 7838,
       "sha256": "8480ca7a251488a6b630e6c319c72ec1bb64ce825ee13c4fd3bba6343759e811"
+    },
+    {
+      "path": "desktop/tests/isolated-worker-pool-03738.test.mjs",
+      "bytes": 9475,
+      "sha256": "f9acae07626042ad2fa77b1e3e12a7715ef6ecf0716383ed3e9d2ce34570cfa4"
     },
     {
       "path": "desktop/tests/knowledge-evidence.test.mjs",
@@ -2707,9 +3244,19 @@
       "sha256": "b314e2a57c651ec99624b598a45bda5571a191c2dca4c8a594957ce4696083c3"
     },
     {
+      "path": "desktop/tests/knowledge-vector-03736.test.mjs",
+      "bytes": 9324,
+      "sha256": "6770ab150c2c384c2d36245eaf049924d7aff7215ff53d22cac24f43ea757373"
+    },
+    {
       "path": "desktop/tests/legacy-round-limit-ui.test.mjs",
       "bytes": 635,
       "sha256": "5a3fb6fe73c1238be385a56fa707e15e23624ea897d4e80cb42f11bad8c4d3e7"
+    },
+    {
+      "path": "desktop/tests/m4-state-machine-03735.test.mjs",
+      "bytes": 3456,
+      "sha256": "9acf8e1ce790a1d67b4663e0075a4c97925c5136234cf5b2607b67c2ed473e41"
     },
     {
       "path": "desktop/tests/mcp-auth.test.mjs",
@@ -2717,14 +3264,19 @@
       "sha256": "ccf152de72c20ee1bea5aac0b84cfce107d5477acf84838909774f616dc4c1cf"
     },
     {
+      "path": "desktop/tests/mock-llm-faults-03740.test.mjs",
+      "bytes": 7188,
+      "sha256": "6fb4a755f20766d463d10c1007363055b78a27162c3c1743e94719420bcc0c3c"
+    },
+    {
       "path": "desktop/tests/model-budget-summary.test.mjs",
-      "bytes": 3764,
-      "sha256": "369b25c04d1f857b3318d062f4e411255ab5f598d71668673f16094290c6d48c"
+      "bytes": 3778,
+      "sha256": "c55ddd481a53bfbd4f75db9c044da4f955371f65d62ddf965f7adb29d0711a09"
     },
     {
       "path": "desktop/tests/models.test.mjs",
-      "bytes": 15387,
-      "sha256": "28dbc59d5dc0e209861d1df935a6109b3acd6117476cc1495a621f48e3f487f3"
+      "bytes": 15401,
+      "sha256": "2154ea17c2073fad874416f22abb442e877093a4845bb8be225b4c0089bb4830"
     },
     {
       "path": "desktop/tests/native/office-worker-asar.mjs",
@@ -2745,6 +3297,41 @@
       "path": "desktop/tests/native-office.test.mjs",
       "bytes": 8625,
       "sha256": "b08f7db3c26daf1120d517bb9db32c9a6b26f11b6dbc50d0d151c64b04c12ba4"
+    },
+    {
+      "path": "desktop/tests/ocr-evidence-display-03755.test.mjs",
+      "bytes": 1173,
+      "sha256": "079173bf626d0684ee2c1c841cf5213934d66ccc0bbeceb121deb91fe74766a7"
+    },
+    {
+      "path": "desktop/tests/ocr-offsets-03753.test.mjs",
+      "bytes": 1156,
+      "sha256": "ec5dbb61baa0459a454a1c9a6e10c8fa5e3b1e231a10187100820ee31f6d9722"
+    },
+    {
+      "path": "desktop/tests/ocr-provenance-03746.test.mjs",
+      "bytes": 3852,
+      "sha256": "e1f5cd143f36f20b30230b0b6faa2634282e45450df1781bf7d6684bf9e74851"
+    },
+    {
+      "path": "desktop/tests/ocr-regions-03754.test.mjs",
+      "bytes": 2255,
+      "sha256": "b5c19967ddb054b1ef777fa8bedda991426ff3dd755fac0e975c35d451c25411"
+    },
+    {
+      "path": "desktop/tests/ocr-source-open-03757.test.mjs",
+      "bytes": 3574,
+      "sha256": "3c4fac39c91af85d01fe01d62bd9ff1ef2f42c68c40f162117c06a3a42b5c888"
+    },
+    {
+      "path": "desktop/tests/ocr-source-preview-03758.test.mjs",
+      "bytes": 5752,
+      "sha256": "3909c3030f3b3cc212358f174170d3444b34870e430c010e737eb3840fedde9f"
+    },
+    {
+      "path": "desktop/tests/ocr-wasm-03760.test.mjs",
+      "bytes": 5870,
+      "sha256": "336ee50394abf47d6ae74d03bffcb66bee4ea0e9f3de42bfaa8a34b10d211dff"
     },
     {
       "path": "desktop/tests/office-cell-format.test.mjs",
@@ -2838,13 +3425,18 @@
     },
     {
       "path": "desktop/tests/office-pdf.test.mjs",
-      "bytes": 7288,
-      "sha256": "4f3236e40fb90b04f3b871bf6759783fd17a70a9d1e9d568c39ed62e56928aeb"
+      "bytes": 7529,
+      "sha256": "a54fa7225220f7653cbecdc0f0a6bcc0ac4ab22d63f031a2f07043c3acaf22af"
     },
     {
       "path": "desktop/tests/office-pipe-failure.test.mjs",
       "bytes": 2357,
       "sha256": "447fd799d0f0a4822afd9c61cbba83c1212135c591484655ec01b897e5eb526f"
+    },
+    {
+      "path": "desktop/tests/office-pool-reset-03760.test.mjs",
+      "bytes": 1786,
+      "sha256": "eb37f59253aa4a154d9769dbeada29ce5f8627b2232cc8a79b6a31c0f874b19c"
     },
     {
       "path": "desktop/tests/office-preload.test.mjs",
@@ -2855,6 +3447,16 @@
       "path": "desktop/tests/office-presentation.test.mjs",
       "bytes": 34748,
       "sha256": "d1a2da8506c968b42b625cfecdfda42923832c6676ceb423666e9071b6d85144"
+    },
+    {
+      "path": "desktop/tests/office-preview-pool-03739.test.mjs",
+      "bytes": 8336,
+      "sha256": "17eda625d360923c70b50bb8b935d9667bf66fe1d6353b76fcf8daee9130c53f"
+    },
+    {
+      "path": "desktop/tests/office-preview-read-03760.test.mjs",
+      "bytes": 922,
+      "sha256": "6d21be4769fcaab449e42eba07a45304047bddc989e2818efc291c4907b86c8a"
     },
     {
       "path": "desktop/tests/office-preview.test.mjs",
@@ -2917,9 +3519,34 @@
       "sha256": "080de13c089bf7f69c4d35bdd2711ddad072d5ca742826a8bf0d4a24ad02d366"
     },
     {
+      "path": "desktop/tests/pdf-cancel-03749.test.mjs",
+      "bytes": 3180,
+      "sha256": "2e7ad46d232d7550f469f2bcbde1f1f2c7713be823d8c5a6f5e6121f27ef6cbe"
+    },
+    {
+      "path": "desktop/tests/pdf-chat-import-03747.test.mjs",
+      "bytes": 8627,
+      "sha256": "7f04fe56eaeb90665297461e60565a4e2e0cce01b0eba006173113536db9a429"
+    },
+    {
       "path": "desktop/tests/pdf-export.test.mjs",
       "bytes": 3894,
       "sha256": "f4b9be5c9beffcee32384394b81010a975d764d2c050682f828751d37ebf57bb"
+    },
+    {
+      "path": "desktop/tests/pdf-ocr-03740.test.mjs",
+      "bytes": 17836,
+      "sha256": "42c79b8a8c0b9266c42bf70b9d3435c120bc588ea5f549b5d03537495a6bc146"
+    },
+    {
+      "path": "desktop/tests/pdf-progress-03750.test.mjs",
+      "bytes": 1385,
+      "sha256": "fc987e56d93c5bce26fd076da27ed42adbe76a5d8380dcbe0eb239e7ed27554e"
+    },
+    {
+      "path": "desktop/tests/ppt-layer-edit-03733.test.mjs",
+      "bytes": 6211,
+      "sha256": "ac9157e0459974845643c6db8931b4a894fe088841ee987c1ed61d6aab11635e"
     },
     {
       "path": "desktop/tests/ppt-layers-03732.test.mjs",
@@ -2958,8 +3585,8 @@
     },
     {
       "path": "desktop/tests/runtime.test.mjs",
-      "bytes": 8226,
-      "sha256": "f68df651b6885b878599095a81acd61202f0e29eee10f053598e997c8d25bc38"
+      "bytes": 8258,
+      "sha256": "c4417dca24c5d64dc654063a2dfa701b6d22f8467e73d3723994751f6fe0a528"
     },
     {
       "path": "desktop/tests/screenshot-feedback-03730.test.mjs",
@@ -2992,9 +3619,24 @@
       "sha256": "8869b08e903db64b1c83a281f59fd7df33c6008fb3dce86540b6563570ac4a06"
     },
     {
+      "path": "desktop/tests/tool-finish-03751.test.mjs",
+      "bytes": 2688,
+      "sha256": "d931f77b0aa2db62f538b810a3ce0f92ce166e184e3b62d74e37a3e7a0db35c6"
+    },
+    {
+      "path": "desktop/tests/tool-schema-03752.test.mjs",
+      "bytes": 3489,
+      "sha256": "e7d802178169f99e616ca03b4db4d003d18478f8436f59079baf8b44e877451a"
+    },
+    {
       "path": "desktop/tests/ui.test.mjs",
       "bytes": 6284,
       "sha256": "7f0a853642a94205ce691c5ad17a19d84fd082c9272ba6afe53e9ae33ae10045"
+    },
+    {
+      "path": "desktop/tests/user-feedback-03734.test.mjs",
+      "bytes": 2792,
+      "sha256": "2895201bb7143c1b40f4d02fc4371dee2d3786a2f10b71f0e8cf68a92e88b751"
     },
     {
       "path": "desktop/tests/user-feedback.test.mjs",
@@ -3063,8 +3705,8 @@
     },
     {
       "path": "docs/DOWNLOADS.md",
-      "bytes": 54037,
-      "sha256": "b575b70b3be92786287429231a3d5f58fee658db8c9824141bd489e6bced3baf"
+      "bytes": 56628,
+      "sha256": "f838c1dbae544ae10f432d3563ba589aabfdc4fa4ab91271b2e2fc62090e9d91"
     },
     {
       "path": "docs/DRAFT_GENERATION_UPDATE.md",
@@ -3122,9 +3764,69 @@
       "sha256": "d424f0beb529627c1d9b9f7e29c59ae141fa9c30c2661a30a6ac65996f90ee90"
     },
     {
+      "path": "docs/LIBREOFFICE_FEEDBACK_03734.md",
+      "bytes": 1460,
+      "sha256": "f84fc49886f7637f7c1a02ff42fcb1d43e5a460d59b3d5bdb889b51c91c3312b"
+    },
+    {
       "path": "docs/LOCAL_IMAGE_ATTACHMENTS.md",
       "bytes": 1828,
       "sha256": "96b5c2ddf1c3a6527671a9738fe14dd0b79fca6f800390954a3087197fb6efd8"
+    },
+    {
+      "path": "docs/M4_CHECKPOINT_03735.md",
+      "bytes": 598,
+      "sha256": "e0bd1492d36d33688c39669a357bca70dc54ea9983cb95022459dc48cd030982"
+    },
+    {
+      "path": "docs/M4_FAILURE_BOUNDARIES_03741.md",
+      "bytes": 614,
+      "sha256": "64238c5316f20b2583584f9cb20c4359f74bd25860aff649cf0a95b35cfe3339"
+    },
+    {
+      "path": "docs/M4_HYBRID_OCR_03742.md",
+      "bytes": 795,
+      "sha256": "58c2177b9e1a8c163ca2663b277770c9da012e97a8be2215c1d4930dd9234f02"
+    },
+    {
+      "path": "docs/M4_LOCAL_VECTOR_03736.md",
+      "bytes": 854,
+      "sha256": "73ea226c914429fb3303b8301c8f5b16b7a283e0cc815b3085e50a3113739061"
+    },
+    {
+      "path": "docs/M4_OCR_03737.md",
+      "bytes": 869,
+      "sha256": "e32faad9356e721d6045b96e38df0dff931f2254930ab964604fc2255ccfea92"
+    },
+    {
+      "path": "docs/M4_OCR_COORDINATES_03744.md",
+      "bytes": 623,
+      "sha256": "3000dc1e8fd53572f63aeb23582f614ffcdd6ba0d80fc5300d5670864d189d8a"
+    },
+    {
+      "path": "docs/M4_OCR_TO_KNOWLEDGE_03745.md",
+      "bytes": 775,
+      "sha256": "45bb0f20592061970ba4313c8235162c07d04c7d8e8e8bad84c33935c7a5b0a9"
+    },
+    {
+      "path": "docs/M4_OFFICE_POOL_03739.md",
+      "bytes": 1173,
+      "sha256": "587fd5b67cd80f1bf3d25f717de26c0491550e236a80406a89b58a81d58110b7"
+    },
+    {
+      "path": "docs/M4_PDF_OCR_MOCK_LLM_03740.md",
+      "bytes": 1139,
+      "sha256": "b0b0f8f9953a4acf92171e9ffa28c4e2d236596aa079a92eee61439195135542"
+    },
+    {
+      "path": "docs/M4_POOL_03738.md",
+      "bytes": 813,
+      "sha256": "6d7a600037e331ee4c256e8b16e29ecf6004bf1dcb7a69a625fb163d82c2e7ca"
+    },
+    {
+      "path": "docs/M4_SOURCE_COVERAGE_03743.md",
+      "bytes": 604,
+      "sha256": "4c2331a92b8ad39ac01e3331b158d8bdf661671bccfa4a9a2fcc627f0de3cac9"
     },
     {
       "path": "docs/MAC_FONT_CANDIDATE_03721.md",
@@ -3155,6 +3857,11 @@
       "path": "docs/NATIVE_OFFICE_AND_PYTHON.md",
       "bytes": 3846,
       "sha256": "ca8491c0f4a3cb8d1efa67ac5926d45d7bfa1af451311019184af84cc5e214bb"
+    },
+    {
+      "path": "docs/OCR_WASM_EXPERIMENT_03760.md",
+      "bytes": 2138,
+      "sha256": "dfef659ce5b01df0bd890800acf58f1e9740ce79bace0fe0bd2d11e862600e4d"
     },
     {
       "path": "docs/OFFICE_CELLS_03710.md",
@@ -3307,6 +4014,11 @@
       "sha256": "16586b0f9280fa9072f7673b22638a427144f481c70170f975ec1364fb23950a"
     },
     {
+      "path": "docs/PPT_LAYER_EDIT_03733.md",
+      "bytes": 1236,
+      "sha256": "cd2fd806c8a301ea1a3418af2877b976514794dfabf9691dab5f5ea49bfafbfa"
+    },
+    {
       "path": "docs/PPT_MANUAL_EDIT_03722.md",
       "bytes": 1146,
       "sha256": "96e5ec39d5d6dd21ddfffc4dbac42a7aaacee573cb29de402415d86388d7ac88"
@@ -3333,8 +4045,8 @@
     },
     {
       "path": "docs/QUICK_GAPS.md",
-      "bytes": 75426,
-      "sha256": "8ffbb04ada96a701367a0882e13ff133344b8f269757f4969eeebf14507ca8ba"
+      "bytes": 82563,
+      "sha256": "1115e45ecd44c6f56f0e16be61ade06032f6c12b106fd773db1479ae79f2a8eb"
     },
     {
       "path": "docs/REA_FINDINGS.md",
@@ -4942,6 +5654,46 @@
       "sha256": "0e6c5d6f4b60c05e37037b694ac5ce4b55daadbf8e2aceb87f00620632aa2468"
     },
     {
+      "path": "docs/validation/v0.37.46-tests.txt",
+      "bytes": 5516,
+      "sha256": "6a07c6bdcaf0fce09987b1a587e956a7acc84f8b28bf8e8ad7847245db321a8a"
+    },
+    {
+      "path": "docs/validation/v0.37.46.json",
+      "bytes": 1250,
+      "sha256": "619faaeadfce2cd02fc28fae783e7001e90d9281e9f47fdd34a00bde13546592"
+    },
+    {
+      "path": "docs/validation/v0.37.47-tests.txt",
+      "bytes": 6815,
+      "sha256": "96ba8dd01c4438ece9103e15306e601d969b316b13e96259c876195e177caf54"
+    },
+    {
+      "path": "docs/validation/v0.37.47.json",
+      "bytes": 779,
+      "sha256": "de45d0fcaef0291b7c791823420117f9de7fb003e18aff30ccd2cd144546ebce"
+    },
+    {
+      "path": "docs/validation/v0.37.48-tests.txt",
+      "bytes": 7183,
+      "sha256": "de0e16a3abe1dcbe19c29f4ae4a3990d25e171ba98ddcb52221ccb17ed536f8a"
+    },
+    {
+      "path": "docs/validation/v0.37.48.json",
+      "bytes": 882,
+      "sha256": "64e87c1b97224882a1c9d4ed1311f0e773007100b0e162f9e5273fe0559f1e54"
+    },
+    {
+      "path": "docs/validation/v0.37.49-tests.txt",
+      "bytes": 4113,
+      "sha256": "ddb0485f760ae0e1e762890fa3f79063b3e5032d502531451915ca9a2ed59586"
+    },
+    {
+      "path": "docs/validation/v0.37.49.json",
+      "bytes": 799,
+      "sha256": "1c2ab04b6810f117b977585f0acc24fb7d700ae90cc503817686038065f2d114"
+    },
+    {
       "path": "docs/validation/v0.37.5-tests.txt",
       "bytes": 43941,
       "sha256": "eedc00b8dd1a31bcb78629722a455752f5c0e8dca1c704051b993b97655db785"
@@ -4952,6 +5704,86 @@
       "sha256": "f4a955be26a8f1bdb4664caa1b4b9adde8de4c66d31400f61e3e8d70fa64e806"
     },
     {
+      "path": "docs/validation/v0.37.50-tests.txt",
+      "bytes": 4279,
+      "sha256": "fcba1ed8cddcb0bffccd1e64d5c1f2c6ccfab4626197af978709b50e3b9a5aca"
+    },
+    {
+      "path": "docs/validation/v0.37.50.json",
+      "bytes": 553,
+      "sha256": "861dcf16d7c1b99e730717b19aa738ebdb47132ab289db163a073d3aff5ea737"
+    },
+    {
+      "path": "docs/validation/v0.37.51-tests.txt",
+      "bytes": 8365,
+      "sha256": "80749e4690eebe7b9eb0a79a8d64fb1761bb48a601b364ddfa784c4409080d0f"
+    },
+    {
+      "path": "docs/validation/v0.37.51.json",
+      "bytes": 534,
+      "sha256": "3c111da1f3f4a1eb7725fda4f95bb797fee4eb6043b8acd778086545286a8978"
+    },
+    {
+      "path": "docs/validation/v0.37.52-tests.txt",
+      "bytes": 7290,
+      "sha256": "d17d0284380ca6b71bca28d1323e0e72f441e0b1a4cbc611114aca69776c8b34"
+    },
+    {
+      "path": "docs/validation/v0.37.52.json",
+      "bytes": 599,
+      "sha256": "04ed5836d518ec15fe211ec675060407af818a4e2106d49fdd1f23f339c785a1"
+    },
+    {
+      "path": "docs/validation/v0.37.53-tests.txt",
+      "bytes": 3710,
+      "sha256": "488ce1d86d94cd4ecd8634f6849cf8fbb4286ade46750157e6ec57eb978a6071"
+    },
+    {
+      "path": "docs/validation/v0.37.53.json",
+      "bytes": 563,
+      "sha256": "59cd4c6ce91f0c0bcbb0f798dba74ab6d4b3a196f63c3ac46f26b0e6b9717645"
+    },
+    {
+      "path": "docs/validation/v0.37.54-tests.txt",
+      "bytes": 3775,
+      "sha256": "e792f163e8fa746b9a648e0b42909e745f5f4dd2e1a711c52e9b012d17003cac"
+    },
+    {
+      "path": "docs/validation/v0.37.54.json",
+      "bytes": 648,
+      "sha256": "6b204c1f18e37ce2e620f5cde80eef1e731557fc2db59ed4a8953ab63a2e62fe"
+    },
+    {
+      "path": "docs/validation/v0.37.55-tests.txt",
+      "bytes": 4043,
+      "sha256": "fc3ecf2a3b6bbb298d994a953bdd4ca5c24cabeb82ab9c3f851f51b90e7ef72e"
+    },
+    {
+      "path": "docs/validation/v0.37.55.json",
+      "bytes": 716,
+      "sha256": "905760c97d0f1f6f17d38b61de8a58bfb190f6639ba4fee4a89979f2dd2ca102"
+    },
+    {
+      "path": "docs/validation/v0.37.56.json",
+      "bytes": 621,
+      "sha256": "8685a7998ed8ce5518c5754c2a98155f1b3ab6b304e02cf139df1a24f2542aa2"
+    },
+    {
+      "path": "docs/validation/v0.37.57.json",
+      "bytes": 821,
+      "sha256": "e38afd1f7b7ba9f44a1805b9c1e55e50a0ef3bbdeb940326c1930c2e557fa56c"
+    },
+    {
+      "path": "docs/validation/v0.37.58.json",
+      "bytes": 764,
+      "sha256": "98053cf15f62bd6565dada1d29cb660fc3c998c81690fa70d97121738ec5e3c0"
+    },
+    {
+      "path": "docs/validation/v0.37.59.json",
+      "bytes": 453,
+      "sha256": "a1caa20125a249d955250dbf687d456c0a7d582d78cf3f81d8fabbb5ea8790d6"
+    },
+    {
       "path": "docs/validation/v0.37.6-tests.txt",
       "bytes": 43717,
       "sha256": "511558a089bda21c70486fcca0152c727cf12f879bcda16f6eb89c7f87a74ff1"
@@ -4960,6 +5792,31 @@
       "path": "docs/validation/v0.37.6.json",
       "bytes": 1052,
       "sha256": "166de277406c9a21e5b892d74d16d295fbac15e8a738fa6aaa6b4cfee9270ef4"
+    },
+    {
+      "path": "docs/validation/v0.37.60-m4.1.json",
+      "bytes": 1979,
+      "sha256": "08ebcbefc98a345008b53f047d613e443bd4b6509f07bfab827b58dfb16346cd"
+    },
+    {
+      "path": "docs/validation/v0.37.60-wip.1.json",
+      "bytes": 444,
+      "sha256": "6bb6dd35fe54c53e231a43feaf72c3007731e1da73f4787cb57eeeaf3df9c394"
+    },
+    {
+      "path": "docs/validation/v0.37.60-wip.2.json",
+      "bytes": 611,
+      "sha256": "1d5b75de3b2d86b0713779115bd1446cde084c6f4d75868d22201a25987f1019"
+    },
+    {
+      "path": "docs/validation/v0.37.60-wip.3.json",
+      "bytes": 747,
+      "sha256": "8df339627ddc5fea81a0396f5f25f471b8a76e118aa19550b312ef640e070be5"
+    },
+    {
+      "path": "docs/validation/v0.37.61-m4.1.json",
+      "bytes": 1165,
+      "sha256": "1dee5aceee168c778f18e308937340a969058fb89a521f33dfabbc59bb3013cc"
     },
     {
       "path": "docs/validation/v0.37.7-tests.txt",
@@ -5308,8 +6165,8 @@
     },
     {
       "path": "scripts/bundle-office-worker.py",
-      "bytes": 926,
-      "sha256": "eabd549dce10c87e79acb344d80bb1083cbaa1e8adcbc339be681268434b0389"
+      "bytes": 944,
+      "sha256": "ec6f37a04fc8e54ca39eaafc95f1c0364a7cee5bcddf69214d55cfead08f866a"
     },
     {
       "path": "scripts/capture-readme.mjs",
@@ -5348,13 +6205,13 @@
     },
     {
       "path": "scripts/offline_bundle.py",
-      "bytes": 6639,
-      "sha256": "37d51fb3dbea7e3bc86ee4cee71d0b8ca09278b9d967ea5e12df5d38b2e33bc5"
+      "bytes": 7126,
+      "sha256": "4a3615ae58bd5e90935dc0f42ef9504efd300ca16513f6c1060e23c2a98efc2a"
     },
     {
       "path": "scripts/package-desktop-source.py",
-      "bytes": 3741,
-      "sha256": "dbdafa1f7b0509635d9761976a6d0dec3ac1eb8f3716991c75ca7a2cebf655fa"
+      "bytes": 4285,
+      "sha256": "34f3f2c8dc685d7b772400879ae34531772c798e58bd5d962d59d31b2af32ce3"
     },
     {
       "path": "scripts/package-draft-generation-update.py",
@@ -5390,6 +6247,11 @@
       "path": "scripts/prepare-native-runtimes.py",
       "bytes": 4684,
       "sha256": "62701c2366b63c21555f2e1dc2af15efbf95e7b1987259577a3c4d4fc7d525c9"
+    },
+    {
+      "path": "scripts/prepare-ocr-wasm.py",
+      "bytes": 2234,
+      "sha256": "8824637f0cbe7b613c29f9a48f90bccb97a10d1adc838d464c7842c61464bed5"
     },
     {
       "path": "scripts/repackage-native-mac.py",
@@ -5443,8 +6305,8 @@
     },
     {
       "path": "scripts/tests/test_native_repackage.py",
-      "bytes": 4213,
-      "sha256": "020eba8bf42bdc79896500e9a669cbcca785b5c6a310030bbbe775f146938916"
+      "bytes": 5187,
+      "sha256": "396ca6fbc3e36db998c7583ac671cb820616cb9b437fb38794a1a5475ebc293d"
     },
     {
       "path": "scripts/tests/test_office_repair_update.py",
@@ -5462,9 +6324,14 @@
       "sha256": "5e6f1562a3b2cdaeb5bb3feebe6d6dfa172851bdcfd96104659079e2f589e866"
     },
     {
+      "path": "scripts/tests/test_prepare_ocr_wasm.py",
+      "bytes": 2904,
+      "sha256": "8824c287b9408c2d5cacd1e0ff4e4086c6dfaea2a36905d38e98529c0d5edf50"
+    },
+    {
       "path": "scripts/tests/test_source_archive.py",
-      "bytes": 2344,
-      "sha256": "010c5dbc05d4e42185a9dcbeaf25ea304129f2398771dad97a7c6621256e8510"
+      "bytes": 3501,
+      "sha256": "a709bb517dc4fe7b6f751cf8b504e3c766b9aedcadeadf8f15ae2f43d2ea469a"
     },
     {
       "path": "scripts/update-runtime-skill.py",

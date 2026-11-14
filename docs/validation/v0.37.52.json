@@ -1,0 +1,20 @@
+{
+  "version": "0.37.52",
+  "status": "internal checkpoint",
+  "node_tests_passed": 71,
+  "source_archive_tests_passed": 2,
+  "scope": "structural schema subset; real HTTP fixture and Node child process",
+  "limitations": [
+    "no full JSON Schema",
+    "no Mac, paid model, native approval or app build",
+    "M4 incomplete"
+  ],
+  "files": [
+    "desktop/runtime/agent.mjs",
+    "desktop/runtime/tool-arguments.mjs",
+    "desktop/tests/tool-schema-03752.test.mjs",
+    "desktop/tests/models.test.mjs",
+    "desktop/tests/model-budget-summary.test.mjs",
+    "desktop/tests/runtime.test.mjs"
+  ]
+}

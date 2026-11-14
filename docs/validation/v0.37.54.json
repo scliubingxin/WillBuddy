@@ -1,0 +1,20 @@
+{
+  "version": "0.37.54",
+  "status": "internal checkpoint",
+  "node_tests_passed": 38,
+  "source_archive_tests_passed": 2,
+  "scope": "real Linux PDF OCR to source document and knowledge evidence; synthetic mock authorization",
+  "limitations": [
+    "no native PDF coordinates or visual highlight",
+    "no Mac/Chinese OCR/paid model/native approval verification",
+    "geometry digest is not authentication",
+    "no Apple app build",
+    "M4 incomplete"
+  ],
+  "files": [
+    "desktop/runtime/ocr-provenance.mjs",
+    "desktop/runtime/tools.mjs",
+    "desktop/tests/pdf-ocr-03740.test.mjs",
+    "desktop/tests/ocr-regions-03754.test.mjs"
+  ]
+}
